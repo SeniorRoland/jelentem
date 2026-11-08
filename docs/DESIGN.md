@@ -69,14 +69,51 @@ A lakók vezetékneve minden játékban újra generálódik, a lakó egy igaz tu
 - **Megfigyelt megfigyelő:** a hihetőség 30 alá esett.
 - **Behívatás:** a százados elégedettsége 30 alá esett.
 
-Minden befejezés után jön a 2026. november 4-i epilógus: a játékos megnézi a saját aktáját a túlterhelt adatbázisban, és a házmester jelentését találja róla.
+A befejezés az év végén, a 12. hét után jön, vagy korábban, ha valamelyik mérő nullára esik. Minden befejezés után jön a 2026. november 4-i epilógus: a játékos megnézi a saját aktáját a túlterhelt adatbázisban, és a házmester jelentését találja róla.
 
-## Következő lépések
+## Ütemterv
 
-1. **Kiegyensúlyozás.** A négy negyedévre újrahangolva (lásd `CLAUDE.md`). Nyitott: a rezidensjelölt szint még csak több mondatot és magasabb elvárást jelent; a „másik besúgó jelentésének szerkesztése” még nincs meg. További ötlet, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
-2. **Mentés** – kész: minden lépés után localStorage-ba.
-3. **Több hét** – kész: négy negyedév, 12 hét, elágazó lakói történetekkel. Új hethez `weeks.json`-bejegyzés és az adott szint (és negyedév) változatai kellenek; a validátor szól, ha valamelyik helyre kevés jut.
-4. **Kiemelt feladatok:** a százados konkrét célpontot jelöl ki („Derítse ki, ki hallgat Szabad Európát!”), és ilyenkor el kell terelni a gyanút.
-5. **Véletlen események:** pl. a szomszéd megkínál pogácsával, ami a következő terhelő mondatnál extra lelkiismeret-büntetést ad.
-6. **Megosztható akta:** a befejezés után egy kép vagy link a saját „aktáról”, a legviccesebb jelentéssel.
-7. **Hang:** írógép-kattogás a jelentésíráskor, pecsétpuffanás a válasznál (kikapcsolható).
+A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a commit, amelyben elkészült.
+
+### Elkészült
+
+- [x] **Első kiegyensúlyozás** (5f68f63): az óvatos értelmezések már nem nullázzák az ártalmat, az elvárás és a következmény-küszöb szigorodott; új „előrelátó” bot a szimulációban.
+- [x] **Beszervezési karton** (5613819): a nyitóképernyőn a játékos véletlen, összefüggő kartonja (kategória, a beszervezés ideje 1971–72-ben, osztályozás a korabeli rendszer szerint, alap, fedőnév, pecsételt sorszám), megsárgult papíron, kipontozott sorokkal.
+- [x] **Generált, tulajdonság alapú vezetéknevek** (5613819): a beszervezett és a lakók neve is egy rájuk igaz tulajdonságból jön, ismétlődés nélkül; a szövegekben `{mari}`-féle helyettesítők.
+- [x] **Megfigyelés-készlet és értelmezés-pakli** (5e62ee6): hetente sorsolt megfigyelések, 40 értelmezés, téma szerinti ismétlés-jegyzetek.
+- [x] **Betöltő képernyő** (b421989): az akta kikérése az irattárból, visszaeséssel, 112 százalékos tervteljesítéssel és pecséttel.
+- [x] **v0.0.1** (7789db2): a fentiek a `master` ágon, taggel.
+- [x] **Négy negyedév, értékelés és rangok** (db9c3cd): 12 hét, negyedéves minősítés, előléptetés és lefokozás öt rangon át, a rang szerint több mondat és nagyobb elvárás.
+- [x] **Mentés** (db9c3cd): minden lépés után localStorage-ba, a tartalomhoz nem illő mentés elvetésével.
+- [x] **Lakói állapotok és elágazó történetek** (db9c3cd): nyugodt / szóba került / bajban; negyedévenként két ágon folytatódó történet lakónként (96 megfigyelés), a befejezésben a lakók sorsa.
+- [x] **Újrahangolás négy negyedévre** (db9c3cd): a puszta óvatosság kevés (28%), tervezéssel a legjobb vég elérhető, de nem biztos (60%).
+
+### Hátralévő
+
+Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
+
+**A karrier tartalma**
+
+- [ ] **A kategória hatása az elvárásra:** a karton „Milyen kategóriába tartozik” mezője döntse el, mit vár a százados (a kompromittált ügynöktől többet, fenyegetőzve; a „hű” TMB-nél kisebb az elvárás, de minden túlzás gyanús). A `Recruit.categoryId` már az állapotban van.
+- [ ] **Célfeladatok** (korábban: kiemelt feladatok): negyedévenként egy kijelölt célpont („Derítse ki, ki hallgatja a Szabad Európát!”), amelyet ártalom nélkül kell „teljesíteni”, a gyanú elterelésével (a pincére, a macskára, a Trabantra). Ehhez új, terelő értelmezéskártyák kellenek; a kiemelt rangtól kötelező.
+- [ ] **Rezidensjelölt szint:** egy másik besúgó jelentését is szerkeszteni kell (kihúzni belőle, de a hiányt megmagyarázni). Most a legfelső rang csak több mondatot és nagyobb elvárást jelent.
+- [ ] **A jutalmak mechanikai hatása:** a 100 forint és a cigaretta most csak szöveg; adjon például elégedettség-pluszt, egy SZOT-beutaló pedig hagyjon ki egy hetet, miközben nő az elvárás.
+- [ ] **A passzív állomány mint út:** ha passzív állományban is hiányos a munka, „kizárás a hálózatból”, ami a legjobb vég egy másik változata lehet: a rendszer egyszerűen elfelejt.
+
+**A ház élete**
+
+- [ ] **A házmester ellenjelentése:** alacsony hihetőségnél a házmester a játékosról kezd jelenteni; a későbbi negyedévekben rólad szóló megfigyelések is megjelennek („Alulírott éjjel gépelt…”).
+- [ ] **Szomszédi viszony és véletlen események:** pl. Mari néni megkínál pogácsával, és a következő terhelő mondat jobban fáj; a bizalom korábban felfedheti a titkot, és „alibi” kártyát ad.
+- [ ] **Fokozódó következmények:** most lakónként egyetlen következmény van; legyen fokozatos (figyelmeztetés → házkutatás → a munkahely elvesztése).
+- [ ] **A Kovács lány neve:** most fix; generálható lenne a többi névhez hasonlóan.
+
+**Befejezés és megjelenés**
+
+- [ ] **Megosztható akta:** a befejezés után egy kép vagy link a saját aktáról, az év legviccesebb mondatával.
+- [ ] **Hang:** írógép-kattogás a jelentésíráskor, pecsétpuffanás a válasznál (kikapcsolható).
+
+**Hangolás és karbantartás**
+
+- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 28%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+- [ ] **A `feature/quarters` ág beolvasztása** a `develop` ágba (a negyedéves rendszer még csak ott van).
+- [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.
