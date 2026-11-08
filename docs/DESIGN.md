@@ -98,8 +98,9 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Mentés** (db9c3cd): minden lépés után localStorage-ba, a tartalomhoz nem illő mentés elvetésével.
 - [x] **Lakói állapotok és elágazó történetek** (db9c3cd): nyugodt / szóba került / bajban; negyedévenként két ágon folytatódó történet lakónként (96 megfigyelés), a befejezésben a lakók sorsa.
 - [x] **Újrahangolás négy negyedévre** (db9c3cd): a puszta óvatosság kevés (28%), tervezéssel a legjobb vég elérhető, de nem biztos (60%).
-- [x] **A kategória hatása az elvárásra** (`feature/targets` ág): kategóriánként elvárás-pótlék és kételkedés, a levélben a százados mondata.
-- [x] **Célfeladatok** (`feature/targets` ág): negyedévente egy feladat a második negyedévtől, terelő kártyákkal, jutalommal és büntetéssel. A kiemelt rangtól kötelező változat helyett minden rangon jár.
+- [x] **A kategória hatása az elvárásra** (9905479): kategóriánként elvárás-pótlék és kételkedés, a levélben a százados mondata.
+- [x] **Célfeladatok** (9905479): negyedévente egy feladat a második negyedévtől, terelő kártyákkal, jutalommal és büntetéssel. A kiemelt rangtól kötelező változat helyett minden rangon jár.
+- [x] **Beolvasztás a `develop` ágba** (9905479): a negyedéves rendszer és a célfeladatok a `develop` ágon.
 
 ### Hátralévő
 
@@ -126,5 +127,4 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 **Hangolás és karbantartás**
 
 - [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 9%-ban, az előrelátó 76%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
-- [ ] **A `feature/quarters` és a `feature/targets` ág beolvasztása** a `develop` ágba (a negyedéves rendszer és a célfeladatok még csak ott vannak; a `feature/targets` a `feature/quarters`-re épül).
 - [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.
