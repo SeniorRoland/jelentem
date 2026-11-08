@@ -2,16 +2,20 @@ import './styles.css';
 import { balance, content } from './content';
 import { dispatch, newGame, type Action } from './engine/state';
 import type { GameState } from './engine/types';
+import { showLoading } from './ui/loading';
 import { renderScreen, type View } from './ui/render';
 
 const rng = Math.random;
 let state: GameState = newGame(content, balance, rng);
 const view: View = { dev: false };
 let lastKey = '';
+/** Set while the loading screen is up; the game is not rendered until it is gone. */
+let cancelLoading: (() => void) | null = null;
 
 const app = document.getElementById('app')!;
 
 function render(): void {
+  if (cancelLoading) return;
   const key = `${state.screen}:${state.week}`;
   const active = document.activeElement as HTMLElement | null;
   const keepFocus = key === lastKey && active?.dataset?.action && active.dataset.id
@@ -58,9 +62,14 @@ document.getElementById('devToggle')!.addEventListener('change', e => {
 });
 
 document.getElementById('restartBtn')!.addEventListener('click', () => {
+  cancelLoading?.();
+  cancelLoading = null;
   state = newGame(content, balance, rng);
   lastKey = '';
   render();
 });
 
-render();
+cancelLoading = showLoading(app, content.loading, rng, () => {
+  cancelLoading = null;
+  render();
+});

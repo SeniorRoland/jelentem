@@ -164,6 +164,22 @@ export interface Recruit {
   basis: string;
 }
 
+/** Texts of the satirical loading screen shown before the game. */
+export interface LoadingContent {
+  office: string;
+  title: string;
+  lede: string;
+  steps: string[];
+  /** Mishaps that push the progress back once per load. */
+  setbacks: string[];
+  done: string;
+  setbackDone: string;
+  overfulfil: string;
+  stamp: string;
+  skip: string;
+  enter: string;
+}
+
 export interface Content {
   weeks: Week[];
   obs: Observation[];
@@ -173,6 +189,7 @@ export interface Content {
   notes: Notes;
   codenames: { adj: string[]; noun: string[] };
   recruit: RecruitContent;
+  loading: LoadingContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */

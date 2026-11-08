@@ -52,7 +52,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c));
   return errs;
 }
 
@@ -136,5 +136,19 @@ function validateNames(c: Content): string[] {
   ];
   for (const [where, text] of texts)
     for (const p of placeholders(text)) if (!ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
+  return errs;
+}
+
+/** The loading screen draws LOADING_STEPS steps and one setback per load. */
+export const LOADING_STEPS = 6;
+function validateLoading(c: Content): string[] {
+  const errs: string[] = [];
+  const l = c.loading;
+  if (l.steps.length < LOADING_STEPS) errs.push(`Betöltés: legalább ${LOADING_STEPS} lépés kell, most ${l.steps.length} van.`);
+  if (!l.setbacks.length) errs.push('Betöltés: legalább egy visszaesés kell.');
+  for (const t of [...Object.values(l).filter(v => typeof v === 'string'), ...l.steps, ...l.setbacks] as string[])
+    if (/["']/.test(t)) errs.push(`Betöltés: egyenes idézőjel: ${t}`);
+  for (const t of [...l.steps, ...l.setbacks])
+    if (/[.…]$/.test(t)) errs.push(`Betöltés: a lépés ne végződjön ponttal vagy három ponttal (a felület teszi hozzá): ${t}`);
   return errs;
 }

@@ -152,6 +152,16 @@ footer button{font:inherit;color:var(--desk-text);background:none;border:1px sol
 .karton .btn{color:var(--k-label);border-color:var(--k-label)}
 .karton .btn:hover{background:var(--k-label);color:var(--karton)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* Betöltő képernyő: csak a szöveg cserélődik, mozgás csak a pecsétnél */
+.loading-status{min-height:3.1em;margin:1.5rem 0 .4rem;font-weight:700}
+.loading.setback .loading-status{color:var(--stamp)}
+.loading-bar{margin:0 0 1.2rem;white-space:nowrap}
+.loading-pct{margin-left:.5rem;color:var(--ink-soft)}
+.loading-log{margin:0;padding-left:1.6rem;font-size:.9rem;color:var(--ink-soft)}
+.loading-log li{margin-bottom:.25rem}
+.loading-log li.setback{color:var(--stamp);text-decoration:line-through}
+.loading .stamp{top:auto;bottom:5.5rem}
 @media (max-width:560px){
   .karton{padding:1.1rem .9rem 1rem;margin-left:-.4rem;margin-right:-.4rem}
   .karton dt{white-space:normal}

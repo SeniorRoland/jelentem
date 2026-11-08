@@ -7,6 +7,7 @@ import endings from './endings.json';
 import notes from './notes.json';
 import codenames from './codenames.json';
 import recruit from './recruit.json';
+import loading from './loading.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -18,6 +19,7 @@ export const content: Content = {
   notes: notes as Notes,
   codenames,
   recruit: recruit as unknown as RecruitContent,
+  loading,
 };
 
 export const balance: Balance = balanceJson as Balance;

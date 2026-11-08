@@ -1,0 +1,37 @@
+{
+  "office": "Központi Irattár",
+  "title": "Az akta kikérése folyamatban",
+  "lede": "Kérjük, türelmesen várakozzon. A várakozás is a munka része.",
+  "steps": [
+    "Az akta kikérése az irattárból",
+    "Az irattáros visszavárása az ebédszünetből",
+    "Indigó cseréje az írógépben",
+    "A pecsét megkeresése a második fiókban",
+    "Engedély kérése az engedélykéréshez",
+    "A kikérő lap kitöltése három példányban, átütéssel",
+    "A fénymásoló bemelegítése",
+    "A lépcsőházi lehallgatókészülék finomhangolása",
+    "Ügyiratszám kiosztása az ügyiratszám kiosztásához",
+    "A házmester tájékoztatása a betöltésről",
+    "A betöltés ötéves tervének jóváhagyása",
+    "A papírfecnik iktatása és szigorúan titkossá minősítése",
+    "A százados felébresztése",
+    "A betöltésről szóló jelentés megírása",
+    "A betöltésről szóló jelentésről szóló jelentés megírása",
+    "A futár Trabantjának beröffentése",
+    "Sorban állás a pecsétnyomóért"
+  ],
+  "setbacks": [
+    "A kikérő lapot hiánypótlásra visszaküldték: a pecsét mellől hiányzik egy pecsét",
+    "Áramszünet. A DÉDÁSZ közlése szerint a szünet tervszerű volt",
+    "Az irattáros szabadságra ment, visszatérése a negyedik negyedévben várható",
+    "Elfogyott az indigó, az igénylés elbírálása folyamatban",
+    "A 2026-os adatbázis túlterhelt. Kérjük, próbálkozzon 1979-ben"
+  ],
+  "done": "kész",
+  "setbackDone": "visszaküldve",
+  "overfulfil": "A betöltési terv teljesítése: 112 százalék",
+  "stamp": "Engedélyezve",
+  "skip": "Sorban állás nélkül (protekcióval)",
+  "enter": "Az akta megnyitása"
+}

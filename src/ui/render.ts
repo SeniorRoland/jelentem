@@ -15,7 +15,7 @@ const HINTS: Record<Hint, string> = {
   intsFull: 'Mindkét mondatnak van már értelmezése. Vegyél ki egyet, ha cserélnél.',
 };
 
-const bar = (v: number) => { const n = Math.round(v / 10); return '█'.repeat(n) + '░'.repeat(10 - n); };
+export const bar = (v: number) => { const n = Math.round(v / 10); return '█'.repeat(n) + '░'.repeat(10 - n); };
 const level = (v: number) => (v >= 70 ? 'magas' : v >= 40 ? 'közepes' : v >= 20 ? 'alacsony' : 'kritikus');
 
 function meters(m: Meters, prev: Meters | null, v: View): string {
