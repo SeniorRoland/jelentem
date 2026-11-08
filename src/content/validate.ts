@@ -1,4 +1,4 @@
-import { placeholders } from '../engine/names';
+import { CAPTAIN, placeholders } from '../engine/names';
 import { candidates } from '../engine/observations';
 import type { Balance, Content, DealTier, ResidentId, ResidentStatus, Surname } from '../engine/types';
 
@@ -164,7 +164,13 @@ function validateNames(c: Content): string[] {
     ...c.notes.repeat.map(r => [r.tag, r.note] as [string, string]),
   ];
   for (const [where, text] of texts)
-    for (const p of placeholders(text)) if (!ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
+    for (const p of placeholders(text)) if (p !== CAPTAIN && !ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
+
+  // The handler takes his name last, after the recruit and every resident took theirs.
+  const cap = c.captain.surnames;
+  if (cap.length < ids.length + 2) errs.push(`Százados: legalább ${ids.length + 2} vezetéknév-jelölt kell, most ${cap.length} van.`);
+  if (new Set(cap.map(n => n.name)).size !== cap.length) errs.push('Százados: ismétlődő vezetéknév-jelölt.');
+  for (const n of cap) if (/["']/.test(n.name + n.why) || !n.why) errs.push(`Százados: hiányos vagy egyenes idézőjeles jelölt: ${n.name}`);
   return errs;
 }
 

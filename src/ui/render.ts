@@ -1,5 +1,5 @@
 import { expectFor, quarterOf, residentStatus, weekInQuarter } from '../engine/career';
-import { fillNames } from '../engine/names';
+import { CAPTAIN, fillNames } from '../engine/names';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { endingKey } from '../engine/rules';
@@ -19,6 +19,9 @@ const HINTS: Record<Hint, string> = {
 
 const STATUS_LABEL: Record<ResidentStatus, string> = { nyugodt: 'nyugodt', gyanus: 'szóba került', bajban: 'bajban' };
 const STORY: ResidentId[] = ['mari', 'jozsi', 'pityu'];
+
+/** The handler's initial under his margin notes: „V. szds.” */
+const sig = (s: GameState) => `${s.captain.name[0]}. szds.`;
 
 export const bar = (v: number) => { const n = Math.round(v / 10); return '█'.repeat(n) + '░'.repeat(10 - n); };
 const level = (v: number) => (v >= 70 ? 'magas' : v >= 40 ? 'közepes' : v >= 20 ? 'alacsony' : 'kritikus');
@@ -72,7 +75,7 @@ function intro(s: GameState, c: Content, v: View): string {
   <p>Önt ${s.recruit.recruitedOn.slice(0, 4)}-ben társadalmi kapcsolatként beszervezték. Azóta érdemi jelentést nem adott, dossziéja a polcon porosodott. Ügyét a mai nappal átvettem. Feladata, hogy hetente jelentést írjon a Bem utca 12. lakóiról: {mari} Máriáról (Mari néni), {jozsi} Józsefről (Józsi bácsi), {pityu} Istvánról (Pityu), valamint szükség esetén {porgoly} Lajosné házmesterről.</p>
   <p>${c.recruit.categories.find(k => k.id === s.recruit.categoryId)?.letter ?? ''}</p>
   <p>Az elvtárs munkáját bizalommal várjuk.</p>
-  <span class="sig">Vágási százados</span>
+  <span class="sig">{szazados} százados</span>${v.dev ? `<span class="dev">a százados nevének oka: ${s.captain.why}</span>` : ''}
   ${karton(s, c, v)}
   <h2>Hogyan működik</h2>
   <p>Minden héten megfigyeléseket kapsz a házból. A jelentésed két mondatból áll: válassz egy megfigyelést, majd tegyél mellé egy értelmezést.</p>
@@ -152,12 +155,12 @@ function response(s: GameState, c: Content, v: View): string {
   return `<article class="sheet">${head(s)}
   <div class="stamp" aria-hidden="true">${r.stamp}</div>
   <h1 id="t" tabindex="-1">Visszaküldve, ${weekInQuarter(s, c)}. hét</h1>
-  <p class="lede">Vágási százados megjegyzéseivel. Pecsét: ${r.stamp.toLowerCase()}.</p>
+  <p class="lede">{szazados} százados megjegyzéseivel. Pecsét: ${r.stamp.toLowerCase()}.</p>
   <div class="report">${body}</div>
   <span class="note big">${r.overall}</span>
   ${r.extra ? `<span class="note">${r.extra}</span>` : ''}
   ${r.taskDone ? `<span class="note">${c.career.task.now}</span>` : ''}
-  <span class="sig">V. szds.</span>
+  <span class="sig">${sig(s)}</span>
   ${news}
   <h2>Állásod</h2>
   ${meters(s.meters, r.before, v)}
@@ -184,7 +187,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   <h1 id="t" tabindex="-1">Negyedéves értékelés</h1>
   <p class="lede">${c.career.quarters[q.quarter]}. Minősítés: ${g.title.toLowerCase()}.</p>
   <span class="note big">${g.note}</span>
-  <span class="sig">V. szds.</span>
+  <span class="sig">${sig(s)}</span>
   ${q.task ? taskResult(q.task, c, b, v) : ''}
   <h2>Besorolás</h2>
   <p><strong>${ranks[q.rankAfter].label}</strong></p>
@@ -235,4 +238,5 @@ function screen(s: GameState, c: Content, b: Balance, v: View): string {
 }
 
 /** Content texts carry `{id}` placeholders; the generated family names go in here, in one place. */
-export const renderScreen = (s: GameState, c: Content, b: Balance, v: View): string => fillNames(screen(s, c, b, v), s.names);
+export const renderScreen = (s: GameState, c: Content, b: Balance, v: View): string =>
+  fillNames(screen(s, c, b, v), { ...s.names, [CAPTAIN]: s.captain });

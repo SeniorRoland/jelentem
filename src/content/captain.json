@@ -1,0 +1,12 @@
+{
+  "surnames": [
+    { "name": "Vadász", "why": "az ellenségre vadászik" },
+    { "name": "Halász", "why": "adatokat halászik a zavarosban" },
+    { "name": "Leskó", "why": "lesben áll" },
+    { "name": "Fülöp", "why": "a fülét mindenhol ott tartja" },
+    { "name": "Tollas", "why": "kék tollal javítja a jelentéseket" },
+    { "name": "Bíró", "why": "ítél a jelentések fölött" },
+    { "name": "Hallgató", "why": "a lehallgatás szakértője" },
+    { "name": "Vizsgáló", "why": "mindent megvizsgál, kétszer" }
+  ]
+}

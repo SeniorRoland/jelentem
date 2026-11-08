@@ -1,5 +1,5 @@
 import { endQuarter, isLastWeek, isQuarterEnd, isQuarterStart, quarterOf, settleTask, slotsFor } from './career';
-import { makeNames } from './names';
+import { makeCaptain, makeNames } from './names';
 import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
@@ -19,6 +19,8 @@ const emptySlots = (n: number): Slot[] => Array.from({ length: n }, () => ({ o: 
 
 export function newGame(c: Content, b: Balance, rng: Rng): GameState {
   const recruit = makeRecruit(c, rng);
+  const names = makeNames(c, rng, [recruit.name.split(' ')[0]]);
+  const captain = makeCaptain(c, rng, [recruit.name.split(' ')[0], ...Object.values(names).map(n => n.name)]);
   return {
     screen: 'intro',
     week: 0,
@@ -30,7 +32,8 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     meters: { ...b.start },
     code: randCode(c, rng),
     recruit,
-    names: makeNames(c, rng, [recruit.name.split(' ')[0]]),
+    names,
+    captain,
     weekObs: [],
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
     cons: [],

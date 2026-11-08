@@ -231,6 +231,8 @@ export interface Content {
   loading: LoadingContent;
   career: CareerContent;
   tasks: Task[];
+  /** The handler: family name candidates, each hinting at what he does. Texts use `{szazados}`. */
+  captain: { surnames: ResidentName[] };
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -333,6 +335,8 @@ export interface GameState {
   recruit: Recruit;
   /** Generated family names of the residents, filled into every `{id}` placeholder. */
   names: Record<ResidentId, ResidentName>;
+  /** The handler's generated family name. */
+  captain: ResidentName;
   /** Observation ids drawn at the start of each week so far (index = week). */
   weekObs: string[][];
   harmBy: Record<ResidentId, number>;

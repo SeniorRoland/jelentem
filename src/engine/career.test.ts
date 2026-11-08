@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { balance, content } from '../content';
-import { fitsContent } from '../ui/save';
+import { fitsContent, loadGame } from '../ui/save';
 import { endQuarter, expectFor, gradeQuarter, residentStatus, slotsFor } from './career';
 import { mulberry32 } from './rng';
 import { dispatch, newGame } from './state';
@@ -95,6 +95,17 @@ describe('saved games', () => {
     const g = playGame(3);
     const mid = g.find(s => s.screen === 'week' && s.week > 3) ?? g[0];
     expect(fitsContent(JSON.parse(JSON.stringify(mid)), content, balance)).toBe(true);
+  });
+
+  it('gives an old save without a captain a generated one', () => {
+    const g = playGame(5);
+    const { captain: _, ...old } = g.find(s => s.screen === 'week')!;
+    const store: Record<string, string> = { 'jelentem.mentes.v1': JSON.stringify(old) };
+    (globalThis as { window?: unknown }).window = { localStorage: { getItem: (k: string) => store[k] ?? null } };
+    const loaded = loadGame(content, balance);
+    delete (globalThis as { window?: unknown }).window;
+    expect(loaded).not.toBeNull();
+    expect(content.captain.surnames).toContainEqual(loaded!.captain);
   });
 
   it('rejects finished, broken or foreign data', () => {

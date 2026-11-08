@@ -1,3 +1,4 @@
+import { makeCaptain } from '../engine/names';
 import type { Balance, Content, GameState } from '../engine/types';
 
 const KEY = 'jelentem.mentes.v1';
@@ -11,7 +12,7 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
   const g = s as Partial<GameState>;
   if (typeof g.week !== 'number' || g.week < 0 || g.week >= c.weeks.length) return false;
   if (typeof g.rank !== 'number' || g.rank < 0 || g.rank >= b.ranks.length) return false;
-  if (!g.meters || !g.recruit || !g.names || !Array.isArray(g.weekObs) || !Array.isArray(g.slots)) return false;
+  if (!g.meters || !g.recruit || !g.names || !g.captain || !Array.isArray(g.weekObs) || !Array.isArray(g.slots)) return false;
   if (g.weekObs.length > c.weeks.length) return false;
   const ids = new Set(c.obs.map(o => o.id));
   if (!g.weekObs.every(w => Array.isArray(w) && w.every(id => ids.has(id)))) return false;
@@ -20,12 +21,21 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
   return g.screen === 'intro' || g.screen === 'week' || g.screen === 'response' || g.screen === 'quarter';
 }
 
+/** Saves from before the handler had a generated name get one, so the game can go on. */
+function upgrade(s: unknown, c: Content): void {
+  if (!s || typeof s !== 'object') return;
+  const g = s as Partial<GameState>;
+  if (g.captain || !g.recruit || !g.names) return;
+  g.captain = makeCaptain(c, Math.random, [g.recruit.name.split(' ')[0], ...Object.values(g.names).map(n => n.name)]);
+}
+
 /** The saved game, or null when there is none, it is finished, or storage is unavailable. */
 export function loadGame(c: Content, b: Balance): GameState | null {
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return null;
     const s: unknown = JSON.parse(raw);
+    upgrade(s, c);
     return fitsContent(s, c, b) ? s : null;
   } catch {
     return null;

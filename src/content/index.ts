@@ -10,6 +10,7 @@ import recruit from './recruit.json';
 import loading from './loading.json';
 import career from './career.json';
 import tasks from './tasks.json';
+import captain from './captain.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -24,6 +25,7 @@ export const content: Content = {
   loading,
   career: career as CareerContent,
   tasks,
+  captain,
 };
 
 export const balance: Balance = balanceJson as unknown as Balance;

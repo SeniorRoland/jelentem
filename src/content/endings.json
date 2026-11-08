@@ -1,11 +1,11 @@
 {
   "best": {
     "title": "Jelentem, nem történt semmi",
-    "text": "Három héten át írtál, és semmit sem mondtál. Vágási százados unalmában az áthelyezését kérte a balatoni kirendeltségre. A Bem utca 12. lakói soha nem tudták meg, kinek köszönhetik a nyugalmukat."
+    "text": "Egy éven át írtál, és semmit sem mondtál. {szazados} százados unalmában az áthelyezését kérte a balatoni kirendeltségre. A Bem utca 12. lakói soha nem tudták meg, kinek köszönhetik a nyugalmukat."
   },
   "kivalo": {
     "title": "Kiváló munkatárs",
-    "text": "Vágási százados elégedett. Dicséretet kaptál és egy Orion táskarádiót. A házban viszont valahogy mindenki elhallgat, amikor megjelensz a lépcsőházban."
+    "text": "{szazados} százados elégedett. Dicséretet kaptál és egy Orion táskarádiót. A házban viszont valahogy mindenki elhallgat, amikor megjelensz a lépcsőházban."
   },
   "megfigyelt": {
     "title": "Megfigyelt megfigyelő",

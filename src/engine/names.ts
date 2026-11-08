@@ -18,12 +18,22 @@ export function makeNames(c: Content, rng: Rng, taken: string[] = []): Record<Re
   return out;
 }
 
+/** The handler's name, from candidates that hint at his job; never one of `taken`. Pure. */
+export function makeCaptain(c: Content, rng: Rng, taken: string[]): ResidentName {
+  const pick = shuffle(c.captain.surnames, rng).find(n => !taken.includes(n.name));
+  if (!pick) throw new Error('Nincs szabad vezetéknév a századosnak');
+  return pick;
+}
+
+/** The placeholder of the handler's name in content texts. */
+export const CAPTAIN = 'szazados';
+
 const PLACEHOLDER = /\{([a-z]+)\}/g;
 
 /** Every `{id}` placeholder in a content text. */
 export const placeholders = (text: string): string[] => [...text.matchAll(PLACEHOLDER)].map(m => m[1]);
 
-/** Replaces `{mari}` etc. with the generated family names; unknown placeholders stay. */
-export function fillNames(text: string, names: Record<ResidentId, ResidentName>): string {
-  return text.replace(PLACEHOLDER, (m, id: string) => (id in names ? names[id as ResidentId].name : m));
+/** Replaces `{mari}`, `{szazados}` etc. with the generated family names; unknown placeholders stay. */
+export function fillNames(text: string, names: Partial<Record<string, ResidentName>>): string {
+  return text.replace(PLACEHOLDER, (m, id: string) => names[id]?.name ?? m);
 }

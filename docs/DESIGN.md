@@ -2,7 +2,7 @@
 
 ## Alapötlet
 
-1979 tavasza, Alsóbürokrác, Bem utca 12. A játékos motiválatlan besúgó, akit 1971-ben vagy 1972-ben szerveztek be, de azóta érdemi jelentést nem adott; a dossziéját most az új tartótiszt előveszi. Fedőneve véletlenszerű (pl. „Kockás Abrosz”). A tartótiszt, Vágási százados, hetente jelentést vár a ház lakóiról. A lakók unalmasak, és a játékos nem akar ártani nekik.
+1979 tavasza, Alsóbürokrác, Bem utca 12. A játékos motiválatlan besúgó, akit 1971-ben vagy 1972-ben szerveztek be, de azóta érdemi jelentést nem adott; a dossziéját most az új tartótiszt előveszi. Fedőneve véletlenszerű (pl. „Kockás Abrosz”). A tartótiszt, egy százados, hetente jelentést vár a ház lakóiról. A lakók unalmasak, és a játékos nem akar ártani nekik.
 
 A játék lényege egyensúlyozás: a jelentés legyen elég izgalmas a századosnak, elég hihető, hogy ne kezdjenek gyanakodni a játékosra, és elég ártalmatlan, hogy a szomszédok ne kerüljenek bajba. A legjobb besúgó sokat ír, és semmit sem mond.
 
@@ -71,7 +71,7 @@ A lakók vezetékneve minden játékban újra generálódik, a lakó egy igaz tu
 - **Józsi bácsi (József):** örökké a Trabantot szereli. Titka: hintát épít a feleségének a 40. évfordulóra.
 - **Pityu (István):** hosszú hajú egyetemista. Titka: Petőfi-versek gépelt másolata a Kovács lánynak.
 - **A házmester (… Lajosné):** a házmester. Túl sokat kérdez. Az epilógusból kiderül, hogy a játékosról jelentett.
-- **Vágási százados:** a tartótiszt, a humor fő hordozója a margójegyzetekben.
+- **A százados:** a tartótiszt, a humor fő hordozója a margójegyzetekben. A neve is generált, és a szerepére utal (`captain.json`): Vadász (az ellenségre vadászik), Halász (adatokat halászik a zavarosban), Leskó (lesben áll), Fülöp (a fülét mindenhol ott tartja), Tollas (kék tollal javít), Bíró, Hallgató vagy Vizsgáló. A margón kezdőbetűvel szignál („V. szds.”). A neve sosem egyezik a beszervezettével vagy egy lakóéval.
 
 ## Befejezések
 

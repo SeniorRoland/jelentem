@@ -16,12 +16,18 @@ describe('resident names', () => {
       expect(content.residents[id].surnames).toContainEqual(g.names[id]);
   });
 
-  it('never repeat among the residents, nor match the recruit', () => {
+  it('never repeat among the residents, nor match the recruit or the captain', () => {
     for (const g of games) {
       const family = ids.map(id => g.names[id].name);
       expect(new Set(family).size).toBe(ids.length);
       expect(family).not.toContain(g.recruit.name.split(' ')[0]);
+      expect(family).not.toContain(g.captain.name);
     }
+  });
+
+  it('give the captain a generated name that hints at his job', () => {
+    for (const g of games) expect(content.captain.surnames).toContainEqual(g.captain);
+    expect(new Set(games.map(g => g.captain.name)).size).toBeGreaterThan(1);
   });
 
   it('vary from game to game', () => {
@@ -62,5 +68,7 @@ describe('rendered screens', () => {
     seen.push(renderScreen(s, content, balance, { dev: true }));
     for (const html of seen) expect(html).not.toMatch(/\{[a-z]+\}/);
     expect(seen.join('')).toContain(`${s.names.mari.name} Mária`);
+    expect(seen.join('')).toContain(`${s.captain.name[0]}. szds.`);
+    expect(seen.join('')).not.toContain('Vágási');
   });
 });
