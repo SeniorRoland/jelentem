@@ -1,0 +1,15 @@
+{
+  "empty": "Elvtárs, üres lapot kaptam. Papírhiány idején ez különösen fájó.",
+  "low": "Ez nem jelentés, hanem időjárás-jelentés. Több konkrétumot!",
+  "ok": "Megfelelő. Folytassa.",
+  "good": "Jó irány. Maradjon ébren.",
+  "great": "Kiváló! Végre valami.",
+  "fantasy": "Ne fantáziáljon, elvtárs. Az ilyen tehetségre a Filmgyárban van szükség.",
+  "repeat": [
+    {
+      "obs": "w2b",
+      "ifReported": "w1b",
+      "note": "Két hete írja, hogy a Trabantot szereli. Ennyi ideig nem lehet egy Trabantot szerelni. Vagy lehet?"
+    }
+  ]
+}

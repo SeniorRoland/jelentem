@@ -1,0 +1,44 @@
+{
+  "start": {
+    "E": 50,
+    "H": 60,
+    "L": 100
+  },
+  "expect": [
+    6,
+    8,
+    10
+  ],
+  "weight": {
+    "E": 3,
+    "H": 2,
+    "L": 5
+  },
+  "slotsPerWeek": 2,
+  "deal": {
+    "safe": 2,
+    "mid": 2,
+    "wild": 2
+  },
+  "consThreshold": 4,
+  "plainFact": {
+    "hih": 1,
+    "mult": 0.8
+  },
+  "absurd": {
+    "minIntIzg": 7,
+    "maxObsIzg": 2,
+    "penalty": 3
+  },
+  "overall": {
+    "lowBelow": -2,
+    "goodAbove": 2,
+    "greatAbove": 6,
+    "fantasyHihAtMost": -8
+  },
+  "endings": {
+    "hMin": 30,
+    "eMin": 30,
+    "lMin": 70
+  }
+}

@@ -1,0 +1,111 @@
+[
+  {
+    "label": "1979. március 5–11.",
+    "intro": "Az első hét. A Bem utca 12. csendes, mint mindig. Gyanúsan csendes?",
+    "obs": [
+      {
+        "id": "w1a",
+        "who": "mari",
+        "izg": 2,
+        "art": 0,
+        "text": "Szűcs Mária (Mari néni) szombaton reggeltől estig befőzött, a lépcsőházban erős paprikaszag terjengett",
+        "note": "A paprika ügyében további adatokat kérünk."
+      },
+      {
+        "id": "w1b",
+        "who": "jozsi",
+        "izg": 2,
+        "art": 1,
+        "text": "Halmi József (Józsi bácsi) négy órán át a Trabantja motorja fölé hajolva hangosan káromkodott"
+      },
+      {
+        "id": "w1c",
+        "who": "pityu",
+        "izg": 4,
+        "art": 2,
+        "text": "Kerekes István (Pityu) egyetemi hallgató vállig érő hajjal érkezett haza, lakásából angol nyelvű zene szólt",
+        "note": "Milyen zene? Címet, előadót!"
+      },
+      {
+        "id": "w1d",
+        "who": null,
+        "izg": 2,
+        "art": 0,
+        "text": "A közös pincéből ismeretlen tettes eltulajdonított egy szánkót",
+        "note": "A szánkó nem állambiztonsági kérdés. Vagy mégis?"
+      }
+    ]
+  },
+  {
+    "label": "1979. március 12–18.",
+    "intro": "A második hét. A százados elvárásai nőnek. A paprikaszag nem.",
+    "obs": [
+      {
+        "id": "w2a",
+        "who": "mari",
+        "izg": 3,
+        "art": 1,
+        "text": "Szűcs Mária a piacon hosszan beszélgetett egy ismeretlen, kendős asszonnyal"
+      },
+      {
+        "id": "w2b",
+        "who": "jozsi",
+        "izg": 2,
+        "art": 1,
+        "text": "Halmi József ismét a Trabantot szerelte, és a vasboltban egy zsák csavart vásárolt"
+      },
+      {
+        "id": "w2c",
+        "who": "pityu",
+        "izg": 5,
+        "art": 3,
+        "text": "Kerekes István késő éjjel a rádiókészüléke mellett ült, a falon recsegő, idegen nyelvű hangok szűrődtek át"
+      },
+      {
+        "id": "w2d",
+        "who": "porgoly",
+        "izg": 2,
+        "art": 0,
+        "text": "Pörgöly Lajosné házmester feltűnő érdeklődést mutatott alulírott postaládája iránt",
+        "note": "A házmester elvtársnőre ne írjon. Ő ír magára."
+      }
+    ]
+  },
+  {
+    "label": "1979. március 19–25.",
+    "intro": "A harmadik hét. Negyedéves értékelés előtt. A százados ideges.",
+    "obs": [
+      {
+        "id": "w3a",
+        "who": "mari",
+        "izg": 4,
+        "art": 3,
+        "text": "Szűcs Mária kamrájából nem hazai eredetű kávéillat áradt"
+      },
+      {
+        "id": "w3b",
+        "who": "jozsi",
+        "izg": 4,
+        "art": 2,
+        "text": "Halmi József a garázsban fát fűrészelt, és egy nagyobb, lánccal ellátott szerkezetet épített",
+        "note": "Lánc?! Rajzot kérek."
+      },
+      {
+        "id": "w3c",
+        "who": "pityu",
+        "izg": 6,
+        "art": 4,
+        "text": "Kerekes István egy gépelt, sokszorosított füzetet adott át a harmadik emeleti Kovács lánynak",
+        "note": "Milyen füzet? Azonnal szerezze meg!"
+      },
+      {
+        "id": "w3d",
+        "who": null,
+        "izg": 3,
+        "art": 0,
+        "text": "A lépcsőházi villanyórát valaki ismeretlen módszerrel visszatekerte",
+        "note": "Ezt majd a DÉDÁSZ elintézi."
+      }
+    ]
+  }
+]

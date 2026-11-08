@@ -1,0 +1,20 @@
+{
+  "mari": {
+    "name": "Szűcs Mária (Mari néni)",
+    "cons": "Szűcs Máriánál házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
+    "truth": "Mari néni kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. A paprika pedig csak paprika volt."
+  },
+  "jozsi": {
+    "name": "Halmi József (Józsi bácsi)",
+    "cons": "Halmi József Trabantjának forgalmiját „műszaki okokból” bevonták. Józsi bácsi azóta gyalog jár, és nem köszön.",
+    "truth": "Józsi bácsi hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető."
+  },
+  "pityu": {
+    "name": "Kerekes István (Pityu)",
+    "cons": "Kerekes Istvánt nem engedték el az egyetemi tanulmányútra Bécsbe.",
+    "truth": "Pityu füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti Kovács lánynak."
+  },
+  "porgoly": {
+    "name": "Pörgöly Lajosné, házmester"
+  }
+}

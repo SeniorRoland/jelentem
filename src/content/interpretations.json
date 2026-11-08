@@ -1,0 +1,144 @@
+[
+  {
+    "id": "s1",
+    "tier": "safe",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0.2,
+    "text": "amelynek jelentőségét az idő fogja eldönteni"
+  },
+  {
+    "id": "s2",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 3,
+    "mult": 0,
+    "text": "ami a dolgozó nép szokásos hétvégi tevékenységének tekinthető"
+  },
+  {
+    "id": "s3",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0,
+    "text": "amiből messzemenő következtetést levonni korai volna"
+  },
+  {
+    "id": "s4",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0,
+    "text": "ami a háztáji gazdálkodás iránti elkötelezettségre utal"
+  },
+  {
+    "id": "s5",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 3,
+    "mult": 0,
+    "text": "melynek során politikai megnyilvánulást nem észleltem",
+    "note": "Akkor minek írta le?"
+  },
+  {
+    "id": "s6",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0,
+    "text": "amit a célszemély macskája is tanúsíthat",
+    "note": "A macskát nem tudjuk kihallgatni. Egyelőre."
+  },
+  {
+    "id": "m1",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "ami további megfigyelést indokolhat"
+  },
+  {
+    "id": "m2",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 1,
+    "mult": 0.6,
+    "text": "ami a szocialista mértékletesség elveivel nehezen egyeztethető össze"
+  },
+  {
+    "id": "m3",
+    "tier": "mid",
+    "izg": 5,
+    "hih": -2,
+    "mult": 0.6,
+    "text": "ami – bár ártalmatlannak tűnik – éppen ezért gyanús"
+  },
+  {
+    "id": "m4",
+    "tier": "mid",
+    "izg": 4,
+    "hih": -1,
+    "mult": 1,
+    "text": "ami nyugati befolyásra utalhat"
+  },
+  {
+    "id": "m5",
+    "tier": "mid",
+    "izg": 4,
+    "hih": 0,
+    "mult": 1,
+    "text": "ami a kispolgári individualizmus jele"
+  },
+  {
+    "id": "m6",
+    "tier": "mid",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0,
+    "text": "és alulírottat is megkínálta, amit tájékozódási céllal elfogadtam",
+    "note": "Megkínálta? Mivel? Tételesen!"
+  },
+  {
+    "id": "x1",
+    "tier": "wild",
+    "izg": 8,
+    "hih": -8,
+    "mult": 1.5,
+    "text": "ami minden bizonnyal kódolt üzenet a CIA számára",
+    "note": "CIA? Itt, Alsóbürokrácon?"
+  },
+  {
+    "id": "x2",
+    "tier": "wild",
+    "izg": 9,
+    "hih": -10,
+    "mult": 2,
+    "text": "ami alapján a célszemély egy imperialista sejt vezetője lehet",
+    "note": "Egy sejt, egy fővel? Ez biológia, nem állambiztonság."
+  },
+  {
+    "id": "x3",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -6,
+    "mult": 2,
+    "text": "és mindezt a Szabad Európa Rádió utasítására tette"
+  },
+  {
+    "id": "x4",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -5,
+    "mult": 1.8,
+    "text": "ami az ellenforradalmi nosztalgia kétségtelen jele"
+  },
+  {
+    "id": "x5",
+    "tier": "wild",
+    "izg": 6,
+    "hih": -4,
+    "mult": 1.2,
+    "text": "és ennek során többször a nyugati határ irányába tekintett",
+    "note": "Melyik irányban van innen a nyugati határ? Ellenőrizze."
+  }
+]
