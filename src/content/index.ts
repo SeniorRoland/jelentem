@@ -1,10 +1,11 @@
-import type { Balance, Content, Ending, EndingKey, Interpretation, Notes, Resident, ResidentId, Week } from '../engine/types';
+import type { Balance, Content, Ending, EndingKey, Interpretation, Notes, Resident, ResidentId, RecruitContent, Week } from '../engine/types';
 import weeks from './weeks.json';
 import ints from './interpretations.json';
 import residents from './residents.json';
 import endings from './endings.json';
 import notes from './notes.json';
 import codenames from './codenames.json';
+import recruit from './recruit.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -14,6 +15,7 @@ export const content: Content = {
   endings: endings as Record<EndingKey, Ending>,
   notes: notes as Notes,
   codenames,
+  recruit: recruit as unknown as RecruitContent,
 };
 
 export const balance: Balance = balanceJson as Balance;

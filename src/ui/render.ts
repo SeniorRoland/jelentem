@@ -1,3 +1,5 @@
+import { fillNames } from '../engine/names';
+import { formatDate } from '../engine/recruit';
 import { anyMeterZero, endingKey } from '../engine/rules';
 import type { Balance, Content, GameState, Hint, Meters } from '../engine/types';
 
@@ -32,20 +34,43 @@ function meters(m: Meters, prev: Meters | null, v: View): string {
 const head = (s: GameState) =>
   `<div class="letterhead"><div>Belügyminisztérium III/III. Csoportfőnökség<br>Alsóbürokráci Osztály<br>Ügyiratszám: 34-${(s.week + 1) * 17}/1979</div><div class="secret">SZIGORÚAN TITKOS!</div></div>`;
 
-function intro(s: GameState): string {
+/** The recruitment card, after the 1970s „Beszervezési karton” forms: printed labels, typed data on dotted lines. */
+function karton(s: GameState, c: Content, v: View): string {
+  const r = s.recruit;
+  const rows: [string, string][] = [
+    ['Családi és utóneve', r.name],
+    ['Születési éve', String(r.birthYear)],
+    ['Születési helye', r.birthPlace],
+    ['Anyja neve', r.mother],
+    ['Foglalkozása', r.job],
+    ['Munkahelye', r.workplace],
+    ['Iskolai végzettsége', r.school],
+    ['Milyen kategóriába tartozik', r.category],
+    ['Beszervezés ideje', formatDate(r.recruitedOn, c)],
+    ['Osztályozása', r.classLabel],
+    ['Beszervezés alapja', r.basis],
+    ['Fedőneve', s.code],
+  ];
+  return `<section class="karton" aria-labelledby="karton-t">
+  <div class="k-head"><p class="k-secret">Szigorúan titkos!<br>Különösen fontos!</p><h2 id="karton-t" class="k-title">Beszervezési karton</h2></div>
+  <dl class="k-fields">${rows.map(([k, val], i) => `<div class="k-row"><dt>${k}:</dt><dd><span class="k-val">${val}</span>${v.dev && i === 0 ? `<span class="dev">a név oka: ${r.nameWhy}</span>` : ''}</dd></div>`).join('')}</dl>
+  <div class="k-foot"><span class="k-serial"><span class="sr-only">Sorszám: </span>${r.serial}</span><button class="btn quiet" data-action="reroll" data-id="code">Másik fedőnév</button></div>
+  </section>`;
+}
+
+function intro(s: GameState, c: Content, v: View): string {
   return `<article class="sheet">${head(s)}
   <h1 id="t" tabindex="-1">Jelentem, nem történt semmi</h1>
   <p class="lede">Alsóbürokrác, 1979 tavasza.</p>
   <p>Elvtárs!</p>
-  <p>Önt a mai nappal társadalmi kapcsolatként beszerveztük. Feladata, hogy hetente jelentést írjon a Bem utca 12. lakóiról: Szűcs Máriáról (Mari néni), Halmi Józsefről (Józsi bácsi), Kerekes Istvánról (Pityu), valamint szükség esetén Pörgöly Lajosné házmesterről.</p>
+  <p>Önt ${s.recruit.recruitedOn.slice(0, 4)}-ben társadalmi kapcsolatként beszervezték. Azóta érdemi jelentést nem adott, dossziéja a polcon porosodott. Ügyét a mai nappal átvettem. Feladata, hogy hetente jelentést írjon a Bem utca 12. lakóiról: {mari} Máriáról (Mari néni), {jozsi} Józsefről (Józsi bácsi), {pityu} Istvánról (Pityu), valamint szükség esetén {porgoly} Lajosné házmesterről.</p>
   <p>Az elvtárs munkáját bizalommal várjuk.</p>
   <span class="sig">Vágási százados</span>
-  <h2>Fedőneved</h2>
-  <p><strong>${s.code}</strong> <button class="btn quiet" data-action="reroll">Másik fedőnév</button></p>
+  ${karton(s, c, v)}
   <h2>Hogyan működik</h2>
   <p>Minden héten megfigyeléseket kapsz a házból. A jelentésed két mondatból áll: válassz egy megfigyelést, majd tegyél mellé egy értelmezést.</p>
   <p>A százados izgalmas jelentést vár, és hétről hétre többet. Ha viszont túlzol, elveszíted a hihetőségedet, és ha valakire terhelő dolgot írsz, annak baja lesz. A legjobb besúgó sokat ír, és semmit sem mond.</p>
-  <div class="actions"><button class="btn" data-action="start">Beszervezés elfogadása</button></div>
+  <div class="actions"><button class="btn" data-action="start">Munkába állok</button></div>
   <p class="fine">Ez egy szatirikus játék. A szereplők, a ház, a város és a százados kitaláltak.</p>
   </article>`;
 }
@@ -129,17 +154,20 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   <h2>Ami valójában történt</h2>
   ${truths}
   <h2>2026. november 4.</h2>
-  <p>Az iratok nyilvánosak lettek. Az adatbázis háromszor kidobott, negyedszerre bejutottál. Rákerestél a saját nevedre. Egyetlen találat: Pörgöly Lajosné jelentése 1979 márciusából.</p>
+  <p>Az iratok nyilvánosak lettek. Az adatbázis háromszor kidobott, negyedszerre bejutottál. Rákerestél a saját nevedre. Egyetlen találat: {porgoly} Lajosné jelentése 1979 márciusából.</p>
   <p class="quote">„A célszemély gyanúsan sokat ír. Hogy mit, az nem tudható.”</p>
   <div class="actions"><button class="btn" data-action="restart">Újrakezdés új fedőnévvel</button></div>
   </article>`;
 }
 
-export function renderScreen(s: GameState, c: Content, b: Balance, v: View): string {
+function screen(s: GameState, c: Content, b: Balance, v: View): string {
   switch (s.screen) {
-    case 'intro': return intro(s);
+    case 'intro': return intro(s, c, v);
     case 'week': return week(s, c, v);
     case 'response': return response(s, c, v);
     case 'ending': return ending(s, c, b, v);
   }
 }
+
+/** Content texts carry `{id}` placeholders; the generated family names go in here, in one place. */
+export const renderScreen = (s: GameState, c: Content, b: Balance, v: View): string => fillNames(screen(s, c, b, v), s.names);

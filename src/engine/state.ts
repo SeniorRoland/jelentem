@@ -1,3 +1,5 @@
+import { makeNames } from './names';
+import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
 import type { Balance, Content, GameState, Rng, Slot } from './types';
 
@@ -14,11 +16,14 @@ export type Action =
 const emptySlots = (b: Balance): Slot[] => Array.from({ length: b.slotsPerWeek }, () => ({ o: null, i: null }));
 
 export function newGame(c: Content, b: Balance, rng: Rng): GameState {
+  const recruit = makeRecruit(c, rng);
   return {
     screen: 'intro',
     week: 0,
     meters: { ...b.start },
     code: randCode(c, rng),
+    recruit,
+    names: makeNames(c, rng, [recruit.name.split(' ')[0]]),
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
     cons: [],
     reported: [],

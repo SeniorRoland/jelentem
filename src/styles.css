@@ -8,6 +8,8 @@
   --ink:#2e2862; --ink-soft:#5f598c;
   --stamp:#b0261c; --pen:#1d4ea3;
   --slip:#f1efd9; --focus:#d79a00;
+  --karton:#ecdfae; --karton-edge:#c7ad6e; --karton-stain:rgba(150,104,30,.13);
+  --k-label:#1f1c17; --k-typed:#45423c; --k-dots:#5b5345; --k-serial:#1b1915;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
@@ -17,6 +19,8 @@
     --ink:#241e54; --ink-soft:#463f74;
     --stamp:#97211a; --pen:#16418a;
     --slip:#d2cfb8; --focus:#e0a400;
+    --karton:#bba970; --karton-edge:#8f7b45; --karton-stain:rgba(90,60,15,.2);
+    --k-label:#17150f; --k-typed:#2f2c27; --k-dots:#433c30; --k-serial:#12100c;
   }
 }
 :root[data-theme="dark"]{
@@ -26,6 +30,8 @@
   --ink:#241e54; --ink-soft:#463f74;
   --stamp:#97211a; --pen:#16418a;
   --slip:#d2cfb8; --focus:#e0a400;
+  --karton:#bba970; --karton-edge:#8f7b45; --karton-stain:rgba(90,60,15,.2);
+  --k-label:#17150f; --k-typed:#2f2c27; --k-dots:#433c30; --k-serial:#12100c;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -102,7 +108,53 @@ p{margin:0 0 .85rem;max-width:68ch}
 footer{max-width:46rem;margin:0 auto;padding:1rem 1rem 2.5rem;color:var(--desk-text);font-size:.85rem;display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;justify-content:space-between;align-items:center}
 footer label{cursor:pointer;display:inline-flex;gap:.4rem;align-items:center}
 footer button{font:inherit;color:var(--desk-text);background:none;border:1px solid var(--desk-text);padding:.25rem .6rem;cursor:pointer}
+
+/* Beszervezési karton: megsárgult, megviselt nyomtatvány */
+.karton{
+  position:relative; margin:2rem 0 1rem; padding:1.4rem 1.5rem 1.2rem;
+  background-color:var(--karton);
+  background-image:
+    radial-gradient(ellipse 38% 26% at 82% 18%,var(--karton-stain),transparent 70%),
+    radial-gradient(ellipse 30% 22% at 12% 78%,var(--karton-stain),transparent 72%),
+    radial-gradient(circle at 64% 92%,var(--karton-stain) 0,transparent 18%),
+    linear-gradient(100deg,transparent 0 60%,var(--karton-stain) 100%);
+  box-shadow:inset 0 0 1.6rem -.5rem var(--karton-edge),0 1px 0 var(--karton-edge),0 10px 22px -14px rgba(0,0,0,.6);
+  border-radius:2px 5px 3px 6px;
+  color:var(--k-label);
+}
+.k-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:.5rem 1rem;margin-bottom:1.1rem}
+.k-secret,.karton dt,.k-title{font-family:Arial,Helvetica,"Liberation Sans",sans-serif;font-weight:700;color:var(--k-label)}
+.k-secret{margin:0;font-size:.74rem;line-height:1.25;text-transform:uppercase;letter-spacing:.02em}
+.karton h2.k-title{margin:0;font-size:.95rem;text-transform:uppercase;letter-spacing:.12em;text-decoration:none}
+.k-fields{margin:0}
+.k-row{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:.45rem}
+.karton dt{flex:none;font-size:.8rem;line-height:1.85rem}
+.karton dd{
+  flex:1 1 12rem;min-width:12rem;margin:0;padding-left:.35rem;
+  font-family:"Courier Prime","Courier New",Courier,monospace;font-size:1rem;line-height:1.85rem;
+  color:var(--k-typed);text-shadow:0 0 .6px var(--k-typed);
+  /* One dot row per text line, on the baseline shared with the label (line centre + .19em, so the dot bottoms sit on it). */
+  background-image:radial-gradient(circle at 2.5px calc(50% + .19em),var(--k-dots) .75px,transparent 1.15px);
+  background-size:5px 1.85rem;background-position:0 0;background-repeat:repeat;
+  background-origin:content-box;
+}
+/* The typed data sits just above the dotted line, as on a real form. */
+.k-val,.karton dd .dev{position:relative;top:-.3em}
+.karton dd .dev{font-size:.75rem;line-height:1.85rem;margin:0}
+.k-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.75rem;margin-top:1.2rem}
+.k-serial{
+  display:inline-block;font-family:"Courier Prime","Courier New",Courier,monospace;font-weight:700;
+  font-size:1.7rem;letter-spacing:.1em;color:var(--k-serial);opacity:.82;transform:rotate(-1.6deg);
+  text-shadow:0 0 1px var(--k-serial);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='48'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.4 0 0 0 -1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='48'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.4 0 0 0 -1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.karton .btn{color:var(--k-label);border-color:var(--k-label)}
+.karton .btn:hover{background:var(--k-label);color:var(--karton)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 @media (max-width:560px){
+  .karton{padding:1.1rem .9rem 1rem;margin-left:-.4rem;margin-right:-.4rem}
+  .karton dt{white-space:normal}
   main{padding:1rem .5rem .5rem}
   .sheet{padding:1.75rem 1.1rem 2.1rem 2.3rem}
   .sheet::before,.sheet::after{left:.7rem;width:.7rem;height:.7rem}

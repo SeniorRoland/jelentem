@@ -1,20 +1,48 @@
 {
   "mari": {
-    "name": "Szűcs Mária (Mari néni)",
-    "cons": "Szűcs Máriánál házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
+    "name": "{mari} Mária (Mari néni)",
+    "surnames": [
+      { "name": "Szakács", "why": "reggeltől estig befőz" },
+      { "name": "Kosaras", "why": "kosárral jár a piacra" },
+      { "name": "Mézes", "why": "édes befőtteket tesz el" },
+      { "name": "Szilvás", "why": "szilvát főz be" },
+      { "name": "Borsos", "why": "fűszeres, erős paprikát tesz el" }
+    ],
+    "cons": "{mari} Máriánál házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
     "truth": "Mari néni kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. A paprika pedig csak paprika volt."
   },
   "jozsi": {
-    "name": "Halmi József (Józsi bácsi)",
-    "cons": "Halmi József Trabantjának forgalmiját „műszaki okokból” bevonták. Józsi bácsi azóta gyalog jár, és nem köszön.",
+    "name": "{jozsi} József (Józsi bácsi)",
+    "surnames": [
+      { "name": "Kerekes", "why": "örökké a kocsiját szereli" },
+      { "name": "Bognár", "why": "fából hintát épít" },
+      { "name": "Ács", "why": "a garázsban ácsol" },
+      { "name": "Asztalos", "why": "fát fűrészel a garázsban" },
+      { "name": "Bodnár", "why": "ügyes kezű ezermester" }
+    ],
+    "cons": "{jozsi} József Trabantjának forgalmiját „műszaki okokból” bevonták. Józsi bácsi azóta gyalog jár, és nem köszön.",
     "truth": "Józsi bácsi hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető."
   },
   "pityu": {
-    "name": "Kerekes István (Pityu)",
-    "cons": "Kerekes Istvánt nem engedték el az egyetemi tanulmányútra Bécsbe.",
+    "name": "{pityu} István (Pityu)",
+    "surnames": [
+      { "name": "Hosszú", "why": "vállig érő haja van" },
+      { "name": "Göndör", "why": "hosszú, göndör haja van" },
+      { "name": "Diák", "why": "egyetemi hallgató" },
+      { "name": "Lantos", "why": "verseket gépel" },
+      { "name": "Fürtös", "why": "fürtökben lóg a haja" }
+    ],
+    "cons": "{pityu} Istvánt nem engedték el az egyetemi tanulmányútra Bécsbe.",
     "truth": "Pityu füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti Kovács lánynak."
   },
   "porgoly": {
-    "name": "Pörgöly Lajosné, házmester"
+    "name": "{porgoly} Lajosné, házmester",
+    "surnames": [
+      { "name": "Szemes", "why": "mindent észrevesz" },
+      { "name": "Füles", "why": "mindent meghall" },
+      { "name": "Kulcsár", "why": "nála vannak a ház kulcsai" },
+      { "name": "Kapus", "why": "a kapuban áll" },
+      { "name": "Ajtós", "why": "minden ajtón benéz" }
+    ]
   }
 }

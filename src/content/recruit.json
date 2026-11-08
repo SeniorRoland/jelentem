@@ -1,0 +1,120 @@
+{
+  "surnames": [
+    { "name": "Lakatos", "why": "fémmel dolgozik", "jobs": ["esztergalyos"] },
+    { "name": "Vas", "why": "vasat esztergál", "jobs": ["esztergalyos"] },
+    { "name": "Fényes", "why": "villanyt szerel", "jobs": ["villanyszerelo"] },
+    { "name": "Drótos", "why": "drótokkal dolgozik", "jobs": ["villanyszerelo"] },
+    { "name": "Talpas", "why": "a talpfák mellett dolgozik", "jobs": ["vasutas"] },
+    { "name": "Utas", "why": "a vasútnál dolgozik", "jobs": ["vasutas"] },
+    { "name": "Mester", "why": "gyerekeket tanít", "jobs": ["tanito"] },
+    { "name": "Kalmár", "why": "kereskedelemben dolgozik", "jobs": ["elado"] },
+    { "name": "Boltos", "why": "boltban árul", "jobs": ["elado"] },
+    { "name": "Gyors", "why": "gyors- és gépíró", "jobs": ["gepiro"] },
+    { "name": "Pénzes", "why": "pénzt számol", "jobs": ["konyvelo"] },
+    { "name": "Garas", "why": "minden garast nyilvántart", "jobs": ["konyvelo"] },
+    { "name": "Kapás", "why": "a földeken kapál", "jobs": ["tsztag"] },
+    { "name": "Kulcsár", "why": "övé a raktár kulcsa", "jobs": ["raktaros"] },
+    { "name": "Csősz", "why": "őrködik", "jobs": ["ejjelior"] },
+    { "name": "Bagoly", "why": "éjszaka van ébren", "jobs": ["ejjelior"] },
+    { "name": "Kapus", "why": "a kapuban ül", "jobs": ["portas"] },
+    { "name": "Ajtós", "why": "ő nyitja az ajtót", "jobs": ["portas"] },
+    { "name": "Kántor", "why": "kántor", "jobs": ["kantor"] },
+    { "name": "Énekes", "why": "énekel a templomban", "jobs": ["kantor"] },
+    { "name": "Harangozó", "why": "ő húzza a harangot", "jobs": ["sekrestyes"] },
+    { "name": "Könyves", "why": "régi könyvekkel dolgozik", "jobs": ["antikvarius"] },
+    { "name": "Dalos", "why": "zenét tanít", "jobs": ["zongoratanar"] },
+    { "name": "Hegedűs", "why": "zenész", "jobs": ["zongoratanar"] },
+    { "name": "Vörös", "why": "a népi demokráciához hű", "categories": ["hu"] },
+    { "name": "Igaz", "why": "a népi demokráciához hű", "categories": ["hu"] },
+    { "name": "Jámbor", "why": "lojális", "categories": ["lojalis"] },
+    { "name": "Szelíd", "why": "lojális", "categories": ["lojalis"] },
+    { "name": "Csendes", "why": "lojális", "categories": ["lojalis"] },
+    { "name": "Bátor", "why": "ellenforradalmi tevékenység", "categories": ["ellenforr"] },
+    { "name": "Szilaj", "why": "ellenforradalmi tevékenység", "categories": ["ellenforr"] },
+    { "name": "Gazdag", "why": "kulák", "categories": ["kulak"] },
+    { "name": "Földes", "why": "kulák, földje volt", "categories": ["kulak"] },
+    { "name": "Gazda", "why": "kulák", "categories": ["kulak"] },
+    { "name": "Papp", "why": "egyházi", "categories": ["egyhazi"] },
+    { "name": "Szentes", "why": "egyházi", "categories": ["egyhazi"] },
+    { "name": "Barát", "why": "egyházi", "categories": ["egyhazi"] },
+    { "name": "Fekete", "why": "egyéb ellenséges tevékenység", "categories": ["egyeb"] },
+    { "name": "Ravasz", "why": "egyéb ellenséges tevékenység", "categories": ["egyeb"] },
+    { "name": "Vitéz", "why": "csendőr volt", "categories": ["csendor"] },
+    { "name": "Kardos", "why": "csendőr volt", "categories": ["csendor"] },
+    { "name": "Nemes", "why": "osztályidegen", "categories": ["osztalyidegen"] },
+    { "name": "Gróf", "why": "osztályidegen", "categories": ["osztalyidegen"] },
+    { "name": "Deák", "why": "tanult ember", "schools": ["érettségi", "közgazdasági technikum", "tanítóképző", "zeneművészeti főiskola", "félbehagyott bölcsészkar"] },
+    { "name": "Ősz", "why": "idős", "bornMax": 1915 },
+    { "name": "Öreg", "why": "idős", "bornMax": 1912 },
+    { "name": "Ifjú", "why": "fiatal", "bornMin": 1947 }
+  ],
+  "givenNames": {
+    "m": ["József", "István", "László", "Ferenc", "János", "Sándor", "Gyula", "Lajos", "Imre", "Károly", "Béla", "Tibor", "Zoltán"],
+    "f": ["Mária", "Erzsébet", "Ilona", "Katalin", "Éva", "Margit", "Erika", "Zsuzsanna", "Julianna", "Magdolna", "Irén", "Piroska"]
+  },
+  "places": [
+    { "name": "Alsóbürokrác", "from": "Alsóbürokráci" },
+    { "name": "Felsőbürokrác", "from": "Felsőbürokráci" },
+    { "name": "Kisakta", "from": "Kisaktai" },
+    { "name": "Nagyakta", "from": "Nagyaktai" },
+    { "name": "Pecsétvár", "from": "Pecsétvári" },
+    { "name": "Iktatófalva", "from": "Iktatófalvi" },
+    { "name": "Tintásfalu", "from": "Tintásfalvi" },
+    { "name": "Iratosd", "from": "Iratosdi" },
+    { "name": "Bélyegd", "from": "Bélyegdi" },
+    { "name": "Ügyiratpuszta", "from": "Ügyiratpusztai" },
+    { "name": "Szigorúhegy", "from": "Szigorúhegyi" },
+    { "name": "Dossziás", "from": "Dossziási" }
+  ],
+  "months": [
+    "január", "február", "március", "április", "május", "június",
+    "július", "augusztus", "szeptember", "október", "november", "december"
+  ],
+  "occupations": [
+    { "id": "esztergalyos", "job": "esztergályos", "workplace": ["Alsóbürokráci Csavar- és Alátétgyár", "Dunántúli Mezőgépjavító Vállalat"], "school": ["8 általános", "szakmunkásképző"] },
+    { "id": "villanyszerelo", "job": "villanyszerelő", "workplace": ["DÉDÁSZ Alsóbürokráci Kirendeltsége"], "school": ["szakmunkásképző"] },
+    { "id": "vasutas", "job": "vasúti pályamunkás", "workplace": ["MÁV Alsóbürokráci Pályafenntartási Főnökség"], "school": ["8 általános"] },
+    { "id": "tanito", "job": "általános iskolai tanító", "workplace": ["Alsóbürokráci 2. Számú Általános Iskola"], "school": ["tanítóképző"] },
+    { "id": "elado", "job": "bolti eladó", "workplace": ["Alsóbürokráci ÁFÉSZ 3. sz. Vegyesboltja", "Pecsétvári Népbolt"], "school": ["8 általános", "kereskedelmi szakiskola"] },
+    { "id": "gepiro", "job": "gépíró", "workplace": ["Alsóbürokráci Városi Tanács V. B.", "Alsóbürokráci Csavar- és Alátétgyár"], "school": ["érettségi", "gép- és gyorsíró iskola"] },
+    { "id": "konyvelo", "job": "könyvelő", "workplace": ["Alsóbürokráci Városgazdálkodási Vállalat", "Kisaktai Sertéshizlaló Közös Vállalat"], "school": ["érettségi", "közgazdasági technikum"] },
+    { "id": "tsztag", "job": "termelőszövetkezeti tag", "workplace": ["Nagyaktai Vörös Csillag Tsz", "Pecsétvári Új Barázda Tsz"], "school": ["6 elemi", "8 általános"] },
+    { "id": "raktaros", "job": "raktáros", "workplace": ["Alsóbürokráci ÁFÉSZ", "Alsóbürokráci Téglagyár"], "school": ["6 elemi", "8 általános"] },
+    { "id": "ejjelior", "job": "éjjeliőr", "workplace": ["Alsóbürokráci Téglagyár", "Dunántúli Mezőgépjavító Vállalat"], "school": ["6 elemi"] },
+    { "id": "portas", "job": "portás", "workplace": ["Alsóbürokráci Városi Tanács V. B.", "Alsóbürokráci Csavar- és Alátétgyár"], "school": ["6 elemi", "4 polgári"] },
+    { "id": "kantor", "job": "kántor", "workplace": ["Alsóbürokráci Római Katolikus Plébánia"], "school": ["érettségi", "zeneiskola"] },
+    { "id": "sekrestyes", "job": "sekrestyés", "workplace": ["Alsóbürokráci Római Katolikus Plébánia", "Kisaktai Református Egyházközség"], "school": ["6 elemi", "8 általános"] },
+    { "id": "antikvarius", "job": "antikvárius", "workplace": ["Alsóbürokráci Antikvárium"], "school": ["érettségi", "félbehagyott bölcsészkar"] },
+    { "id": "zongoratanar", "job": "zongoratanár", "workplace": ["Alsóbürokráci Állami Zeneiskola"], "school": ["zeneművészeti főiskola"] }
+  ],
+  "categories": [
+    { "id": "hu", "label": "népi demokráciához hű", "loyal": true, "born": [1925, 1950], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "tanito", "elado", "gepiro", "konyvelo"] },
+    { "id": "lojalis", "label": "lojális", "loyal": true, "born": [1920, 1950], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "tanito", "elado", "gepiro", "konyvelo", "raktaros", "portas"] },
+    { "id": "ellenforr", "label": "ellenforradalmi tevékenység", "loyal": false, "born": [1925, 1940], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "raktaros", "konyvelo"] },
+    { "id": "kulak", "label": "kulák", "loyal": false, "born": [1905, 1930], "jobs": ["tsztag", "raktaros", "ejjelior"] },
+    { "id": "egyhazi", "label": "egyházi", "loyal": false, "born": [1910, 1950], "jobs": ["kantor", "sekrestyes"] },
+    { "id": "egyeb", "label": "egyéb ellenséges tevékenység", "loyal": false, "born": [1920, 1950], "jobs": ["esztergalyos", "elado", "gepiro", "antikvarius", "tanito"] },
+    { "id": "csendor", "label": "csendőr", "loyal": false, "born": [1900, 1924], "sex": "m", "jobs": ["ejjelior", "portas", "raktaros"] },
+    { "id": "osztalyidegen", "label": "osztályidegen", "loyal": false, "born": [1915, 1950], "jobs": ["konyvelo", "antikvarius", "zongoratanar", "gepiro"] }
+  ],
+  "classes": {
+    "before1972": [
+      { "id": "ugynok", "label": "ügynök", "loyal": false, "bases": ["komp", "anyagi"] },
+      { "id": "informator", "label": "informátor", "loyal": true, "bases": ["hazafias", "lojalis"] }
+    ],
+    "from1972": [
+      { "id": "u", "label": "ügynök (Ü)", "loyal": false, "bases": ["komp", "anyagi"] },
+      { "id": "tmb", "label": "titkos megbízott (TMB)", "loyal": true, "bases": ["hazafias", "lojalis"] },
+      { "id": "tmt", "label": "titkos munkatárs (TMT)", "loyal": true, "bases": ["hazafias"] }
+    ]
+  },
+  "bases": {
+    "hazafias": { "text": "hazafias alapon", "short": "hazafias" },
+    "lojalis": { "text": "lojális alapon", "short": "lojális" },
+    "komp": { "text": "terhelő, kompromittáló adatok alapján", "short": "kompromittáló adatok" },
+    "anyagi": { "text": "anyagi érdekeltség alapján", "short": "anyagi érdekeltség" }
+  },
+  "combo": "alapok kombinációja",
+  "methods": ["gyors beszervezéssel", "fokozatos bevonással"],
+  "comboChance": 0.3
+}
