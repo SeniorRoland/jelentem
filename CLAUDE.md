@@ -50,7 +50,7 @@ Három réteg, szigorúan elválasztva:
 
 ## Ismert kiegyensúlyozási állapot
 
-A 0.1.0-ban a 0-s szorzójú óvatos értelmezések (és az `m6`) teljesen semlegesítették a legterhelőbb megfigyeléseket is, így az „óvatos” bot 100%-ban, a véletlen játékos 32%-ban érte el a legjobb véget.
+Az első commit értékeinél a 0-s szorzójú óvatos értelmezések (és az `m6`) teljesen semlegesítették a legterhelőbb megfigyeléseket is, így az „óvatos” bot 100%-ban, a véletlen játékos 32%-ban érte el a legjobb véget.
 
 Az első hangolás után: az óvatos kártyák szorzója 0,4 (tompít, de nem töröl, ezt teszt is ellenőrzi), az `m6` szorzója 0,5, az elvárás `[7, 9, 11]`, a `consThreshold` 3. A `npm run sim -- 10000` eredménye (best / kivalo / megfigyelt / behivatas):
 
