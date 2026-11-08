@@ -22,6 +22,12 @@ describe('scoreSentence', () => {
   it('punishes an absurd spin on a boring observation', () => {
     expect(scoreSentence(paprika, cia, balance).hih).toBe(cia.hih - balance.absurd.penalty);
   });
+  it('a safe spin softens but never erases harm on a damaging observation', () => {
+    const worst = content.weeks[2].obs.reduce((a, b) => (b.art > a.art ? b : a));
+    for (const it of content.ints.filter(x => x.tier === 'safe')) {
+      expect(scoreSentence(worst, it, balance).harm).toBeGreaterThan(0);
+    }
+  });
   it('treats a plain fact as credible', () => {
     expect(scoreSentence(paprika, null, balance).hih).toBe(balance.plainFact.hih);
   });

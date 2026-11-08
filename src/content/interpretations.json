@@ -4,7 +4,7 @@
     "tier": "safe",
     "izg": 2,
     "hih": 1,
-    "mult": 0.2,
+    "mult": 0.4,
     "text": "amelynek jelentőségét az idő fogja eldönteni"
   },
   {
@@ -12,7 +12,7 @@
     "tier": "safe",
     "izg": 0,
     "hih": 3,
-    "mult": 0,
+    "mult": 0.4,
     "text": "ami a dolgozó nép szokásos hétvégi tevékenységének tekinthető"
   },
   {
@@ -20,7 +20,7 @@
     "tier": "safe",
     "izg": 1,
     "hih": 2,
-    "mult": 0,
+    "mult": 0.4,
     "text": "amiből messzemenő következtetést levonni korai volna"
   },
   {
@@ -28,7 +28,7 @@
     "tier": "safe",
     "izg": 1,
     "hih": 2,
-    "mult": 0,
+    "mult": 0.4,
     "text": "ami a háztáji gazdálkodás iránti elkötelezettségre utal"
   },
   {
@@ -36,7 +36,7 @@
     "tier": "safe",
     "izg": 0,
     "hih": 3,
-    "mult": 0,
+    "mult": 0.4,
     "text": "melynek során politikai megnyilvánulást nem észleltem",
     "note": "Akkor minek írta le?"
   },
@@ -45,7 +45,7 @@
     "tier": "safe",
     "izg": 1,
     "hih": 0,
-    "mult": 0,
+    "mult": 0.4,
     "text": "amit a célszemély macskája is tanúsíthat",
     "note": "A macskát nem tudjuk kihallgatni. Egyelőre."
   },
@@ -94,7 +94,7 @@
     "tier": "mid",
     "izg": 2,
     "hih": 1,
-    "mult": 0,
+    "mult": 0.5,
     "text": "és alulírottat is megkínálta, amit tájékozódási céllal elfogadtam",
     "note": "Megkínálta? Mivel? Tételesen!"
   },

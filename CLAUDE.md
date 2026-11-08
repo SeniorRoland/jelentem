@@ -46,6 +46,14 @@ Három réteg, szigorúan elválasztva:
 - Mozgás csak a pecsét-animációnál, `prefers-reduced-motion` mellett kikapcsol.
 - Nincs keretrendszer. Ha valami miatt mégis kellene (pl. Angular vagy Svelte), előbb kérdezd meg.
 
-## Ismert kiegyensúlyozási állapot (0.1.0)
+## Ismert kiegyensúlyozási állapot
 
-A `npm run sim` eredménye a kiinduló értékekkel: az „óvatos” bot 100%-ban a legjobb befejezést éri el, a véletlen játékos kb. 32%-ban. A legjobb vég túl könnyű, ha valaki látja az értékeket; emberi játékosnál a rejtett értékek miatt ez enyhébb, de ez az első hangolási feladat (lásd `docs/DESIGN.md` → Következő lépések).
+A 0.1.0-ban a 0-s szorzójú óvatos értelmezések (és az `m6`) teljesen semlegesítették a legterhelőbb megfigyeléseket is, így az „óvatos” bot 100%-ban, a véletlen játékos 32%-ban érte el a legjobb véget.
+
+Az első hangolás után: az óvatos kártyák szorzója 0,4 (tompít, de nem töröl, ezt teszt is ellenőrzi), az `m6` szorzója 0,5, az elvárás `[7, 9, 11]`, a `consThreshold` 3. A `npm run sim -- 10000` eredménye (best / kivalo / megfigyelt / behivatas):
+
+- véletlen: 14% / 62% / 22% / 2%
+- óvatos (0 ártalom): 85% / 0% / 0% / 15%
+- előrelátó (mindent lát, egy hétre előre tervez): 100% / 0% / 0% / 0%
+
+A legjobb vég tehát elérhető marad, de már nem jár automatikusan az óvatossággal: ártalmatlan izgalmat leginkább a semleges megfigyelések felfújásával lehet szerezni, ami a hihetőségbe kerül.

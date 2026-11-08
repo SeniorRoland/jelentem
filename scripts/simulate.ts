@@ -49,6 +49,23 @@ const strategies: Record<string, Strategy> = {
     ok.sort((a, b) => (Number(b.e.izg >= exp) - Number(a.e.izg >= exp)) || (b.e.hih - a.e.hih) || (b.e.izg - a.e.izg));
     return ok[0]?.p ?? [];
   },
+  // Sees every value and picks the report that keeps E and H farthest from the
+  // ending thresholds while avoiding harm. Shows that the best ending stays reachable.
+  'előrelátó': s => {
+    const exp = balance.expect[s.week];
+    const { E: e0, H: h0, L: l0 } = s.meters;
+    const { weight: w, endings: t } = balance;
+    let best: Plan = [], bestV = -Infinity;
+    for (const p of allPlans(s)) {
+      const r = evalPlan(s, p);
+      const E = e0 + (r.izg - exp) * w.E;
+      const H = Math.min(100, h0 + r.hih * w.H);
+      const L = l0 - r.harm * w.L;
+      const v = Math.min(E - t.eMin, H - t.hMin) - (L < t.lMin ? 1000 : 0) - r.harm * 8;
+      if (v > bestV) { bestV = v; best = p; }
+    }
+    return best;
+  },
 };
 
 function play(strat: Strategy, seed: number): EndingKey {

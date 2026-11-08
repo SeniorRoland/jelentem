@@ -5,9 +5,9 @@
     "L": 100
   },
   "expect": [
-    6,
-    8,
-    10
+    7,
+    9,
+    11
   ],
   "weight": {
     "E": 3,
@@ -20,7 +20,7 @@
     "mid": 2,
     "wild": 2
   },
-  "consThreshold": 4,
+  "consThreshold": 3,
   "plainFact": {
     "hih": 1,
     "mult": 0.8

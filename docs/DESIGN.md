@@ -37,7 +37,7 @@ Minden befejezés után jön a 2026. november 4-i epilógus: a játékos megnéz
 
 ## Következő lépések
 
-1. **Kiegyensúlyozás.** A legjobb befejezés most túl könnyű egy optimális játékosnak. Ötletek: magasabb heti elvárás, kevesebb ártalmatlan, de izgalmas kombináció, vagy hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+1. **Kiegyensúlyozás.** Az első kör kész (az óvatos értelmezések már nem nullázzák az ártalmat, magasabb elvárás, alacsonyabb következmény-küszöb; a véletlen játékos 14%-ban éri el a legjobb véget, lásd `CLAUDE.md`). Ha több hét lesz, újra kell hangolni; további ötlet, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
 2. **Mentés** localStorage-ba (try/catch-csel, üres tárolóval is működjön).
 3. **Több hét (12–15)**, a lakók titkainak fokozatos kibontásával: a titok egy ponton megfigyelésként is felbukkan, és el kell dönteni, beírja-e a játékos.
 4. **Kiemelt feladatok:** a százados konkrét célpontot jelöl ki („Derítse ki, ki hallgat Szabad Európát!”), és ilyenkor el kell terelni a gyanút.
