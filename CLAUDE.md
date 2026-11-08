@@ -7,7 +7,7 @@ Szatirikus böngészős játék: 1979, egy kitalált dunántúli kisváros (Als�
 - `npm run dev` – fejlesztői szerver (Vite)
 - `npm test` – Vitest egységtesztek
 - `npm run validate` – a tartalom (JSON) konzisztencia-ellenőrzése
-- `npm run sim` – kiegyensúlyozási szimuláció (bot-stratégiák, befejezések eloszlása); `npm run sim -- 10000` több játékkal
+- `npm run sim` – kiegyensúlyozási szimuláció (bot-stratégiák, befejezések eloszlása, végső rang, bajba került lakók); `npm run sim -- 10000` több játékkal; `SIM_BALANCE='{"quarter":{"resetE":0.3}}' npm run sim` a `balance.json` ideiglenes felülírásával (objektumok kulcsonként, tömbök elemenként olvadnak össze)
 - `npm run build` – típusellenőrzés + éles build a `dist/` mappába
 
 Minden változtatás után futtasd: `npm run validate && npm test && npm run build`. Ha a `balance.json`-t vagy kártyaértékeket módosítottál, futtasd a `npm run sim`-et is, és írd le az eredményt a módosítás összefoglalójában.
@@ -24,11 +24,14 @@ Három réteg, szigorúan elválasztva:
 
 ## Játékmechanika röviden
 
+- Négy negyedév × 3 hét (`weeks.json` → `quarter`, `level`). Negyedév végén `career.ts` → `endQuarter`: minősítés (`kivalo` ha E ≥ `promoteE` és H ≥ `promoteH`, `hianyos` ha E < `demoteE`), rangváltás (0 = passzív állomány … 4 = rezidensjelölt; a rang adja a mondathelyek számát és az elvárás-pótlékot, `balance.ranks`), majd E `resetE` arányban visszahúzódik `start.E` felé, H `healH`-val, L `healL`-lel nő.
+- Lakói állapot (`residentStatus`): `nyugodt` → `gyanus` (érte már ártalom) → `bajban` (következmény érte). A megfigyelések a hét elején sorsolódnak, és `quarters`/`requires` feltételekkel elágazhatnak az állapot szerint.
 - Három mérő 0–100 között: `E` (a százados elégedettsége), `H` (hihetőség), `L` (lelkiismeret).
 - Egy mondat = megfigyelés + opcionális értelmezés. A megfigyelésnek `izg` (izgalom) és `art` (ártalom) értéke van, az értelmezésnek `izg`, `hih` (hihetőség-változás) és `mult` (ártalom-szorzó).
-- Hetente: `E += (izgalom összeg − elvárás) × weight.E`, `H += hihetőség összeg × weight.H`, `L −= ártalom összeg × weight.L`.
+- Hetente (elvárás = `expect[hét] + ranks[rang].expectBonus`): `E += (izgalom összeg − elvárás) × weight.E`, `H += hihetőség összeg × weight.H`, `L −= ártalom összeg × weight.L`.
 - Ha egy lakóra összegyűlt ártalom eléri a `consThreshold`-ot, következmény éri (`residents.json` → `cons`).
-- Befejezések: `best`, `kivalo`, `megfigyelt`, `behivatas` (`rules.ts` → `endingKey`).
+- Befejezések: `best`, `kivalo`, `megfigyelt`, `behivatas` (`rules.ts` → `endingKey`), a 12. hét után vagy amikor egy mérő nullára esik. A „Ami valójában történt” rész lakónként a `fate.ok` vagy `fate.bajban` szöveget mutatja.
+- Mentés: `src/ui/save.ts`, minden lépés után localStorage-ba; a befejezett vagy a tartalomhoz már nem illő mentést elveti.
 
 ## Tartalmi és hangnemi szabályok
 
@@ -36,7 +39,7 @@ Három réteg, szigorúan elválasztva:
 - **Csak kitalált szereplők, helyszínek és intézményi alakok.** Valós, élő vagy elhunyt személyt soha ne nevezz meg besúgóként, tartótisztként vagy megfigyeltként, még viccként sem. Valós intézménynév (BM III/III., DÉDÁSZ, Szabad Európa Rádió) korfestésként használható.
 - Magyar tipográfia: idézőjel „ ”, gondolatjel –, három pont …. Egyenes idézőjelet a validátor elutasít.
 - A lakók vezetékneve generált: a szövegekben `{mari}`, `{jozsi}`, `{pityu}`, `{porgoly}` helyettesítő áll (pl. „{mari} Máriánál”), soha ne írj be fix vezetéknevet. A ragot a keresztnév kapja, ne a helyettesítő. A behelyettesítés a `renderScreen()`-ben történik, az ismeretlen helyettesítőt a validátor jelzi.
-- Új megfigyelésnél a `level` a hét szintje (1–3: egyre izgalmasabb és terhelőbb), a 3. szint a lakó titkára utal. Az azonos `tag`-ű megfigyelések ismételt jelentésekor a `notes.json` → `repeat` jegyzete jön. Szintenként és helyenként legalább 3 változat kell (a validátor ellenőrzi).
+- Új megfigyelésnél a `level` a hét szintje (1–3: egyre izgalmasabb és terhelőbb), a 3. szint a lakó titkára vagy negyedéves történetére utal. A negyedéves történet-megfigyelésnek `quarters` (melyik negyedév) és `requires` (`{"pityu": ["bajban"]}` – csak a saját lakójára) mezője van; mindkét ágat (rendben / bajban) meg kell írni. A validátor ellenőrzi, hogy minden hét minden helyére, minden állapotban jusson elég friss megfigyelés. Az azonos `tag`-ű megfigyelések ismételt jelentésekor a `notes.json` → `repeat` jegyzete jön. Szintenként és helyenként legalább 3 változat kell (a validátor ellenőrzi).
 - A megfigyelés és az értelmezés szövege ne végződjön ponttal (a motor rakja össze: `megfigyelés, értelmezés.`). Az értelmezés vesszővel kapcsolódik, ezért „ami…”, „amelynek…”, „és…” kezdetű legyen.
 - Betűtípus: Courier Prime (gépelt szöveg) és Caveat (a százados kézírása). Új betűtípus csak akkor, ha ellenőrzötten tartalmazza az ő, ű, Ő, Ű betűket.
 
@@ -50,12 +53,13 @@ Három réteg, szigorúan elválasztva:
 
 ## Ismert kiegyensúlyozási állapot
 
-Az első commit értékeinél a 0-s szorzójú óvatos értelmezések (és az `m6`) teljesen semlegesítették a legterhelőbb megfigyeléseket is, így az „óvatos” bot 100%-ban, a véletlen játékos 32%-ban érte el a legjobb véget.
+Négy negyedév, 12 hét. Elvárás `[7, 9, 11, 7, 9, 11, 8, 10, 12, 8, 10, 12]` + rangpótlék (0, 0, 1, 3, 4; a 3–4. rang három mondatot ír), `consThreshold` 4 (a 12 hét alatt összeadódik), negyedév végén `resetE` 0,2, `healH` 8, `healL` 15, minősítés: kiváló E ≥ 65 és H ≥ 45, hiányos E < 45.
 
-Az első hangolás után: az óvatos kártyák szorzója 0,4 (tompít, de nem töröl, ezt teszt is ellenőrzi), az `m6` szorzója 0,5, az elvárás `[7, 9, 11]`, a `consThreshold` 3. A `npm run sim -- 10000` eredménye (best / kivalo / megfigyelt / behivatas):
+A `npm run sim -- 5000` eredménye (best / kivalo / megfigyelt / behivatas, végső átlagrang):
 
-- véletlen: 14% / 62% / 22% / 2%
-- óvatos (0 ártalom): 85% / 0% / 0% / 15%
-- előrelátó (mindent lát, egy hétre előre tervez): 100% / 0% / 0% / 0%
+- véletlen: 0% / 53% / 46% / 1%, rang 1,65 (12 hét alatt szinte mindig árt valakinek)
+- mohó: 0% / 0% / 100% / 0%
+- óvatos (0 ártalom): 28% / 0% / 0% / 72%, rang 0,15 (passzív állományba kerül, és gyakran ott sem elég)
+- előrelátó (mindent lát, egy hétre előre tervez): 60% / 40% / 0% / 0%, rang 3,8 (az előléptetés utáni magasabb elvárás miatt néha mégis árt)
 
-A legjobb vég tehát elérhető marad, de már nem jár automatikusan az óvatossággal: ártalmatlan izgalmat leginkább a semleges megfigyelések felfújásával lehet szerezni, ami a hihetőségbe kerül.
+A legjobb vég tervezéssel elérhető, de nem biztos; a puszta óvatosság kevés. A véletlen játékos 0%-a szándékos: egy év alatt vakon nem lehet senkinek sem ártani.

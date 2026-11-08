@@ -1,3 +1,4 @@
+import { expectFor } from './career';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import type {
@@ -74,7 +75,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
   }
   for (const sl of s.slots) if (sl.o && !s.reported.includes(sl.o)) s.reported.push(sl.o);
 
-  const expect = b.expect[s.week];
+  const expect = expectFor(s, b);
   s.meters = {
     E: clamp(s.meters.E + (izgSum - expect) * b.weight.E),
     H: clamp(s.meters.H + hihSum * b.weight.H),

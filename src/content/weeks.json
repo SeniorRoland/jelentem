@@ -2,19 +2,73 @@
   {
     "label": "1979. március 5–11.",
     "intro": "Az első hét. A Bem utca 12. csendes, mint mindig. Gyanúsan csendes?",
-    "level": 1,
+    "quarter": 0, "level": 1,
     "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
   },
   {
     "label": "1979. március 12–18.",
     "intro": "A második hét. A százados elvárásai nőnek, a ház lakói nem.",
-    "level": 2,
+    "quarter": 0, "level": 2,
     "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
   },
   {
     "label": "1979. március 19–25.",
     "intro": "A harmadik hét. Negyedéves értékelés előtt. A százados ideges.",
-    "level": 3,
+    "quarter": 0, "level": 3,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. június 4–10.",
+    "intro": "Nyár eleje. Az udvaron szárad a ruha, a lépcsőházban a pletyka.",
+    "quarter": 1, "level": 1,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. június 11–17.",
+    "intro": "Kánikula. A százados ingujjban olvas, de ugyanolyan figyelmesen.",
+    "quarter": 1, "level": 2,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. június 18–24.",
+    "intro": "A félév vége. A házban mindenki tervez valamit. Az államnak is vannak tervei.",
+    "quarter": 1, "level": 3,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. szeptember 3–9.",
+    "intro": "Iskolakezdés. A gyerekek visszamentek tanulni, a felnőttek visszamentek gyanakodni.",
+    "quarter": 2, "level": 1,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. szeptember 10–16.",
+    "intro": "Szüret ideje. A pincékből must szaga árad, a jelentésekből unalomé.",
+    "quarter": 2, "level": 2,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. szeptember 17–23.",
+    "intro": "Negyedév vége. A százados új határidőnaplót kapott, és használni is akarja.",
+    "quarter": 2, "level": 3,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. december 3–9.",
+    "intro": "Tél. A ház fűtése a tervek szerint működik, vagyis nem.",
+    "quarter": 3, "level": 1,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. december 10–16.",
+    "intro": "Karácsony előtt. A közértben narancs van, a sorban mindenki.",
+    "quarter": 3, "level": 2,
+    "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
+  },
+  {
+    "label": "1979. december 17–23.",
+    "intro": "Az év utolsó jelentése. A százados éves értékelést ír. Önről is.",
+    "quarter": 3, "level": 3,
     "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
   }
 ]

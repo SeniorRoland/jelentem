@@ -4,23 +4,34 @@
     "H": 60,
     "L": 100
   },
-  "expect": [
-    7,
-    9,
-    11
-  ],
+  "expect": [7, 9, 11, 7, 9, 11, 8, 10, 12, 8, 10, 12],
   "weight": {
     "E": 3,
     "H": 2,
     "L": 5
   },
-  "slotsPerWeek": 2,
+  "ranks": [
+    { "slots": 2, "expectBonus": 0 },
+    { "slots": 2, "expectBonus": 0 },
+    { "slots": 2, "expectBonus": 1 },
+    { "slots": 3, "expectBonus": 3 },
+    { "slots": 3, "expectBonus": 4 }
+  ],
+  "startRank": 1,
+  "quarter": {
+    "promoteE": 65,
+    "promoteH": 45,
+    "demoteE": 45,
+    "resetE": 0.2,
+    "healL": 15,
+    "healH": 8
+  },
   "deal": {
     "safe": 2,
     "mid": 2,
     "wild": 2
   },
-  "consThreshold": 3,
+  "consThreshold": 4,
   "plainFact": {
     "hih": 1,
     "mult": 0.8

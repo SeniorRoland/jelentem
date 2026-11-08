@@ -1,5 +1,8 @@
 import { placeholders } from '../engine/names';
-import type { Balance, Content, ResidentId, Surname, Tier } from '../engine/types';
+import { candidates } from '../engine/observations';
+import type { Balance, Content, ResidentId, ResidentStatus, Surname, Tier } from '../engine/types';
+
+const STATUSES: ResidentStatus[] = ['nyugodt', 'gyanus', 'bajban'];
 
 /** Returns a list of human-readable problems. Empty list = content is consistent. */
 export function validateContent(c: Content, b: Balance): string[] {
@@ -16,25 +19,51 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (o.who && !o.text.includes(`{${o.who}}`)) errs.push(`${o.id}: a szövegben nincs {${o.who}} helyettesítő.`);
     if (/["']/.test(o.text + (o.note ?? ''))) errs.push(`${o.id}: egyenes idézőjel a szövegben, használj „ ” jeleket.`);
     if (/\.”?$/.test(o.text)) errs.push(`${o.id}: a megfigyelés ne végződjön ponttal, a motor tesz utána pontot.`);
-    if (!c.weeks.some(w => w.level === o.level)) errs.push(`${o.id}: egyik hét sem ${o.level}. szintű, a megfigyelés sosem kerül elő.`);
+    const quarters = new Set(c.weeks.map(w => w.quarter));
+    for (const q of o.quarters ?? []) if (!quarters.has(q)) errs.push(`${o.id}: nincs ${q}. negyedév (0-tól számozva).`);
+    if (!c.weeks.some(w => w.level === o.level && (!o.quarters || o.quarters.includes(w.quarter))))
+      errs.push(`${o.id}: egyik hét sem illik hozzá (szint, negyedév), a megfigyelés sosem kerül elő.`);
+    for (const [who, sts] of Object.entries(o.requires ?? {})) {
+      if (who !== o.who) errs.push(`${o.id}: feltétel csak a saját lakójára vonatkozhat (${who}).`);
+      for (const st of sts ?? []) if (!STATUSES.includes(st)) errs.push(`${o.id}: ismeretlen állapot: ${st}`);
+      if (!c.residents[who as ResidentId]?.fate) errs.push(`${o.id}: a(z) ${who} lakónak elágazó története van, de nincs „fate” szövege.`);
+    }
   }
 
-  // Each week draws one observation per slot from the pool, never the same one twice in a game.
-  const need = new Map<string, number>();
+  // Weeks and quarters.
   c.weeks.forEach((w, wi) => {
-    if (w.slots.length < b.slotsPerWeek) errs.push(`${wi + 1}. hét: kevesebb megfigyelés-hely, mint mondathely.`);
-    for (const slot of w.slots) {
-      const key = `${w.level}:${slot.map(String).sort().join('/')}`;
-      need.set(key, (need.get(key) ?? 0) + 1);
-      for (const who of slot) if (who && !(who in c.residents)) errs.push(`${wi + 1}. hét: ismeretlen lakó a helyen: ${who}`);
-    }
+    const prev = wi ? c.weeks[wi - 1].quarter : 0;
+    if (w.quarter !== prev && w.quarter !== prev + 1) errs.push(`${wi + 1}. hét: a negyedévek sorban kövessék egymást.`);
+    if (w.slots.length < Math.max(...b.ranks.map(r => r.slots))) errs.push(`${wi + 1}. hét: kevesebb megfigyelés-hely, mint a legtöbb mondathely.`);
+    for (const slot of w.slots) for (const who of slot) if (who && !(who in c.residents)) errs.push(`${wi + 1}. hét: ismeretlen lakó a helyen: ${who}`);
   });
-  for (const [key, n] of need) {
-    const [lv, whos] = key.split(':');
-    const have = c.obs.filter(o => o.level === Number(lv) && whos.split('/').includes(String(o.who))).length;
-    // Several variants per slot, so the weeks differ from game to game.
-    if (have < n + 2) errs.push(`${lv}. szint, ${whos}: ${have} megfigyelés van, legalább ${n + 2} kell a változatossághoz.`);
-  }
+  const lastQ = c.weeks[c.weeks.length - 1].quarter;
+  if (c.weeks[0].quarter !== 0) errs.push('Az első hét a 0. negyedévben legyen.');
+  if (c.career.quarters.length < lastQ + 1) errs.push(`Kevés negyedévnév a career.json-ban (${c.career.quarters.length} < ${lastQ + 1}).`);
+
+  // Every slot must always find a fresh observation, whatever state the reports left the residents in:
+  // each candidate set needs one more variant than the weeks that draw from it.
+  c.weeks.forEach((w, wi) => w.slots.forEach(slot => {
+    const anyState = (x: typeof w) => new Set(candidates(c, x, slot).map(o => o.id));
+    for (const st of STATUSES) {
+      const statuses = Object.fromEntries(slot.filter(Boolean).map(id => [id, st]));
+      const mine = candidates(c, w, slot, statuses);
+      const sharing = c.weeks.filter(x => x.slots.some(sl => sl.join() === slot.join()) && mine.some(o => anyState(x).has(o.id))).length;
+      if (mine.length < sharing + 1)
+        errs.push(`${wi + 1}. hét, ${slot.map(String).join('/')}, „${st}” állapot: ${mine.length} megfigyelés, legalább ${sharing + 1} kell.`);
+    }
+  }));
+
+  // Ranks and quarterly grading.
+  if (b.ranks.length !== c.career.ranks.length) errs.push(`A rangok száma eltér: balance ${b.ranks.length}, career ${c.career.ranks.length}.`);
+  if (b.startRank < 0 || b.startRank >= b.ranks.length) errs.push('A balance.startRank nem létező rang.');
+  c.career.ranks.forEach((r, i) => {
+    if (i > 0 && !r.promo) errs.push(`A(z) ${i}. rangnak nincs előléptetési szövege.`);
+    if (i < c.career.ranks.length - 1 && !r.demo) errs.push(`A(z) ${i}. rangnak nincs lefokozási szövege.`);
+  });
+  for (const t of [c.career.stay, ...c.career.quarters, ...c.career.ranks.flatMap(r => [r.label, r.promo, r.demo]),
+    ...Object.values(c.career.grades).flatMap(g => [g.title, g.note])])
+    if (/["']/.test(t)) errs.push(`Karrier: egyenes idézőjel: ${t}`);
 
   for (const it of c.ints) {
     dup(it.id);

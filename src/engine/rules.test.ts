@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { balance, content } from '../content';
 import { validateContent } from '../content/validate';
-import { candidates, obsById, pickWeeks, weekObs } from './observations';
+import { residentStatus } from './career';
+import { obsById, weekObs } from './observations';
+import { playGame, ruthless } from './test-utils';
 import { mulberry32 } from './rng';
 import { endingKey, scoreSentence } from './rules';
 import { dispatch, newGame, type Action } from './state';
@@ -65,8 +67,8 @@ describe('game flow', () => {
     const r = mulberry32(4);
     let s = started(r);
     s.weekObs[0][1] = 'jozsi1a';
-    s.weekObs[1][1] = 'jozsi2a';
     s = run(s, [{ type: 'toggleObs', id: 'jozsi1a' }, { type: 'submit' }, { type: 'next' }], r);
+    s.weekObs[1][1] = 'jozsi2a';
     s = run(s, [{ type: 'toggleObs', id: 'jozsi2a' }, { type: 'submit' }], r);
     expect(s.last?.sents[0].note).toMatch(/Már megint a Trabant/);
   });
@@ -75,8 +77,8 @@ describe('game flow', () => {
     const r = mulberry32(4);
     let s = started(r);
     s.weekObs[0][1] = 'jozsi1c';
-    s.weekObs[1][1] = 'jozsi2a';
     s = run(s, [{ type: 'toggleObs', id: 'jozsi1c' }, { type: 'submit' }, { type: 'next' }], r);
+    s.weekObs[1][1] = 'jozsi2a';
     s = run(s, [{ type: 'toggleObs', id: 'jozsi2a' }, { type: 'submit' }], r);
     expect(s.last?.sents[0].note ?? '').not.toMatch(/Már megint/);
   });
@@ -91,32 +93,53 @@ describe('game flow', () => {
 });
 
 describe('observation pool', () => {
-  const picks = Array.from({ length: 300 }, (_, i) => pickWeeks(content, mulberry32(i + 1)));
+  const games = [
+    ...Array.from({ length: 150 }, (_, i) => playGame(i + 1)),
+    ...Array.from({ length: 150 }, (_, i) => playGame(i + 1000, ruthless)),
+  ];
+  const finalOf = (g: GameState[]) => g[g.length - 1];
 
   it('has at least 50 observations', () => {
     expect(content.obs.length).toBeGreaterThanOrEqual(50);
   });
 
-  it('fills every slot of every week with a fitting observation of the week level', () => {
-    for (const weeks of picks) content.weeks.forEach((w, wi) => {
-      expect(weeks[wi]).toHaveLength(w.slots.length);
-      w.slots.forEach((slot, si) => {
-        const o = obsById(content, weeks[wi][si])!;
-        expect(o.level).toBe(w.level);
-        expect(slot).toContain(o.who);
+  it('fills every slot of every week with an observation of the week level and quarter', () => {
+    for (const g of games) {
+      const s = finalOf(g);
+      s.weekObs.forEach((ids, wi) => {
+        const w = content.weeks[wi];
+        expect(ids).toHaveLength(w.slots.length);
+        ids.forEach((id, si) => {
+          const o = obsById(content, id)!;
+          expect(o.level).toBe(w.level);
+          expect(w.slots[si]).toContain(o.who);
+          if (o.quarters) expect(o.quarters).toContain(w.quarter);
+        });
       });
-    });
+    }
   });
 
   it('never repeats an observation within a game', () => {
-    for (const weeks of picks) expect(new Set(weeks.flat()).size).toBe(weeks.flat().length);
+    for (const g of games) {
+      const all = finalOf(g).weekObs.flat();
+      expect(new Set(all).size).toBe(all.length);
+    }
   });
 
-  it('varies from game to game, and every observation can come up', () => {
-    const seen = new Set(picks.flat(2));
-    const reachable = content.obs.filter(o => content.weeks.some(w => w.slots.some(sl => candidates(content, w.level, sl).includes(o))));
-    expect(seen.size).toBe(reachable.length);
-    expect(reachable.length).toBe(content.obs.length);
+  it('only draws a branch of a story when the resident is in that state', () => {
+    for (const g of games) for (const s of g) {
+      if (s.screen !== 'week') continue;
+      for (const o of weekObs(s, content)) {
+        const need = o.who ? o.requires?.[o.who] : undefined;
+        if (need) expect(need).toContain(residentStatus(s, o.who!));
+      }
+    }
+  });
+
+  it('lets both branches of every story come up', () => {
+    const seen = new Set(games.flatMap(g => finalOf(g).weekObs.flat()));
+    const missing = content.obs.filter(o => !seen.has(o.id)).map(o => o.id);
+    expect(missing).toEqual([]);
   });
 });
 

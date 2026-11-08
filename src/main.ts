@@ -4,9 +4,10 @@ import { dispatch, newGame, type Action } from './engine/state';
 import type { GameState } from './engine/types';
 import { showLoading } from './ui/loading';
 import { renderScreen, type View } from './ui/render';
+import { loadGame, saveGame } from './ui/save';
 
 const rng = Math.random;
-let state: GameState = newGame(content, balance, rng);
+let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
 const view: View = { dev: false };
 let lastKey = '';
 /** Set while the loading screen is up; the game is not rendered until it is gone. */
@@ -53,6 +54,7 @@ app.addEventListener('click', e => {
   const a = toAction(el);
   if (!a) return;
   state = dispatch(state, a, content, balance, rng);
+  saveGame(state);
   render();
 });
 
@@ -65,6 +67,7 @@ document.getElementById('restartBtn')!.addEventListener('click', () => {
   cancelLoading?.();
   cancelLoading = null;
   state = newGame(content, balance, rng);
+  saveGame(state);
   lastKey = '';
   render();
 });

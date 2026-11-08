@@ -1,7 +1,11 @@
 export type ResidentId = 'mari' | 'jozsi' | 'pityu' | 'porgoly';
 export type Tier = 'safe' | 'mid' | 'wild';
 export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas';
-export type Screen = 'intro' | 'week' | 'response' | 'ending';
+export type Screen = 'intro' | 'week' | 'response' | 'quarter' | 'ending';
+/** How the reports have treated a resident so far. */
+export type ResidentStatus = 'nyugodt' | 'gyanus' | 'bajban';
+/** Quarterly grade from the captain. */
+export type Grade = 'kivalo' | 'megfelelo' | 'hianyos';
 export type Hint = '' | 'slotsFull' | 'needObs' | 'intsFull';
 
 /**
@@ -17,6 +21,10 @@ export interface Observation {
   text: string;
   note?: string;
   tag?: string;
+  /** Quarters (0-based) the observation may come up in; missing = any quarter. */
+  quarters?: number[];
+  /** Only drawn while the resident is in one of these states (key = the observation's `who`). */
+  requires?: Partial<Record<ResidentId, ResidentStatus[]>>;
 }
 
 /**
@@ -26,6 +34,8 @@ export interface Observation {
 export interface Week {
   label: string;
   intro: string;
+  /** 0-based quarter; the captain grades the player at the end of each. */
+  quarter: number;
   level: number;
   slots: (ResidentId | null)[][];
 }
@@ -54,6 +64,8 @@ export interface Resident {
   surnames: ResidentName[];
   cons?: string;
   truth?: string;
+  /** Where the resident's story ends, depending on whether the reports got them in trouble. */
+  fate?: { ok: string; bajban: string };
 }
 
 export interface Ending {
@@ -164,6 +176,14 @@ export interface Recruit {
   basis: string;
 }
 
+/** Rank names and the captain's quarterly texts. Numbers live in `Balance`. */
+export interface CareerContent {
+  quarters: string[];
+  ranks: { label: string; promo: string; demo: string }[];
+  grades: Record<Grade, { title: string; note: string }>;
+  stay: string;
+}
+
 /** Texts of the satirical loading screen shown before the game. */
 export interface LoadingContent {
   office: string;
@@ -190,6 +210,7 @@ export interface Content {
   codenames: { adj: string[]; noun: string[] };
   recruit: RecruitContent;
   loading: LoadingContent;
+  career: CareerContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -201,9 +222,23 @@ export interface Meters {
 
 export interface Balance {
   start: Meters;
+  /** Base expectation per week (one entry per week of the game). */
   expect: number[];
   weight: { E: number; H: number; L: number };
-  slotsPerWeek: number;
+  /** Sentences per report and extra expectation on each rank (index = rank). */
+  ranks: { slots: number; expectBonus: number }[];
+  startRank: number;
+  quarter: {
+    /** Grade „kiváló” at or above these, „hiányos” below demoteE. */
+    promoteE: number;
+    promoteH: number;
+    demoteE: number;
+    /** E moves this far back towards start.E between quarters (0 = keep, 1 = reset). */
+    resetE: number;
+    /** The conscience and the credibility recover this much between quarters. */
+    healL: number;
+    healH: number;
+  };
   deal: Record<Tier, number>;
   consThreshold: number;
   plainFact: { hih: number; mult: number };
@@ -236,15 +271,27 @@ export interface WeekResult {
   stamp: 'Átvéve' | 'Hiányos';
 }
 
+export interface QuarterResult {
+  quarter: number;
+  grade: Grade;
+  rankBefore: number;
+  rankAfter: number;
+  before: Meters;
+  after: Meters;
+}
+
 export interface GameState {
   screen: Screen;
   week: number;
+  /** Index into `Balance.ranks` and `CareerContent.ranks`. */
+  rank: number;
+  lastQuarter: QuarterResult | null;
   meters: Meters;
   code: string;
   recruit: Recruit;
   /** Generated family names of the residents, filled into every `{id}` placeholder. */
   names: Record<ResidentId, ResidentName>;
-  /** Observation ids drawn for every week at the start of the game. */
+  /** Observation ids drawn at the start of each week so far (index = week). */
   weekObs: string[][];
   harmBy: Record<ResidentId, number>;
   cons: ResidentId[];

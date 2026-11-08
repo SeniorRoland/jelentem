@@ -9,7 +9,11 @@
       { "name": "Borsos", "why": "fűszeres, erős paprikát tesz el" }
     ],
     "cons": "{mari} Máriánál házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
-    "truth": "Mari néni kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. Minden egyéb gyanús ügye befőtt, sorban állás és pletyka volt."
+    "truth": "Mari néni kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. Minden egyéb gyanús ügye befőtt, sorban állás és pletyka volt.",
+    "fate": {
+      "ok": "Mari néni azóta minden karácsonyt Bécsben tölt, és mindig hoz egy csomag kávét a háznak. A házmesternek kettőt.",
+      "bajban": "Mari néni sosem kapott útlevelet. A kávét azóta a sógornő hozza, és a lépcsőházban suttogva főzik."
+    }
   },
   "jozsi": {
     "name": "{jozsi} József (Józsi bácsi)",
@@ -21,7 +25,11 @@
       { "name": "Bodnár", "why": "ügyes kezű ezermester" }
     ],
     "cons": "{jozsi} József Trabantjának forgalmiját „műszaki okokból” bevonták. Józsi bácsi azóta gyalog jár, és nem köszön.",
-    "truth": "Józsi bácsi hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető."
+    "truth": "Józsi bácsi hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető.",
+    "fate": {
+      "ok": "Józsi bácsi hintája ma is áll az udvaron. A Trabant nem, de az már egy másik történet.",
+      "bajban": "Józsi bácsi a hintát sosem kapta vissza. A Trabantot igen, és azóta azt szereli. Örökké."
+    }
   },
   "pityu": {
     "name": "{pityu} István (Pityu)",
@@ -33,7 +41,11 @@
       { "name": "Fürtös", "why": "fürtökben lóg a haja" }
     ],
     "cons": "{pityu} Istvánt nem engedték el az egyetemi tanulmányútra Bécsbe.",
-    "truth": "Pityu füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti Kovács lánynak."
+    "truth": "Pityu füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti Kovács lánynak.",
+    "fate": {
+      "ok": "Pityu feleségül vette a Kovács lányt. A versesfüzet bekeretezve lóg a nappalijukban.",
+      "bajban": "Pityu a leszerelése után feleségül vette a Kovács lányt. A versesfüzetet addig a lány őrizte, a párnája alatt."
+    }
   },
   "porgoly": {
     "name": "{porgoly} Lajosné, házmester",

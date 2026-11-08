@@ -1,5 +1,6 @@
+import { endQuarter, isLastWeek, isQuarterEnd, slotsFor } from './career';
 import { makeNames } from './names';
-import { pickWeeks } from './observations';
+import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
 import type { Balance, Content, GameState, Rng, Slot } from './types';
@@ -14,23 +15,25 @@ export type Action =
   | { type: 'next' }
   | { type: 'restart' };
 
-const emptySlots = (b: Balance): Slot[] => Array.from({ length: b.slotsPerWeek }, () => ({ o: null, i: null }));
+const emptySlots = (n: number): Slot[] => Array.from({ length: n }, () => ({ o: null, i: null }));
 
 export function newGame(c: Content, b: Balance, rng: Rng): GameState {
   const recruit = makeRecruit(c, rng);
   return {
     screen: 'intro',
     week: 0,
+    rank: b.startRank,
+    lastQuarter: null,
     meters: { ...b.start },
     code: randCode(c, rng),
     recruit,
     names: makeNames(c, rng, [recruit.name.split(' ')[0]]),
-    weekObs: pickWeeks(c, rng),
+    weekObs: [],
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
     cons: [],
     reported: [],
     usedInts: [],
-    slots: emptySlots(b),
+    slots: emptySlots(b.ranks[b.startRank].slots),
     dealt: [],
     last: null,
     hint: '',
@@ -38,15 +41,30 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
 }
 
 function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
-  s.slots = emptySlots(b);
+  s.weekObs[s.week] = pickWeek(s, c, rng);
+  s.slots = emptySlots(slotsFor(s, b));
   s.dealt = deal(s, c, b, rng);
   s.hint = '';
   s.screen = 'week';
 }
 
+/** Which screen each action belongs to; actions from another screen are ignored. */
+const SCREEN_OF: Record<Exclude<Action['type'], 'restart'>, GameState['screen'][]> = {
+  reroll: ['intro'], start: ['intro'],
+  toggleObs: ['week'], toggleInt: ['week'], unplace: ['week'], submit: ['week'],
+  next: ['response', 'quarter'],
+};
+
+/** What follows the captain's response: another week, a quarterly review, or the end. */
+export function nextStep(s: GameState, c: Content): 'week' | 'quarter' | 'ending' {
+  if (isLastWeek(s, c) || anyMeterZero(s.meters)) return 'ending';
+  return isQuarterEnd(s, c) ? 'quarter' : 'week';
+}
+
 /** Pure reducer: returns a new state, never mutates the input. */
 export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rng: Rng): GameState {
   if (a.type === 'restart') return newGame(c, b, rng);
+  if (!SCREEN_OF[a.type].includes(state.screen)) return state;
   const s: GameState = structuredClone(state);
 
   switch (a.type) {
@@ -82,12 +100,13 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       s.last = resolveWeek(s, c, b);
       s.screen = 'response';
       break;
-    case 'next':
-      if (s.week < c.weeks.length - 1 && !anyMeterZero(s.meters)) {
-        s.week++;
-        startWeek(s, c, b, rng);
-      } else s.screen = 'ending';
+    case 'next': {
+      const step = s.screen === 'quarter' ? 'week' : nextStep(s, c);
+      if (step === 'ending') s.screen = 'ending';
+      else if (step === 'quarter') { s.lastQuarter = endQuarter(s, c, b); s.screen = 'quarter'; }
+      else { s.week++; startWeek(s, c, b, rng); }
       break;
+    }
   }
   return s;
 }

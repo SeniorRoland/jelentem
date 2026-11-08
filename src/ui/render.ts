@@ -1,8 +1,10 @@
+import { quarterOf, residentStatus, weekInQuarter } from '../engine/career';
 import { fillNames } from '../engine/names';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
-import { anyMeterZero, endingKey } from '../engine/rules';
-import type { Balance, Content, GameState, Hint, Meters } from '../engine/types';
+import { endingKey } from '../engine/rules';
+import { nextStep } from '../engine/state';
+import type { Balance, Content, GameState, Hint, Meters, ResidentId, ResidentStatus } from '../engine/types';
 
 export interface View {
   dev: boolean;
@@ -10,10 +12,13 @@ export interface View {
 
 const HINTS: Record<Hint, string> = {
   '': 'Koppints egy cetlire, és bekerül a jelentésbe. A jelentésben lévő szövegre koppintva kiveheted.',
-  slotsFull: 'Mindkét mondat megvan. Vegyél ki egy megfigyelést, ha cserélnél.',
+  slotsFull: 'Minden mondathely betelt. Vegyél ki egy megfigyelést, ha cserélnél.',
   needObs: 'Előbb válassz egy megfigyelést, amihez az értelmezés tartozik.',
-  intsFull: 'Mindkét mondatnak van már értelmezése. Vegyél ki egyet, ha cserélnél.',
+  intsFull: 'Minden mondatnak van már értelmezése. Vegyél ki egyet, ha cserélnél.',
 };
+
+const STATUS_LABEL: Record<ResidentStatus, string> = { nyugodt: 'nyugodt', gyanus: 'szóba került', bajban: 'bajban' };
+const STORY: ResidentId[] = ['mari', 'jozsi', 'pityu'];
 
 export const bar = (v: number) => { const n = Math.round(v / 10); return '█'.repeat(n) + '░'.repeat(10 - n); };
 const level = (v: number) => (v >= 70 ? 'magas' : v >= 40 ? 'közepes' : v >= 20 ? 'alacsony' : 'kritikus');
@@ -71,6 +76,8 @@ function intro(s: GameState, c: Content, v: View): string {
   <h2>Hogyan működik</h2>
   <p>Minden héten megfigyeléseket kapsz a házból. A jelentésed két mondatból áll: válassz egy megfigyelést, majd tegyél mellé egy értelmezést.</p>
   <p>A százados izgalmas jelentést vár, és hétről hétre többet. Ha viszont túlzol, elveszíted a hihetőségedet, és ha valakire terhelő dolgot írsz, annak baja lesz. A legjobb besúgó sokat ír, és semmit sem mond.</p>
+  <p>Az év négy negyedévből áll, mindegyik három hétből. A negyedév végén a százados értékel: a kiváló munkáért előléptetés jár, ami több mondatot és nagyobb elvárást jelent, a hiányosért lefokozás. A lakók élete közben megy tovább, és hogy merre, az a jelentéseiden múlik.</p>
+  <p class="fine">A játék minden lépés után mentődik ebben a böngészőben.</p>
   <div class="actions"><button class="btn" data-action="start">Munkába állok</button></div>
   <p class="fine">Ez egy szatirikus játék. A szereplők, a ház, a város és a százados kitaláltak.</p>
   </article>`;
@@ -101,9 +108,10 @@ function week(s: GameState, c: Content, v: View): string {
   }).join('');
 
   return `<article class="sheet">${head(s)}
-  <h1 id="t" tabindex="-1">Jelentés, ${s.week + 1}. hét</h1>
+  <h1 id="t" tabindex="-1">Jelentés, ${weekInQuarter(s, c)}. hét</h1>
   <p class="meta">Fedőnév: ${s.code}</p>
-  <p class="meta">Időszak: ${w.label}</p>
+  <p class="meta">Időszak: ${w.label} (${c.career.quarters[w.quarter]})</p>
+  <p class="meta">Besorolás: ${c.career.ranks[s.rank].label}</p>
   <p class="meta">Tárgy: a Bem utca 12. lakói</p>
   ${meters(s.meters, null, v)}
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
@@ -126,10 +134,12 @@ function response(s: GameState, c: Content, v: View): string {
   const news = r.newCons.length
     ? `<h2>Hírek a házból</h2><div class="news">${r.newCons.map(k => `<p>${c.residents[k].cons}</p>`).join('')}</div>`
     : '';
-  const last = s.week >= c.weeks.length - 1 || anyMeterZero(s.meters);
+  const step = nextStep(s, c);
+  const label = step === 'week' ? 'Következő hét' : step === 'quarter' ? 'Negyedéves értékelés'
+    : s.week >= c.weeks.length - 1 ? 'Éves értékelés' : 'Az ügy lezárása';
   return `<article class="sheet">${head(s)}
   <div class="stamp" aria-hidden="true">${r.stamp}</div>
-  <h1 id="t" tabindex="-1">Visszaküldve, ${s.week + 1}. hét</h1>
+  <h1 id="t" tabindex="-1">Visszaküldve, ${weekInQuarter(s, c)}. hét</h1>
   <p class="lede">Vágási százados megjegyzéseivel. Pecsét: ${r.stamp.toLowerCase()}.</p>
   <div class="report">${body}</div>
   <span class="note big">${r.overall}</span>
@@ -138,7 +148,33 @@ function response(s: GameState, c: Content, v: View): string {
   ${news}
   <h2>Állásod</h2>
   ${meters(s.meters, r.before, v)}
-  <div class="actions"><button class="btn" data-action="next">${last ? 'Negyedéves értékelés' : 'Következő hét'}</button></div>
+  <div class="actions"><button class="btn" data-action="next">${label}</button></div>
+  </article>`;
+}
+
+/** The captain's quarterly review: grade, promotion or demotion, and how the house stands. */
+function quarter(s: GameState, c: Content, b: Balance, v: View): string {
+  const q = s.lastQuarter!;
+  const g = c.career.grades[q.grade];
+  const ranks = c.career.ranks;
+  const change = q.rankAfter > q.rankBefore ? ranks[q.rankAfter].promo
+    : q.rankAfter < q.rankBefore ? ranks[q.rankAfter].demo : c.career.stay;
+  const house = STORY.map(k => `<li>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}</li>`).join('');
+  return `<article class="sheet">${head(s)}
+  <div class="stamp" aria-hidden="true">${g.title}</div>
+  <h1 id="t" tabindex="-1">Negyedéves értékelés</h1>
+  <p class="lede">${c.career.quarters[q.quarter]}. Minősítés: ${g.title.toLowerCase()}.</p>
+  <span class="note big">${g.note}</span>
+  <span class="sig">V. szds.</span>
+  <h2>Besorolás</h2>
+  <p><strong>${ranks[q.rankAfter].label}</strong></p>
+  <p>${change}</p>
+  <p class="meta">Jelentésenként ${b.ranks[q.rankAfter].slots} mondat.</p>
+  <h2>A ház a negyedév végén</h2>
+  <ul class="house">${house}</ul>
+  <h2>Állásod a következő negyedév elején</h2>
+  ${meters(q.after, q.before, v)}
+  <div class="actions"><button class="btn" data-action="next">Következő negyedév</button></div>
   </article>`;
 }
 
@@ -147,10 +183,15 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   const cons = s.cons.length
     ? `<h2>Ami a jelentéseid nyomán történt</h2><div class="news">${s.cons.map(k => `<p>${c.residents[k].cons}</p>`).join('')}</div>`
     : '';
-  const truths = (['mari', 'jozsi', 'pityu'] as const).map(k => `<p>${c.residents[k].truth}</p>`).join('');
+  const truths = STORY.map(k => {
+    const r = c.residents[k];
+    const fate = r.fate ? ` ${r.fate[s.cons.includes(k) ? 'bajban' : 'ok']}` : '';
+    return `<p>${r.truth}${fate}</p>`;
+  }).join('');
   return `<article class="sheet">${head(s)}
   <h1 id="t" tabindex="-1">${e.title}</h1>
   <p>${e.text}</p>
+  <p class="meta">Végső besorolásod: ${c.career.ranks[s.rank].label} (${c.career.quarters[quarterOf(s, c)]})</p>
   ${meters(s.meters, null, v)}
   ${cons}
   <h2>Ami valójában történt</h2>
@@ -167,6 +208,7 @@ function screen(s: GameState, c: Content, b: Balance, v: View): string {
     case 'intro': return intro(s, c, v);
     case 'week': return week(s, c, v);
     case 'response': return response(s, c, v);
+    case 'quarter': return quarter(s, c, b, v);
     case 'ending': return ending(s, c, b, v);
   }
 }

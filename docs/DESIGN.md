@@ -21,6 +21,25 @@ A nyitóképernyőn a játékos saját, véletlenszerűen generált kartonja lá
 
 **Nyitott kérdés:** a kategória később befolyásolhatja, mit vár a százados (pl. egy kompromittált ügynöktől többet és gyanakvóbban). A `Recruit.categoryId` már az állapotban van, de a motor egyelőre nem használja.
 
+## Év, negyedévek, rangok
+
+A játék 1979 egy éve: négy negyedév, mindegyik három hétből (március, június, szeptember, december). A negyedév végén negyedéves értékelés jön (`career.json`, `career.ts`):
+
+- **Minősítés:** kiváló (a százados elégedett és a hihetőség jó), megfelelő vagy hiányos (a százados elégedetlen).
+- **Rang:** passzív állomány → kezdő → megbízható → kiemelt hálózati személy → rezidensjelölt. Kiválóért előléptetés, hiányosért lefokozás jár. Az előléptetés büntetés is: magasabb elvárás, a kiemelt szinttől három mondatos jelentés. A jutalom szatirikus (100 forint és egy doboz cigaretta).
+- **Átmenet:** a százados hangulata részben visszaáll, a lelkiismeret és a hihetőség kicsit helyreáll.
+- **A ház állapota:** az értékelés lakónként kiírja, hogy nyugodt, szóba került vagy bajban van.
+
+## Lakói történetek
+
+Minden negyedév harmadik hetén lakónként egy történet-megfigyelés jön (`observations.json` → `quarters`, `requires`). Az első negyedévben a titok bukkan fel, utána a történet két ágon folytatódik, attól függően, hogy a lakót érte-e már következmény:
+
+- **Mari néni:** a bécsi sógornő látogatása, útlevélkérelem, karácsonyi kávé. Bajban: suttogva vásárol, elutasított útlevél, cetli nélküli befőtt.
+- **Józsi bácsi:** a hinta elkészül, a gyerekeknek is épít egyet, végül beindul a Trabant. Bajban: gyalog hordja a gerendákat, elkobzott hinta, magas kerítés.
+- **Pityu:** verses est a Kovács lánynak, gitár, eljegyzés. Bajban: katonai behívó, levelek a laktanyából, leszerelés.
+
+A befejezésben a „Ami valójában történt” rész a titok mellett a lakó sorsát is elmondja (`residents.json` → `fate`). A játék minden lépés után mentődik (localStorage).
+
 ## Mérők
 
 - **A százados elégedettsége (E):** az elvárás alatti izgalom csökkenti. Nullán: behívatás.
@@ -54,9 +73,9 @@ Minden befejezés után jön a 2026. november 4-i epilógus: a játékos megnéz
 
 ## Következő lépések
 
-1. **Kiegyensúlyozás.** Az első kör kész (az óvatos értelmezések már nem nullázzák az ártalmat, magasabb elvárás, alacsonyabb következmény-küszöb; a véletlen játékos 14%-ban éri el a legjobb véget, lásd `CLAUDE.md`). Ha több hét lesz, újra kell hangolni; további ötlet, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
-2. **Mentés** localStorage-ba (try/catch-csel, üres tárolóval is működjön).
-3. **Több hét (12–15)**, a lakók titkainak fokozatos kibontásával. A megfigyelés-készlet már szintekre bontott, új hethez csak `weeks.json`-bejegyzés és az adott szint változatai kellenek: a titok egy ponton megfigyelésként is felbukkan, és el kell dönteni, beírja-e a játékos.
+1. **Kiegyensúlyozás.** A négy negyedévre újrahangolva (lásd `CLAUDE.md`). Nyitott: a rezidensjelölt szint még csak több mondatot és magasabb elvárást jelent; a „másik besúgó jelentésének szerkesztése” még nincs meg. További ötlet, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+2. **Mentés** – kész: minden lépés után localStorage-ba.
+3. **Több hét** – kész: négy negyedév, 12 hét, elágazó lakói történetekkel. Új hethez `weeks.json`-bejegyzés és az adott szint (és negyedév) változatai kellenek; a validátor szól, ha valamelyik helyre kevés jut.
 4. **Kiemelt feladatok:** a százados konkrét célpontot jelöl ki („Derítse ki, ki hallgat Szabad Európát!”), és ilyenkor el kell terelni a gyanút.
 5. **Véletlen események:** pl. a szomszéd megkínál pogácsával, ami a következő terhelő mondatnál extra lelkiismeret-büntetést ad.
 6. **Megosztható akta:** a befejezés után egy kép vagy link a saját „aktáról”, a legviccesebb jelentéssel.
