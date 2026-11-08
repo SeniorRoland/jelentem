@@ -17,7 +17,7 @@ Minden változtatás után futtasd: `npm run validate && npm test && npm run bui
 Három réteg, szigorúan elválasztva:
 
 - `src/engine/` – a játékszabályok. Tiszta TypeScript, DOM nélkül. A `state.ts`-ben lévő `dispatch()` egy tiszta reducer: soha nem módosítja a bemenő állapotot (ezt teszt ellenőrzi). A véletlenszám-forrás (`Rng`) mindig paraméterként érkezik, a tesztek és a szimuláció a `mulberry32` seedelt generátort használják.
-- `src/content/` – minden szöveg és szám JSON-ban: hetek és megfigyelések (`weeks.json`), értelmezés-kártyák (`interpretations.json`), lakók, befejezések, százados-jegyzetek, fedőnevek, a beszervezési karton adatai (`recruit.json`), és a kiegyensúlyozási paraméterek (`balance.json`). A `validate.ts` ellenőrzi a konzisztenciát.
+- `src/content/` – minden szöveg és szám JSON-ban: hetek (`weeks.json`: szint és megfigyelés-helyek), a megfigyelés-készlet (`observations.json`, 60 db), értelmezés-kártyák (`interpretations.json`, 40 db), lakók, befejezések, százados-jegyzetek, fedőnevek, a beszervezési karton adatai (`recruit.json`), és a kiegyensúlyozási paraméterek (`balance.json`). A `validate.ts` ellenőrzi a konzisztenciát.
 - `src/ui/` – HTML-sablonokat előállító függvények (`render.ts`), a `src/main.ts` köti össze az eseményekkel. Az UI csak olvassa az állapotot, a változtatás mindig `dispatch()`-on keresztül megy.
 
 Új szabályt a motorba írj, tesztet hozzá a `src/engine/*.test.ts`-be. Új tartalomhoz ne nyúlj a kódhoz, csak a JSON-hoz.
@@ -36,6 +36,7 @@ Három réteg, szigorúan elválasztva:
 - **Csak kitalált szereplők, helyszínek és intézményi alakok.** Valós, élő vagy elhunyt személyt soha ne nevezz meg besúgóként, tartótisztként vagy megfigyeltként, még viccként sem. Valós intézménynév (BM III/III., DÉDÁSZ, Szabad Európa Rádió) korfestésként használható.
 - Magyar tipográfia: idézőjel „ ”, gondolatjel –, három pont …. Egyenes idézőjelet a validátor elutasít.
 - A lakók vezetékneve generált: a szövegekben `{mari}`, `{jozsi}`, `{pityu}`, `{porgoly}` helyettesítő áll (pl. „{mari} Máriánál”), soha ne írj be fix vezetéknevet. A ragot a keresztnév kapja, ne a helyettesítő. A behelyettesítés a `renderScreen()`-ben történik, az ismeretlen helyettesítőt a validátor jelzi.
+- Új megfigyelésnél a `level` a hét szintje (1–3: egyre izgalmasabb és terhelőbb), a 3. szint a lakó titkára utal. Az azonos `tag`-ű megfigyelések ismételt jelentésekor a `notes.json` → `repeat` jegyzete jön. Szintenként és helyenként legalább 3 változat kell (a validátor ellenőrzi).
 - A megfigyelés és az értelmezés szövege ne végződjön ponttal (a motor rakja össze: `megfigyelés, értelmezés.`). Az értelmezés vesszővel kapcsolódik, ezért „ami…”, „amelynek…”, „és…” kezdetű legyen.
 - Betűtípus: Courier Prime (gépelt szöveg) és Caveat (a százados kézírása). Új betűtípus csak akkor, ha ellenőrzötten tartalmazza az ő, ű, Ő, Ű betűket.
 

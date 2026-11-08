@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { balance, content } from '../content';
 import { renderScreen } from '../ui/render';
 import { fillNames, makeNames } from './names';
+import { weekObs } from './observations';
 import { mulberry32 } from './rng';
 import { dispatch, newGame, type Action } from './state';
 import type { GameState, ResidentId } from './types';
@@ -49,10 +50,10 @@ describe('rendered screens', () => {
     const seen: string[] = [renderScreen(s, content, balance, { dev: true })];
     s = d(s, { type: 'start' });
     while (s.screen !== 'ending') {
-      const w = content.weeks[s.week];
-      s = d(s, { type: 'toggleObs', id: w.obs[0].id });
+      const w = weekObs(s, content);
+      s = d(s, { type: 'toggleObs', id: w[0].id });
       s = d(s, { type: 'toggleInt', id: s.dealt[0] });
-      s = d(s, { type: 'toggleObs', id: w.obs[2].id });
+      s = d(s, { type: 'toggleObs', id: w[2].id });
       seen.push(renderScreen(s, content, balance, { dev: true }));
       s = d(s, { type: 'submit' });
       seen.push(renderScreen(s, content, balance, { dev: true }));

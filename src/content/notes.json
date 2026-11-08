@@ -7,9 +7,16 @@
   "fantasy": "Ne fantáziáljon, elvtárs. Az ilyen tehetségre a Filmgyárban van szükség.",
   "repeat": [
     {
-      "obs": "w2b",
-      "ifReported": "w1b",
-      "note": "Két hete írja, hogy a Trabantot szereli. Ennyi ideig nem lehet egy Trabantot szerelni. Vagy lehet?"
+      "tag": "trabant",
+      "note": "Már megint a Trabant. Ennyi ideig nem lehet egy Trabantot szerelni. Vagy lehet?"
+    },
+    {
+      "tag": "becs",
+      "note": "Már megint Bécs. Kérjük a sógornő teljes nevét, címét és a cipőméretét."
+    },
+    {
+      "tag": "gepeles",
+      "note": "Írógép, indigó, éjszaka. Elvtárs, ez már minta, nem véletlen."
     }
   ]
 }

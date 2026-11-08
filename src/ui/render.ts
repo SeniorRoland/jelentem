@@ -1,4 +1,5 @@
 import { fillNames } from '../engine/names';
+import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { anyMeterZero, endingKey } from '../engine/rules';
 import type { Balance, Content, GameState, Hint, Meters } from '../engine/types';
@@ -77,12 +78,13 @@ function intro(s: GameState, c: Content, v: View): string {
 
 function week(s: GameState, c: Content, v: View): string {
   const w = c.weeks[s.week];
-  const obs = (id: string) => w.obs.find(x => x.id === id)!;
+  const pool = weekObs(s, c);
+  const obs = (id: string) => pool.find(x => x.id === id)!;
   const int = (id: string) => c.ints.find(x => x.id === id)!;
   const placedO = new Set(s.slots.map(x => x.o).filter(Boolean));
   const placedI = new Set(s.slots.map(x => x.i).filter(Boolean));
 
-  const obsSlips = w.obs.map(o => `<button class="slip" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${o.who ? c.residents[o.who].name : 'Közös terület'}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
+  const obsSlips = pool.map(o => `<button class="slip" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${o.who ? c.residents[o.who].name : 'Közös terület'}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
   const intSlips = s.dealt.map(id => {
     const it = int(id);
     return `<button class="slip" data-action="toggleInt" data-id="${id}" aria-pressed="${placedI.has(id)}">…, ${it.text}.${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;

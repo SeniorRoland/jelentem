@@ -25,8 +25,8 @@ A nyitóképernyőn a játékos saját, véletlenszerűen generált kartonja lá
 
 ## Egy hét menete
 
-1. **Megfigyelés:** négy eseménykártya a házból.
-2. **Jelentésírás:** két mondat, mindegyik egy megfigyelés és egy választható értelmezés. Hat értelmezés kerül kézbe (két óvatos, két közepes, két vad).
+1. **Megfigyelés:** négy eseménykártya a házból, a 60 darabos készletből sorsolva: egy-egy Mari nénire, Józsi bácsira és Pityura, a negyedik a házmesterre vagy a közös területre. A hét szintje (1–3) dönti el, mennyire izgalmas és terhelő; a harmadik héten minden változat a lakó titkára utal (kávé Bécsből, hinta, gépelt versek). Egy játékban egy megfigyelés csak egyszer jöhet. Ha ugyanaz a téma (Trabant, Bécs, gépelés) másodszor is bekerül a jelentésbe, a százados külön megjegyzést ír.
+2. **Jelentésírás:** két mondat, mindegyik egy megfigyelés és egy választható értelmezés. Hat értelmezés kerül kézbe a 40 darabos pakliból (két óvatos, két közepes, két vad), a még nem használtak előnyben.
 3. **A százados válasza:** kék tintás margójegyzetek, összesítő megjegyzés, pecsét („Átvéve” vagy „Hiányos”), és ha valakire túl sok ártalom gyűlt, hír a házból.
 
 ## Szereplők (mind kitalált)
@@ -52,7 +52,7 @@ Minden befejezés után jön a 2026. november 4-i epilógus: a játékos megnéz
 
 1. **Kiegyensúlyozás.** Az első kör kész (az óvatos értelmezések már nem nullázzák az ártalmat, magasabb elvárás, alacsonyabb következmény-küszöb; a véletlen játékos 14%-ban éri el a legjobb véget, lásd `CLAUDE.md`). Ha több hét lesz, újra kell hangolni; további ötlet, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
 2. **Mentés** localStorage-ba (try/catch-csel, üres tárolóval is működjön).
-3. **Több hét (12–15)**, a lakók titkainak fokozatos kibontásával: a titok egy ponton megfigyelésként is felbukkan, és el kell dönteni, beírja-e a játékos.
+3. **Több hét (12–15)**, a lakók titkainak fokozatos kibontásával. A megfigyelés-készlet már szintekre bontott, új hethez csak `weeks.json`-bejegyzés és az adott szint változatai kellenek: a titok egy ponton megfigyelésként is felbukkan, és el kell dönteni, beírja-e a játékos.
 4. **Kiemelt feladatok:** a százados konkrét célpontot jelöl ki („Derítse ki, ki hallgat Szabad Európát!”), és ilyenkor el kell terelni a gyanút.
 5. **Véletlen események:** pl. a szomszéd megkínál pogácsával, ami a következő terhelő mondatnál extra lelkiismeret-büntetést ad.
 6. **Megosztható akta:** a befejezés után egy kép vagy link a saját „aktáról”, a legviccesebb jelentéssel.

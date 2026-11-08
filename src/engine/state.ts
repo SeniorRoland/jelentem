@@ -1,4 +1,5 @@
 import { makeNames } from './names';
+import { pickWeeks } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
 import type { Balance, Content, GameState, Rng, Slot } from './types';
@@ -24,6 +25,7 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     code: randCode(c, rng),
     recruit,
     names: makeNames(c, rng, [recruit.name.split(' ')[0]]),
+    weekObs: pickWeeks(c, rng),
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
     cons: [],
     reported: [],

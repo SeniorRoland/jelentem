@@ -4,20 +4,30 @@ export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas';
 export type Screen = 'intro' | 'week' | 'response' | 'ending';
 export type Hint = '' | 'slotsFull' | 'needObs' | 'intsFull';
 
-/** One thing the player saw in the house this week. `izg` = excitement, `art` = harm potential. */
+/**
+ * One thing the player saw in the house. `izg` = excitement, `art` = harm potential.
+ * `level` matches `Week.level`; observations sharing a `tag` can trigger a repeat note.
+ */
 export interface Observation {
   id: string;
   who: ResidentId | null;
+  level: number;
   izg: number;
   art: number;
   text: string;
   note?: string;
+  tag?: string;
 }
 
+/**
+ * A week draws one observation per slot from the pool, at the week's `level`.
+ * Each slot lists who the observation may be about (`null` = common area).
+ */
 export interface Week {
   label: string;
   intro: string;
-  obs: Observation[];
+  level: number;
+  slots: (ResidentId | null)[][];
 }
 
 /** A bureaucratic spin appended to an observation. `hih` = credibility change, `mult` = harm multiplier. */
@@ -58,7 +68,8 @@ export interface Notes {
   good: string;
   great: string;
   fantasy: string;
-  repeat: { obs: string; ifReported: string; note: string }[];
+  /** Fires when an observation is reported whose `tag` was already reported before. */
+  repeat: { tag: string; note: string }[];
 }
 
 export type Sex = 'm' | 'f';
@@ -155,6 +166,7 @@ export interface Recruit {
 
 export interface Content {
   weeks: Week[];
+  obs: Observation[];
   ints: Interpretation[];
   residents: Record<ResidentId, Resident>;
   endings: Record<EndingKey, Ending>;
@@ -215,6 +227,8 @@ export interface GameState {
   recruit: Recruit;
   /** Generated family names of the residents, filled into every `{id}` placeholder. */
   names: Record<ResidentId, ResidentName>;
+  /** Observation ids drawn for every week at the start of the game. */
+  weekObs: string[][];
   harmBy: Record<ResidentId, number>;
   cons: ResidentId[];
   reported: string[];

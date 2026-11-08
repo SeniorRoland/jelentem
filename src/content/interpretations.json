@@ -50,6 +50,74 @@
     "note": "A macskát nem tudjuk kihallgatni. Egyelőre."
   },
   {
+    "id": "s7",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami a hivatalos statisztikák szerint is teljesen átlagos jelenség"
+  },
+  {
+    "id": "s8",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 1,
+    "mult": 0.4,
+    "text": "és közben többször dicsérte a helyi járatú autóbusz pontosságát",
+    "note": "A buszok nem pontosak. Ez provokáció."
+  },
+  {
+    "id": "s9",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 3,
+    "mult": 0.4,
+    "text": "és ezt követően hazament, ahol a megfigyelés idején elaludt",
+    "note": "Részletesebben. Mennyit horkolt?"
+  },
+  {
+    "id": "s10",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami a dolgozó ember jól megérdemelt pihenéséhez tartozik"
+  },
+  {
+    "id": "s11",
+    "tier": "safe",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0.4,
+    "text": "amelynek hátterét a jövő héten tovább kívánom vizsgálni",
+    "note": "Mindig a jövő héten."
+  },
+  {
+    "id": "s12",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "amivel kapcsolatban alulírottnak egyéb mondanivalója nincs"
+  },
+  {
+    "id": "s13",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami a Hazafias Népfront ajánlásaival összhangban áll"
+  },
+  {
+    "id": "s14",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 1,
+    "mult": 0.4,
+    "text": "amit a lépcsőházi világítás hiánya miatt csak részben láttam",
+    "note": "Kérjen zseblámpát. Elemet nem tudunk adni."
+  },
+  {
     "id": "m1",
     "tier": "mid",
     "izg": 3,
@@ -99,6 +167,71 @@
     "note": "Megkínálta? Mivel? Tételesen!"
   },
   {
+    "id": "m7",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.6,
+    "text": "ami a szocialista munkaerkölcs lazulására utal"
+  },
+  {
+    "id": "m8",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 1,
+    "mult": 0.5,
+    "text": "amit a lakóközösség több tagja is szóvá tett, de név szerint egyik sem"
+  },
+  {
+    "id": "m9",
+    "tier": "mid",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.8,
+    "text": "ami egy jól értesült külföldi rokonra enged következtetni"
+  },
+  {
+    "id": "m10",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.6,
+    "text": "ami a kispolgári felhalmozás veszélyes példája"
+  },
+  {
+    "id": "m11",
+    "tier": "mid",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.7,
+    "text": "és közben kerülte a szemkontaktust, ami a rossz lelkiismeret ismert tünete"
+  },
+  {
+    "id": "m12",
+    "tier": "mid",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0.5,
+    "text": "ami miatt a ház hangulata érezhetően romlott"
+  },
+  {
+    "id": "m13",
+    "tier": "mid",
+    "izg": 4,
+    "hih": 0,
+    "mult": 0.8,
+    "text": "ami a fogyasztói társadalom csábításának engedő magatartás"
+  },
+  {
+    "id": "m14",
+    "tier": "mid",
+    "izg": 5,
+    "hih": -2,
+    "mult": 0.7,
+    "text": "és alulírott közeledtére hirtelen az időjárásról kezdett beszélni",
+    "note": "Az időjárás a legrégebbi fedőtéma."
+  },
+  {
     "id": "x1",
     "tier": "wild",
     "izg": 8,
@@ -140,5 +273,66 @@
     "mult": 1.2,
     "text": "és ennek során többször a nyugati határ irányába tekintett",
     "note": "Melyik irányban van innen a nyugati határ? Ellenőrizze."
+  },
+  {
+    "id": "x6",
+    "tier": "wild",
+    "izg": 8,
+    "hih": -7,
+    "mult": 1.6,
+    "text": "ami egy nyugatnémet hírszerző hálózat alsóbürokráci kirendeltségére utal",
+    "note": "Kirendeltség? Akkor nekik is van ügyiratszámuk?"
+  },
+  {
+    "id": "x7",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -6,
+    "mult": 1.5,
+    "text": "és mindez a május elsejei felvonulás megzavarására irányul",
+    "note": "A felvonulást nem lehet megzavarni. Kipróbáltuk."
+  },
+  {
+    "id": "x8",
+    "tier": "wild",
+    "izg": 9,
+    "hih": -10,
+    "mult": 2,
+    "text": "ami alapján a célszemély a Pentagon alsóbürokráci ügyekért felelős tanácsadója lehet",
+    "note": "A Pentagonnak nincsenek alsóbürokráci ügyei. Még."
+  },
+  {
+    "id": "x9",
+    "tier": "wild",
+    "izg": 6,
+    "hih": -4,
+    "mult": 1.2,
+    "text": "ami a népi demokrácia alapjainak tudatos aláásása, csavaronként"
+  },
+  {
+    "id": "x10",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -5,
+    "mult": 1.8,
+    "text": "és a gyanú szerint mindezt kettős ügynökként, a házmester tudta nélkül teszi",
+    "note": "A házmester tudta nélkül semmi nem történik. Ez a házmester lényege."
+  },
+  {
+    "id": "x11",
+    "tier": "wild",
+    "izg": 8,
+    "hih": -8,
+    "mult": 1.5,
+    "text": "ami egyértelműen a Habsburg-restauráció előkészítése",
+    "note": "1979-ben? Elvtárs, ez még nekünk is túl régi."
+  },
+  {
+    "id": "x12",
+    "tier": "wild",
+    "izg": 6,
+    "hih": -5,
+    "mult": 1.4,
+    "text": "és ezzel a Varsói Szerződés déli szárnyát gyengíti"
   }
 ]

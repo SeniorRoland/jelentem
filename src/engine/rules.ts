@@ -1,3 +1,4 @@
+import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
@@ -22,7 +23,8 @@ export function scoreSentence(o: Observation, it: Interpretation | null, b: Bala
 
 /** Margin note next to a sentence. Repeat notes win, then interpretation, then observation. */
 export function pickNote(o: Observation, it: Interpretation | null, reported: string[], c: Content): string | null {
-  const rep = c.notes.repeat.find(r => r.obs === o.id && reported.includes(r.ifReported));
+  const again = o.tag && reported.some(id => id !== o.id && obsById(c, id)?.tag === o.tag);
+  const rep = again ? c.notes.repeat.find(r => r.tag === o.tag) : undefined;
   if (rep) return rep.note;
   return it?.note ?? o.note ?? null;
 }
@@ -50,14 +52,14 @@ export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
 
 /** Apply the current report to the state. Mutates `s` (callers pass a clone). */
 export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
-  const week = c.weeks[s.week];
+  const week = weekObs(s, c);
   const before: Meters = { ...s.meters };
   let izgSum = 0, hihSum = 0, harmSum = 0;
   const sents: SentenceResult[] = [];
 
   for (const sl of s.slots) {
     if (!sl.o) continue;
-    const o = week.obs.find(x => x.id === sl.o)!;
+    const o = week.find(x => x.id === sl.o)!;
     const it = sl.i ? c.ints.find(x => x.id === sl.i)! : null;
     const sc = scoreSentence(o, it, b);
     sents.push({

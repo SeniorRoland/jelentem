@@ -5,6 +5,7 @@
  *   npm run sim -- 10000
  */
 import { balance, content } from '../src/content';
+import { weekObs } from '../src/engine/observations';
 import { mulberry32 } from '../src/engine/rng';
 import { endingKey, scoreSentence } from '../src/engine/rules';
 import { dispatch, newGame, type Action } from '../src/engine/state';
@@ -14,7 +15,7 @@ type Plan = { o: string; i: string | null }[];
 type Strategy = (s: GameState, rng: Rng) => Plan;
 
 const N = Number(process.argv[2] ?? 2000);
-const obsOf = (s: GameState) => content.weeks[s.week].obs;
+const obsOf = (s: GameState) => weekObs(s, content);
 const intOf = (id: string) => content.ints.find(x => x.id === id)!;
 
 /** Every legal report: up to two sentences, each with an optional interpretation. */

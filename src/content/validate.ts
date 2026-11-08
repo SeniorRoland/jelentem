@@ -10,20 +10,37 @@ export function validateContent(c: Content, b: Balance): string[] {
   if (c.weeks.length !== b.expect.length)
     errs.push(`A hetek száma (${c.weeks.length}) nem egyezik a balance.expect hosszával (${b.expect.length}).`);
 
+  for (const o of c.obs) {
+    dup(o.id);
+    if (o.who && !(o.who in c.residents)) errs.push(`${o.id}: ismeretlen lakó: ${o.who}`);
+    if (o.who && !o.text.includes(`{${o.who}}`)) errs.push(`${o.id}: a szövegben nincs {${o.who}} helyettesítő.`);
+    if (/["']/.test(o.text + (o.note ?? ''))) errs.push(`${o.id}: egyenes idézőjel a szövegben, használj „ ” jeleket.`);
+    if (/\.”?$/.test(o.text)) errs.push(`${o.id}: a megfigyelés ne végződjön ponttal, a motor tesz utána pontot.`);
+    if (!c.weeks.some(w => w.level === o.level)) errs.push(`${o.id}: egyik hét sem ${o.level}. szintű, a megfigyelés sosem kerül elő.`);
+  }
+
+  // Each week draws one observation per slot from the pool, never the same one twice in a game.
+  const need = new Map<string, number>();
   c.weeks.forEach((w, wi) => {
-    if (w.obs.length < b.slotsPerWeek) errs.push(`${wi + 1}. hét: kevesebb megfigyelés, mint mondathely.`);
-    for (const o of w.obs) {
-      dup(o.id);
-      if (o.who && !(o.who in c.residents)) errs.push(`${o.id}: ismeretlen lakó: ${o.who}`);
-      if (/["']/.test(o.text)) errs.push(`${o.id}: egyenes idézőjel a szövegben, használj „ ” jeleket.`);
-      if (o.text.endsWith('.')) errs.push(`${o.id}: a megfigyelés ne végződjön ponttal, a motor teszi hozzá.`);
+    if (w.slots.length < b.slotsPerWeek) errs.push(`${wi + 1}. hét: kevesebb megfigyelés-hely, mint mondathely.`);
+    for (const slot of w.slots) {
+      const key = `${w.level}:${slot.map(String).sort().join('/')}`;
+      need.set(key, (need.get(key) ?? 0) + 1);
+      for (const who of slot) if (who && !(who in c.residents)) errs.push(`${wi + 1}. hét: ismeretlen lakó a helyen: ${who}`);
     }
   });
+  for (const [key, n] of need) {
+    const [lv, whos] = key.split(':');
+    const have = c.obs.filter(o => o.level === Number(lv) && whos.split('/').includes(String(o.who))).length;
+    // Several variants per slot, so the weeks differ from game to game.
+    if (have < n + 2) errs.push(`${lv}. szint, ${whos}: ${have} megfigyelés van, legalább ${n + 2} kell a változatossághoz.`);
+  }
 
   for (const it of c.ints) {
     dup(it.id);
     if (/["']/.test(it.text)) errs.push(`${it.id}: egyenes idézőjel a szövegben.`);
     if (it.text.endsWith('.')) errs.push(`${it.id}: az értelmezés ne végződjön ponttal.`);
+    if (!/^(ami|amel|mely|és )/.test(it.text)) errs.push(`${it.id}: az értelmezés „ami…”, „amely…” vagy „és…” kezdetű legyen.`);
   }
   (Object.keys(b.deal) as Tier[]).forEach(t => {
     const n = c.ints.filter(x => x.tier === t).length;
@@ -31,8 +48,10 @@ export function validateContent(c: Content, b: Balance): string[] {
   });
 
   for (const r of c.notes.repeat) {
-    if (!ids.has(r.obs) || !ids.has(r.ifReported)) errs.push(`Ismétlés-jegyzet ismeretlen megfigyelésre hivatkozik: ${r.obs}/${r.ifReported}`);
+    const tagged = c.obs.filter(o => o.tag === r.tag);
+    if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
+  for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
   errs.push(...validateRecruit(c), ...validateNames(c));
   return errs;
 }
@@ -107,12 +126,13 @@ function validateNames(c: Content): string[] {
     if (!placeholders(c.residents[id].name).includes(id)) errs.push(`Lakó: ${id}: a névben nincs {${id}} helyettesítő.`);
   }
   const texts: [string, string][] = [
-    ...c.weeks.flatMap(w => [[w.label, w.intro], ...w.obs.flatMap(o => [[o.id, o.text], [o.id, o.note ?? '']])] as [string, string][]),
+    ...c.weeks.map(w => [w.label, w.intro] as [string, string]),
+    ...c.obs.flatMap(o => [[o.id, o.text], [o.id, o.note ?? '']] as [string, string][]),
     ...c.ints.flatMap(i => [[i.id, i.text], [i.id, i.note ?? '']] as [string, string][]),
     ...ids.flatMap(id => [[id, c.residents[id].name], [id, c.residents[id].cons ?? ''], [id, c.residents[id].truth ?? '']] as [string, string][]),
     ...Object.entries(c.endings).flatMap(([k, e]) => [[k, e.title], [k, e.text]] as [string, string][]),
     ...Object.entries(c.notes).filter(([, v]) => typeof v === 'string').map(([k, v]) => [k, v as string] as [string, string]),
-    ...c.notes.repeat.map(r => [r.obs, r.note] as [string, string]),
+    ...c.notes.repeat.map(r => [r.tag, r.note] as [string, string]),
   ];
   for (const [where, text] of texts)
     for (const p of placeholders(text)) if (!ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
