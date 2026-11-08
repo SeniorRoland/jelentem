@@ -22,6 +22,23 @@ export const ruthless: Strategy = s => {
   return obs.map((o, k) => ({ o: o.id, i: wild[k]?.id ?? null }));
 };
 
+/**
+ * Never harms anyone: reports harmless observations with the most exciting non-wild spin,
+ * and mildly harmful ones only with a safe card (which rounds the harm to zero). Keeps the residents calm.
+ */
+export const gentle: Strategy = s => {
+  const cards = s.dealt.map(id => content.ints.find(x => x.id === id)!).filter(x => x.tier !== 'wild')
+    .sort((a, b) => b.izg - a.izg);
+  const plan: { o: string; i: string | null }[] = [];
+  for (const o of [...weekObs(s, content)].filter(o => o.art <= 1).sort((a, b) => a.art - b.art)) {
+    if (plan.length === s.slots.length) break;
+    const free = cards.filter(x => !plan.some(p => p.i === x.id) && (o.art === 0 || x.tier === 'safe'));
+    if (o.art === 1 && !free.length) continue;
+    plan.push({ o: o.id, i: free[0]?.id ?? null });
+  }
+  return plan;
+};
+
 /** Plays one game to the end and returns every state passed through. */
 export function playGame(seed: number, strat: Strategy = randomPlay): GameState[] {
   const rng = mulberry32(seed);

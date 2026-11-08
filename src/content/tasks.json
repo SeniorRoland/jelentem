@@ -1,0 +1,30 @@
+[
+  {
+    "id": "sze",
+    "topic": "sze",
+    "title": "Derítse ki, ki hallgatja a házban a Szabad Európa Rádiót!",
+    "done": "A Szabad Európa-ügyet lezártuk. Az eredményt nem értjük, de iktattuk.",
+    "fail": "A Szabad Európáról egy szót sem írt. Pedig az egész ország hallgatja. Mármint senki."
+  },
+  {
+    "id": "nyugati",
+    "topic": "nyugati",
+    "title": "Gyűjtsön adatot a házban fellelhető nyugati árucikkekről!",
+    "done": "A nyugati árucikkekről szóló adatokat továbbítottuk a vámnak. A vám nevetett.",
+    "fail": "Nyugati árucikkről nem jelentett. Vagy nincs a házban, vagy Ön is használja."
+  },
+  {
+    "id": "gyules",
+    "topic": "gyules",
+    "title": "Derítse fel, tartanak-e a házban engedély nélküli összejövetelt!",
+    "done": "Az összejövetel-ügyet lezártuk. Engedélyt utólag sem adunk.",
+    "fail": "Összejövetelről nem jelentett. Talán Önt nem hívták meg?"
+  },
+  {
+    "id": "vicc",
+    "topic": "vicc",
+    "title": "Jelentse, ki mesél politikai vicceket a lépcsőházban!",
+    "done": "A vicc-ügyben a jelentést elfogadtuk. Nevetni nem nevettünk, az nem a mi feladatunk.",
+    "fail": "Politikai viccről nem jelentett. Ez gyanús: vagy nincs humora, vagy túl sok van neki."
+  }
+]

@@ -16,6 +16,7 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
   const ids = new Set(c.obs.map(o => o.id));
   if (!g.weekObs.every(w => Array.isArray(w) && w.every(id => ids.has(id)))) return false;
   if (g.screen !== 'intro' && !g.weekObs[g.week]) return false;
+  if (!Array.isArray(g.pastTasks) || !Array.isArray(g.doneTasks) || (g.task && !c.tasks.some(t => t.id === g.task!.id))) return false;
   return g.screen === 'intro' || g.screen === 'week' || g.screen === 'response' || g.screen === 'quarter';
 }
 

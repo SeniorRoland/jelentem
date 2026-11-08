@@ -7,15 +7,15 @@
  *   SIM_BALANCE='{"quarter":{"resetE":0.3}}' npm run sim
  */
 import { balance, content } from '../src/content';
-import { expectFor } from '../src/engine/career';
+import { doubtFor, expectFor } from '../src/engine/career';
 import { weekObs } from '../src/engine/observations';
 import { mulberry32 } from '../src/engine/rng';
-import { endingKey, scoreSentence } from '../src/engine/rules';
+import { answersTask, endingKey, scoreSentence } from '../src/engine/rules';
 import { dispatch, newGame, type Action } from '../src/engine/state';
 import type { EndingKey, GameState, Rng } from '../src/engine/types';
 
 type Plan = { o: string; i: string | null }[];
-type Score = { izg: number; hih: number; harm: number };
+type Score = { izg: number; hih: number; harm: number; task: boolean };
 type Strategy = (s: GameState, rng: Rng) => Plan;
 
 const N = Number(process.argv[2] ?? 2000);
@@ -38,9 +38,12 @@ const intOf = new Map(content.ints.map(x => [x.id, x]));
 function allPlans(s: GameState): { p: Plan; e: Score }[] {
   const obs = weekObs(s, content);
   const ints: (string | null)[] = [null, ...s.dealt];
+  const topic = s.task && !s.task.done ? content.tasks.find(t => t.id === s.task!.id)!.topic : null;
   const score = new Map<string, Score>();
-  for (const o of obs) for (const i of ints)
-    score.set(`${o.id}|${i}`, scoreSentence(o, i ? intOf.get(i)! : null, balance));
+  for (const o of obs) for (const i of ints) {
+    const it = i ? intOf.get(i)! : null;
+    score.set(`${o.id}|${i}`, { ...scoreSentence(o, it, balance, doubtFor(s, balance)), task: !!topic && answersTask(topic, o, it) });
+  }
   const out: { p: Plan; e: Score }[] = [];
   const grow = (p: Plan, e: Score, from: number) => {
     out.push({ p, e });
@@ -48,10 +51,10 @@ function allPlans(s: GameState): { p: Plan; e: Score }[] {
     for (let k = from; k < obs.length; k++) for (const i of ints) {
       if (i !== null && p.some(x => x.i === i)) continue;
       const r = score.get(`${obs[k].id}|${i}`)!;
-      grow([...p, { o: obs[k].id, i }], { izg: e.izg + r.izg, hih: e.hih + r.hih, harm: e.harm + r.harm }, k + 1);
+      grow([...p, { o: obs[k].id, i }], { izg: e.izg + r.izg, hih: e.hih + r.hih, harm: e.harm + r.harm, task: e.task || r.task }, k + 1);
     }
   };
-  grow([], { izg: 0, hih: 0, harm: 0 }, 0);
+  grow([], { izg: 0, hih: 0, harm: 0, task: false }, 0);
   return out;
 }
 
@@ -76,7 +79,7 @@ const strategies: Record<string, Strategy> = {
       const E = e0 + (e.izg - exp) * w.E;
       const H = Math.min(100, h0 + e.hih * w.H);
       const L = l0 - e.harm * w.L;
-      const v = Math.min(E - t.eMin, H - t.hMin) - (L < t.lMin ? 1000 : 0) - e.harm * 8;
+      const v = Math.min(E - t.eMin, H - t.hMin) - (L < t.lMin ? 1000 : 0) - e.harm * 8 + (e.task ? 6 : 0);
       if (v > bestV) { bestV = v; best = p; }
     }
     return best;
@@ -104,19 +107,32 @@ const keys: EndingKey[] = ['best', 'kivalo', 'megfigyelt', 'behivatas'];
 const pct = (n: number) => `${((n / N) * 100).toFixed(1)}%`;
 console.log(`Szimuláció: ${N} játék stratégiánként (${content.weeks.length} hét)`);
 console.log();
-console.log(['stratégia'.padEnd(22), ...keys.map(k => k.padStart(11)), 'végig'.padStart(8), 'rang'.padStart(6), 'baj'.padStart(6)].join(''));
+console.log(['stratégia'.padEnd(22), ...keys.map(k => k.padStart(11)), 'végig'.padStart(8), 'rang'.padStart(6), 'baj'.padStart(6), 'feladat'.padStart(9)].join(''));
+const byCategory: Record<string, Record<string, [number, number]>> = {};
 for (const [name, strat] of Object.entries(strategies)) {
   const count: Record<EndingKey, number> = { best: 0, kivalo: 0, megfigyelt: 0, behivatas: 0 };
-  let full = 0, rank = 0, cons = 0;
+  let full = 0, rank = 0, cons = 0, tasks = 0, given = 0;
   for (let i = 0; i < N; i++) {
     const s = play(strat, i + 1);
-    count[endingKey(s, balance)]++;
+    const key = endingKey(s, balance);
+    count[key]++;
+    const cat = ((byCategory[name] ??= {})[s.recruit.categoryId] ??= [0, 0]);
+    cat[1]++;
+    if (key === 'best') cat[0]++;
     if (s.week === content.weeks.length - 1) full++;
     rank += s.rank;
     cons += s.cons.length;
+    given += s.pastTasks.length;
+    tasks += s.doneTasks.length;
   }
   console.log([name.padEnd(22), ...keys.map(k => pct(count[k]).padStart(11)), pct(full).padStart(8),
-    (rank / N).toFixed(2).padStart(6), (cons / N).toFixed(2).padStart(6)].join(''));
+    (rank / N).toFixed(2).padStart(6), (cons / N).toFixed(2).padStart(6), (given ? `${Math.round((tasks / given) * 100)}%` : '–').padStart(9)].join(''));
 }
 console.log();
-console.log(`végig = mind a ${content.weeks.length} hetet végigjátszotta; rang = átlagos végső rang (0–${balance.ranks.length - 1}); baj = átlagosan hány lakó került bajba`);
+console.log('Legjobb vég kategóriánként (óvatos / előrelátó):');
+for (const k of content.recruit.categories) {
+  const r = (n: string) => { const [b, all] = byCategory[n]?.[k.id] ?? [0, 0]; return all ? `${Math.round((b / all) * 100)}%` : '–'; };
+  console.log(`  ${k.label.padEnd(30)}${r('óvatos (0 ártalom)').padStart(6)}${r('előrelátó').padStart(8)}`);
+}
+console.log();
+console.log(`végig = mind a ${content.weeks.length} hetet végigjátszotta; rang = átlagos végső rang (0–${balance.ranks.length - 1}); baj = átlagosan hány lakó került bajba; feladat = a kiadott célfeladatok hány százalékát teljesítette`);

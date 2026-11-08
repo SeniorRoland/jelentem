@@ -1,6 +1,6 @@
 import { placeholders } from '../engine/names';
 import { candidates } from '../engine/observations';
-import type { Balance, Content, ResidentId, ResidentStatus, Surname, Tier } from '../engine/types';
+import type { Balance, Content, DealTier, ResidentId, ResidentStatus, Surname } from '../engine/types';
 
 const STATUSES: ResidentStatus[] = ['nyugodt', 'gyanus', 'bajban'];
 
@@ -71,7 +71,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (it.text.endsWith('.')) errs.push(`${it.id}: az értelmezés ne végződjön ponttal.`);
     if (!/^(ami|amel|mely|és )/.test(it.text)) errs.push(`${it.id}: az értelmezés „ami…”, „amely…” vagy „és…” kezdetű legyen.`);
   }
-  (Object.keys(b.deal) as Tier[]).forEach(t => {
+  (Object.keys(b.deal) as DealTier[]).forEach(t => {
     const n = c.ints.filter(x => x.tier === t).length;
     if (n < b.deal[t]) errs.push(`Kevés „${t}” értelmezés: ${n} < ${b.deal[t]}`);
   });
@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b));
   return errs;
 }
 
@@ -179,5 +179,37 @@ function validateLoading(c: Content): string[] {
     if (/["']/.test(t)) errs.push(`Betöltés: egyenes idézőjel: ${t}`);
   for (const t of [...l.steps, ...l.setbacks])
     if (/[.…]$/.test(t)) errs.push(`Betöltés: a lépés ne végződjön ponttal vagy három ponttal (a felület teszi hozzá): ${t}`);
+  return errs;
+}
+
+/** Category profiles and quarterly tasks with their diversion cards. */
+function validateTasks(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const cats = c.recruit.categories.map(k => k.id);
+  for (const id of cats) if (!b.categories[id]) errs.push(`Kategória: a(z) ${id} kategóriának nincs profilja a balance.json-ban.`);
+  for (const id of Object.keys(b.categories)) if (!cats.includes(id)) errs.push(`Kategória: ismeretlen kategória a balance.json-ban: ${id}`);
+  for (const k of c.recruit.categories) {
+    if (!k.letter) errs.push(`Kategória: a(z) ${k.id} kategóriának nincs levélmondata.`);
+    if (/["']/.test(k.letter ?? '')) errs.push(`Kategória: egyenes idézőjel: ${k.letter}`);
+  }
+
+  const topics = new Set(c.tasks.map(t => t.topic));
+  const ids = new Set<string>();
+  for (const t of c.tasks) {
+    if (ids.has(t.id)) errs.push(`Feladat: duplikált azonosító: ${t.id}`);
+    ids.add(t.id);
+    for (const s of [t.title, t.done, t.fail]) if (/["']/.test(s)) errs.push(`Feladat: egyenes idézőjel: ${s}`);
+    const diverts = c.ints.filter(x => x.tier === 'divert' && x.topics?.includes(t.topic)).length;
+    if (diverts < 2) errs.push(`Feladat: a(z) „${t.topic}” témához legalább két terelő kártya kell, most ${diverts} van.`);
+  }
+  for (const it of c.ints) {
+    if (it.tier === 'divert' && it.topics?.length !== 1) errs.push(`${it.id}: a terelő kártyának pontosan egy témája legyen.`);
+    for (const tp of it.topics ?? []) if (!topics.has(tp)) errs.push(`${it.id}: ismeretlen feladat-téma: ${tp}`);
+  }
+  for (const o of c.obs) for (const tp of o.topics ?? []) if (!topics.has(tp)) errs.push(`${o.id}: ismeretlen feladat-téma: ${tp}`);
+
+  const quarters = new Set(c.weeks.map(w => w.quarter));
+  const withTask = [...quarters].filter(q => q >= b.task.fromQuarter).length;
+  if (c.tasks.length < withTask) errs.push(`Feladat: ${withTask} negyedévhez kell feladat, de csak ${c.tasks.length} van.`);
   return errs;
 }

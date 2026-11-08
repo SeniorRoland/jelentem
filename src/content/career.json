@@ -41,5 +41,12 @@
       "note": "Hiányos. A jelentései olyanok, mint a közért: néha van bennük valami, de sosem az, amit kerestünk."
     }
   },
-  "stay": "Besorolása változatlan. A stabilitás a szocializmus alapja."
+  "stay": "Besorolása változatlan. A stabilitás a szocializmus alapja.",
+  "task": {
+    "title": "Kiemelt feladat",
+    "open": "folyamatban, a negyedév végéig",
+    "done": "teljesítve",
+    "now": "A kiemelt feladatot ezzel teljesítettnek tekintjük.",
+    "divert": "a kiemelt feladathoz"
+  }
 }

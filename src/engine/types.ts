@@ -1,5 +1,7 @@
 export type ResidentId = 'mari' | 'jozsi' | 'pityu' | 'porgoly';
-export type Tier = 'safe' | 'mid' | 'wild';
+/** `divert` cards are only dealt while a task is open: they answer the task by blaming something harmless. */
+export type Tier = 'safe' | 'mid' | 'wild' | 'divert';
+export type DealTier = Exclude<Tier, 'divert'>;
 export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas';
 export type Screen = 'intro' | 'week' | 'response' | 'quarter' | 'ending';
 /** How the reports have treated a resident so far. */
@@ -25,6 +27,8 @@ export interface Observation {
   quarters?: number[];
   /** Only drawn while the resident is in one of these states (key = the observation's `who`). */
   requires?: Partial<Record<ResidentId, ResidentStatus[]>>;
+  /** Task topics this observation answers when reported (see `Task.topic`). */
+  topics?: string[];
 }
 
 /**
@@ -49,6 +53,8 @@ export interface Interpretation {
   mult: number;
   text: string;
   note?: string;
+  /** Task topics this interpretation answers. Every `divert` card has exactly one. */
+  topics?: string[];
 }
 
 /** A family name candidate for a resident, with the true trait it comes from. */
@@ -101,6 +107,8 @@ export interface RecruitCategory {
   /** Inclusive birth-year range that makes sense for this category. */
   born: [number, number];
   sex?: Sex;
+  /** The captain's line about this category in the opening letter. */
+  letter: string;
   /** Occupation ids; when missing, any occupation fits. */
   jobs?: string[];
 }
@@ -176,12 +184,23 @@ export interface Recruit {
   basis: string;
 }
 
+/** A quarterly order from the captain: report something on `topic` before the quarter ends. */
+export interface Task {
+  id: string;
+  topic: string;
+  title: string;
+  done: string;
+  fail: string;
+}
+
 /** Rank names and the captain's quarterly texts. Numbers live in `Balance`. */
 export interface CareerContent {
   quarters: string[];
   ranks: { label: string; promo: string; demo: string }[];
   grades: Record<Grade, { title: string; note: string }>;
   stay: string;
+  /** Labels around the quarterly task. */
+  task: { title: string; open: string; done: string; now: string; divert: string };
 }
 
 /** Texts of the satirical loading screen shown before the game. */
@@ -211,6 +230,7 @@ export interface Content {
   recruit: RecruitContent;
   loading: LoadingContent;
   career: CareerContent;
+  tasks: Task[];
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -228,6 +248,13 @@ export interface Balance {
   /** Sentences per report and extra expectation on each rank (index = rank). */
   ranks: { slots: number; expectBonus: number }[];
   startRank: number;
+  /**
+   * What the recruit's category („Milyen kategóriába tartozik”) does: extra expectation,
+   * and `doubt`, the multiplier on lost credibility (a loyal recruit's exaggeration is more suspicious).
+   */
+  categories: Record<string, { expectBonus: number; doubt: number }>;
+  /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
+  task: { fromQuarter: number; reward: number; penalty: number };
   quarter: {
     /** Grade „kiváló” at or above these, „hiányos” below demoteE. */
     promoteE: number;
@@ -239,7 +266,7 @@ export interface Balance {
     healL: number;
     healH: number;
   };
-  deal: Record<Tier, number>;
+  deal: Record<DealTier, number>;
   consThreshold: number;
   plainFact: { hih: number; mult: number };
   absurd: { minIntIzg: number; maxObsIzg: number; penalty: number };
@@ -269,11 +296,21 @@ export interface WeekResult {
   extra: string;
   newCons: ResidentId[];
   stamp: 'Átvéve' | 'Hiányos';
+  /** True when this report completed the quarter's task. */
+  taskDone: boolean;
+}
+
+/** The open task of the quarter. */
+export interface TaskState {
+  id: string;
+  done: boolean;
 }
 
 export interface QuarterResult {
   quarter: number;
   grade: Grade;
+  /** The quarter's task and whether it was done; null when the quarter had none. */
+  task: TaskState | null;
   rankBefore: number;
   rankAfter: number;
   before: Meters;
@@ -286,6 +323,11 @@ export interface GameState {
   /** Index into `Balance.ranks` and `CareerContent.ranks`. */
   rank: number;
   lastQuarter: QuarterResult | null;
+  /** The current quarter's task, and the ids of tasks already given in this game. */
+  task: TaskState | null;
+  pastTasks: string[];
+  /** Ids of the tasks done in this game. */
+  doneTasks: string[];
   meters: Meters;
   code: string;
   recruit: Recruit;

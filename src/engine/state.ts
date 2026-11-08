@@ -1,4 +1,4 @@
-import { endQuarter, isLastWeek, isQuarterEnd, slotsFor } from './career';
+import { endQuarter, isLastWeek, isQuarterEnd, isQuarterStart, quarterOf, settleTask, slotsFor } from './career';
 import { makeNames } from './names';
 import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
@@ -24,6 +24,9 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     week: 0,
     rank: b.startRank,
     lastQuarter: null,
+    task: null,
+    pastTasks: [],
+    doneTasks: [],
     meters: { ...b.start },
     code: randCode(c, rng),
     recruit,
@@ -40,7 +43,18 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
   };
 }
 
+/** At the start of a quarter (from `task.fromQuarter`) the captain gives a task not given before. */
+function assignTask(s: GameState, c: Content, b: Balance, rng: Rng): void {
+  if (!isQuarterStart(s, c) || quarterOf(s, c) < b.task.fromQuarter) return;
+  const fresh = c.tasks.filter(t => !s.pastTasks.includes(t.id));
+  if (!fresh.length) return;
+  const t = fresh[Math.floor(rng() * fresh.length)];
+  s.task = { id: t.id, done: false };
+  s.pastTasks.push(t.id);
+}
+
 function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
+  assignTask(s, c, b, rng);
   s.weekObs[s.week] = pickWeek(s, c, rng);
   s.slots = emptySlots(slotsFor(s, b));
   s.dealt = deal(s, c, b, rng);
@@ -102,7 +116,13 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       break;
     case 'next': {
       const step = s.screen === 'quarter' ? 'week' : nextStep(s, c);
-      if (step === 'ending') s.screen = 'ending';
+      // The last quarter has no review: its task is settled right before the ending.
+      // An early ending settles nothing, but a task already done still counts as done.
+      if (step === 'ending') {
+        if (isLastWeek(s, c)) settleTask(s, b);
+        else if (s.task?.done) { s.doneTasks.push(s.task.id); s.task = null; }
+        s.screen = 'ending';
+      }
       else if (step === 'quarter') { s.lastQuarter = endQuarter(s, c, b); s.screen = 'quarter'; }
       else { s.week++; startWeek(s, c, b, rng); }
       break;

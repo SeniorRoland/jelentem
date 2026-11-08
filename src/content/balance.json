@@ -18,6 +18,17 @@
     { "slots": 3, "expectBonus": 4 }
   ],
   "startRank": 1,
+  "categories": {
+    "hu": { "expectBonus": -1, "doubt": 1.5 },
+    "lojalis": { "expectBonus": 0, "doubt": 1.25 },
+    "ellenforr": { "expectBonus": 2, "doubt": 0.75 },
+    "kulak": { "expectBonus": 1, "doubt": 1 },
+    "egyhazi": { "expectBonus": 1, "doubt": 1 },
+    "egyeb": { "expectBonus": 2, "doubt": 0.75 },
+    "csendor": { "expectBonus": 3, "doubt": 0.75 },
+    "osztalyidegen": { "expectBonus": 1, "doubt": 1 }
+  },
+  "task": { "fromQuarter": 1, "reward": 8, "penalty": 12 },
   "quarter": {
     "promoteE": 65,
     "promoteH": 45,

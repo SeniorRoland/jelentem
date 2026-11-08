@@ -1,4 +1,4 @@
-import { quarterOf, residentStatus, weekInQuarter } from '../engine/career';
+import { expectFor, quarterOf, residentStatus, weekInQuarter } from '../engine/career';
 import { fillNames } from '../engine/names';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
@@ -70,6 +70,7 @@ function intro(s: GameState, c: Content, v: View): string {
   <p class="lede">Alsóbürokrác, 1979 tavasza.</p>
   <p>Elvtárs!</p>
   <p>Önt ${s.recruit.recruitedOn.slice(0, 4)}-ben társadalmi kapcsolatként beszervezték. Azóta érdemi jelentést nem adott, dossziéja a polcon porosodott. Ügyét a mai nappal átvettem. Feladata, hogy hetente jelentést írjon a Bem utca 12. lakóiról: {mari} Máriáról (Mari néni), {jozsi} Józsefről (Józsi bácsi), {pityu} Istvánról (Pityu), valamint szükség esetén {porgoly} Lajosné házmesterről.</p>
+  <p>${c.recruit.categories.find(k => k.id === s.recruit.categoryId)?.letter ?? ''}</p>
   <p>Az elvtárs munkáját bizalommal várjuk.</p>
   <span class="sig">Vágási százados</span>
   ${karton(s, c, v)}
@@ -83,7 +84,15 @@ function intro(s: GameState, c: Content, v: View): string {
   </article>`;
 }
 
-function week(s: GameState, c: Content, v: View): string {
+/** The captain's open order for the quarter, on the weekly sheet. */
+function taskBox(s: GameState, c: Content): string {
+  const t = s.task && c.tasks.find(x => x.id === s.task!.id);
+  if (!t) return '';
+  const st = s.task!.done ? c.career.task.done : c.career.task.open;
+  return `<aside class="task" aria-label="${c.career.task.title}"><h2>${c.career.task.title}</h2><p class="task-order">${t.title}</p><p class="meta">Állapot: ${st}</p></aside>`;
+}
+
+function week(s: GameState, c: Content, b: Balance, v: View): string {
   const w = c.weeks[s.week];
   const pool = weekObs(s, c);
   const obs = (id: string) => pool.find(x => x.id === id)!;
@@ -94,7 +103,8 @@ function week(s: GameState, c: Content, v: View): string {
   const obsSlips = pool.map(o => `<button class="slip" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${o.who ? c.residents[o.who].name : 'Közös terület'}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
   const intSlips = s.dealt.map(id => {
     const it = int(id);
-    return `<button class="slip" data-action="toggleInt" data-id="${id}" aria-pressed="${placedI.has(id)}">…, ${it.text}.${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;
+    const tag = it.tier === 'divert' ? `<small>${c.career.task.divert}</small>` : '';
+    return `<button class="slip${it.tier === 'divert' ? ' divert' : ''}" data-action="toggleInt" data-id="${id}" aria-pressed="${placedI.has(id)}">…, ${it.text}.${tag}${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;
   }).join('');
 
   const sentences = s.slots.map((sl, idx) => {
@@ -113,8 +123,10 @@ function week(s: GameState, c: Content, v: View): string {
   <p class="meta">Időszak: ${w.label} (${c.career.quarters[w.quarter]})</p>
   <p class="meta">Besorolás: ${c.career.ranks[s.rank].label}</p>
   <p class="meta">Tárgy: a Bem utca 12. lakói</p>
+  ${v.dev ? `<p class="dev">elvárás ezen a héten: ${expectFor(s, b)}</p>` : ''}
   ${meters(s.meters, null, v)}
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
+  ${taskBox(s, c)}
   <h2>Megfigyelések a héten</h2>
   <div class="slips">${obsSlips}</div>
   <h2>Kéznél lévő értelmezések</h2>
@@ -144,12 +156,19 @@ function response(s: GameState, c: Content, v: View): string {
   <div class="report">${body}</div>
   <span class="note big">${r.overall}</span>
   ${r.extra ? `<span class="note">${r.extra}</span>` : ''}
+  ${r.taskDone ? `<span class="note">${c.career.task.now}</span>` : ''}
   <span class="sig">V. szds.</span>
   ${news}
   <h2>Állásod</h2>
   ${meters(s.meters, r.before, v)}
   <div class="actions"><button class="btn" data-action="next">${label}</button></div>
   </article>`;
+}
+
+function taskResult(task: { id: string; done: boolean }, c: Content, b: Balance, v: View): string {
+  const t = c.tasks.find(x => x.id === task.id)!;
+  const dev = v.dev ? ` <span class="dev">(elégedettség ${task.done ? '+' + b.task.reward : '−' + b.task.penalty})</span>` : '';
+  return `<h2>${c.career.task.title}</h2><p class="task-order">${t.title}</p><p>${task.done ? t.done : t.fail}${dev}</p>`;
 }
 
 /** The captain's quarterly review: grade, promotion or demotion, and how the house stands. */
@@ -166,6 +185,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   <p class="lede">${c.career.quarters[q.quarter]}. Minősítés: ${g.title.toLowerCase()}.</p>
   <span class="note big">${g.note}</span>
   <span class="sig">V. szds.</span>
+  ${q.task ? taskResult(q.task, c, b, v) : ''}
   <h2>Besorolás</h2>
   <p><strong>${ranks[q.rankAfter].label}</strong></p>
   <p>${change}</p>
@@ -192,6 +212,7 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   <h1 id="t" tabindex="-1">${e.title}</h1>
   <p>${e.text}</p>
   <p class="meta">Végső besorolásod: ${c.career.ranks[s.rank].label} (${c.career.quarters[quarterOf(s, c)]})</p>
+  ${s.pastTasks.length ? `<p class="meta">Teljesített kiemelt feladatok: ${s.doneTasks.length} / ${s.pastTasks.length}</p>` : ''}
   ${meters(s.meters, null, v)}
   ${cons}
   <h2>Ami valójában történt</h2>
@@ -206,7 +227,7 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
 function screen(s: GameState, c: Content, b: Balance, v: View): string {
   switch (s.screen) {
     case 'intro': return intro(s, c, v);
-    case 'week': return week(s, c, v);
+    case 'week': return week(s, c, b, v);
     case 'response': return response(s, c, v);
     case 'quarter': return quarter(s, c, b, v);
     case 'ending': return ending(s, c, b, v);

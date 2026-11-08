@@ -1,9 +1,9 @@
-import { expectFor } from './career';
+import { doubtFor, expectFor } from './career';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
-  ResidentId, Rng, SentenceResult, Tier, WeekResult,
+  DealTier, ResidentId, Rng, SentenceResult, Tier, WeekResult,
 } from './types';
 
 export const clamp = (v: number): number => Math.max(0, Math.min(100, v));
@@ -13,11 +13,12 @@ export function randCode(c: Content, rng: Rng): string {
   return `${adj[Math.floor(rng() * adj.length)]} ${noun[Math.floor(rng() * noun.length)]}`;
 }
 
-/** Score one sentence: observation + optional interpretation. Pure. */
-export function scoreSentence(o: Observation, it: Interpretation | null, b: Balance) {
+/** Score one sentence: observation + optional interpretation. `doubt` scales lost credibility. Pure. */
+export function scoreSentence(o: Observation, it: Interpretation | null, b: Balance, doubt = 1) {
   const izg = o.izg + (it ? it.izg : 0);
   let hih = it ? it.hih : b.plainFact.hih;
   if (it && it.izg >= b.absurd.minIntIzg && o.izg <= b.absurd.maxObsIzg) hih -= b.absurd.penalty;
+  if (hih < 0) hih = Math.round(hih * doubt);
   const harm = Math.round(o.art * (it ? it.mult : b.plainFact.mult));
   return { izg, hih, harm };
 }
@@ -39,7 +40,14 @@ export function overallNote(izgSum: number, expect: number, c: Content, b: Balan
   return c.notes.ok;
 }
 
-/** Deal this week's interpretation cards, preferring ones not used yet. */
+/** True when the sentence is about the task's topic (through the observation or the interpretation). */
+export const answersTask = (topic: string, o: Observation, it: Interpretation | null): boolean =>
+  !!(o.topics?.includes(topic) || it?.topics?.includes(topic));
+
+/**
+ * Deal this week's interpretation cards, preferring ones not used yet. While a task is open,
+ * one extra diversion card on its topic comes too.
+ */
 export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
   const pick = (tier: Tier, n: number) => {
     const all = c.ints.filter(x => x.tier === tier);
@@ -47,8 +55,16 @@ export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
     const old = shuffle(all.filter(x => s.usedInts.includes(x.id)), rng);
     return fresh.concat(old).slice(0, n);
   };
-  const tiers: Tier[] = ['safe', 'mid', 'wild'];
-  return shuffle(tiers.flatMap(t => pick(t, b.deal[t])), rng).map(x => x.id);
+  const tiers: DealTier[] = ['safe', 'mid', 'wild'];
+  const cards = tiers.flatMap(t => pick(t, b.deal[t]));
+  const task = s.task && !s.task.done ? c.tasks.find(t => t.id === s.task!.id) : undefined;
+  if (task) {
+    const diverts = c.ints.filter(x => x.tier === 'divert' && x.topics?.includes(task.topic));
+    const fresh = diverts.filter(x => !s.usedInts.includes(x.id));
+    const from = fresh.length ? fresh : diverts;
+    if (from.length) cards.push(from[Math.floor(rng() * from.length)]);
+  }
+  return shuffle(cards, rng).map(x => x.id);
 }
 
 /** Apply the current report to the state. Mutates `s` (callers pass a clone). */
@@ -62,7 +78,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     if (!sl.o) continue;
     const o = week.find(x => x.id === sl.o)!;
     const it = sl.i ? c.ints.find(x => x.id === sl.i)! : null;
-    const sc = scoreSentence(o, it, b);
+    const sc = scoreSentence(o, it, b, doubtFor(s, b));
     sents.push({
       text: `${o.text}${it ? ', ' + it.text : ''}.`,
       note: pickNote(o, it, s.reported, c),
@@ -74,6 +90,13 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     if (it && !s.usedInts.includes(it.id)) s.usedInts.push(it.id);
   }
   for (const sl of s.slots) if (sl.o && !s.reported.includes(sl.o)) s.reported.push(sl.o);
+
+  let taskDone = false;
+  const task = s.task && !s.task.done ? c.tasks.find(t => t.id === s.task!.id) : undefined;
+  if (task && s.slots.some(sl => sl.o && answersTask(task.topic, week.find(x => x.id === sl.o)!, sl.i ? c.ints.find(x => x.id === sl.i)! : null))) {
+    s.task!.done = true;
+    taskDone = true;
+  }
 
   const expect = expectFor(s, b);
   s.meters = {
@@ -98,6 +121,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     extra: hihSum <= b.overall.fantasyHihAtMost ? c.notes.fantasy : '',
     newCons,
     stamp: s.meters.E >= before.E ? 'Átvéve' : 'Hiányos',
+    taskDone,
   };
 }
 

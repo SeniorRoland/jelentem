@@ -19,7 +19,10 @@ A nyitóképernyőn a játékos saját, véletlenszerűen generált kartonja lá
 - A **beszervezés ideje** dönti el az osztályozási rendszert: 1972 előtt ügynök vagy informátor, 1972-től ügynök (Ü), titkos megbízott (TMB) vagy titkos munkatárs (TMT). Rezidens és K-/T-lakás-tulajdonos nem lehet, mert ezek nem illenek egy házról jelentő, kezdő hálózati személyhez.
 - A „hű” és „lojális” kategóriájúakat informátornak, TMB-nek vagy TMT-nek, hazafias vagy lojális alapon szervezték be; a többieket ügynöknek, terhelő adatok vagy anyagi érdekeltség (néha ezek kombinációja) alapján.
 
-**Nyitott kérdés:** a kategória később befolyásolhatja, mit vár a százados (pl. egy kompromittált ügynöktől többet és gyanakvóbban). A `Recruit.categoryId` már az állapotban van, de a motor egyelőre nem használja.
+A **kategória** a játékot is befolyásolja (`balance.json` → `categories`, a levélben a százados egy mondata utal rá):
+
+- A „hű” és a „lojális” beszervezettől kevesebbet várnak, de a túlzásaik többe kerülnek (a hihetőség-veszteség 1,5-, illetve 1,25-szörös): a hű ember nem talál ki dolgokat.
+- A kompromittált kategóriáktól (ellenforradalmi, egyéb ellenséges tevékenység, csendőr) többet várnak (+2–3 izgalom hetente), és kevésbé kételkednek bennük (0,75-szörös veszteség); a kulák, az egyházi és az osztályidegen a kettő között van (+1).
 
 ## Év, negyedévek, rangok
 
@@ -29,6 +32,14 @@ A játék 1979 egy éve: négy negyedév, mindegyik három hétből (március, j
 - **Rang:** passzív állomány → kezdő → megbízható → kiemelt hálózati személy → rezidensjelölt. Kiválóért előléptetés, hiányosért lefokozás jár. Az előléptetés büntetés is: magasabb elvárás, a kiemelt szinttől három mondatos jelentés. A jutalom szatirikus (100 forint és egy doboz cigaretta).
 - **Átmenet:** a százados hangulata részben visszaáll, a lelkiismeret és a hihetőség kicsit helyreáll.
 - **A ház állapota:** az értékelés lakónként kiírja, hogy nyugodt, szóba került vagy bajban van.
+
+## Célfeladatok
+
+A második negyedévtől minden negyedév elején a százados kiemelt feladatot ad (`tasks.json`): „Derítse ki, ki hallgatja a házban a Szabad Európa Rádiót!”, „Gyűjtsön adatot a házban fellelhető nyugati árucikkekről!”, „Derítse fel, tartanak-e a házban engedély nélküli összejövetelt!”, „Jelentse, ki mesél politikai vicceket a lépcsőházban!”. Egy játékban mindegyik legfeljebb egyszer jön.
+
+- A feladat akkor teljesül, ha a negyedév valamelyik jelentésében van egy mondat a témáról: egy témába vágó megfigyelés (pl. Pityu éjszakai rádiózása) vagy értelmezés.
+- Amíg a feladat nyitott, hetente egy **terelő kártya** is kézbe kerül (pl. „…amiből megállapítható, hogy a Szabad Európát a házban legfeljebb a padlás galambjai hallgatják”). Ártalmatlan megfigyeléshez (a házmester, a közös terület) téve senkinek sem árt: ez a gyanú elterelése.
+- A negyedéves értékelésnél a teljesített feladat elégedettség-pluszt ad, a teljesítetlen büntetést, és a százados mindkettőt megjegyzi. Az utolsó negyedév feladata a befejezés előtt számolódik el.
 
 ## Lakói történetek
 
@@ -87,6 +98,8 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Mentés** (db9c3cd): minden lépés után localStorage-ba, a tartalomhoz nem illő mentés elvetésével.
 - [x] **Lakói állapotok és elágazó történetek** (db9c3cd): nyugodt / szóba került / bajban; negyedévenként két ágon folytatódó történet lakónként (96 megfigyelés), a befejezésben a lakók sorsa.
 - [x] **Újrahangolás négy negyedévre** (db9c3cd): a puszta óvatosság kevés (28%), tervezéssel a legjobb vég elérhető, de nem biztos (60%).
+- [x] **A kategória hatása az elvárásra** (`feature/targets` ág): kategóriánként elvárás-pótlék és kételkedés, a levélben a százados mondata.
+- [x] **Célfeladatok** (`feature/targets` ág): negyedévente egy feladat a második negyedévtől, terelő kártyákkal, jutalommal és büntetéssel. A kiemelt rangtól kötelező változat helyett minden rangon jár.
 
 ### Hátralévő
 
@@ -94,8 +107,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **A karrier tartalma**
 
-- [ ] **A kategória hatása az elvárásra:** a karton „Milyen kategóriába tartozik” mezője döntse el, mit vár a százados (a kompromittált ügynöktől többet, fenyegetőzve; a „hű” TMB-nél kisebb az elvárás, de minden túlzás gyanús). A `Recruit.categoryId` már az állapotban van.
-- [ ] **Célfeladatok** (korábban: kiemelt feladatok): negyedévenként egy kijelölt célpont („Derítse ki, ki hallgatja a Szabad Európát!”), amelyet ártalom nélkül kell „teljesíteni”, a gyanú elterelésével (a pincére, a macskára, a Trabantra). Ehhez új, terelő értelmezéskártyák kellenek; a kiemelt rangtól kötelező.
 - [ ] **Rezidensjelölt szint:** egy másik besúgó jelentését is szerkeszteni kell (kihúzni belőle, de a hiányt megmagyarázni). Most a legfelső rang csak több mondatot és nagyobb elvárást jelent.
 - [ ] **A jutalmak mechanikai hatása:** a 100 forint és a cigaretta most csak szöveg; adjon például elégedettség-pluszt, egy SZOT-beutaló pedig hagyjon ki egy hetet, miközben nő az elvárás.
 - [ ] **A passzív állomány mint út:** ha passzív állományban is hiányos a munka, „kizárás a hálózatból”, ami a legjobb vég egy másik változata lehet: a rendszer egyszerűen elfelejt.
@@ -114,6 +125,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **Hangolás és karbantartás**
 
-- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 28%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
-- [ ] **A `feature/quarters` ág beolvasztása** a `develop` ágba (a negyedéves rendszer még csak ott van).
+- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 9%-ban, az előrelátó 76%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+- [ ] **A `feature/quarters` és a `feature/targets` ág beolvasztása** a `develop` ágba (a negyedéves rendszer és a célfeladatok még csak ott vannak; a `feature/targets` a `feature/quarters`-re épül).
 - [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.

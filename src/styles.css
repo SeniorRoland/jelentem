@@ -102,6 +102,10 @@ p{margin:0 0 .85rem;max-width:68ch}
 }
 @keyframes stamp{from{transform:rotate(-12deg) scale(2.3);opacity:0}to{transform:rotate(-12deg) scale(1);opacity:.82}}
 @media (prefers-reduced-motion:reduce){.stamp{animation:none}}
+.task{margin:1.5rem 0 0;padding:.2rem 1rem .6rem;border:2px dashed var(--stamp)}
+.task h2{margin-top:.8rem;color:var(--stamp)}
+.task-order{font-weight:700}
+.slip.divert{border-style:dashed;border-color:var(--stamp)}
 .house{margin:0 0 .5rem;padding-left:1.4rem}
 .news{border-left:3px solid var(--stamp);padding-left:.9rem}
 .quote{margin:1rem 0 1rem 1rem;font-style:italic}

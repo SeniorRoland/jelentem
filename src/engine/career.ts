@@ -1,5 +1,5 @@
 import { clamp } from './rules';
-import type { Balance, Content, GameState, Grade, Meters, QuarterResult, ResidentId, ResidentStatus } from './types';
+import type { Balance, Content, GameState, Grade, Meters, QuarterResult, ResidentId, ResidentStatus, TaskState } from './types';
 
 export const quarterOf = (s: GameState, c: Content): number => c.weeks[s.week].quarter;
 
@@ -12,8 +12,16 @@ export const isLastWeek = (s: GameState, c: Content): boolean => s.week >= c.wee
 export const isQuarterEnd = (s: GameState, c: Content): boolean =>
   isLastWeek(s, c) || c.weeks[s.week + 1].quarter !== quarterOf(s, c);
 
-/** The captain expects more each week, and more again from a higher rank. */
-export const expectFor = (s: GameState, b: Balance): number => b.expect[s.week] + b.ranks[s.rank].expectBonus;
+const profile = (s: GameState, b: Balance) => b.categories[s.recruit.categoryId] ?? { expectBonus: 0, doubt: 1 };
+
+/** The captain expects more each week, more from a higher rank, and more from a compromised agent. */
+export const expectFor = (s: GameState, b: Balance): number =>
+  b.expect[s.week] + b.ranks[s.rank].expectBonus + profile(s, b).expectBonus;
+
+/** How much harder lost credibility hits, by the recruit's category. */
+export const doubtFor = (s: GameState, b: Balance): number => profile(s, b).doubt;
+
+export const isQuarterStart = (s: GameState, c: Content): boolean => s.week === 0 || c.weeks[s.week - 1].quarter !== quarterOf(s, c);
 
 /** Sentences in the report: a higher rank has to write more. */
 export const slotsFor = (s: GameState, b: Balance): number => b.ranks[s.rank].slots;
@@ -25,11 +33,12 @@ export function gradeQuarter(m: Meters, b: Balance): Grade {
 }
 
 /**
- * Closes the current quarter: grades it, promotes or demotes, then lets the captain's
- * mood drift back towards the start and the conscience recover a little.
- * Mutates `s` (callers pass a clone).
+ * Closes the current quarter: settles the task (bonus or penalty), grades the quarter,
+ * promotes or demotes, then lets the captain's mood drift back towards the start and the
+ * conscience recover a little. Mutates `s` (callers pass a clone).
  */
 export function endQuarter(s: GameState, c: Content, b: Balance): QuarterResult {
+  const task = settleTask(s, b);
   const before = { ...s.meters };
   const grade = gradeQuarter(before, b);
   const rankBefore = s.rank;
@@ -41,7 +50,17 @@ export function endQuarter(s: GameState, c: Content, b: Balance): QuarterResult 
     H: clamp(before.H + b.quarter.healH),
     L: clamp(before.L + b.quarter.healL),
   };
-  return { quarter: quarterOf(s, c), grade, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
+  return { quarter: quarterOf(s, c), grade, task, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
+}
+
+/** Closes the open task: the captain's mood goes up if done, down if not. Mutates `s`. */
+export function settleTask(s: GameState, b: Balance): TaskState | null {
+  const task = s.task;
+  if (!task) return null;
+  s.meters.E = clamp(s.meters.E + (task.done ? b.task.reward : -b.task.penalty));
+  if (task.done) s.doneTasks.push(task.id);
+  s.task = null;
+  return task;
 }
 
 /** Where the reports have left a resident: in trouble, under suspicion, or untouched. */

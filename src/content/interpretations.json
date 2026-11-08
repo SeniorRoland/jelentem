@@ -147,7 +147,10 @@
     "izg": 4,
     "hih": -1,
     "mult": 1,
-    "text": "ami nyugati befolyásra utalhat"
+    "text": "ami nyugati befolyásra utalhat",
+    "topics": [
+      "nyugati"
+    ]
   },
   {
     "id": "m5",
@@ -188,7 +191,10 @@
     "izg": 4,
     "hih": -1,
     "mult": 0.8,
-    "text": "ami egy jól értesült külföldi rokonra enged következtetni"
+    "text": "ami egy jól értesült külföldi rokonra enged következtetni",
+    "topics": [
+      "nyugati"
+    ]
   },
   {
     "id": "m10",
@@ -220,7 +226,10 @@
     "izg": 4,
     "hih": 0,
     "mult": 0.8,
-    "text": "ami a fogyasztói társadalom csábításának engedő magatartás"
+    "text": "ami a fogyasztói társadalom csábításának engedő magatartás",
+    "topics": [
+      "nyugati"
+    ]
   },
   {
     "id": "m14",
@@ -255,7 +264,10 @@
     "izg": 7,
     "hih": -6,
     "mult": 2,
-    "text": "és mindezt a Szabad Európa Rádió utasítására tette"
+    "text": "és mindezt a Szabad Európa Rádió utasítására tette",
+    "topics": [
+      "sze"
+    ]
   },
   {
     "id": "x4",
@@ -290,7 +302,10 @@
     "hih": -6,
     "mult": 1.5,
     "text": "és mindez a május elsejei felvonulás megzavarására irányul",
-    "note": "A felvonulást nem lehet megzavarni. Kipróbáltuk."
+    "note": "A felvonulást nem lehet megzavarni. Kipróbáltuk.",
+    "topics": [
+      "gyules"
+    ]
   },
   {
     "id": "x8",
@@ -334,5 +349,142 @@
     "hih": -5,
     "mult": 1.4,
     "text": "és ezzel a Varsói Szerződés déli szárnyát gyengíti"
+  },
+  {
+    "id": "d1",
+    "tier": "divert",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.5,
+    "text": "amit a hangok alapján a pincében tárolt, elromlott rádió adhatott le magától",
+    "topics": [
+      "sze"
+    ],
+    "note": "Egy rádió, amely magától adja a Szabad Európát? Ez a nyugati technika."
+  },
+  {
+    "id": "d2",
+    "tier": "divert",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "és a Szabad Európa adását a jelek szerint a csatornarács fogja, mert onnan szól",
+    "topics": [
+      "sze"
+    ]
+  },
+  {
+    "id": "d3",
+    "tier": "divert",
+    "izg": 3,
+    "hih": -1,
+    "mult": 0.5,
+    "text": "amiből megállapítható, hogy a Szabad Európát a házban legfeljebb a padlás galambjai hallgatják",
+    "topics": [
+      "sze"
+    ],
+    "note": "A galambokat is figyelje. Szárnyuk van."
+  },
+  {
+    "id": "d4",
+    "tier": "divert",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "ami közelebbi vizsgálat szerint hazai gyártmány, csak nyugatiasan van összehajtva",
+    "topics": [
+      "nyugati"
+    ]
+  },
+  {
+    "id": "d5",
+    "tier": "divert",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.5,
+    "text": "és a ház egyetlen nyugati árucikke a lépcsőházi falinaptár, amelyen Bécs látható",
+    "topics": [
+      "nyugati"
+    ],
+    "note": "A naptárt foglalja le. A hónapokat is."
+  },
+  {
+    "id": "d6",
+    "tier": "divert",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "amivel kapcsolatban megjegyzem, hogy a házban fellelhető nyugati termék kizárólag a rágógumi a korláton",
+    "topics": [
+      "nyugati"
+    ]
+  },
+  {
+    "id": "d7",
+    "tier": "divert",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.5,
+    "text": "amely összejövetel résztvevői a vizsgálat szerint a pince egerei voltak",
+    "topics": [
+      "gyules"
+    ],
+    "note": "Az egereknek nincs gyülekezési engedélyük. Intézkedjen."
+  },
+  {
+    "id": "d8",
+    "tier": "divert",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "és a ház egyetlen rendszeres összejövetele a reggeli sorban állás a szódásnál",
+    "topics": [
+      "gyules"
+    ]
+  },
+  {
+    "id": "d9",
+    "tier": "divert",
+    "izg": 3,
+    "hih": -1,
+    "mult": 0.5,
+    "text": "ami a ház egyetlen engedély nélküli gyülekezése, ha a kuka körüli verebeket is számoljuk",
+    "topics": [
+      "gyules"
+    ]
+  },
+  {
+    "id": "d10",
+    "tier": "divert",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "és a házban az egyetlen politikai vicc maga a lépcsőházi villanyóra",
+    "topics": [
+      "vicc"
+    ]
+  },
+  {
+    "id": "d11",
+    "tier": "divert",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.5,
+    "text": "amely nevetést a vizsgálat szerint a házmester rádiójából szóló Rádiókabaré okozta",
+    "topics": [
+      "vicc"
+    ],
+    "note": "A Rádiókabarét jóváhagytuk. Azon szabad nevetni."
+  },
+  {
+    "id": "d12",
+    "tier": "divert",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.5,
+    "text": "ami alapján a házban mesélt viccek kizárólag a Trabantról szólnak, és azok sem viccek, hanem tények",
+    "topics": [
+      "vicc"
+    ]
   }
 ]

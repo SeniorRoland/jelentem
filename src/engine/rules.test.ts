@@ -3,7 +3,7 @@ import { balance, content } from '../content';
 import { validateContent } from '../content/validate';
 import { residentStatus } from './career';
 import { obsById, weekObs } from './observations';
-import { playGame, ruthless } from './test-utils';
+import { gentle, playGame, ruthless } from './test-utils';
 import { mulberry32 } from './rng';
 import { endingKey, scoreSentence } from './rules';
 import { dispatch, newGame, type Action } from './state';
@@ -96,6 +96,7 @@ describe('observation pool', () => {
   const games = [
     ...Array.from({ length: 150 }, (_, i) => playGame(i + 1)),
     ...Array.from({ length: 150 }, (_, i) => playGame(i + 1000, ruthless)),
+    ...Array.from({ length: 150 }, (_, i) => playGame(i + 2000, gentle)),
   ];
   const finalOf = (g: GameState[]) => g[g.length - 1];
 
@@ -144,8 +145,9 @@ describe('observation pool', () => {
 });
 
 describe('interpretations', () => {
-  it('has 30–50 cards', () => {
-    expect(content.ints.length).toBeGreaterThanOrEqual(30);
-    expect(content.ints.length).toBeLessThanOrEqual(50);
+  it('has 30–50 regular cards, plus diversion cards for the tasks', () => {
+    const regular = content.ints.filter(x => x.tier !== 'divert');
+    expect(regular.length).toBeGreaterThanOrEqual(30);
+    expect(regular.length).toBeLessThanOrEqual(50);
   });
 });

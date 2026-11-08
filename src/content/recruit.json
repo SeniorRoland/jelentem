@@ -88,14 +88,14 @@
     { "id": "zongoratanar", "job": "zongoratanár", "workplace": ["Alsóbürokráci Állami Zeneiskola"], "school": ["zeneművészeti főiskola"] }
   ],
   "categories": [
-    { "id": "hu", "label": "népi demokráciához hű", "loyal": true, "born": [1925, 1950], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "tanito", "elado", "gepiro", "konyvelo"] },
-    { "id": "lojalis", "label": "lojális", "loyal": true, "born": [1920, 1950], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "tanito", "elado", "gepiro", "konyvelo", "raktaros", "portas"] },
-    { "id": "ellenforr", "label": "ellenforradalmi tevékenység", "loyal": false, "born": [1925, 1940], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "raktaros", "konyvelo"] },
-    { "id": "kulak", "label": "kulák", "loyal": false, "born": [1905, 1930], "jobs": ["tsztag", "raktaros", "ejjelior"] },
-    { "id": "egyhazi", "label": "egyházi", "loyal": false, "born": [1910, 1950], "jobs": ["kantor", "sekrestyes"] },
-    { "id": "egyeb", "label": "egyéb ellenséges tevékenység", "loyal": false, "born": [1920, 1950], "jobs": ["esztergalyos", "elado", "gepiro", "antikvarius", "tanito"] },
-    { "id": "csendor", "label": "csendőr", "loyal": false, "born": [1900, 1924], "sex": "m", "jobs": ["ejjelior", "portas", "raktaros"] },
-    { "id": "osztalyidegen", "label": "osztályidegen", "loyal": false, "born": [1915, 1950], "jobs": ["konyvelo", "antikvarius", "zongoratanar", "gepiro"] }
+    { "id": "hu", "label": "népi demokráciához hű", "letter": "Az Ön hűségében nem kételkedünk. A fantáziájában annál inkább, ezért a túlzásait szigorúbban mérjük.", "loyal": true, "born": [1925, 1950], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "tanito", "elado", "gepiro", "konyvelo"] },
+    { "id": "lojalis", "label": "lojális", "letter": "Lojalitását nyilvántartjuk. Kérjük, ne túlozzon: a lojális ember nem talál ki dolgokat.", "loyal": true, "born": [1920, 1950], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "tanito", "elado", "gepiro", "konyvelo", "raktaros", "portas"] },
+    { "id": "ellenforr", "label": "ellenforradalmi tevékenység", "letter": "Ötvenhatos ügyét nem felejtettük el. Ne felejtse el Ön se, hogy mi nem felejtettük el. Öntől többet várunk.", "loyal": false, "born": [1925, 1940], "jobs": ["esztergalyos", "villanyszerelo", "vasutas", "raktaros", "konyvelo"] },
+    { "id": "kulak", "label": "kulák", "letter": "Volt földjeit a közös gondozza, Önt mi. Elvárásaink ennek megfelelőek.", "loyal": false, "born": [1905, 1930], "jobs": ["tsztag", "raktaros", "ejjelior"] },
+    { "id": "egyhazi", "label": "egyházi", "letter": "Egyházi kapcsolatait ismerjük. Tudja meg: nálunk a gyónási titok nem érvényes.", "loyal": false, "born": [1910, 1950], "jobs": ["kantor", "sekrestyes"] },
+    { "id": "egyeb", "label": "egyéb ellenséges tevékenység", "letter": "Ellenséges tevékenységéről vastag dosszié szól. Vékonyítsa jelentésekkel.", "loyal": false, "born": [1920, 1950], "jobs": ["esztergalyos", "elado", "gepiro", "antikvarius", "tanito"] },
+    { "id": "csendor", "label": "csendőr", "letter": "Régi szakember. Tudjuk, mire képes. Ön is tudja, mire vagyunk képesek mi.", "loyal": false, "born": [1900, 1924], "sex": "m", "jobs": ["ejjelior", "portas", "raktaros"] },
+    { "id": "osztalyidegen", "label": "osztályidegen", "letter": "Származását nem Ön választotta, a jelentéseit igen. Ennek megfelelően várunk.", "loyal": false, "born": [1915, 1950], "jobs": ["konyvelo", "antikvarius", "zongoratanar", "gepiro"] }
   ],
   "classes": {
     "before1972": [
