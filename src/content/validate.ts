@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c));
   return errs;
 }
 
@@ -360,5 +360,18 @@ function validateCons(c: Content, b: Balance): string[] {
     }
     if (r.fate && !r.fate.ruin) errs.push(`Lakó: ${id}: hiányzik a „fate.ruin” szöveg.`);
   }
+  return errs;
+}
+
+/** The end-of-game file: every label present, no straight quotes, the one counter placeholder. */
+function validateDossier(c: Content): string[] {
+  const errs: string[] = [];
+  for (const [k, v] of Object.entries(c.dossier)) {
+    if (!v) errs.push(`Akta: hiányzó szöveg: ${k}`);
+    if (/["']/.test(v)) errs.push(`Akta: egyenes idézőjel: ${v}`);
+    if (k !== 'onYou' && /\{/.test(v)) errs.push(`Akta: helyettesítő csak az „onYou” szövegben lehet: ${k}`);
+  }
+  if (!c.dossier.onYou.includes('{n}')) errs.push('Akta: az „onYou” szövegből hiányzik az {n}.');
+  if (!/^[a-z0-9-]+$/.test(c.dossier.file)) errs.push('Akta: a fájlnév-előtag csak kisbetű, szám és kötőjel lehet.');
   return errs;
 }

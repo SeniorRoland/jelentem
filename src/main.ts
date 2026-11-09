@@ -3,6 +3,7 @@ import { balance, content } from './content';
 import { dispatch, newGame, type Action } from './engine/state';
 import type { GameState } from './engine/types';
 import { cuesFor } from './ui/cues';
+import { mountDossier } from './ui/dossier';
 import { showLoading } from './ui/loading';
 import { showTitle } from './ui/title';
 import { renderScreen, type View } from './ui/render';
@@ -27,6 +28,7 @@ function render(): void {
     : null;
 
   app.innerHTML = renderScreen(state, content, balance, view);
+  if (state.screen === 'ending') void mountDossier(app, state, content, balance);
 
   if (key !== lastKey) {
     window.scrollTo(0, 0);

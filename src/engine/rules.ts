@@ -113,6 +113,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     if (o.who && sc.harm) s.harmBy[o.who] += sc.harm;
     if (it && !s.usedInts.includes(it.id)) s.usedInts.push(it.id);
   }
+  for (const x of sents) s.log.push({ week: s.week, text: x.text, note: x.note, izg: x.izg, hih: x.hih, harm: x.harm });
   for (const sl of s.slots) if (sl.o && !s.reported.includes(sl.o)) s.reported.push(sl.o);
   s.bonds = s.bonds.filter(k => !betrayed.includes(k));
   s.betrayed.push(...betrayed);

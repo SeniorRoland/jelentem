@@ -276,6 +276,17 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   <h2>2026. november 4.</h2>
   <p>Az iratok nyilvánosak lettek. Az adatbázis háromszor kidobott, negyedszerre bejutottál. ${s.reportsOnYou ? c.notes.watch.epilogueSome.replace('{n}', String(s.reportsOnYou)) : c.notes.watch.epilogueNone}</p>
   <p class="quote">„A célszemély gyanúsan sokat ír. Hogy mit, az nem tudható.”</p>
+  <section class="dossier" aria-labelledby="dossier-t">
+  <h2 id="dossier-t">${c.dossier.title}</h2>
+  <p>${c.dossier.lede}</p>
+  <img class="dossier-preview" alt="${c.dossier.heading}: ${s.code}" width="1080" height="1350" hidden>
+  <div class="actions dossier-actions">
+    <button class="btn" data-dossier="download">${c.dossier.download}</button>
+    <button class="btn quiet" data-dossier="share">${c.dossier.share}</button>
+    <button class="btn quiet" data-dossier="copy">${c.dossier.copy}</button>
+  </div>
+  <p class="hint dossier-status" aria-live="polite"></p>
+  </section>
   <div class="actions"><button class="btn" data-action="restart">Újrakezdés új fedőnévvel</button></div>
   </article>`;
 }

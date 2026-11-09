@@ -343,6 +343,7 @@ export interface Content {
   house: { streets: string[]; numbers: [number, number]; girl: ResidentName[] };
   faces: Face[];
   events: EventsContent;
+  dossier: DossierContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -413,6 +414,42 @@ export interface SentenceResult {
   who: ResidentId | null;
   /** About the player (an „Alulírott…” observation). */
   self?: boolean;
+}
+
+/** A sentence as it went into a report, kept for the end-of-game file (placeholders unfilled). */
+export interface LoggedSentence {
+  week: number;
+  text: string;
+  note: string | null;
+  izg: number;
+  hih: number;
+  harm: number;
+}
+
+/** Labels of the shareable file at the end of the game. */
+export interface DossierContent {
+  title: string;
+  lede: string;
+  heading: string;
+  code: string;
+  rank: string;
+  ending: string;
+  best: string;
+  captain: string;
+  harmed: string;
+  noneHarmed: string;
+  trusted: string;
+  onYou: string;
+  onYouLabel: string;
+  weeks: string;
+  realName: string;
+  footer: string;
+  download: string;
+  share: string;
+  copy: string;
+  copied: string;
+  failed: string;
+  file: string;
 }
 
 export interface WeekResult {
@@ -489,6 +526,8 @@ export interface GameState {
   cons: ResidentId[];
   consLevel: Partial<Record<ResidentId, number>>;
   reported: string[];
+  /** Every sentence reported this game, for the file at the end. */
+  log: LoggedSentence[];
   usedInts: string[];
   slots: Slot[];
   dealt: string[];

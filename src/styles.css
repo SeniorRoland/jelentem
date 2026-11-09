@@ -13,6 +13,9 @@
   --karton:#ecdfae; --karton-edge:#c7ad6e; --karton-stain:rgba(150,104,30,.13);
   --k-label:#1f1c17; --k-typed:#45423c; --k-dots:#5b5345; --k-serial:#1b1915;
   /* The title card is black in both themes: a cinema before the film. */
+  /* The shared file image looks the same in both themes. */
+  --akta-paper:#ecdfae; --akta-edge:#c7ad6e; --akta-stain:rgba(150,104,30,.13); --akta-label:#1f1c17;
+  --akta-typed:#3b3832; --akta-stamp:#b0261c; --akta-pen:#1d4ea3; --akta-bar:#111; --akta-dots:#5b5345;
   --night:#050505; --night-text:#e9e3d0; --night-soft:#8e8775; --night-glow:rgba(233,227,208,.22);
 }
 @media (prefers-color-scheme:dark){
@@ -282,3 +285,9 @@ body.title-showing{overflow:hidden}
   .tc-in,.tc-skip{animation:none;opacity:1}
   .title-card{transition:none}
 }
+
+/* The end-of-game file: a preview of the shareable image. */
+.dossier{margin-top:2rem}
+.dossier-preview{display:block;width:100%;max-width:27rem;height:auto;margin:1rem auto;border:1px solid var(--paper-edge);
+  box-shadow:0 .4rem 1.2rem rgba(0,0,0,.25);transform:rotate(-.6deg)}
+.dossier-actions{flex-wrap:wrap}

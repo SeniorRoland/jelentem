@@ -35,6 +35,7 @@ Három réteg, szigorúan elválasztva:
 - Hetente (elvárás = `expect[hét] + ranks[rang].expectBonus`): `E += (izgalom összeg − elvárás) × weight.E`, `H += hihetőség összeg × weight.H`, `L −= ártalom összeg × weight.L`.
 - Következmények (`balance.consequences`, `residents.json` → `cons`): a lakóra az év során összegyűlt ártalom három lépcsőt léphet át: `warn` (figyelmeztetés), `trouble` (a lakó `bajban` van, a története elágazik, `state.cons`), `ruin` (elveszíti a megélhetését). A lépcső sosem megy vissza (`state.consLevel`, 0–3); egy hét híre a hét legmagasabb új lépcsője, a befejezés mindet felsorolja, a lakó sorsa `fate.ok` / `fate.bajban` / `fate.ruin`. A legjobb véget csak a `trouble` zárja ki, a figyelmeztetés nem.
 - Befejezések: `best`, `kivalo`, `megfigyelt`, `behivatas` (`rules.ts` → `endingKey`), a 12. hét után vagy amikor egy mérő nullára esik. A „Ami valójában történt” rész lakónként a `fate.ok` vagy `fate.bajban` szöveget mutatja.
+- Akta (`src/engine/dossier.ts`, `src/ui/dossier.ts`, szövegek: `dossier.json`): a motor minden jelentett mondatot `state.log`-ba ír; a `makeDossier` ebből és az állapotból tisztán összeállítja a befejezés dossziéját (az év mondata a `memorable` szerint), a UI vásznon (1080×1350) rajzolja meg; a színei a témától független `--akta-*` változók. Letöltés, megosztás (Web Share, ha van), szövegmásolás (Clipboard API, különben a régi kijelöléses másolás).
 - Mentés: `src/ui/save.ts`, minden lépés után localStorage-ba; a befejezett vagy a tartalomhoz már nem illő mentést elveti.
 
 ## Tartalmi és hangnemi szabályok

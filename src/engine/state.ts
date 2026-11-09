@@ -52,6 +52,7 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     cons: [],
     consLevel: {},
     reported: [],
+    log: [],
     usedInts: [],
     slots: emptySlots(b.ranks[b.startRank].slots),
     dealt: [],
