@@ -144,6 +144,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Címkép** (b2a7a59): a betöltés előtt fekete képernyőn, drámaian, idézetként jelenik meg a cím, forrásként „(Egy beszervezett)”.
 - [x] **v0.0.4** (a9fccd5): a fokozódó következmények és a címkép a `master` ágon, taggel.
 - [x] **Megosztható akta** (7924b6c): a befejezés után a saját dossziéd képként (1080×1350, megsárgult karton): fénykép, fedőnév, kitakart valódi név, végső besorolás, a házmester jelentései rólad, az év mondata a százados kék tintás megjegyzésével, a bajba juttatott lakók és az értékelés pecsétje. Letölthető PNG-ként, telefonon megosztható, a rövid változata szövegként másolható; közzététel után a játék címe is rákerül.
+- [x] **v0.0.5** (2c105b2): a megosztható akta a `master` ágon, taggel.
 
 ### Hátralévő
 
