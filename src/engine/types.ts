@@ -112,11 +112,38 @@ export interface ResidentName {
   why: string;
 }
 
+/**
+ * A given-name candidate: `n` the name, `b` what the house calls them („Mari néni”), and any
+ * inflected forms the texts need (`nal`: „Máriánál”, `t`: „Istvánt”). Texts use `{mari.n}` etc.
+ */
+export type GivenName = { n: string; b: string } & Record<string, string>;
+
+/** A portrait from `src/assets/faces/<id>.jpg`. */
+export interface Face {
+  id: string;
+  sex: Sex;
+  age: number;
+}
+
+/** Who a resident is in this game: given name, age (from the portrait) and portrait id. */
+export interface Person {
+  given: GivenName;
+  age: number;
+  face: string;
+}
+
 export interface Resident {
-  /** Contains the `{id}` placeholder for the generated family name. */
+  /** Contains the `{id}` placeholder for the generated family name and `{id.n}`-style given-name placeholders. */
   name: string;
   /** Family name candidates; one is drawn per game, never shared with another person. */
   surnames: ResidentName[];
+  /** Given-name candidates (the first is the original); every one has the same forms. */
+  given: GivenName[];
+  sex: Sex;
+  /** Inclusive age range in 1979; the portrait is drawn from it. */
+  age: [number, number];
+  /** One line on the residents' list. */
+  role: string;
   cons?: string;
   truth?: string;
   /** Where the resident's story ends, depending on whether the reports got them in trouble. */
@@ -294,6 +321,9 @@ export interface Content {
   tasks: Task[];
   /** The handler: family name candidates, each hinting at what he does. Texts use `{szazados}`. */
   captain: { surnames: ResidentName[] };
+  /** The address (`{cim}`): street names and the house number range; the young resident's girl (`{lany}`). */
+  house: { streets: string[]; numbers: [number, number]; girl: ResidentName[] };
+  faces: Face[];
   events: EventsContent;
 }
 
@@ -362,6 +392,8 @@ export interface SentenceResult {
   hih: number;
   harm: number;
   who: ResidentId | null;
+  /** About the player (an „Alulírott…” observation). */
+  self?: boolean;
 }
 
 export interface WeekResult {
@@ -425,6 +457,11 @@ export interface GameState {
   names: Record<ResidentId, ResidentName>;
   /** The handler's generated family name. */
   captain: ResidentName;
+  /** Given names, ages and portraits of the residents; the house address; the girl; the recruit's photo. */
+  people: Record<ResidentId, Person>;
+  address: string;
+  girl: ResidentName;
+  face: string;
   /** Observation ids drawn at the start of each week so far (index = week). */
   weekObs: string[][];
   harmBy: Record<ResidentId, number>;

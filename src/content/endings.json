@@ -1,7 +1,7 @@
 {
   "best": {
     "title": "Jelentem, nem történt semmi",
-    "text": "Egy éven át írtál, és semmit sem mondtál. {szazados} százados unalmában az áthelyezését kérte a balatoni kirendeltségre. A Bem utca 12. lakói soha nem tudták meg, kinek köszönhetik a nyugalmukat."
+    "text": "Egy éven át írtál, és semmit sem mondtál. {szazados} százados unalmában az áthelyezését kérte a balatoni kirendeltségre. A {cim} lakói soha nem tudták meg, kinek köszönhetik a nyugalmukat."
   },
   "kivalo": {
     "title": "Kiváló munkatárs",

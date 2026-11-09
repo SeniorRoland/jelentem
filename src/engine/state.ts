@@ -1,6 +1,6 @@
 import { endQuarter, isLastWeek, isQuarterEnd, isQuarterStart, quarterOf, settleTask, slotsFor } from './career';
 import { applyEvent, pickEvent } from './events';
-import { makeCaptain, makeNames } from './names';
+import { makeAddress, makeCaptain, makeGirl, makeNames, makeOwnFace, makePeople } from './names';
 import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
@@ -21,7 +21,10 @@ const emptySlots = (n: number): Slot[] => Array.from({ length: n }, () => ({ o: 
 export function newGame(c: Content, b: Balance, rng: Rng): GameState {
   const recruit = makeRecruit(c, rng);
   const names = makeNames(c, rng, [recruit.name.split(' ')[0]]);
-  const captain = makeCaptain(c, rng, [recruit.name.split(' ')[0], ...Object.values(names).map(n => n.name)]);
+  const taken = [recruit.name.split(' ')[0], ...Object.values(names).map(n => n.name)];
+  const captain = makeCaptain(c, rng, taken);
+  const people = makePeople(c, rng);
+  const face = makeOwnFace(c, rng, recruit.sex, 1979 - recruit.birthYear, Object.values(people).map(p => p.face));
   return {
     screen: 'intro',
     week: 0,
@@ -40,6 +43,10 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     recruit,
     names,
     captain,
+    people,
+    address: makeAddress(c, rng),
+    girl: makeGirl(c, rng, [...taken, captain.name]),
+    face,
     weekObs: [],
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
     cons: [],

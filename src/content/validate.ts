@@ -1,4 +1,4 @@
-import { CAPTAIN, placeholders } from '../engine/names';
+import { ADDRESS, CAPTAIN, GIRL, facesFor, placeholders } from '../engine/names';
 import { candidates } from '../engine/observations';
 import type { Balance, Content, DealTier, ResidentId, ResidentStatus, Surname } from '../engine/types';
 
@@ -153,12 +153,45 @@ function validateNames(c: Content): string[] {
     if (new Set(list.map(n => n.name)).size !== list.length) errs.push(`Lakó: ${id}: ismétlődő vezetéknév-jelölt.`);
     for (const n of list) if (/["']/.test(n.name + n.why)) errs.push(`Lakó: ${id}: egyenes idézőjel: ${n.name}`);
     if (!placeholders(c.residents[id].name).includes(id)) errs.push(`Lakó: ${id}: a névben nincs {${id}} helyettesítő.`);
+    // Given names: every candidate has the same forms, so any of them fits every text.
+    const g = c.residents[id].given ?? [];
+    if (g.length < 4) errs.push(`Lakó: ${id}: legalább 4 keresztnév-jelölt kell, most ${g.length} van.`);
+    const keys = Object.keys(g[0] ?? {}).sort().join();
+    for (const x of g) {
+      if (Object.keys(x).sort().join() !== keys) errs.push(`Lakó: ${id}: a(z) „${x.n}” keresztnévnek más alakjai vannak, mint a többinek.`);
+      if (!x.n || !x.b) errs.push(`Lakó: ${id}: hiányzó keresztnév vagy becenév.`);
+      for (const v of Object.values(x)) if (/["'{}]/.test(v)) errs.push(`Lakó: ${id}: hibás keresztnév-alak: ${v}`);
+    }
+    const r = c.residents[id];
+    if (!r.role || /["']/.test(r.role)) errs.push(`Lakó: ${id}: hiányzó vagy hibás szerep.`);
+    if (r.age?.length !== 2 || r.age[0] > r.age[1]) errs.push(`Lakó: ${id}: hibás korhatár.`);
+    else if (facesFor(c, r.sex, r.age).length < 3) errs.push(`Lakó: ${id}: legalább 3 illő arckép kell (${r.sex}, ${r.age.join('–')} év).`);
   }
+  const givens = ids.flatMap(id => (c.residents[id].given ?? []).map(x => x.n));
+  if (new Set(givens).size !== givens.length) errs.push('Lakó: egy keresztnév több szerepnél is szerepel.');
+  // Faces: unique ids; the recruit also needs one of each sex once the residents took theirs.
+  if (new Set(c.faces.map(f => f.id)).size !== c.faces.length) errs.push('Arckép: duplikált azonosító.');
+  for (const sex of ['m', 'f'] as const) {
+    const need = ids.filter(id => c.residents[id].sex === sex).length + 1;
+    if (c.faces.filter(f => f.sex === sex).length < need) errs.push(`Arckép: kevés ${sex} arckép.`);
+  }
+  // The address takes „a”, never „az”, and the girl's name follows „a” too.
+  const h = c.house;
+  if (h.streets.length < 8) errs.push(`Cím: legalább 8 utcanév kell, most ${h.streets.length} van.`);
+  for (const st of h.streets) if (/^[AÁEÉIÍOÓÖŐUÚÜŰ0-9]/i.test(st) || /["']/.test(st)) errs.push(`Cím: „${st}” mássalhangzóval kezdődjön (a „a {cim}” miatt).`);
+  if (h.numbers[0] < 1 || h.numbers[0] > h.numbers[1]) errs.push('Cím: hibás házszám-tartomány.');
+  if (h.girl.length < ids.length + 3) errs.push(`Lány: legalább ${ids.length + 3} vezetéknév-jelölt kell.`);
+  for (const n of h.girl) if (/^[AÁEÉIÍOÓÖŐUÚÜŰ]/.test(n.name) || !n.why || /["']/.test(n.name + n.why)) errs.push(`Lány: hibás jelölt: ${n.name}`);
+  const known = new Set<string>([CAPTAIN, ADDRESS, GIRL, ...ids,
+    ...ids.flatMap(id => Object.keys(c.residents[id].given?.[0] ?? {}).map(k => `${id}.${k}`))]);
   const texts: [string, string][] = [
     ...c.weeks.map(w => [w.label, w.intro] as [string, string]),
     ...c.obs.flatMap(o => [[o.id, o.text], [o.id, o.note ?? '']] as [string, string][]),
     ...c.ints.flatMap(i => [[i.id, i.text], [i.id, i.note ?? '']] as [string, string][]),
-    ...ids.flatMap(id => [[id, c.residents[id].name], [id, c.residents[id].cons ?? ''], [id, c.residents[id].truth ?? '']] as [string, string][]),
+    ...ids.flatMap(id => [[id, c.residents[id].name], [id, c.residents[id].cons ?? ''], [id, c.residents[id].truth ?? ''], [id, c.residents[id].role ?? ''],
+      [id, c.residents[id].fate?.ok ?? ''], [id, c.residents[id].fate?.bajban ?? '']] as [string, string][]),
+    ...c.tasks.flatMap(t => [[t.id, t.title], [t.id, t.done], [t.id, t.fail]] as [string, string][]),
+    ...c.recruit.categories.map(k => [k.id, k.letter] as [string, string]),
     ...Object.entries(c.endings).flatMap(([k, e]) => [[k, e.title], [k, e.text]] as [string, string][]),
     ...Object.entries(c.notes).filter(([, v]) => typeof v === 'string').map(([k, v]) => [k, v as string] as [string, string]),
     ...Object.entries(c.notes.watch).map(([k, v]) => [`watch.${k}`, v] as [string, string]),
@@ -172,7 +205,7 @@ function validateNames(c: Content): string[] {
     for (const p of placeholders(text)) {
       // {obs} and {n} are filled by the UI in the caretaker's texts only.
       const local = where.startsWith('watch.') && (p === 'obs' || p === 'n');
-      if (!local && p !== CAPTAIN && !ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
+      if (!local && !known.has(p)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
     }
 
   // The handler takes his name last, after the recruit and every resident took theirs.
@@ -299,7 +332,7 @@ function validateEvents(c: Content): string[] {
   for (const it of c.ints) {
     if (it.tier === 'alibi' && (!it.who || !close.has(it.who))) errs.push(`${it.id}: az alibi kártya olyan lakóé legyen, aki megkedvelheti a játékost.`);
     if (it.tier !== 'alibi' && it.who) errs.push(`${it.id}: csak alibi kártyának lehet „who” mezője.`);
-    if (it.tier === 'alibi' && it.who && it.text.includes('{') && !it.text.includes(`{${it.who}}`)) errs.push(`${it.id}: az alibi más lakó nevét említi.`);
+    if (it.tier === 'alibi' && it.who && placeholders(it.text).some(p => p.split('.')[0] in c.residents && p.split('.')[0] !== it.who)) errs.push(`${it.id}: az alibi más lakó nevét említi.`);
   }
   return errs;
 }

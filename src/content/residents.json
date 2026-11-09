@@ -1,60 +1,296 @@
 {
   "mari": {
-    "name": "{mari} Mária (Mari néni)",
+    "name": "{mari} {mari.n} ({mari.b})",
     "surnames": [
-      { "name": "Szakács", "why": "reggeltől estig befőz" },
-      { "name": "Kosaras", "why": "kosárral jár a piacra" },
-      { "name": "Mézes", "why": "édes befőtteket tesz el" },
-      { "name": "Szilvás", "why": "szilvát főz be" },
-      { "name": "Borsos", "why": "fűszeres, erős paprikát tesz el" }
+      {
+        "name": "Szakács",
+        "why": "reggeltől estig befőz"
+      },
+      {
+        "name": "Kosaras",
+        "why": "kosárral jár a piacra"
+      },
+      {
+        "name": "Mézes",
+        "why": "édes befőtteket tesz el"
+      },
+      {
+        "name": "Szilvás",
+        "why": "szilvát főz be"
+      },
+      {
+        "name": "Borsos",
+        "why": "fűszeres, erős paprikát tesz el"
+      }
     ],
-    "cons": "{mari} Máriánál házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
-    "truth": "Mari néni kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. Minden egyéb gyanús ügye befőtt, sorban állás és pletyka volt.",
+    "cons": "{mari} {mari.nal} házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
+    "truth": "{mari.b} kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. Minden egyéb gyanús ügye befőtt, sorban állás és pletyka volt.",
     "fate": {
-      "ok": "Mari néni azóta minden karácsonyt Bécsben tölt, és mindig hoz egy csomag kávét a háznak. A házmesternek kettőt.",
-      "bajban": "Mari néni sosem kapott útlevelet. A kávét azóta a sógornő hozza, és a lépcsőházban suttogva főzik."
-    }
+      "ok": "{mari.b} azóta minden karácsonyt Bécsben tölt, és mindig hoz egy csomag kávét a háznak. A házmesternek kettőt.",
+      "bajban": "{mari.b} sosem kapott útlevelet. A kávét azóta a sógornő hozza, és a lépcsőházban suttogva főzik."
+    },
+    "sex": "f",
+    "age": [
+      65,
+      80
+    ],
+    "role": "nyugdíjas, a földszinten lakik egyedül",
+    "given": [
+      {
+        "n": "Mária",
+        "b": "Mari néni",
+        "nal": "Máriánál"
+      },
+      {
+        "n": "Erzsébet",
+        "b": "Erzsi néni",
+        "nal": "Erzsébetnél"
+      },
+      {
+        "n": "Ilona",
+        "b": "Ilonka néni",
+        "nal": "Ilonánál"
+      },
+      {
+        "n": "Margit",
+        "b": "Manci néni",
+        "nal": "Margitnál"
+      },
+      {
+        "n": "Rozália",
+        "b": "Rózsi néni",
+        "nal": "Rozáliánál"
+      },
+      {
+        "n": "Julianna",
+        "b": "Juliska néni",
+        "nal": "Juliannánál"
+      },
+      {
+        "n": "Terézia",
+        "b": "Teri néni",
+        "nal": "Teréziánál"
+      },
+      {
+        "n": "Anna",
+        "b": "Annus néni",
+        "nal": "Annánál"
+      }
+    ]
   },
   "jozsi": {
-    "name": "{jozsi} József (Józsi bácsi)",
+    "name": "{jozsi} {jozsi.n} ({jozsi.b})",
     "surnames": [
-      { "name": "Kerekes", "why": "örökké a kocsiját szereli" },
-      { "name": "Bognár", "why": "fából hintát épít" },
-      { "name": "Ács", "why": "a garázsban ácsol" },
-      { "name": "Asztalos", "why": "fát fűrészel a garázsban" },
-      { "name": "Bodnár", "why": "ügyes kezű ezermester" }
+      {
+        "name": "Kerekes",
+        "why": "örökké a kocsiját szereli"
+      },
+      {
+        "name": "Bognár",
+        "why": "fából hintát épít"
+      },
+      {
+        "name": "Ács",
+        "why": "a garázsban ácsol"
+      },
+      {
+        "name": "Asztalos",
+        "why": "fát fűrészel a garázsban"
+      },
+      {
+        "name": "Bodnár",
+        "why": "ügyes kezű ezermester"
+      }
     ],
-    "cons": "{jozsi} József Trabantjának forgalmiját „műszaki okokból” bevonták. Józsi bácsi azóta gyalog jár, és nem köszön.",
-    "truth": "Józsi bácsi hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető.",
+    "cons": "{jozsi} {jozsi.n} Trabantjának forgalmiját „műszaki okokból” bevonták. {jozsi.b} azóta gyalog jár, és nem köszön.",
+    "truth": "{jozsi.b} hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető.",
     "fate": {
-      "ok": "Józsi bácsi hintája ma is áll az udvaron. A Trabant nem, de az már egy másik történet.",
-      "bajban": "Józsi bácsi a hintát sosem kapta vissza. A Trabantot igen, és azóta azt szereli. Örökké."
-    }
+      "ok": "{jozsi.b} hintája ma is áll az udvaron. A Trabant nem, de az már egy másik történet.",
+      "bajban": "{jozsi.b} a hintát sosem kapta vissza. A Trabantot igen, és azóta azt szereli. Örökké."
+    },
+    "sex": "m",
+    "age": [
+      57,
+      75
+    ],
+    "role": "nyugdíjas ezermester, az udvari garázs bérlője",
+    "given": [
+      {
+        "n": "József",
+        "b": "Józsi bácsi"
+      },
+      {
+        "n": "János",
+        "b": "Jani bácsi"
+      },
+      {
+        "n": "Ferenc",
+        "b": "Feri bácsi"
+      },
+      {
+        "n": "Sándor",
+        "b": "Sanyi bácsi"
+      },
+      {
+        "n": "Imre",
+        "b": "Imre bácsi"
+      },
+      {
+        "n": "Mihály",
+        "b": "Misi bácsi"
+      },
+      {
+        "n": "Károly",
+        "b": "Karcsi bácsi"
+      },
+      {
+        "n": "Antal",
+        "b": "Tóni bácsi"
+      }
+    ]
   },
   "pityu": {
-    "name": "{pityu} István (Pityu)",
+    "name": "{pityu} {pityu.n} ({pityu.b})",
     "surnames": [
-      { "name": "Hosszú", "why": "vállig érő haja van" },
-      { "name": "Göndör", "why": "hosszú, göndör haja van" },
-      { "name": "Diák", "why": "egyetemi hallgató" },
-      { "name": "Lantos", "why": "verseket gépel" },
-      { "name": "Fürtös", "why": "fürtökben lóg a haja" }
+      {
+        "name": "Hosszú",
+        "why": "vállig érő haja van"
+      },
+      {
+        "name": "Göndör",
+        "why": "hosszú, göndör haja van"
+      },
+      {
+        "name": "Diák",
+        "why": "egyetemi hallgató"
+      },
+      {
+        "name": "Lantos",
+        "why": "verseket gépel"
+      },
+      {
+        "name": "Fürtös",
+        "why": "fürtökben lóg a haja"
+      }
     ],
-    "cons": "{pityu} Istvánt nem engedték el az egyetemi tanulmányútra Bécsbe.",
-    "truth": "Pityu füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti Kovács lánynak.",
+    "cons": "{pityu} {pityu.t} nem engedték el az egyetemi tanulmányútra Bécsbe.",
+    "truth": "{pityu.b} füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti {lany} lánynak.",
     "fate": {
-      "ok": "Pityu feleségül vette a Kovács lányt. A versesfüzet bekeretezve lóg a nappalijukban.",
-      "bajban": "Pityu a leszerelése után feleségül vette a Kovács lányt. A versesfüzetet addig a lány őrizte, a párnája alatt."
-    }
+      "ok": "{pityu.b} feleségül vette a {lany} lányt. A versesfüzet bekeretezve lóg a nappalijukban.",
+      "bajban": "{pityu.b} a leszerelése után feleségül vette a {lany} lányt. A versesfüzetet addig a lány őrizte, a párnája alatt."
+    },
+    "sex": "m",
+    "age": [
+      20,
+      28
+    ],
+    "role": "egyetemi hallgató, a második emeleten lakik albérletben",
+    "given": [
+      {
+        "n": "István",
+        "b": "Pityu",
+        "t": "Istvánt"
+      },
+      {
+        "n": "László",
+        "b": "Laci",
+        "t": "Lászlót"
+      },
+      {
+        "n": "Gábor",
+        "b": "Gabi",
+        "t": "Gábort"
+      },
+      {
+        "n": "Zoltán",
+        "b": "Zoli",
+        "t": "Zoltánt"
+      },
+      {
+        "n": "Tamás",
+        "b": "Tomi",
+        "t": "Tamást"
+      },
+      {
+        "n": "Péter",
+        "b": "Peti",
+        "t": "Pétert"
+      },
+      {
+        "n": "Attila",
+        "b": "Ati",
+        "t": "Attilát"
+      },
+      {
+        "n": "Csaba",
+        "b": "Csabi",
+        "t": "Csabát"
+      }
+    ]
   },
   "porgoly": {
-    "name": "{porgoly} Lajosné, házmester",
+    "name": "{porgoly} {porgoly.n}, házmester",
     "surnames": [
-      { "name": "Szemes", "why": "mindent észrevesz" },
-      { "name": "Füles", "why": "mindent meghall" },
-      { "name": "Kulcsár", "why": "nála vannak a ház kulcsai" },
-      { "name": "Kapus", "why": "a kapuban áll" },
-      { "name": "Ajtós", "why": "minden ajtón benéz" }
+      {
+        "name": "Szemes",
+        "why": "mindent észrevesz"
+      },
+      {
+        "name": "Füles",
+        "why": "mindent meghall"
+      },
+      {
+        "name": "Kulcsár",
+        "why": "nála vannak a ház kulcsai"
+      },
+      {
+        "name": "Kapus",
+        "why": "a kapuban áll"
+      },
+      {
+        "name": "Ajtós",
+        "why": "minden ajtón benéz"
+      }
+    ],
+    "sex": "f",
+    "age": [
+      44,
+      61
+    ],
+    "role": "a kapu melletti lakásban lakik, nála vannak a ház kulcsai",
+    "given": [
+      {
+        "n": "Lajosné",
+        "b": "Lajosné"
+      },
+      {
+        "n": "Gézáné",
+        "b": "Gézáné"
+      },
+      {
+        "n": "Tiborné",
+        "b": "Tiborné"
+      },
+      {
+        "n": "Dezsőné",
+        "b": "Dezsőné"
+      },
+      {
+        "n": "Kálmánné",
+        "b": "Kálmánné"
+      },
+      {
+        "n": "Ottóné",
+        "b": "Ottóné"
+      },
+      {
+        "n": "Elemérné",
+        "b": "Elemérné"
+      },
+      {
+        "n": "Béláné",
+        "b": "Béláné"
+      }
     ]
   }
 }

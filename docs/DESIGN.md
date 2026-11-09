@@ -2,7 +2,7 @@
 
 ## Alapötlet
 
-1979 tavasza, Alsóbürokrác, Bem utca 12. A játékos motiválatlan besúgó, akit 1971-ben vagy 1972-ben szerveztek be, de azóta érdemi jelentést nem adott; a dossziéját most az új tartótiszt előveszi. Fedőneve véletlenszerű (pl. „Kockás Abrosz”). A tartótiszt, egy százados, hetente jelentést vár a ház lakóiról. A lakók unalmasak, és a játékos nem akar ártani nekik.
+1979 tavasza, Alsóbürokrác, egy bérház (minden játékban más címen, pl. Béke utca 17.). A játékos motiválatlan besúgó, akit 1971-ben vagy 1972-ben szerveztek be, de azóta érdemi jelentést nem adott; a dossziéját most az új tartótiszt előveszi. Fedőneve véletlenszerű (pl. „Kockás Abrosz”). A tartótiszt, egy százados, hetente jelentést vár a ház lakóiról. A lakók unalmasak, és a játékos nem akar ártani nekik.
 
 A játék lényege egyensúlyozás: a jelentés legyen elég izgalmas a századosnak, elég hihető, hogy ne kezdjenek gyanakodni a játékosra, és elég ártalmatlan, hogy a szomszédok ne kerüljenek bajba. A legjobb besúgó sokat ír, és semmit sem mond.
 
@@ -86,7 +86,11 @@ A negyedéves értékelés jelzi, ki bízik benned, és kit árultál el; a befe
 
 ## Szereplők (mind kitalált)
 
-A lakók vezetékneve minden játékban újra generálódik, a lakó egy igaz tulajdonságából (`residents.json` → `surnames`, öt jelölt lakónként): Mari néni lehet Szakács, Kosaras, Mézes, Szilvás vagy Borsos; Józsi bácsi Kerekes, Bognár, Ács, Asztalos vagy Bodnár; Pityu Hosszú, Göndör, Diák, Lantos vagy Fürtös; a házmester Szemes, Füles, Kulcsár, Kapus vagy Ajtós. Két szereplő (a beszervezettet is beleértve) soha nem kapja ugyanazt a nevet.
+A lakók szerepe állandó, de a nevük, a koruk és az arcuk minden játékban más. A keresztnév szerepenként nyolc korhű jelöltből jön a becenévvel együtt (Mária / Mari néni, Erzsébet / Erzsi néni…; József / Józsi bácsi, Ferenc / Feri bácsi…; István / Pityu, László / Laci…; a házmesterné a férje nevén: Lajosné, Gézáné…). Az arckép 60 generált portréból sorsolódik a szerep neme és korhatára szerint, a lakó kora az arcképé. A nyitólevél után a megfigyelendő személyek arcképes listája jön, a jelentés minden mondata mellett ott a megfigyelt arca (rólad szóló mondatnál a tiéd, a közös területnél üres keret), és a beszervezési kartonon is van fénykép.
+
+A lakók vezetékneve is minden játékban újra generálódik, a lakó egy igaz tulajdonságából (`residents.json` → `surnames`, öt jelölt lakónként): Mari néni lehet Szakács, Kosaras, Mézes, Szilvás vagy Borsos; Józsi bácsi Kerekes, Bognár, Ács, Asztalos vagy Bodnár; Pityu Hosszú, Göndör, Diák, Lantos vagy Fürtös; a házmester Szemes, Füles, Kulcsár, Kapus vagy Ajtós. Két szereplő (a beszervezettet is beleértve) soha nem kapja ugyanazt a nevet.
+
+Az alábbi nevek az eredetiek, ezek a jelöltlisták első elemei.
 
 - **Mari néni (Mária):** befőz, piacra jár. Titka: nyugatnémet kávé a bécsi sógornőtől.
 - **Józsi bácsi (József):** örökké a Trabantot szereli. Titka: hintát épít a feleségének a 40. évfordulóra.
@@ -125,6 +129,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Generált százados-név** (a9bb2aa): a szerepére utaló vezetéknév, kezdőbetűs szignó.
 - [x] **Az asztal mint háttér** (5b823f9): a tartótiszt íróasztalának fotója a betöltő képernyőn élesen, játék közben elmosva, sötétítve; mobilon álló változat.
 - [x] **A házmester ellenjelentése** (97b0cf1): alacsony hihetőségnél rólad szóló megfigyelések, önkritika vagy számonkérés, megnyugvás a negyedév végén, számlálás az epilógusban.
+- [x] **Változatos ház, nevek és arcképek** (`feature/identities`): generált cím, keresztnév és becenév, 60 arckép kor és nem szerint, arcképes lakólista, arc a jelentés mondatai mellett, fénykép a kartonon; a Kovács lány neve is generált.
 - [x] **Szomszédi viszony és véletlen események** (e9ac014): 12 házi esemény és 9 kedvesség, bizalmas megfigyelések, alibi kártyák, árulás dupla lelkiismeret-veszteséggel. A puszta óvatosság így gyakrabban elég (10% → 36%), a tervezés jobban kifizetődik (76% → 89%).
 
 ### Hátralévő
@@ -140,7 +145,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 **A ház élete**
 
 - [ ] **Fokozódó következmények:** most lakónként egyetlen következmény van; legyen fokozatos (figyelmeztetés → házkutatás → a munkahely elvesztése).
-- [ ] **A Kovács lány neve:** most fix; generálható lenne a többi névhez hasonlóan.
 
 **Befejezés és megjelenés**
 

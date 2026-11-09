@@ -1,0 +1,55 @@
+{
+  "streets": [
+    "Bem utca",
+    "Béke utca",
+    "Tanács utca",
+    "Május 1. utca",
+    "Felszabadulás utca",
+    "Szövetkezet utca",
+    "Munkás utca",
+    "Gyár utca",
+    "Partizán utca",
+    "Vörös Csillag utca",
+    "Kender utca",
+    "Malom utca",
+    "Tégla utca"
+  ],
+  "numbers": [
+    3,
+    48
+  ],
+  "girl": [
+    {
+      "name": "Kovács",
+      "why": "a harmadik emeleten lakik, az apja kovács a gépgyárban"
+    },
+    {
+      "name": "Virág",
+      "why": "Pityu virágot visz neki minden szombaton"
+    },
+    {
+      "name": "Szép",
+      "why": "a ház szerint a legszebb lány az utcában"
+    },
+    {
+      "name": "Csillag",
+      "why": "Pityu versei szerint ő a csillaga"
+    },
+    {
+      "name": "Rózsa",
+      "why": "rózsát nevel az erkélyén"
+    },
+    {
+      "name": "Dalos",
+      "why": "a gyári kórusban énekel"
+    },
+    {
+      "name": "Vidám",
+      "why": "mindig nevet a lépcsőházban"
+    },
+    {
+      "name": "Hajnal",
+      "why": "hajnalban jár a műszakba"
+    }
+  ]
+}

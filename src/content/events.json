@@ -9,14 +9,14 @@
     "betrayed": "elárultad"
   },
   "betrayed": {
-    "mari": "{mari} Mária azóta nem köszön a lépcsőházban. A kölcsönkapott tálat nem kérte vissza.",
-    "jozsi": "{jozsi} József azóta bezárja a műhelyét, ha meglát a gangon. A kulcsot a nyakában hordja.",
-    "pityu": "{pityu} István elfordítja a fejét, ha találkoztok. Az új versének címe: „Szomszéd”."
+    "mari": "{mari} {mari.n} azóta nem köszön a lépcsőházban. A kölcsönkapott tálat nem kérte vissza.",
+    "jozsi": "{jozsi} {jozsi.n} azóta bezárja a műhelyét, ha meglát a gangon. A kulcsot a nyakában hordja.",
+    "pityu": "{pityu} {pityu.n} elfordítja a fejét, ha találkoztok. Az új versének címe: „Szomszéd”."
   },
   "kept": {
-    "mari": "{mari} Mária minden karácsonykor átküldött egy tál pogácsát. Sosem tudta meg, hogy a kedves szomszédnak fedőneve is van.",
-    "jozsi": "{jozsi} József a megjavított szék mellé egy hintát is ácsolt neked. Nem tudta, hogy a jelentéseidben is szerepel, mindig csak jóval.",
-    "pityu": "{pityu} István az első verseskötetét neked dedikálta: „A szomszédnak, aki hallgatni tudott.”"
+    "mari": "{mari} {mari.n} minden karácsonykor átküldött egy tál pogácsát. Sosem tudta meg, hogy a kedves szomszédnak fedőneve is van.",
+    "jozsi": "{jozsi} {jozsi.n} a megjavított szék mellé egy hintát is ácsolt neked. Nem tudta, hogy a jelentéseidben is szerepel, mindig csak jóval.",
+    "pityu": "{pityu} {pityu.n} az első verseskötetét neked dedikálta: „A szomszédnak, aki hallgatni tudott.”"
   },
   "list": [
     {
@@ -24,7 +24,7 @@
       "kind": "kind",
       "who": "mari",
       "title": "Pogácsa",
-      "text": "{mari} Mária (Mari néni) becsöngetett egy tál tepertős pogácsával. „Maga olyan sokat dolgozik, fiam, éjjel is hallom az írógépet.” Leültetett a konyhájában, és mesélni kezdett.",
+      "text": "{mari} {mari.n} ({mari.b}) becsöngetett egy tál tepertős pogácsával. „Maga olyan sokat dolgozik, fiam, éjjel is hallom az írógépet.” Leültetett a konyhájában, és mesélni kezdett.",
       "obs": [
         "o_k_mari_pogacsa"
       ]
@@ -34,7 +34,7 @@
       "kind": "kind",
       "who": "mari",
       "title": "Meggybefőtt",
-      "text": "{mari} Mária (Mari néni) szerint sápadt vagy, ezért kaptál tőle két üveg meggybefőttet. A második üveg mellé egy titkot is.",
+      "text": "{mari} {mari.n} ({mari.b}) szerint sápadt vagy, ezért kaptál tőle két üveg meggybefőttet. A második üveg mellé egy titkot is.",
       "obs": [
         "o_k_mari_befott"
       ]
@@ -44,7 +44,7 @@
       "kind": "kind",
       "who": "mari",
       "title": "Felolvasás",
-      "text": "{mari} Mária (Mari néni) szemüvege eltört, ezért téged kért meg, hogy olvasd fel neki a sógornője levelét. „Magában megbízom, fiam.”",
+      "text": "{mari} {mari.n} ({mari.b}) szemüvege eltört, ezért téged kért meg, hogy olvasd fel neki a sógornője levelét. „Magában megbízom, fiam.”",
       "obs": [
         "o_k_mari_level"
       ]
@@ -54,7 +54,7 @@
       "kind": "kind",
       "who": "jozsi",
       "title": "A szék",
-      "text": "{jozsi} József (Józsi bácsi) meghallotta, hogy nyikorog a széked, és ingyen megjavította. „Egy rendes embernek ne nyikorogjon a széke.” Utána a műhelyét is megmutatta.",
+      "text": "{jozsi} {jozsi.n} ({jozsi.b}) meghallotta, hogy nyikorog a széked, és ingyen megjavította. „Egy rendes embernek ne nyikorogjon a széke.” Utána a műhelyét is megmutatta.",
       "obs": [
         "o_k_jozsi_szek"
       ]
@@ -64,7 +64,7 @@
       "kind": "kind",
       "who": "jozsi",
       "title": "Pálinka",
-      "text": "{jozsi} József (Józsi bácsi) lehívott a pincébe egy kupica szilvóriumra. A második kupica után barátjának szólított.",
+      "text": "{jozsi} {jozsi.n} ({jozsi.b}) lehívott a pincébe egy kupica szilvóriumra. A második kupica után barátjának szólított.",
       "obs": [
         "o_k_jozsi_palinka"
       ]
@@ -74,7 +74,7 @@
       "kind": "kind",
       "who": "jozsi",
       "title": "Fuvar",
-      "text": "{jozsi} József (Józsi bácsi) elvitt a Trabanttal a piacra, pedig nem is kérted. Útközben olyasmit mesélt, amit csak barátnak szokás.",
+      "text": "{jozsi} {jozsi.n} ({jozsi.b}) elvitt a Trabanttal a piacra, pedig nem is kérted. Útközben olyasmit mesélt, amit csak barátnak szokás.",
       "obs": [
         "o_k_jozsi_trabant"
       ]
@@ -84,7 +84,7 @@
       "kind": "kind",
       "who": "pityu",
       "title": "Lemez",
-      "text": "{pityu} István (Pityu) átjött egy bakelitlemezzel. „Ezt hallgasd meg, de ne mondd senkinek.” Nem mondod. Csak leírod. Vagy nem.",
+      "text": "{pityu} {pityu.n} ({pityu.b}) átjött egy bakelitlemezzel. „Ezt hallgasd meg, de ne mondd senkinek.” Nem mondod. Csak leírod. Vagy nem.",
       "obs": [
         "o_k_pityu_lemez"
       ]
@@ -94,7 +94,7 @@
       "kind": "kind",
       "who": "pityu",
       "title": "Szén",
-      "text": "{pityu} István (Pityu) felhordta helyetted a szenet a pincéből, két mázsát, egy szó nélkül. Fent aztán mégis beszélgetni kezdett.",
+      "text": "{pityu} {pityu.n} ({pityu.b}) felhordta helyetted a szenet a pincéből, két mázsát, egy szó nélkül. Fent aztán mégis beszélgetni kezdett.",
       "obs": [
         "o_k_pityu_szen"
       ]
@@ -104,7 +104,7 @@
       "kind": "kind",
       "who": "pityu",
       "title": "Tanács",
-      "text": "{pityu} István (Pityu) a te véleményedet kérte a Kovács lánynak írt verséről. „Te értesz az írásokhoz, hallom, sokat gépelsz.”",
+      "text": "{pityu} {pityu.n} ({pityu.b}) a te véleményedet kérte a {lany} lánynak írt verséről. „Te értesz az írásokhoz, hallom, sokat gépelsz.”",
       "obs": [
         "o_k_pityu_vers"
       ]
@@ -123,7 +123,7 @@
       "id": "h_lakogyules",
       "kind": "house",
       "title": "Lakógyűlés",
-      "text": "{porgoly} Lajosné lakógyűlést hívott össze a lépcsőházi villanykörte ügyében. Három órán át tartott, a villanykörte nem került elő.",
+      "text": "{porgoly} {porgoly.n} lakógyűlést hívott össze a lépcsőházi villanykörte ügyében. Három órán át tartott, a villanykörte nem került elő.",
       "expect": 1,
       "obs": [
         "o_h_lakogyules"
@@ -181,7 +181,7 @@
       "id": "h_szuret",
       "kind": "house",
       "title": "Szüreti bál",
-      "text": "A művelődési házban szüreti bált tartottak. A Bem utca 12. teljes létszámban megjelent, a házmester kivételével, aki otthonról figyelt.",
+      "text": "A művelődési házban szüreti bált tartottak. A {cim} teljes létszámban megjelent, a házmester kivételével, aki otthonról figyelt.",
       "quarters": [
         2
       ],

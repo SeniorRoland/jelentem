@@ -494,7 +494,7 @@
     "izg": 1,
     "hih": 0,
     "mult": 0.2,
-    "text": "amelynek során {mari} Mária végig alulírott szeme előtt volt, és kizárólag a befőzésről beszélt"
+    "text": "amelynek során {mari} {mari.n} végig alulírott szeme előtt volt, és kizárólag a befőzésről beszélt"
   },
   {
     "id": "a_mari2",
@@ -503,7 +503,7 @@
     "izg": 1,
     "hih": 0,
     "mult": 0.2,
-    "text": "ami {mari} Mária korára és cukorbetegségére tekintettel kizárólag háztartási jellegű",
+    "text": "ami {mari} {mari.n} korára és cukorbetegségére tekintettel kizárólag háztartási jellegű",
     "note": "Cukorbetegség. Ezt feljegyezzük. Vagy mégsem."
   },
   {
@@ -513,7 +513,7 @@
     "izg": 1,
     "hih": 0,
     "mult": 0.2,
-    "text": "és {mari} Mária ezt követően alulírottal együtt hallgatta a Kossuth rádió esti híreit, mélyen egyetértve"
+    "text": "és {mari} {mari.n} ezt követően alulírottal együtt hallgatta a Kossuth rádió esti híreit, mélyen egyetértve"
   },
   {
     "id": "a_jozsi1",
@@ -531,7 +531,7 @@
     "izg": 1,
     "hih": 0,
     "mult": 0.2,
-    "text": "és {jozsi} József munka közben végig a szocialista brigád becsületéről beszélt",
+    "text": "és {jozsi} {jozsi.n} munka közben végig a szocialista brigád becsületéről beszélt",
     "note": "Ennyit egy ember nem beszél a brigádról. Hacsak nem igaz."
   },
   {
@@ -559,7 +559,7 @@
     "izg": 1,
     "hih": 0,
     "mult": 0.2,
-    "text": "és {pityu} István ezt követően alulírottal együtt a KISZ-taggyűlésre sietett",
+    "text": "és {pityu} {pityu.n} ezt követően alulírottal együtt a KISZ-taggyűlésre sietett",
     "note": "A KISZ-taggyűlésre sietni? Ilyet még nem láttunk."
   },
   {
@@ -569,6 +569,6 @@
     "izg": 1,
     "hih": 0,
     "mult": 0.2,
-    "text": "amit alulírott ellenőrzött: a fiatalember lelkesedése kizárólag a Kovács lánynak szól"
+    "text": "amit alulírott ellenőrzött: a fiatalember lelkesedése kizárólag a {lany} lánynak szól"
   }
 ]

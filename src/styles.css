@@ -151,6 +151,25 @@ p{margin:0 0 .85rem;max-width:68ch}
 .slip.self{border-style:dotted;border-color:var(--ink)}
 .hint.watch{color:var(--stamp);font-style:normal;font-weight:700}
 .slip.divert{border-style:dashed;border-color:var(--stamp)}
+/*
+ * Portraits: small greyscale photos stapled to the sheet. Sepia-toned a little so they sit on the
+ * yellowed paper; a thin frame like a cut-out ID photo.
+ */
+.face{display:block;flex:none;width:2.5rem;height:3.33rem;object-fit:cover;border:1px solid var(--paper-edge);
+  background:var(--paper);filter:sepia(.25) contrast(1.05)}
+.face.big{width:4.5rem;height:6rem}
+.face.none{border-style:dashed;opacity:.5}
+/* The portrait sits in a strip left of the sentence, so list numbers and the text flow stay as they were. */
+li.with-face,.report li.with-face{position:relative;padding-left:3.25rem;min-height:3.45rem}
+.with-face>.face{position:absolute;left:0;top:.1rem}
+ul.house{padding-left:0;list-style:none}
+.people{list-style:none;padding:0;margin:.5rem 0 0;display:grid;gap:.75rem}
+.people li{display:flex;gap:.9rem;align-items:flex-start}
+.people .meta{margin:0}
+.karton .k-head{position:relative;padding-right:5.5rem;min-height:6rem}
+.k-photo{position:absolute;right:0;top:0;width:4.5rem;height:6rem;object-fit:cover;border:1px solid var(--paper-edge);
+  filter:sepia(.35) contrast(1.05);transform:rotate(1.5deg)}
+@media (min-width:560px){.people{grid-template-columns:1fr 1fr}}
 /* House events: what happened this week; a kindness is set apart by a double rule. */
 .event{margin:1.25rem 0 0;padding:.2rem 1rem .6rem;border-left:4px solid var(--ink-soft)}
 .event.kind{border-left-style:double;border-left-width:6px}

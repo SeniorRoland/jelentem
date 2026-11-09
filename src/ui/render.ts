@@ -1,6 +1,7 @@
 import { expectFor, quarterOf, residentStatus, weekInQuarter } from '../engine/career';
 import { eventOf } from '../engine/events';
-import { CAPTAIN, fillNames } from '../engine/names';
+import { fillNames, nameVars } from '../engine/names';
+import { faceImg } from './faces';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { endingKey } from '../engine/rules';
@@ -62,21 +63,42 @@ function karton(s: GameState, c: Content, v: View): string {
     ['Fedőneve', s.code],
   ];
   return `<section class="karton" aria-labelledby="karton-t">
-  <div class="k-head"><p class="k-secret">Szigorúan titkos!<br>Különösen fontos!</p><h2 id="karton-t" class="k-title">Beszervezési karton</h2></div>
+  <div class="k-head"><p class="k-secret">Szigorúan titkos!<br>Különösen fontos!</p><h2 id="karton-t" class="k-title">Beszervezési karton</h2>${faceImg(s.face, 'A beszervezett fényképe', 'k-photo')}</div>
   <dl class="k-fields">${rows.map(([k, val], i) => `<div class="k-row"><dt>${k}:</dt><dd><span class="k-val">${val}</span>${v.dev && i === 0 ? `<span class="dev">a név oka: ${r.nameWhy}</span>` : ''}</dd></div>`).join('')}</dl>
   <div class="k-foot"><span class="k-serial"><span class="sr-only">Sorszám: </span>${r.serial}</span><button class="btn quiet" data-action="reroll" data-id="code">Másik fedőnév</button></div>
   </section>`;
 }
+
+/** The residents to watch, as on a file sheet: portrait, name, age, what they do. */
+function people(s: GameState, c: Content, v: View): string {
+  const ids = Object.keys(c.residents) as ResidentId[];
+  return `<ul class="people">${ids.map(k => {
+    const r = c.residents[k], p = s.people[k];
+    const dev = v.dev ? `<span class="dev">a név oka: ${s.names[k].why}</span>` : '';
+    return `<li>${faceImg(p.face, '', 'face big')}<div><strong>${r.name}</strong><br><span class="meta">${p.age} éves, ${r.role}</span>${dev}</div></li>`;
+  }).join('')}</ul>`;
+}
+
+/** A portrait next to a sentence: the resident's, the player's own, or an empty frame for the common areas. */
+function faceOf(s: GameState, c: Content, who: ResidentId | 'self' | null): string {
+  if (who === 'self') return faceImg(s.face, 'Alulírott', 'face');
+  if (!who) return '<span class="face none" aria-hidden="true"></span>';
+  return faceImg(s.people[who].face, c.residents[who].name, 'face');
+}
+const sentenceFace = (s: GameState, c: Content, o: { who: ResidentId | null; self?: boolean } | null) =>
+  o ? faceOf(s, c, o.self ? 'self' : o.who) : '<span class="face none" aria-hidden="true"></span>';
 
 function intro(s: GameState, c: Content, v: View): string {
   return `<article class="sheet">${head(s)}
   <h1 id="t" tabindex="-1">Jelentem, nem történt semmi</h1>
   <p class="lede">Alsóbürokrác, 1979 tavasza.</p>
   <p>Elvtárs!</p>
-  <p>Önt ${s.recruit.recruitedOn.slice(0, 4)}-ben társadalmi kapcsolatként beszervezték. Azóta érdemi jelentést nem adott, dossziéja a polcon porosodott. Ügyét a mai nappal átvettem. Feladata, hogy hetente jelentést írjon a Bem utca 12. lakóiról: {mari} Máriáról (Mari néni), {jozsi} Józsefről (Józsi bácsi), {pityu} Istvánról (Pityu), valamint szükség esetén {porgoly} Lajosné házmesterről.</p>
+  <p>Önt ${s.recruit.recruitedOn.slice(0, 4)}-ben társadalmi kapcsolatként beszervezték. Azóta érdemi jelentést nem adott, dossziéja a polcon porosodott. Ügyét a mai nappal átvettem. Feladata, hogy hetente jelentést írjon a {cim} lakóiról. A megfigyelendő személyek adatait mellékelem.</p>
   <p>${c.recruit.categories.find(k => k.id === s.recruit.categoryId)?.letter ?? ''}</p>
   <p>Az elvtárs munkáját bizalommal várjuk.</p>
   <span class="sig">{szazados} százados</span>${v.dev ? `<span class="dev">a százados nevének oka: ${s.captain.why}</span>` : ''}
+  <h2>Megfigyelendő személyek</h2>
+  ${people(s, c, v)}
   ${karton(s, c, v)}
   <h2>Hogyan működik</h2>
   <p>Minden héten megfigyeléseket kapsz a házból. A jelentésed két mondatból áll: válassz egy megfigyelést, majd tegyél mellé egy értelmezést.</p>
@@ -132,7 +154,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
     const i = sl.i
       ? `, <button class="part" data-action="unplace" data-slot="${idx}" data-part="i" aria-label="Értelmezés kivétele">${int(sl.i).text}</button>.`
       : sl.o ? `<span class="blank">, ………………… (értelmezés, ha akarod)</span>.` : `<span class="blank">, ………………… (értelmezés)</span>`;
-    return `<li>${o}${i}</li>`;
+    return `<li class="with-face">${sentenceFace(s, c, sl.o ? obs(sl.o) : null)}<span>${o}${i}</span></li>`;
   }).join('');
 
   return `<article class="sheet">${head(s)}
@@ -140,7 +162,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   <p class="meta">Fedőnév: ${s.code}</p>
   <p class="meta">Időszak: ${w.label} (${c.career.quarters[w.quarter]})</p>
   <p class="meta">Besorolás: ${c.career.ranks[s.rank].label}</p>
-  <p class="meta">Tárgy: a Bem utca 12. lakói</p>
+  <p class="meta">Tárgy: a {cim} lakói</p>
   ${v.dev ? `<p class="dev">elvárás ezen a héten: ${expectFor(s, b, c)}</p>` : ''}
   ${meters(s.meters, null, v)}
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
@@ -161,7 +183,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
 function response(s: GameState, c: Content, v: View): string {
   const r = s.last!;
   const body = r.sents.length
-    ? `<ol>${r.sents.map(x => `<li>${x.text}${x.note ? `<span class="note">${x.note}</span>` : ''}</li>`).join('')}</ol>`
+    ? `<ol>${r.sents.map(x => `<li class="with-face">${faceOf(s, c, x.self ? 'self' : x.who)}<span>${x.text}${x.note ? `<span class="note">${x.note}</span>` : ''}</span></li>`).join('')}</ol>`
     : `<p>Jelentem, a megfigyelt időszakban nem történt semmi.</p>`;
   const items = [...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.newCons.map(k => c.residents[k].cons ?? '')].filter(Boolean);
   const news = items.length
@@ -203,7 +225,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   const change = q.rankAfter > q.rankBefore ? ranks[q.rankAfter].promo
     : q.rankAfter < q.rankBefore ? ranks[q.rankAfter].demo : c.career.stay;
   const trust = (k: ResidentId) => s.bonds.includes(k) ? `, ${c.events.labels.bonded}` : s.betrayed.includes(k) ? `, ${c.events.labels.betrayed}` : '';
-  const house = STORY.map(k => `<li>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}${trust(k)}</li>`).join('');
+  const house = STORY.map(k => `<li class="with-face">${faceOf(s, c, k)}<span>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}${trust(k)}</span></li>`).join('');
   return `<article class="sheet">${head(s)}
   <div class="stamp" aria-hidden="true">${g.title}</div>
   <h1 id="t" tabindex="-1">Negyedéves értékelés</h1>
@@ -263,4 +285,4 @@ function screen(s: GameState, c: Content, b: Balance, v: View): string {
 
 /** Content texts carry `{id}` placeholders; the generated family names go in here, in one place. */
 export const renderScreen = (s: GameState, c: Content, b: Balance, v: View): string =>
-  fillNames(screen(s, c, b, v), { ...s.names, [CAPTAIN]: s.captain });
+  fillNames(screen(s, c, b, v), nameVars(s));

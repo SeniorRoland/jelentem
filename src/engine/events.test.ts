@@ -3,6 +3,7 @@ import { balance, content } from '../content';
 import { renderScreen } from '../ui/render';
 import { expectFor } from './career';
 import { applyEvent, eventFits } from './events';
+import { fillNames, nameVars } from './names';
 import { obsById, weekObs } from './observations';
 import { mulberry32 } from './rng';
 import { deal, pickNote, scoreSentence } from './rules';
@@ -114,7 +115,7 @@ describe('a resident’s trust', () => {
     const view = { dev: false };
     expect(renderScreen(s, content, balance, view)).toContain(ev('k_jozsi_szek').title);
     const broken = report(s, ['o_k_jozsi_szek', null]);
-    const said = (t: string) => t.split('{jozsi}')[1].slice(0, 30);
+    const said = (t: string) => fillNames(t, nameVars(s)).slice(0, 40);
     expect(renderScreen(broken, content, balance, view)).toContain(said(content.events.betrayed.jozsi!));
     const end = { ...s, screen: 'ending' as const };
     expect(renderScreen(end, content, balance, view)).toContain(said(content.events.kept.jozsi!));

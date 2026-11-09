@@ -1,7 +1,7 @@
 [
   {
     "label": "1979. március 5–11.",
-    "intro": "Az első hét. A Bem utca 12. csendes, mint mindig. Gyanúsan csendes?",
+    "intro": "Az első hét. A {cim} csendes, mint mindig. Gyanúsan csendes?",
     "quarter": 0, "level": 1,
     "slots": [["mari"], ["jozsi"], ["pityu"], ["porgoly", null]]
   },

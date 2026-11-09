@@ -102,6 +102,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
       note: pickNote(o, it, s.reported, c),
       ...sc,
       who: o.who,
+      ...(o.self ? { self: true } : {}),
     });
     izgSum += sc.izg; hihSum += sc.hih; harmSum += sc.harm;
     // Harm to someone who trusted the player weighs more on the conscience, and ends the trust.
