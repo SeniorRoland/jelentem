@@ -132,7 +132,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Változatos ház, nevek és arcképek** (671d983): generált cím, keresztnév és becenév, 60 arckép kor és nem szerint, arcképes lakólista, arc a jelentés mondatai mellett, fénykép a kartonon; a Kovács lány neve is generált.
 - [x] **Szomszédi viszony és véletlen események** (e9ac014): 12 házi esemény és 9 kedvesség, bizalmas megfigyelések, alibi kártyák, árulás dupla lelkiismeret-veszteséggel. A puszta óvatosság így gyakrabban elég (10% → 36%), a tervezés jobban kifizetődik (76% → 89%).
 - [x] **v0.0.2** (1a570f5): a négy negyedév, a célfeladatok, az ellenjelentés, az asztal-háttér, a ház élete és a változatos nevek, arcképek a `master` ágon, taggel.
-- [x] **Hang** (`feature/sound`): valódi írógép-felvételek (BigSoundBank, CC0, Hermes Precisa 305: billentyű, szóköz, csengő), a hiányzó hangok Web Audio-val szintetizálva: írógép-kattogás, ha egy cetli a jelentésbe kerül, csengő és új sor, ha egy mondatnak a megfigyelése és az értelmezése is megvan, egy billentyű, ha kikerül, a lap kihúzása a leadáskor, pecsétpuffanás a válasz és a negyedéves értékelés pecsétjével egy időben, lapozás képernyőváltáskor. A láblécben kikapcsolható, a beállítás megmarad.
+- [x] **Hang** (feed514): valódi írógép-felvételek (BigSoundBank, CC0, Hermes Precisa 305: billentyű, szóköz, csengő), a hiányzó hangok Web Audio-val szintetizálva: írógép-kattogás, ha egy cetli a jelentésbe kerül, csengő és új sor, ha egy mondatnak a megfigyelése és az értelmezése is megvan, egy billentyű, ha kikerül, a lap kihúzása a leadáskor, pecsétpuffanás a válasz és a negyedéves értékelés pecsétjével egy időben, lapozás képernyőváltáskor. A láblécben kikapcsolható, a beállítás megmarad.
 
 ### Hátralévő
 
