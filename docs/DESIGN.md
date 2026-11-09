@@ -147,6 +147,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.5** (2c105b2): a megosztható akta a `master` ágon, taggel.
 - [x] **A címkép idézőjele** (f59ac4a): a záró idézőjel nem törhet külön sorba.
 - [x] **Súgó** (6e89972): bekeretezett „H” a bal felső sarokban, mögötte kivonatos útmutató a játék menetéről (feladat, egy hét, a három mérő, negyedévek, a ház, tudnivalók), számok és titkok nélkül; Escape-pel vagy a háttérre kattintva zárul.
+- [x] **v0.0.6** (d638d50): a címkép javítása és a súgó a `master` ágon, taggel.
 
 ### Hátralévő
 
