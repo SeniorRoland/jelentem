@@ -146,7 +146,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Megosztható akta** (7924b6c): a befejezés után a saját dossziéd képként (1080×1350, megsárgult karton): fénykép, fedőnév, kitakart valódi név, végső besorolás, a házmester jelentései rólad, az év mondata a százados kék tintás megjegyzésével, a bajba juttatott lakók és az értékelés pecsétje. Letölthető PNG-ként, telefonon megosztható, a rövid változata szövegként másolható; közzététel után a játék címe is rákerül.
 - [x] **v0.0.5** (2c105b2): a megosztható akta a `master` ágon, taggel.
 - [x] **A címkép idézőjele** (f59ac4a): a záró idézőjel nem törhet külön sorba.
-- [x] **Súgó** (`feature/help`): bekeretezett „H” a bal felső sarokban, mögötte kivonatos útmutató a játék menetéről (feladat, egy hét, a három mérő, negyedévek, a ház, tudnivalók), számok és titkok nélkül; Escape-pel vagy a háttérre kattintva zárul.
+- [x] **Súgó** (6e89972): bekeretezett „H” a bal felső sarokban, mögötte kivonatos útmutató a játék menetéről (feladat, egy hét, a három mérő, negyedévek, a ház, tudnivalók), számok és titkok nélkül; Escape-pel vagy a háttérre kattintva zárul.
 
 ### Hátralévő
 
