@@ -111,7 +111,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Célfeladatok** (9905479): negyedévente egy feladat a második negyedévtől, terelő kártyákkal, jutalommal és büntetéssel. A kiemelt rangtól kötelező változat helyett minden rangon jár.
 - [x] **Beolvasztás a `develop` ágba** (9905479): a negyedéves rendszer és a célfeladatok a `develop` ágon.
 - [x] **Generált százados-név** (a9bb2aa): a szerepére utaló vezetéknév, kezdőbetűs szignó.
-- [x] **A házmester ellenjelentése** (`feature/counter-report` ág): alacsony hihetőségnél rólad szóló megfigyelések, önkritika vagy számonkérés, megnyugvás a negyedév végén, számlálás az epilógusban.
+- [x] **A házmester ellenjelentése** (97b0cf1): alacsony hihetőségnél rólad szóló megfigyelések, önkritika vagy számonkérés, megnyugvás a negyedév végén, számlálás az epilógusban.
 
 ### Hátralévő
 
