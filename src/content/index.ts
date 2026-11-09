@@ -15,6 +15,7 @@ import events from './events.json';
 import house from './house.json';
 import faces from './faces.json';
 import dossier from './dossier.json';
+import help from './help.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -34,6 +35,7 @@ export const content: Content = {
   house: house as Content['house'],
   faces: faces as Face[],
   dossier,
+  help,
 };
 
 export const balance: Balance = balanceJson as unknown as Balance;

@@ -5,6 +5,7 @@ import type { GameState } from './engine/types';
 import { cuesFor } from './ui/cues';
 import { mountDossier } from './ui/dossier';
 import { showLoading } from './ui/loading';
+import { mountHelp } from './ui/help';
 import { showTitle } from './ui/title';
 import { renderScreen, type View } from './ui/render';
 import { loadGame, saveGame } from './ui/save';
@@ -66,6 +67,10 @@ app.addEventListener('click', e => {
   const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   for (const x of cuesFor(a, before, state)) play(x.cue, x.cue === 'stamp' && still ? 0 : x.at);
 });
+
+// The boxed „H” in the top left corner opens the manual.
+mountHelp(document.getElementById('helpBtn') as HTMLButtonElement, document.getElementById('help') as HTMLDialogElement,
+  content.help, () => play('page'));
 
 const soundToggle = document.getElementById('soundToggle') as HTMLInputElement;
 soundToggle.checked = soundOn();

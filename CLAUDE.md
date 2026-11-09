@@ -51,6 +51,7 @@ Három réteg, szigorúan elválasztva:
 
 ## UI-szabályok
 
+- Súgó: a bal felső sarokban bekeretezett „H” (`#helpBtn`), mögötte natív `<dialog>` (`src/ui/help.ts`, szöveg: `help.json`). A súgó a szabályokat magyarázza, de **titkot nem árul el**: se számot, se befejezés nevét, se a lakók titkát; a validátor ezt ellenőrzi (számjegy, befejezés-cím, titok-szavak). Ha új titok kerül a játékba, a kulcsszavát vedd fel a `validateHelp` listájába.
 - Mobil az elsődleges: koppintásos kezelés, nincs kötelező drag-and-drop.
 - Billentyűzettel is játszható legyen: minden interaktív elem `<button>`, látható fókusz.
 - Világos és sötét téma: színek csak a `:root` CSS-változókon keresztül (`src/styles.css`).

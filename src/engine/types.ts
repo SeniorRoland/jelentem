@@ -344,6 +344,7 @@ export interface Content {
   faces: Face[];
   events: EventsContent;
   dossier: DossierContent;
+  help: HelpContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -424,6 +425,15 @@ export interface LoggedSentence {
   izg: number;
   hih: number;
   harm: number;
+}
+
+/** The help dialog behind the boxed „H”: how the game works, without its secrets. */
+export interface HelpContent {
+  button: string;
+  title: string;
+  lede: string;
+  close: string;
+  sections: { title: string; text: string[] }[];
 }
 
 /** Labels of the shareable file at the end of the game. */

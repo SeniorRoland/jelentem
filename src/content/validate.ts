@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c));
   return errs;
 }
 
@@ -373,5 +373,29 @@ function validateDossier(c: Content): string[] {
   }
   if (!c.dossier.onYou.includes('{n}')) errs.push('Akta: az „onYou” szövegből hiányzik az {n}.');
   if (!/^[a-z0-9-]+$/.test(c.dossier.file)) errs.push('Akta: a fájlnév-előtag csak kisbetű, szám és kötőjel lehet.');
+  return errs;
+}
+
+/**
+ * The help explains the rules but gives nothing away: no numbers, no resident's secret,
+ * no ending's name. Each check guards one kind of spoiler.
+ */
+function validateHelp(c: Content): string[] {
+  const errs: string[] = [];
+  const h = c.help;
+  const texts = [h.button, h.title, h.lede, h.close, ...h.sections.flatMap(s => [s.title, ...s.text])];
+  if (!h.sections.length) errs.push('Súgó: nincs egy szakasz sem.');
+  for (const t of texts) {
+    if (!t) errs.push('Súgó: üres szöveg.');
+    if (/["']/.test(t)) errs.push(`Súgó: egyenes idézőjel: ${t}`);
+    if (/[{}]/.test(t)) errs.push(`Súgó: a súgóban nincs helyettesítő: ${t}`);
+    if (/\d/.test(t)) errs.push(`Súgó: számot ne áruljon el: ${t}`);
+  }
+  const all = texts.join(' ').toLowerCase();
+  for (const e of Object.values(c.endings))
+    if (all.includes(e.title.toLowerCase()) && e.title !== c.loading.card.quote) errs.push(`Súgó: elárulja a(z) „${e.title}” befejezést.`);
+  // The secrets behind the residents' stories: the words their truths turn on.
+  for (const word of ['kávé', 'hintá', 'petőfi', 'versei', 'sógornő', 'trabant'])
+    if (all.includes(word)) errs.push(`Súgó: elárul egy titkot (${word}).`);
   return errs;
 }

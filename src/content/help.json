@@ -1,0 +1,53 @@
+{
+  "button": "Súgó",
+  "title": "Útmutató hálózati személyek részére",
+  "lede": "Kivonat. A teljes változat szigorúan titkos, és ezért senki sem olvasta.",
+  "close": "Bezárás",
+  "sections": [
+    {
+      "title": "A feladat",
+      "text": [
+        "Hetente jelentést írsz a századosnak a ház lakóiról. Három dolgot kell egyszerre megoldanod: a százados legyen elégedett, a jelentés legyen hihető, és lehetőleg senkinek se essen baja miatta.",
+        "A legjobb besúgó sokat ír, és semmit sem mond."
+      ]
+    },
+    {
+      "title": "Egy hét menete",
+      "text": [
+        "Minden héten megfigyeléseket kapsz a házból: ezek a cetlik. Koppints egyre, és bekerül a jelentésbe. Mellé tehetsz egy értelmezést is a kéznél lévők közül: a megfigyelés és az értelmezés együtt ad ki egy mondatot.",
+        "Ami a jelentésbe került, azt a szövegére koppintva kiveheted. Ha kész vagy, add le a jelentést: a százados visszaküldi, a margón a megjegyzéseivel."
+      ]
+    },
+    {
+      "title": "A három mérő",
+      "text": [
+        "A százados elégedettsége: izgalmas jelentést vár, és hétről hétre többet.",
+        "A hihetőséged: aki túloz, arra előbb-utóbb gyanakodni kezdenek.",
+        "A lelkiismereted: minden terhelő mondat nyom rajta.",
+        "Ha bármelyik elfogy, az ügyedet lezárják."
+      ]
+    },
+    {
+      "title": "Negyedévek és besorolás",
+      "text": [
+        "Az év négy negyedévből áll, mindegyik három hétből. A negyedév végén a százados értékel: a kiváló munkáért előléptetés jár, ami több mondatot és nagyobb elvárást jelent, a hiányosért lefokozás.",
+        "Időnként kiemelt feladatot is kapsz. Ezt teljesíteni kell, de hogy mivel, azt nem mindig a lakók rovására kell eldönteni."
+      ]
+    },
+    {
+      "title": "A ház",
+      "text": [
+        "A lakók élete közben megy tovább, és hogy merre, az a jelentéseiden múlik. Ami a papírra kerül, annak következménye lehet, és a következmények nem állnak meg maguktól.",
+        "A házban is történnek dolgok. Vannak, akik megbíznak benned. Hogy ezzel mit kezdesz, az a te dolgod.",
+        "És ne feledd: nem csak te figyelsz."
+      ]
+    },
+    {
+      "title": "Hasznos tudnivalók",
+      "text": [
+        "Nem kell minden mondathelyet kitölteni, és egy unalmas tény is jelentés. Az értelmezés teheti hihetővé, de veszélyessé is. Olvasd el a százados megjegyzéseit: többet elárulnak, mint gondolná.",
+        "A játék minden lépés után mentődik ebben a böngészőben. A láblécben kikapcsolhatod a hangot, és új játékot kezdhetsz."
+      ]
+    }
+  ]
+}
