@@ -23,11 +23,16 @@
         "why": "fűszeres, erős paprikát tesz el"
       }
     ],
-    "cons": "{mari} {mari.nal} házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
+    "cons": {
+      "warn": "{mari.b} levelet kapott a tanácstól: „elbeszélgetésre” hívják. A postást is kikérdezték, kitől jönnek a bécsi borítékok.",
+      "trouble": "{mari} {mari.nal} házkutatást tartottak. A befőttek fele „tárgyi bizonyítékként” eltűnt.",
+      "ruin": "{mari.b} nyugdíját „felülvizsgálat” idejére felfüggesztették, a bécsi leveleit pedig a posta rendre „elveszíti”. A szomszédok viszik át neki a vacsorát, csendben."
+    },
     "truth": "{mari.b} kávéja a bécsi sógornőjétől jött, a karácsonyi csomagban. Minden egyéb gyanús ügye befőtt, sorban állás és pletyka volt.",
     "fate": {
       "ok": "{mari.b} azóta minden karácsonyt Bécsben tölt, és mindig hoz egy csomag kávét a háznak. A házmesternek kettőt.",
-      "bajban": "{mari.b} sosem kapott útlevelet. A kávét azóta a sógornő hozza, és a lépcsőházban suttogva főzik."
+      "bajban": "{mari.b} sosem kapott útlevelet. A kávét azóta a sógornő hozza, és a lépcsőházban suttogva főzik.",
+      "ruin": "{mari.b} sosem jutott el Bécsbe, és a sógornője levelei sem jutottak el hozzá. A kávét a lépcsőházban már nem főzik, csak emlegetik."
     },
     "sex": "f",
     "age": [
@@ -102,11 +107,16 @@
         "why": "ügyes kezű ezermester"
       }
     ],
-    "cons": "{jozsi} {jozsi.n} Trabantjának forgalmiját „műszaki okokból” bevonták. {jozsi.b} azóta gyalog jár, és nem köszön.",
+    "cons": {
+      "warn": "{jozsi.b} garázsát „rutinszerűen” átnézte a körzeti megbízott. A félkész hintát „gyanús szerkezetnek” nevezte, de egyelőre csak felírta.",
+      "trouble": "{jozsi} {jozsi.n} Trabantjának forgalmiját „műszaki okokból” bevonták. {jozsi.b} azóta gyalog jár, és nem köszön.",
+      "ruin": "{jozsi.b} garázsát a tanács „közérdekből” kiutalta raktárnak. A szerszámai egy dobozban állnak a lépcsőházban, a hinta gerendái a pincében."
+    },
     "truth": "{jozsi.b} hintát épített a garázsban, a negyvenedik házassági évfordulójukra. A Trabant tényleg ennyi ideig szerelhető.",
     "fate": {
       "ok": "{jozsi.b} hintája ma is áll az udvaron. A Trabant nem, de az már egy másik történet.",
-      "bajban": "{jozsi.b} a hintát sosem kapta vissza. A Trabantot igen, és azóta azt szereli. Örökké."
+      "bajban": "{jozsi.b} a hintát sosem kapta vissza. A Trabantot igen, és azóta azt szereli. Örökké.",
+      "ruin": "{jozsi.b} garázsában ma is raktár van. A hintát az unokája ácsolta meg újra, harminc évvel később, a régi rajz alapján."
     },
     "sex": "m",
     "age": [
@@ -173,11 +183,16 @@
         "why": "fürtökben lóg a haja"
       }
     ],
-    "cons": "{pityu} {pityu.t} nem engedték el az egyetemi tanulmányútra Bécsbe.",
+    "cons": {
+      "warn": "{pityu} {pityu.t} behívatták a dékáni hivatalba „a KISZ-életből való tartós távolmaradás” miatt. Egyelőre szóbeli figyelmeztetést kapott.",
+      "trouble": "{pityu} {pityu.t} nem engedték el az egyetemi tanulmányútra Bécsbe.",
+      "ruin": "{pityu} {pityu.t} kizárták az egyetemről. Segédmunkás lett a gépgyárban, a versesfüzetét a {lany} lány őrzi a párnája alatt."
+    },
     "truth": "{pityu.b} füzetében Petőfi szerelmes versei voltak, írógéppel lemásolva, a harmadik emeleti {lany} lánynak.",
     "fate": {
       "ok": "{pityu.b} feleségül vette a {lany} lányt. A versesfüzet bekeretezve lóg a nappalijukban.",
-      "bajban": "{pityu.b} a leszerelése után feleségül vette a {lany} lányt. A versesfüzetet addig a lány őrizte, a párnája alatt."
+      "bajban": "{pityu.b} a leszerelése után feleségül vette a {lany} lányt. A versesfüzetet addig a lány őrizte, a párnája alatt.",
+      "ruin": "{pityu.b} sosem fejezte be az egyetemet. Az első verseskötete 1990-ben jelent meg, a fülszövegében a nyolcvanas évekről egyetlen szó áll: „Dolgoztam.”"
     },
     "sex": "m",
     "age": [

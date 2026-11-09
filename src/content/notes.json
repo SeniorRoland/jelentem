@@ -29,5 +29,10 @@
     "still": "A házmester elvtársnő továbbra is ír Önről. Az ő jelentései rendszeresebbek, mint az Önéi.",
     "epilogueNone": "Rákerestél a saját nevedre. Egyetlen találat: {porgoly} {porgoly.n} jelentése 1979 márciusából.",
     "epilogueSome": "Rákerestél a saját nevedre. {n} találat, mind {porgoly} {porgoly.n} tollából. A dossziéd vastagabb, mint amit te írtál a házról."
+  },
+  "cons": {
+    "warn": "figyelmeztették",
+    "trouble": "bajba került",
+    "ruin": "a megélhetését is elvesztette"
   }
 }

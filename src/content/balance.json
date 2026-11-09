@@ -44,7 +44,7 @@
     "mid": 2,
     "wild": 2
   },
-  "consThreshold": 4,
+  "consequences": { "warn": 2, "trouble": 4, "ruin": 7 },
   "plainFact": {
     "hih": 1,
     "mult": 0.8

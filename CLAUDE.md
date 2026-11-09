@@ -33,7 +33,7 @@ Három réteg, szigorúan elválasztva:
 - Három mérő 0–100 között: `E` (a százados elégedettsége), `H` (hihetőség), `L` (lelkiismeret).
 - Egy mondat = megfigyelés + opcionális értelmezés. A megfigyelésnek `izg` (izgalom) és `art` (ártalom) értéke van, az értelmezésnek `izg`, `hih` (hihetőség-változás) és `mult` (ártalom-szorzó).
 - Hetente (elvárás = `expect[hét] + ranks[rang].expectBonus`): `E += (izgalom összeg − elvárás) × weight.E`, `H += hihetőség összeg × weight.H`, `L −= ártalom összeg × weight.L`.
-- Ha egy lakóra összegyűlt ártalom eléri a `consThreshold`-ot, következmény éri (`residents.json` → `cons`).
+- Következmények (`balance.consequences`, `residents.json` → `cons`): a lakóra az év során összegyűlt ártalom három lépcsőt léphet át: `warn` (figyelmeztetés), `trouble` (a lakó `bajban` van, a története elágazik, `state.cons`), `ruin` (elveszíti a megélhetését). A lépcső sosem megy vissza (`state.consLevel`, 0–3); egy hét híre a hét legmagasabb új lépcsője, a befejezés mindet felsorolja, a lakó sorsa `fate.ok` / `fate.bajban` / `fate.ruin`. A legjobb véget csak a `trouble` zárja ki, a figyelmeztetés nem.
 - Befejezések: `best`, `kivalo`, `megfigyelt`, `behivatas` (`rules.ts` → `endingKey`), a 12. hét után vagy amikor egy mérő nullára esik. A „Ami valójában történt” rész lakónként a `fate.ok` vagy `fate.bajban` szöveget mutatja.
 - Mentés: `src/ui/save.ts`, minden lépés után localStorage-ba; a befejezett vagy a tartalomhoz már nem illő mentést elveti.
 
@@ -60,7 +60,7 @@ Három réteg, szigorúan elválasztva:
 
 ## Ismert kiegyensúlyozási állapot
 
-Négy negyedév, 12 hét, házi események 60% eséllyel a 2. héttől (alibi: izgalom 1, hihetőség 0, ártalom ×0,2; árulás ×2 lelkiismeret). Elvárás `[7, 9, 11, 7, 9, 11, 8, 10, 12, 8, 10, 12]` + rangpótlék (0, 0, 1, 3, 4; a 3–4. rang három mondatot ír) + kategóriapótlék (−1 … +3), célfeladat a 2. negyedévtől (+8 / −12), `consThreshold` 4 (a 12 hét alatt összeadódik), negyedév végén `resetE` 0,2, `healH` 8, `healL` 15, minősítés: kiváló E ≥ 65 és H ≥ 45, hiányos E < 45.
+Négy negyedév, 12 hét, házi események 60% eséllyel a 2. héttől (alibi: izgalom 1, hihetőség 0, ártalom ×0,2; árulás ×2 lelkiismeret). Elvárás `[7, 9, 11, 7, 9, 11, 8, 10, 12, 8, 10, 12]` + rangpótlék (0, 0, 1, 3, 4; a 3–4. rang három mondatot ír) + kategóriapótlék (−1 … +3), célfeladat a 2. negyedévtől (+8 / −12), következmény-lépcsők 2 / 4 / 7 (a 12 hét alatt összeadódik; a 4-es a régi egyetlen küszöb), negyedév végén `resetE` 0,2, `healH` 8, `healL` 15, minősítés: kiváló E ≥ 65 és H ≥ 45, hiányos E < 45.
 
 A `npm run sim -- 3000` eredménye (best / kivalo / megfigyelt / behivatas, végső átlagrang, teljesített feladatok):
 

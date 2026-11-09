@@ -1,4 +1,5 @@
 import { facesFor, makeCaptain, makeOwnFace } from '../engine/names';
+import { consLevelFor } from '../engine/rules';
 import type { Balance, Content, GameState, Person, ResidentId } from '../engine/types';
 
 const KEY = 'jelentem.mentes.v1';
@@ -19,6 +20,7 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
   if (g.screen !== 'intro' && !g.weekObs[g.week]) return false;
   if (typeof g.watched !== 'boolean' || typeof g.reportsOnYou !== 'number') return false;
   if (!Array.isArray(g.events) || !Array.isArray(g.bonds) || !Array.isArray(g.betrayed)) return false;
+  if (!g.consLevel || typeof g.consLevel !== 'object') return false;
   if (typeof g.address !== 'string' || !g.girl || typeof g.face !== 'string' || !g.people) return false;
   if (!(Object.keys(c.residents) as ResidentId[]).every(id => g.people![id]?.given?.n && c.faces.some(f => f.id === g.people![id].face))) return false;
   if (!g.events.every(id => id === null || c.events.list.some(e => e.id === id))) return false;
@@ -27,7 +29,7 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
 }
 
 /** Saves from before the handler had a generated name get one, so the game can go on. */
-function upgrade(s: unknown, c: Content): void {
+function upgrade(s: unknown, c: Content, b: Balance): void {
   if (!s || typeof s !== 'object') return;
   const g = s as Partial<GameState>;
   if (g.watched === undefined) g.watched = false;
@@ -39,6 +41,13 @@ function upgrade(s: unknown, c: Content): void {
   if (g.bonds === undefined) g.bonds = [];
   if (g.betrayed === undefined) g.betrayed = [];
   if (g.last && !g.last.betrayed) g.last.betrayed = [];
+  // Saves from before the stepped consequences: the step the harm has reached, without news.
+  if (!g.consLevel && g.harmBy && g.cons) {
+    g.consLevel = {};
+    for (const id of Object.keys(c.residents) as ResidentId[])
+      if (c.residents[id].cons && g.harmBy[id]) g.consLevel[id] = consLevelFor(g.harmBy[id], b);
+  }
+  if (g.last && !g.last.steps) g.last.steps = [];
   if (!g.recruit || !g.names) return;
   if (!g.captain) g.captain = makeCaptain(c, Math.random, [g.recruit.name.split(' ')[0], ...Object.values(g.names).map(n => n.name)]);
   // Saves from before the generated given names and portraits: the original names and address
@@ -64,7 +73,7 @@ export function loadGame(c: Content, b: Balance): GameState | null {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return null;
     const s: unknown = JSON.parse(raw);
-    upgrade(s, c);
+    upgrade(s, c, b);
     return fitsContent(s, c, b) ? s : null;
   } catch {
     return null;

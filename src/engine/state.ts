@@ -50,6 +50,7 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     weekObs: [],
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
     cons: [],
+    consLevel: {},
     reported: [],
     usedInts: [],
     slots: emptySlots(b.ranks[b.startRank].slots),

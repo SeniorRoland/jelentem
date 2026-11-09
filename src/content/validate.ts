@@ -1,6 +1,6 @@
 import { ADDRESS, CAPTAIN, GIRL, facesFor, placeholders } from '../engine/names';
 import { candidates } from '../engine/observations';
-import type { Balance, Content, DealTier, ResidentId, ResidentStatus, Surname } from '../engine/types';
+import { CONS_LEVELS, type Balance, type Content, type DealTier, type ResidentId, type ResidentStatus, type Surname } from '../engine/types';
 
 const STATUSES: ResidentStatus[] = ['nyugodt', 'gyanus', 'bajban'];
 
@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b));
   return errs;
 }
 
@@ -188,8 +188,10 @@ function validateNames(c: Content): string[] {
     ...c.weeks.map(w => [w.label, w.intro] as [string, string]),
     ...c.obs.flatMap(o => [[o.id, o.text], [o.id, o.note ?? '']] as [string, string][]),
     ...c.ints.flatMap(i => [[i.id, i.text], [i.id, i.note ?? '']] as [string, string][]),
-    ...ids.flatMap(id => [[id, c.residents[id].name], [id, c.residents[id].cons ?? ''], [id, c.residents[id].truth ?? ''], [id, c.residents[id].role ?? ''],
-      [id, c.residents[id].fate?.ok ?? ''], [id, c.residents[id].fate?.bajban ?? '']] as [string, string][]),
+    ...ids.flatMap(id => [[id, c.residents[id].name], [id, c.residents[id].truth ?? ''], [id, c.residents[id].role ?? ''],
+      [id, c.residents[id].fate?.ok ?? ''], [id, c.residents[id].fate?.bajban ?? ''], [id, c.residents[id].fate?.ruin ?? ''],
+      ...Object.values(c.residents[id].cons ?? {}).map(t => [id, t])] as [string, string][]),
+    ...Object.entries(c.notes.cons).map(([k, v]) => [`cons.${k}`, v] as [string, string]),
     ...c.tasks.flatMap(t => [[t.id, t.title], [t.id, t.done], [t.id, t.fail]] as [string, string][]),
     ...c.recruit.categories.map(k => [k.id, k.letter] as [string, string]),
     ...Object.entries(c.endings).flatMap(([k, e]) => [[k, e.title], [k, e.text]] as [string, string][]),
@@ -333,6 +335,25 @@ function validateEvents(c: Content): string[] {
     if (it.tier === 'alibi' && (!it.who || !close.has(it.who))) errs.push(`${it.id}: az alibi kártya olyan lakóé legyen, aki megkedvelheti a játékost.`);
     if (it.tier !== 'alibi' && it.who) errs.push(`${it.id}: csak alibi kártyának lehet „who” mezője.`);
     if (it.tier === 'alibi' && it.who && placeholders(it.text).some(p => p.split('.')[0] in c.residents && p.split('.')[0] !== it.who)) errs.push(`${it.id}: az alibi más lakó nevét említi.`);
+  }
+  return errs;
+}
+
+/** Consequences come in three rising steps; every resident who can face them has all three texts. */
+function validateCons(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const at = CONS_LEVELS.map(l => b.consequences[l]);
+  if (at.some(x => !Number.isFinite(x) || x <= 0) || at.some((x, i) => i && x <= at[i - 1]))
+    errs.push(`Következmény: a küszöbök pozitívak és szigorúan növekvők legyenek (${at.join(', ')}).`);
+  for (const l of CONS_LEVELS) if (!c.notes.cons?.[l] || /["']/.test(c.notes.cons[l])) errs.push(`Következmény: hiányzó vagy hibás felirat: ${l}`);
+  for (const [id, r] of Object.entries(c.residents)) {
+    if (!r.cons) continue;
+    for (const l of CONS_LEVELS) {
+      const t = r.cons[l];
+      if (!t) errs.push(`Lakó: ${id}: hiányzik a(z) „${l}” következmény.`);
+      else if (/["']/.test(t)) errs.push(`Lakó: ${id}: egyenes idézőjel a(z) „${l}” következményben.`);
+    }
+    if (r.fate && !r.fate.ruin) errs.push(`Lakó: ${id}: hiányzik a „fate.ruin” szöveg.`);
   }
   return errs;
 }

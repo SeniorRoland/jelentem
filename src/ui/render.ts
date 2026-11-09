@@ -4,7 +4,8 @@ import { fillNames, nameVars } from '../engine/names';
 import { faceImg } from './faces';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
-import { endingKey } from '../engine/rules';
+import { endingKey, TROUBLE } from '../engine/rules';
+import { CONS_LEVELS } from '../engine/types';
 import { nextStep } from '../engine/state';
 import type { Balance, Content, GameState, Hint, HouseEvent, Meters, ResidentId, ResidentStatus } from '../engine/types';
 
@@ -185,7 +186,7 @@ function response(s: GameState, c: Content, v: View): string {
   const body = r.sents.length
     ? `<ol>${r.sents.map(x => `<li class="with-face">${faceOf(s, c, x.self ? 'self' : x.who)}<span>${x.text}${x.note ? `<span class="note">${x.note}</span>` : ''}</span></li>`).join('')}</ol>`
     : `<p>Jelentem, a megfigyelt időszakban nem történt semmi.</p>`;
-  const items = [...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.newCons.map(k => c.residents[k].cons ?? '')].filter(Boolean);
+  const items = [...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.steps.map(x => c.residents[x.who].cons?.[x.level] ?? '')].filter(Boolean);
   const news = items.length
     ? `<h2>Hírek a házból</h2><div class="news">${items.map(t => `<p>${t}</p>`).join('')}</div>`
     : '';
@@ -225,7 +226,9 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   const change = q.rankAfter > q.rankBefore ? ranks[q.rankAfter].promo
     : q.rankAfter < q.rankBefore ? ranks[q.rankAfter].demo : c.career.stay;
   const trust = (k: ResidentId) => s.bonds.includes(k) ? `, ${c.events.labels.bonded}` : s.betrayed.includes(k) ? `, ${c.events.labels.betrayed}` : '';
-  const house = STORY.map(k => `<li class="with-face">${faceOf(s, c, k)}<span>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}${trust(k)}</span></li>`).join('');
+  // „Bajban” already says trouble; a warning or ruin is added to it.
+  const step = (k: ResidentId) => { const l = s.consLevel[k] ?? 0; return l && l !== TROUBLE ? `, ${c.notes.cons[CONS_LEVELS[l - 1]]}` : ''; };
+  const house = STORY.map(k => `<li class="with-face">${faceOf(s, c, k)}<span>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}${step(k)}${trust(k)}</span></li>`).join('');
   return `<article class="sheet">${head(s)}
   <div class="stamp" aria-hidden="true">${g.title}</div>
   <h1 id="t" tabindex="-1">Negyedéves értékelés</h1>
@@ -248,12 +251,16 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
 
 function ending(s: GameState, c: Content, b: Balance, v: View): string {
   const e = c.endings[endingKey(s, b)];
-  const cons = s.cons.length
-    ? `<h2>Ami a jelentéseid nyomán történt</h2><div class="news">${s.cons.map(k => `<p>${c.residents[k].cons}</p>`).join('')}</div>`
+  // Every step each resident went through, in the order it happened to them.
+  const hit = STORY.filter(k => (s.consLevel[k] ?? 0) > 0 && c.residents[k].cons);
+  const cons = hit.length
+    ? `<h2>Ami a jelentéseid nyomán történt</h2><div class="news">${hit.map(k =>
+      CONS_LEVELS.slice(0, s.consLevel[k]).map(l => `<p>${c.residents[k].cons![l]}</p>`).join('')).join('')}</div>`
     : '';
   const truths = STORY.map(k => {
     const r = c.residents[k];
-    const fate = r.fate ? ` ${r.fate[s.cons.includes(k) ? 'bajban' : 'ok']}` : '';
+    const level = s.consLevel[k] ?? 0;
+    const fate = r.fate ? ` ${r.fate[level >= CONS_LEVELS.length ? 'ruin' : s.cons.includes(k) ? 'bajban' : 'ok']}` : '';
     const kept = s.bonds.includes(k) && c.events.kept[k] ? ` ${c.events.kept[k]}` : '';
     return `<p>${r.truth}${fate}${kept}</p>`;
   }).join('');

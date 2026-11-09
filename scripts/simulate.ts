@@ -111,11 +111,11 @@ const keys: EndingKey[] = ['best', 'kivalo', 'megfigyelt', 'behivatas'];
 const pct = (n: number) => `${((n / N) * 100).toFixed(1)}%`;
 console.log(`Szimuláció: ${N} játék stratégiánként (${content.weeks.length} hét)`);
 console.log();
-console.log(['stratégia'.padEnd(22), ...keys.map(k => k.padStart(11)), 'végig'.padStart(8), 'rang'.padStart(6), 'baj'.padStart(6), 'feladat'.padStart(9), 'rólad'.padStart(7), 'bizalom'.padStart(9)].join(''));
+console.log(['stratégia'.padEnd(22), ...keys.map(k => k.padStart(11)), 'végig'.padStart(8), 'rang'.padStart(6), 'baj'.padStart(6), 'feladat'.padStart(9), 'rólad'.padStart(7), 'bizalom'.padStart(9), 'rom'.padStart(6)].join(''));
 const byCategory: Record<string, Record<string, [number, number]>> = {};
 for (const [name, strat] of Object.entries(strategies)) {
   const count: Record<EndingKey, number> = { best: 0, kivalo: 0, megfigyelt: 0, behivatas: 0 };
-  let full = 0, rank = 0, cons = 0, tasks = 0, given = 0, onYou = 0, bonds = 0;
+  let full = 0, rank = 0, cons = 0, tasks = 0, given = 0, onYou = 0, bonds = 0, ruin = 0;
   for (let i = 0; i < N; i++) {
     const s = play(strat, i + 1);
     const key = endingKey(s, balance);
@@ -129,10 +129,11 @@ for (const [name, strat] of Object.entries(strategies)) {
     given += s.pastTasks.length;
     onYou += s.reportsOnYou;
     bonds += s.bonds.length;
+    ruin += Object.values(s.consLevel).filter(l => l === 3).length;
     tasks += s.doneTasks.length;
   }
   console.log([name.padEnd(22), ...keys.map(k => pct(count[k]).padStart(11)), pct(full).padStart(8),
-    (rank / N).toFixed(2).padStart(6), (cons / N).toFixed(2).padStart(6), (given ? `${Math.round((tasks / given) * 100)}%` : '–').padStart(9), (onYou / N).toFixed(2).padStart(7), (bonds / N).toFixed(2).padStart(9)].join(''));
+    (rank / N).toFixed(2).padStart(6), (cons / N).toFixed(2).padStart(6), (given ? `${Math.round((tasks / given) * 100)}%` : '–').padStart(9), (onYou / N).toFixed(2).padStart(7), (bonds / N).toFixed(2).padStart(9), (ruin / N).toFixed(2).padStart(6)].join(''));
 }
 console.log();
 console.log('Legjobb vég kategóriánként (óvatos / előrelátó):');
@@ -141,4 +142,4 @@ for (const k of content.recruit.categories) {
   console.log(`  ${k.label.padEnd(30)}${r('óvatos (0 ártalom)').padStart(6)}${r('előrelátó').padStart(8)}`);
 }
 console.log();
-console.log(`végig = mind a ${content.weeks.length} hetet végigjátszotta; rang = átlagos végső rang (0–${balance.ranks.length - 1}); baj = átlagosan hány lakó került bajba; feladat = a kiadott célfeladatok hány százalékát teljesítette; rólad = átlagosan hány jelentést írt rólad a házmester; bizalom = hány lakó bízott meg benned a végén`);
+console.log(`végig = mind a ${content.weeks.length} hetet végigjátszotta; rang = átlagos végső rang (0–${balance.ranks.length - 1}); baj = átlagosan hány lakó került bajba; feladat = a kiadott célfeladatok hány százalékát teljesítette; rólad = átlagosan hány jelentést írt rólad a házmester; bizalom = hány lakó bízott meg benned a végén; rom = hány lakó vesztette el a megélhetését (a legsúlyosabb következmény)`);

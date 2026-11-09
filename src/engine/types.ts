@@ -12,6 +12,12 @@ export type ResidentStatus = 'nyugodt' | 'gyanus' | 'bajban';
 /** Quarterly grade from the captain. */
 export type Grade = 'kivalo' | 'megfelelo' | 'hianyos';
 export type Hint = '' | 'slotsFull' | 'needObs' | 'intsFull';
+/**
+ * How far the reports have gone for a resident, in order: a warning, real trouble (the story
+ * turns, the resident is `bajban`), and ruin (they lose their livelihood).
+ */
+export type ConsLevel = 'warn' | 'trouble' | 'ruin';
+export const CONS_LEVELS: readonly ConsLevel[] = ['warn', 'trouble', 'ruin'];
 
 /**
  * One thing the player saw in the house. `izg` = excitement, `art` = harm potential.
@@ -144,10 +150,11 @@ export interface Resident {
   age: [number, number];
   /** One line on the residents' list. */
   role: string;
-  cons?: string;
+  /** What happens to them at each step; residents without it never face consequences. */
+  cons?: Record<ConsLevel, string>;
   truth?: string;
   /** Where the resident's story ends, depending on whether the reports got them in trouble. */
-  fate?: { ok: string; bajban: string };
+  fate?: { ok: string; bajban: string; ruin: string };
 }
 
 export interface Ending {
@@ -164,6 +171,8 @@ export interface Notes {
   fantasy: string;
   /** Fires when an observation is reported whose `tag` was already reported before. */
   repeat: { tag: string; note: string }[];
+  /** How far it went for a resident, as the quarterly review and the ending put it. */
+  cons: Record<ConsLevel, string>;
   /** The caretaker's counter-reports on the player. */
   watch: {
     label: string;
@@ -373,7 +382,8 @@ export interface Balance {
     healH: number;
   };
   deal: Record<DealTier, number>;
-  consThreshold: number;
+  /** Harm gathered on one resident (over the whole year) that brings each step. */
+  consequences: Record<ConsLevel, number>;
   plainFact: { hih: number; mult: number };
   absurd: { minIntIzg: number; maxObsIzg: number; penalty: number };
   overall: { lowBelow: number; goodAbove: number; greatAbove: number; fantasyHihAtMost: number };
@@ -402,7 +412,8 @@ export interface WeekResult {
   after: Meters;
   overall: string;
   extra: string;
-  newCons: ResidentId[];
+  /** Steps this report brought, one per resident: the highest one reached. */
+  steps: { who: ResidentId; level: ConsLevel }[];
   stamp: 'Átvéve' | 'Hiányos';
   /** True when this report completed the quarter's task. */
   taskDone: boolean;
@@ -465,7 +476,9 @@ export interface GameState {
   /** Observation ids drawn at the start of each week so far (index = week). */
   weekObs: string[][];
   harmBy: Record<ResidentId, number>;
+  /** Residents in trouble or worse (`bajban`), and how far it went for each (0 = nothing yet, 1–3 = `CONS_LEVELS`). */
   cons: ResidentId[];
+  consLevel: Partial<Record<ResidentId, number>>;
   reported: string[];
   usedInts: string[];
   slots: Slot[];

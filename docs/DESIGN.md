@@ -58,6 +58,8 @@ Minden negyedév harmadik hetén lakónként egy történet-megfigyelés jön (`
 - **Józsi bácsi:** a hinta elkészül, a gyerekeknek is épít egyet, végül beindul a Trabant. Bajban: gyalog hordja a gerendákat, elkobzott hinta, magas kerítés.
 - **Pityu:** verses est a Kovács lánynak, gitár, eljegyzés. Bajban: katonai behívó, levelek a laktanyából, leszerelés.
 
+A következmények fokozódnak: a lakóra az év során összegyűlt ártalom 2 pontnál figyelmeztetést hoz (Mari nénit „elbeszélgetésre” hívják, Józsi bácsi garázsát átnézi a körzeti megbízott, Pityut behívatják a dékánira), 4 pontnál bajba kerül (házkutatás, bevont forgalmi, elmaradt tanulmányút; innen ágazik el a története), 7 pontnál a megélhetését is elveszíti (felfüggesztett nyugdíj, raktárrá tett garázs, kizárás az egyetemről). A figyelmeztetés még nem zárja ki a legjobb véget, csak jelzés.
+
 A befejezésben a „Ami valójában történt” rész a titok mellett a lakó sorsát is elmondja (`residents.json` → `fate`). A játék minden lépés után mentődik (localStorage).
 
 ## A ház élete
@@ -134,6 +136,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.2** (1a570f5): a négy negyedév, a célfeladatok, az ellenjelentés, az asztal-háttér, a ház élete és a változatos nevek, arcképek a `master` ágon, taggel.
 - [x] **Hang** (feed514): valódi írógép-felvételek (BigSoundBank, CC0, Hermes Precisa 305: billentyű, szóköz, csengő), a hiányzó hangok Web Audio-val szintetizálva: írógép-kattogás, ha egy cetli a jelentésbe kerül, csengő és új sor, ha egy mondatnak a megfigyelése és az értelmezése is megvan, egy billentyű, ha kikerül, a lap kihúzása a leadáskor, pecsétpuffanás a válasz és a negyedéves értékelés pecsétjével egy időben, lapozás képernyőváltáskor. A láblécben kikapcsolható, a beállítás megmarad.
 - [x] **v0.0.3** (9296343): a hangok a `master` ágon, taggel.
+- [x] **Fokozódó következmények** (`feature/consequences`): lakónként három lépcső az év során összegyűlt ártalom szerint: figyelmeztetés (2), bajba kerülés (4, a régi egyetlen következmény), a megélhetés elvesztése (7). A hét híre a legmagasabb új lépcső, a negyedéves értékelés jelzi a figyelmeztetést és a rombadöntést, a befejezés lépésről lépésre elmondja, és a lakó sorsának külön változata van. A kiegyensúlyozás nem változott; a véletlen játékos átlagosan 1,2 lakót tesz tönkre.
 
 ### Hátralévő
 
@@ -147,7 +150,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **A ház élete**
 
-- [ ] **Fokozódó következmények:** most lakónként egyetlen következmény van; legyen fokozatos (figyelmeztetés → házkutatás → a munkahely elvesztése).
 
 **Befejezés és megjelenés**
 
@@ -157,5 +159,5 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 **Hangolás és karbantartás**
 
 - [ ] **Kocsivissza-felvétel:** a sorváltás most szintetizált; egy CC0 felvétel `src/assets/sounds/return.mp3` néven kódváltoztatás nélkül a helyére lép (a Freesoundon sok van, de a letöltéshez fiók kell).
-- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consequences.trouble` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
 - [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.

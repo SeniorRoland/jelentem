@@ -2,6 +2,7 @@ import { doubtFor, expectFor } from './career';
 import { isBonded } from './events';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
+import { CONS_LEVELS } from './types';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
   DealTier, ResidentId, Rng, SentenceResult, Tier, WeekResult,
@@ -140,12 +141,14 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
   const started = !s.watched && s.meters.H < b.watch.hBelow;
   if (started) { s.watched = true; s.reportsOnYou++; }
 
-  const newCons: ResidentId[] = [];
+  const steps: WeekResult['steps'] = [];
   for (const k of Object.keys(s.harmBy) as ResidentId[]) {
-    if (c.residents[k].cons && s.harmBy[k] >= b.consThreshold && !s.cons.includes(k)) {
-      s.cons.push(k);
-      newCons.push(k);
-    }
+    if (!c.residents[k].cons) continue;
+    const reached = consLevelFor(s.harmBy[k], b);
+    if (reached <= (s.consLevel[k] ?? 0)) continue;
+    s.consLevel[k] = reached;
+    steps.push({ who: k, level: CONS_LEVELS[reached - 1] });
+    if (reached >= TROUBLE && !s.cons.includes(k)) s.cons.push(k);
   }
 
   return {
@@ -154,13 +157,19 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     after: { ...s.meters },
     overall: overallNote(izgSum, expect, c, b),
     extra: hihSum <= b.overall.fantasyHihAtMost ? c.notes.fantasy : '',
-    newCons,
+    steps,
     stamp: s.meters.E >= before.E ? 'Átvéve' : 'Hiányos',
     taskDone,
     watch: { started, hidden, honest },
     betrayed,
   };
 }
+
+/** The step a resident's gathered harm has reached: 0 = none, 1–3 = `CONS_LEVELS`. */
+export const consLevelFor = (harm: number, b: Balance): number =>
+  CONS_LEVELS.filter(l => harm >= b.consequences[l]).length;
+/** From this step on the resident is in trouble (`bajban`, `state.cons`). */
+export const TROUBLE = CONS_LEVELS.indexOf('trouble') + 1;
 
 export const anyMeterZero = (m: Meters): boolean => m.E <= 0 || m.H <= 0 || m.L <= 0;
 

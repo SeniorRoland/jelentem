@@ -5,9 +5,11 @@ import { residentStatus } from './career';
 import { obsById, weekObs } from './observations';
 import { gentle, playGame, ruthless } from './test-utils';
 import { mulberry32 } from './rng';
+import { renderScreen } from '../ui/render';
+import { fillNames, nameVars } from './names';
 import { endingKey, scoreSentence } from './rules';
 import { dispatch, newGame, type Action } from './state';
-import type { GameState, Rng } from './types';
+import { CONS_LEVELS, type GameState, type Rng } from './types';
 
 const run = (s: GameState, actions: Action[], r: Rng) =>
   actions.reduce((acc, a) => dispatch(acc, a, content, balance, r), s);
@@ -52,7 +54,35 @@ describe('game flow', () => {
     const pityu = weekObs(s, content).find(o => o.who === 'pityu')!;
     s = run(s, [{ type: 'toggleObs', id: pityu.id }, { type: 'toggleInt', id: 'x2' }, { type: 'submit' }], r);
     expect(s.cons).toContain('pityu');
-    expect(s.last?.newCons).toContain('pityu');
+    expect(s.last?.steps.map(x => x.who)).toContain('pityu');
+  });
+
+  it('consequences escalate step by step as the harm on a resident grows, and never go back', () => {
+    const r = mulberry32(2);
+    const levels: number[] = [];
+    let s = started(r);
+    const { warn, trouble, ruin } = balance.consequences;
+    for (const harm of [warn - 1, warn, trouble - 1, trouble, ruin, ruin + 3, 0]) {
+      const t = structuredClone(s);
+      t.harmBy.jozsi = Math.max(t.harmBy.jozsi, harm);
+      s = run(t, [{ type: 'submit' }], r);
+      levels.push(s.consLevel.jozsi ?? 0);
+      if (s.screen === 'response') s = { ...s, screen: 'week' };
+    }
+    expect(levels).toEqual([0, 1, 1, 2, 3, 3, 3]);
+    expect(s.cons).toEqual(['jozsi']);
+  });
+
+  it('report each new step once, the highest of the week, and list all of them in the ending', () => {
+    const r = mulberry32(2);
+    const s = started(r);
+    s.harmBy.mari = balance.consequences.ruin;
+    const after = run(s, [{ type: 'submit' }], r);
+    expect(after.last!.steps).toEqual([{ who: 'mari', level: 'ruin' }]);
+    const html = renderScreen({ ...after, screen: 'ending' }, content, balance, { dev: false });
+    const vars = nameVars(after);
+    for (const l of CONS_LEVELS) expect(html).toContain(fillNames(content.residents.mari.cons![l], vars).slice(0, 40));
+    expect(html).toContain(fillNames(content.residents.mari.fate!.ruin, vars).slice(0, 40));
   });
 
   it('an interpretation cannot be placed before an observation', () => {
