@@ -17,6 +17,7 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
   const ids = new Set(c.obs.map(o => o.id));
   if (!g.weekObs.every(w => Array.isArray(w) && w.every(id => ids.has(id)))) return false;
   if (g.screen !== 'intro' && !g.weekObs[g.week]) return false;
+  if (typeof g.watched !== 'boolean' || typeof g.reportsOnYou !== 'number') return false;
   if (!Array.isArray(g.pastTasks) || !Array.isArray(g.doneTasks) || (g.task && !c.tasks.some(t => t.id === g.task!.id))) return false;
   return g.screen === 'intro' || g.screen === 'week' || g.screen === 'response' || g.screen === 'quarter';
 }
@@ -25,6 +26,10 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
 function upgrade(s: unknown, c: Content): void {
   if (!s || typeof s !== 'object') return;
   const g = s as Partial<GameState>;
+  if (g.watched === undefined) g.watched = false;
+  if (g.reportsOnYou === undefined) g.reportsOnYou = 0;
+  if (g.last && !g.last.watch) g.last.watch = { started: false, hidden: null, honest: false };
+  if (g.lastQuarter && g.lastQuarter.calmed === undefined) g.lastQuarter.calmed = null;
   if (g.captain || !g.recruit || !g.names) return;
   g.captain = makeCaptain(c, Math.random, [g.recruit.name.split(' ')[0], ...Object.values(g.names).map(n => n.name)]);
 }

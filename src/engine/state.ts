@@ -29,6 +29,8 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     task: null,
     pastTasks: [],
     doneTasks: [],
+    watched: false,
+    reportsOnYou: 0,
     meters: { ...b.start },
     code: randCode(c, rng),
     recruit,

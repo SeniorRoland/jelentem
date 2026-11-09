@@ -18,5 +18,16 @@
       "tag": "gepeles",
       "note": "Írógép, indigó, éjszaka. Elvtárs, ez már minta, nem véletlen."
     }
-  ]
+  ],
+  "watch": {
+    "label": "Alulírott",
+    "weekHint": "A házmester rólad is jelent. Amit nem írsz meg magadról, azt ő megírja helyetted.",
+    "started": "{porgoly} Lajosné házmester elvtársnő Önről is jelentést írt. Mostantól hetente ír. Javasoljuk, hogy Ön is írjon magáról, mielőtt ő teszi.",
+    "hidden": "A házmester elvtársnő jelentése szerint: „{obs}”. Erről Ön nem írt. Miért nem?",
+    "honest": "Önkritika. Ritka, mint a banán. Értékeljük.",
+    "calmed": "A házmester elvtársnő Önről szóló jelentései megritkultak. Talán megnyugodott. Talán új füzetet kezdett.",
+    "still": "A házmester elvtársnő továbbra is ír Önről. Az ő jelentései rendszeresebbek, mint az Önéi.",
+    "epilogueNone": "Rákerestél a saját nevedre. Egyetlen találat: {porgoly} Lajosné jelentése 1979 márciusából.",
+    "epilogueSome": "Rákerestél a saját nevedre. {n} találat, mind {porgoly} Lajosné tollából. A dossziéd vastagabb, mint amit te írtál a házról."
+  }
 }

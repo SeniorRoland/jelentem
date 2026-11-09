@@ -33,6 +33,15 @@ A játék 1979 egy éve: négy negyedév, mindegyik három hétből (március, j
 - **Átmenet:** a százados hangulata részben visszaáll, a lelkiismeret és a hihetőség kicsit helyreáll.
 - **A ház állapota:** az értékelés lakónként kiírja, hogy nyugodt, szóba került vagy bajban van.
 
+## A házmester ellenjelentése
+
+Ha egy jelentés után a hihetőség 40 alá esik, a házmester a játékosról kezd jelenteni, és ezt a százados közli is („Mostantól hetente ír. Javasoljuk, hogy Ön is írjon magáról, mielőtt ő teszi.”). Ettől kezdve hetente egy rólad szóló megfigyelés is kézbe kerül (`observations.json` → `self`, 12 db, pl. „Alulírott vett egy kockás füzetet, pontosan olyat, mint amilyen a házmesteré”):
+
+- Ha beírod a jelentésbe (önkritika), a hihetőség nő, és senkinek sem árt.
+- Ha kihagyod, a házmester megírja helyetted; a százados idézi a jelentését, és számon kéri („Erről Ön nem írt. Miért nem?”), a hihetőség pedig esik. Így az alacsony hihetőség magától is mélyül, ha nem teszel ellene.
+- A negyedéves értékelésnél, ha a hihetőség legalább 55, a házmester leáll; ha nem, tovább ír.
+- A 2026-os epilógus megszámolja, hány jelentés szól rólad („3 találat, mind … Lajosné tollából”).
+
 ## Célfeladatok
 
 A második negyedévtől minden negyedév elején a százados kiemelt feladatot ad (`tasks.json`): „Derítse ki, ki hallgatja a házban a Szabad Európa Rádiót!”, „Gyűjtsön adatot a házban fellelhető nyugati árucikkekről!”, „Derítse fel, tartanak-e a házban engedély nélküli összejövetelt!”, „Jelentse, ki mesél politikai vicceket a lépcsőházban!”. Egy játékban mindegyik legfeljebb egyszer jön.
@@ -101,6 +110,8 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **A kategória hatása az elvárásra** (9905479): kategóriánként elvárás-pótlék és kételkedés, a levélben a százados mondata.
 - [x] **Célfeladatok** (9905479): negyedévente egy feladat a második negyedévtől, terelő kártyákkal, jutalommal és büntetéssel. A kiemelt rangtól kötelező változat helyett minden rangon jár.
 - [x] **Beolvasztás a `develop` ágba** (9905479): a negyedéves rendszer és a célfeladatok a `develop` ágon.
+- [x] **Generált százados-név** (a9bb2aa): a szerepére utaló vezetéknév, kezdőbetűs szignó.
+- [x] **A házmester ellenjelentése** (`feature/counter-report` ág): alacsony hihetőségnél rólad szóló megfigyelések, önkritika vagy számonkérés, megnyugvás a negyedév végén, számlálás az epilógusban.
 
 ### Hátralévő
 
@@ -114,7 +125,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **A ház élete**
 
-- [ ] **A házmester ellenjelentése:** alacsony hihetőségnél a házmester a játékosról kezd jelenteni; a későbbi negyedévekben rólad szóló megfigyelések is megjelennek („Alulírott éjjel gépelt…”).
 - [ ] **Szomszédi viszony és véletlen események:** pl. Mari néni megkínál pogácsával, és a következő terhelő mondat jobban fáj; a bizalom korábban felfedheti a titkot, és „alibi” kártyát ad.
 - [ ] **Fokozódó következmények:** most lakónként egyetlen következmény van; legyen fokozatos (figyelmeztetés → házkutatás → a munkahely elvesztése).
 - [ ] **A Kovács lány neve:** most fix; generálható lenne a többi névhez hasonlóan.
@@ -126,5 +136,5 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **Hangolás és karbantartás**
 
-- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 9%-ban, az előrelátó 76%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 10%-ban, az előrelátó 76%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
 - [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.

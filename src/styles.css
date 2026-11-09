@@ -105,6 +105,8 @@ p{margin:0 0 .85rem;max-width:68ch}
 .task{margin:1.5rem 0 0;padding:.2rem 1rem .6rem;border:2px dashed var(--stamp)}
 .task h2{margin-top:.8rem;color:var(--stamp)}
 .task-order{font-weight:700}
+.slip.self{border-style:dotted;border-color:var(--ink)}
+.hint.watch{color:var(--stamp);font-style:normal;font-weight:700}
 .slip.divert{border-style:dashed;border-color:var(--stamp)}
 .house{margin:0 0 .5rem;padding-left:1.4rem}
 .news{border-left:3px solid var(--stamp);padding-left:.9rem}

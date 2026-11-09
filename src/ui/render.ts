@@ -103,7 +103,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   const placedO = new Set(s.slots.map(x => x.o).filter(Boolean));
   const placedI = new Set(s.slots.map(x => x.i).filter(Boolean));
 
-  const obsSlips = pool.map(o => `<button class="slip" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${o.who ? c.residents[o.who].name : 'Közös terület'}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
+  const obsSlips = pool.map(o => `<button class="slip${o.self ? ' self' : ''}" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${o.self ? c.notes.watch.label : o.who ? c.residents[o.who].name : 'Közös terület'}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
   const intSlips = s.dealt.map(id => {
     const it = int(id);
     const tag = it.tier === 'divert' ? `<small>${c.career.task.divert}</small>` : '';
@@ -131,6 +131,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
   ${taskBox(s, c)}
   <h2>Megfigyelések a héten</h2>
+  ${s.watched ? `<p class="hint watch">${c.notes.watch.weekHint}</p>` : ''}
   <div class="slips">${obsSlips}</div>
   <h2>Kéznél lévő értelmezések</h2>
   <div class="slips">${intSlips}</div>
@@ -160,8 +161,11 @@ function response(s: GameState, c: Content, v: View): string {
   <span class="note big">${r.overall}</span>
   ${r.extra ? `<span class="note">${r.extra}</span>` : ''}
   ${r.taskDone ? `<span class="note">${c.career.task.now}</span>` : ''}
+  ${r.watch.honest ? `<span class="note">${c.notes.watch.honest}</span>` : ''}
+  ${r.watch.hidden ? `<span class="note">${c.notes.watch.hidden.replace('{obs}', r.watch.hidden)}</span>` : ''}
   <span class="sig">${sig(s)}</span>
   ${news}
+  ${r.watch.started ? `<h2>Önről</h2><div class="news"><p>${c.notes.watch.started}</p></div>` : ''}
   <h2>Állásod</h2>
   ${meters(s.meters, r.before, v)}
   <div class="actions"><button class="btn" data-action="next">${label}</button></div>
@@ -193,6 +197,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   <p><strong>${ranks[q.rankAfter].label}</strong></p>
   <p>${change}</p>
   <p class="meta">Jelentésenként ${b.ranks[q.rankAfter].slots} mondat.</p>
+  ${q.calmed === null ? '' : `<p>${q.calmed ? c.notes.watch.calmed : c.notes.watch.still}</p>`}
   <h2>A ház a negyedév végén</h2>
   <ul class="house">${house}</ul>
   <h2>Állásod a következő negyedév elején</h2>
@@ -221,7 +226,7 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   <h2>Ami valójában történt</h2>
   ${truths}
   <h2>2026. november 4.</h2>
-  <p>Az iratok nyilvánosak lettek. Az adatbázis háromszor kidobott, negyedszerre bejutottál. Rákerestél a saját nevedre. Egyetlen találat: {porgoly} Lajosné jelentése 1979 márciusából.</p>
+  <p>Az iratok nyilvánosak lettek. Az adatbázis háromszor kidobott, negyedszerre bejutottál. ${s.reportsOnYou ? c.notes.watch.epilogueSome.replace('{n}', String(s.reportsOnYou)) : c.notes.watch.epilogueNone}</p>
   <p class="quote">„A célszemély gyanúsan sokat ír. Hogy mit, az nem tudható.”</p>
   <div class="actions"><button class="btn" data-action="restart">Újrakezdés új fedőnévvel</button></div>
   </article>`;

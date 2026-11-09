@@ -21,7 +21,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (/\.”?$/.test(o.text)) errs.push(`${o.id}: a megfigyelés ne végződjön ponttal, a motor tesz utána pontot.`);
     const quarters = new Set(c.weeks.map(w => w.quarter));
     for (const q of o.quarters ?? []) if (!quarters.has(q)) errs.push(`${o.id}: nincs ${q}. negyedév (0-tól számozva).`);
-    if (!c.weeks.some(w => w.level === o.level && (!o.quarters || o.quarters.includes(w.quarter))))
+    if (!o.self && !c.weeks.some(w => w.level === o.level && (!o.quarters || o.quarters.includes(w.quarter))))
       errs.push(`${o.id}: egyik hét sem illik hozzá (szint, negyedév), a megfigyelés sosem kerül elő.`);
     for (const [who, sts] of Object.entries(o.requires ?? {})) {
       if (who !== o.who) errs.push(`${o.id}: feltétel csak a saját lakójára vonatkozhat (${who}).`);
@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b));
   return errs;
 }
 
@@ -161,10 +161,15 @@ function validateNames(c: Content): string[] {
     ...ids.flatMap(id => [[id, c.residents[id].name], [id, c.residents[id].cons ?? ''], [id, c.residents[id].truth ?? '']] as [string, string][]),
     ...Object.entries(c.endings).flatMap(([k, e]) => [[k, e.title], [k, e.text]] as [string, string][]),
     ...Object.entries(c.notes).filter(([, v]) => typeof v === 'string').map(([k, v]) => [k, v as string] as [string, string]),
+    ...Object.entries(c.notes.watch).map(([k, v]) => [`watch.${k}`, v] as [string, string]),
     ...c.notes.repeat.map(r => [r.tag, r.note] as [string, string]),
   ];
   for (const [where, text] of texts)
-    for (const p of placeholders(text)) if (p !== CAPTAIN && !ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
+    for (const p of placeholders(text)) {
+      // {obs} and {n} are filled by the UI in the caretaker's texts only.
+      const local = where.startsWith('watch.') && (p === 'obs' || p === 'n');
+      if (!local && p !== CAPTAIN && !ids.includes(p as ResidentId)) errs.push(`${where}: ismeretlen helyettesítő: {${p}}`);
+    }
 
   // The handler takes his name last, after the recruit and every resident took theirs.
   const cap = c.captain.surnames;
@@ -217,5 +222,26 @@ function validateTasks(c: Content, b: Balance): string[] {
   const quarters = new Set(c.weeks.map(w => w.quarter));
   const withTask = [...quarters].filter(q => q >= b.task.fromQuarter).length;
   if (c.tasks.length < withTask) errs.push(`Feladat: ${withTask} negyedévhez kell feladat, de csak ${c.tasks.length} van.`);
+  return errs;
+}
+
+/** Observations about the player, drawn one per week while the caretaker reports on them. */
+function validateWatch(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const self = c.obs.filter(o => o.self);
+  // Enough for a whole year of being watched, so a week never goes without one.
+  if (self.length < c.weeks.length) errs.push(`Ellenjelentés: legalább ${c.weeks.length} „Alulírott” megfigyelés kell, most ${self.length} van.`);
+  for (const o of self) {
+    if (o.who !== null || o.art !== 0) errs.push(`${o.id}: a rólad szóló megfigyelés lakó és ártalom nélküli legyen.`);
+    if (o.quarters || o.requires || o.topics || o.tag) errs.push(`${o.id}: a rólad szóló megfigyelésnek nem lehet feltétele, témája vagy címkéje.`);
+    if (!o.text.startsWith('Alulírott')) errs.push(`${o.id}: a rólad szóló megfigyelés „Alulírott” szóval kezdődjön.`);
+  }
+  for (const [k, v] of Object.entries(c.notes.watch)) {
+    if (!v) errs.push(`Ellenjelentés: hiányzó szöveg: ${k}`);
+    if (/["']/.test(v)) errs.push(`Ellenjelentés: egyenes idézőjel: ${v}`);
+  }
+  if (!c.notes.watch.hidden.includes('{obs}')) errs.push('Ellenjelentés: a „hidden” szövegből hiányzik az {obs} helyettesítő.');
+  if (!c.notes.watch.epilogueSome.includes('{n}')) errs.push('Ellenjelentés: az „epilogueSome” szövegből hiányzik az {n} helyettesítő.');
+  if (b.watch.calmAt <= b.watch.hBelow) errs.push('Ellenjelentés: a calmAt legyen nagyobb, mint a hBelow.');
   return errs;
 }

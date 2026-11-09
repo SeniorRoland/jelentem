@@ -50,7 +50,10 @@ export function endQuarter(s: GameState, c: Content, b: Balance): QuarterResult 
     H: clamp(before.H + b.quarter.healH),
     L: clamp(before.L + b.quarter.healL),
   };
-  return { quarter: quarterOf(s, c), grade, task, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
+  // The caretaker calms down once the player is credible again.
+  const calmed = s.watched ? s.meters.H >= b.watch.calmAt : null;
+  if (calmed) s.watched = false;
+  return { quarter: quarterOf(s, c), grade, task, calmed, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
 }
 
 /** Closes the open task: the captain's mood goes up if done, down if not. Mutates `s`. */

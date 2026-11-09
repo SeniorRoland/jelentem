@@ -109,9 +109,13 @@ describe('observation pool', () => {
       const s = finalOf(g);
       s.weekObs.forEach((ids, wi) => {
         const w = content.weeks[wi];
-        expect(ids).toHaveLength(w.slots.length);
-        ids.forEach((id, si) => {
+        // One per slot, plus at most one about the player while the caretaker is watching.
+        expect(ids.length - w.slots.length).toBeGreaterThanOrEqual(0);
+        expect(ids.length - w.slots.length).toBeLessThanOrEqual(1);
+        ids.slice(w.slots.length).forEach(id => expect(obsById(content, id)!.self).toBe(true));
+        ids.slice(0, w.slots.length).forEach((id, si) => {
           const o = obsById(content, id)!;
+          expect(o.self).toBeFalsy();
           expect(o.level).toBe(w.level);
           expect(w.slots[si]).toContain(o.who);
           if (o.quarters) expect(o.quarters).toContain(w.quarter);

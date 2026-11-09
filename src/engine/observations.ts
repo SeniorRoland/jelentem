@@ -15,7 +15,7 @@ export function fits(o: Observation, st: Statuses): boolean {
 
 /** The observations that fit a slot of a week, for the given resident states. */
 export const candidates = (c: Content, w: Week, slot: readonly (string | null)[], st: Statuses = {}): Observation[] =>
-  c.obs.filter(o => o.level === w.level && slot.includes(o.who)
+  c.obs.filter(o => !o.self && o.level === w.level && slot.includes(o.who)
     && (!o.quarters || o.quarters.includes(w.quarter)) && fits(o, st));
 
 export function statusesOf(s: GameState, c: Content): Statuses {
@@ -26,19 +26,25 @@ export function statusesOf(s: GameState, c: Content): Statuses {
 
 /**
  * Draws this week's observations: one per slot, at the week's level and quarter, fitting
- * how the residents stand now, never one already drawn in this game. Pure.
+ * how the residents stand now, never one already drawn in this game. While the caretaker
+ * is reporting on the player, one observation about the player comes on top. Pure.
  */
 export function pickWeek(s: GameState, c: Content, rng: Rng): string[] {
   const w = c.weeks[s.week];
   const used = new Set(s.weekObs.flat());
   const st = statusesOf(s, c);
-  return w.slots.map(slot => {
+  const ids = w.slots.map(slot => {
     const free = candidates(c, w, slot, st).filter(o => !used.has(o.id));
     if (!free.length) throw new Error(`Nincs szabad megfigyelés: ${w.label}, ${slot.join('/')}`);
     const o = free[Math.floor(rng() * free.length)];
     used.add(o.id);
     return o.id;
   });
+  if (s.watched) {
+    const self = c.obs.filter(o => o.self && !used.has(o.id));
+    if (self.length) ids.push(self[Math.floor(rng() * self.length)].id);
+  }
+  return ids;
 }
 
 /** This week's observations, in slot order. */

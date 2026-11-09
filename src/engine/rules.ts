@@ -91,6 +91,13 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
   }
   for (const sl of s.slots) if (sl.o && !s.reported.includes(sl.o)) s.reported.push(sl.o);
 
+  // The caretaker's counter-report: what the player wrote about themself, or left out.
+  const self = week.find(o => o.self);
+  const honest = !!self && s.slots.some(sl => sl.o === self.id);
+  const hidden = self && !honest ? self.text : null;
+  if (honest) hihSum += b.watch.honest;
+  if (hidden) { hihSum -= b.watch.hidden; s.reportsOnYou++; }
+
   let taskDone = false;
   const task = s.task && !s.task.done ? c.tasks.find(t => t.id === s.task!.id) : undefined;
   if (task && s.slots.some(sl => sl.o && answersTask(task.topic, week.find(x => x.id === sl.o)!, sl.i ? c.ints.find(x => x.id === sl.i)! : null))) {
@@ -104,6 +111,9 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     H: clamp(s.meters.H + hihSum * b.weight.H),
     L: clamp(s.meters.L - harmSum * b.weight.L),
   };
+
+  const started = !s.watched && s.meters.H < b.watch.hBelow;
+  if (started) { s.watched = true; s.reportsOnYou++; }
 
   const newCons: ResidentId[] = [];
   for (const k of Object.keys(s.harmBy) as ResidentId[]) {
@@ -122,6 +132,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     newCons,
     stamp: s.meters.E >= before.E ? 'Átvéve' : 'Hiányos',
     taskDone,
+    watch: { started, hidden, honest },
   };
 }
 

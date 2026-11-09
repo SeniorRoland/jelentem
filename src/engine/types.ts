@@ -29,6 +29,11 @@ export interface Observation {
   requires?: Partial<Record<ResidentId, ResidentStatus[]>>;
   /** Task topics this observation answers when reported (see `Task.topic`). */
   topics?: string[];
+  /**
+   * About the player („Alulírott…”). Never in a normal slot: one comes as an extra card each
+   * week while the caretaker is reporting on the player (`GameState.watched`).
+   */
+  self?: boolean;
 }
 
 /**
@@ -88,6 +93,18 @@ export interface Notes {
   fantasy: string;
   /** Fires when an observation is reported whose `tag` was already reported before. */
   repeat: { tag: string; note: string }[];
+  /** The caretaker's counter-reports on the player. */
+  watch: {
+    label: string;
+    weekHint: string;
+    started: string;
+    hidden: string;
+    honest: string;
+    calmed: string;
+    still: string;
+    epilogueNone: string;
+    epilogueSome: string;
+  };
 }
 
 export type Sex = 'm' | 'f';
@@ -255,6 +272,12 @@ export interface Balance {
    * and `doubt`, the multiplier on lost credibility (a loyal recruit's exaggeration is more suspicious).
    */
   categories: Record<string, { expectBonus: number; doubt: number }>;
+  /**
+   * The caretaker starts reporting on the player when H falls below `hBelow` after a report,
+   * and stops at a review where H is at least `calmAt`. Reporting the week's self-observation
+   * adds `honest` credibility, leaving it out costs `hidden` (both before `weight.H`).
+   */
+  watch: { hBelow: number; calmAt: number; honest: number; hidden: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
   task: { fromQuarter: number; reward: number; penalty: number };
   quarter: {
@@ -300,6 +323,8 @@ export interface WeekResult {
   stamp: 'Átvéve' | 'Hiányos';
   /** True when this report completed the quarter's task. */
   taskDone: boolean;
+  /** What the caretaker did this week: started reporting, or reported what the player left out. */
+  watch: { started: boolean; hidden: string | null; honest: boolean };
 }
 
 /** The open task of the quarter. */
@@ -313,6 +338,8 @@ export interface QuarterResult {
   grade: Grade;
   /** The quarter's task and whether it was done; null when the quarter had none. */
   task: TaskState | null;
+  /** The caretaker stopped reporting at this review (true), kept on (false), or was not (null). */
+  calmed: boolean | null;
   rankBefore: number;
   rankAfter: number;
   before: Meters;
@@ -330,6 +357,9 @@ export interface GameState {
   pastTasks: string[];
   /** Ids of the tasks done in this game. */
   doneTasks: string[];
+  /** The caretaker is reporting on the player; and how many of her reports went in. */
+  watched: boolean;
+  reportsOnYou: number;
   meters: Meters;
   code: string;
   recruit: Recruit;
