@@ -1,4 +1,5 @@
 import { endQuarter, isLastWeek, isQuarterEnd, isQuarterStart, quarterOf, settleTask, slotsFor } from './career';
+import { applyEvent, pickEvent } from './events';
 import { makeCaptain, makeNames } from './names';
 import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
@@ -31,6 +32,9 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     doneTasks: [],
     watched: false,
     reportsOnYou: 0,
+    events: [],
+    bonds: [],
+    betrayed: [],
     meters: { ...b.start },
     code: randCode(c, rng),
     recruit,
@@ -60,6 +64,8 @@ function assignTask(s: GameState, c: Content, b: Balance, rng: Rng): void {
 
 function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
   assignTask(s, c, b, rng);
+  s.events[s.week] = pickEvent(s, c, b, rng);
+  applyEvent(s, c);
   s.weekObs[s.week] = pickWeek(s, c, rng);
   s.slots = emptySlots(slotsFor(s, b));
   s.dealt = deal(s, c, b, rng);

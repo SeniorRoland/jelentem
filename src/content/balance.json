@@ -29,6 +29,7 @@
     "osztalyidegen": { "expectBonus": 1, "doubt": 1 }
   },
   "task": { "fromQuarter": 1, "reward": 8, "penalty": 12 },
+  "events": { "fromWeek": 1, "chance": 0.6, "guilt": 2, "misuse": 3 },
   "watch": { "hBelow": 40, "calmAt": 55, "honest": 2, "hidden": 4 },
   "quarter": {
     "promoteE": 65,

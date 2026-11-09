@@ -1,4 +1,5 @@
 import { doubtFor, expectFor } from './career';
+import { isBonded } from './events';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import type {
@@ -13,18 +14,28 @@ export function randCode(c: Content, rng: Rng): string {
   return `${adj[Math.floor(rng() * adj.length)]} ${noun[Math.floor(rng() * noun.length)]}`;
 }
 
+/**
+ * True when an alibi card is put on someone it was not meant for, or on something the resident
+ * told in confidence or that the whole house saw: an alibi only covers everyday comings and goings.
+ */
+export const misused = (o: Observation, it: Interpretation | null): boolean => !!it?.who && (it.who !== o.who || !!o.event);
+
 /** Score one sentence: observation + optional interpretation. `doubt` scales lost credibility. Pure. */
 export function scoreSentence(o: Observation, it: Interpretation | null, b: Balance, doubt = 1) {
   const izg = o.izg + (it ? it.izg : 0);
   let hih = it ? it.hih : b.plainFact.hih;
   if (it && it.izg >= b.absurd.minIntIzg && o.izg <= b.absurd.maxObsIzg) hih -= b.absurd.penalty;
+  // A misused alibi covers nothing: full harm, and the captain doubts the whole sentence.
+  const bad = misused(o, it);
+  if (bad) hih = -b.events.misuse;
   if (hih < 0) hih = Math.round(hih * doubt);
-  const harm = Math.round(o.art * (it ? it.mult : b.plainFact.mult));
+  const harm = Math.round(o.art * (bad ? 1 : it ? it.mult : b.plainFact.mult));
   return { izg, hih, harm };
 }
 
 /** Margin note next to a sentence. Repeat notes win, then interpretation, then observation. */
 export function pickNote(o: Observation, it: Interpretation | null, reported: string[], c: Content): string | null {
+  if (misused(o, it)) return c.events.labels.misuse;
   const again = o.tag && reported.some(id => id !== o.id && obsById(c, id)?.tag === o.tag);
   const rep = again ? c.notes.repeat.find(r => r.tag === o.tag) : undefined;
   if (rep) return rep.note;
@@ -46,7 +57,7 @@ export const answersTask = (topic: string, o: Observation, it: Interpretation | 
 
 /**
  * Deal this week's interpretation cards, preferring ones not used yet. While a task is open,
- * one extra diversion card on its topic comes too.
+ * one extra diversion card on its topic comes too, and while anyone is close to the player, one alibi card.
  */
 export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
   const pick = (tier: Tier, n: number) => {
@@ -64,6 +75,12 @@ export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
     const from = fresh.length ? fresh : diverts;
     if (from.length) cards.push(from[Math.floor(rng() * from.length)]);
   }
+  const alibis = c.ints.filter(x => x.tier === 'alibi' && x.who && s.bonds.includes(x.who));
+  if (alibis.length) {
+    const fresh = alibis.filter(x => !s.usedInts.includes(x.id));
+    const from = fresh.length ? fresh : alibis;
+    cards.push(from[Math.floor(rng() * from.length)]);
+  }
   return shuffle(cards, rng).map(x => x.id);
 }
 
@@ -71,7 +88,8 @@ export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
 export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
   const week = weekObs(s, c);
   const before: Meters = { ...s.meters };
-  let izgSum = 0, hihSum = 0, harmSum = 0;
+  let izgSum = 0, hihSum = 0, harmSum = 0, guiltSum = 0;
+  const betrayed: ResidentId[] = [];
   const sents: SentenceResult[] = [];
 
   for (const sl of s.slots) {
@@ -86,10 +104,16 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
       who: o.who,
     });
     izgSum += sc.izg; hihSum += sc.hih; harmSum += sc.harm;
+    // Harm to someone who trusted the player weighs more on the conscience, and ends the trust.
+    const close = isBonded(s, o.who) && sc.harm > 0;
+    guiltSum += sc.harm * (close ? b.events.guilt : 1);
+    if (close && !betrayed.includes(o.who!)) betrayed.push(o.who!);
     if (o.who && sc.harm) s.harmBy[o.who] += sc.harm;
     if (it && !s.usedInts.includes(it.id)) s.usedInts.push(it.id);
   }
   for (const sl of s.slots) if (sl.o && !s.reported.includes(sl.o)) s.reported.push(sl.o);
+  s.bonds = s.bonds.filter(k => !betrayed.includes(k));
+  s.betrayed.push(...betrayed);
 
   // The caretaker's counter-report: what the player wrote about themself, or left out.
   const self = week.find(o => o.self);
@@ -105,11 +129,11 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     taskDone = true;
   }
 
-  const expect = expectFor(s, b);
+  const expect = expectFor(s, b, c);
   s.meters = {
     E: clamp(s.meters.E + (izgSum - expect) * b.weight.E),
     H: clamp(s.meters.H + hihSum * b.weight.H),
-    L: clamp(s.meters.L - harmSum * b.weight.L),
+    L: clamp(s.meters.L - guiltSum * b.weight.L),
   };
 
   const started = !s.watched && s.meters.H < b.watch.hBelow;
@@ -133,6 +157,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     stamp: s.meters.E >= before.E ? 'Átvéve' : 'Hiányos',
     taskDone,
     watch: { started, hidden, honest },
+    betrayed,
   };
 }
 

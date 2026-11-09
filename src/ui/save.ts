@@ -18,6 +18,8 @@ export function fitsContent(s: unknown, c: Content, b: Balance): s is GameState 
   if (!g.weekObs.every(w => Array.isArray(w) && w.every(id => ids.has(id)))) return false;
   if (g.screen !== 'intro' && !g.weekObs[g.week]) return false;
   if (typeof g.watched !== 'boolean' || typeof g.reportsOnYou !== 'number') return false;
+  if (!Array.isArray(g.events) || !Array.isArray(g.bonds) || !Array.isArray(g.betrayed)) return false;
+  if (!g.events.every(id => id === null || c.events.list.some(e => e.id === id))) return false;
   if (!Array.isArray(g.pastTasks) || !Array.isArray(g.doneTasks) || (g.task && !c.tasks.some(t => t.id === g.task!.id))) return false;
   return g.screen === 'intro' || g.screen === 'week' || g.screen === 'response' || g.screen === 'quarter';
 }
@@ -30,6 +32,11 @@ function upgrade(s: unknown, c: Content): void {
   if (g.reportsOnYou === undefined) g.reportsOnYou = 0;
   if (g.last && !g.last.watch) g.last.watch = { started: false, hidden: null, honest: false };
   if (g.lastQuarter && g.lastQuarter.calmed === undefined) g.lastQuarter.calmed = null;
+  // Saves from before the house events: nothing has happened in the house yet.
+  if (g.events === undefined) g.events = [];
+  if (g.bonds === undefined) g.bonds = [];
+  if (g.betrayed === undefined) g.betrayed = [];
+  if (g.last && !g.last.betrayed) g.last.betrayed = [];
   if (g.captain || !g.recruit || !g.names) return;
   g.captain = makeCaptain(c, Math.random, [g.recruit.name.split(' ')[0], ...Object.values(g.names).map(n => n.name)]);
 }

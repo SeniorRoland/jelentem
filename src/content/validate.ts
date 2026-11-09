@@ -21,7 +21,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (/\.”?$/.test(o.text)) errs.push(`${o.id}: a megfigyelés ne végződjön ponttal, a motor tesz utána pontot.`);
     const quarters = new Set(c.weeks.map(w => w.quarter));
     for (const q of o.quarters ?? []) if (!quarters.has(q)) errs.push(`${o.id}: nincs ${q}. negyedév (0-tól számozva).`);
-    if (!o.self && !c.weeks.some(w => w.level === o.level && (!o.quarters || o.quarters.includes(w.quarter))))
+    if (!o.self && !o.event && !c.weeks.some(w => w.level === o.level && (!o.quarters || o.quarters.includes(w.quarter))))
       errs.push(`${o.id}: egyik hét sem illik hozzá (szint, negyedév), a megfigyelés sosem kerül elő.`);
     for (const [who, sts] of Object.entries(o.requires ?? {})) {
       if (who !== o.who) errs.push(`${o.id}: feltétel csak a saját lakójára vonatkozhat (${who}).`);
@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c));
   return errs;
 }
 
@@ -163,6 +163,10 @@ function validateNames(c: Content): string[] {
     ...Object.entries(c.notes).filter(([, v]) => typeof v === 'string').map(([k, v]) => [k, v as string] as [string, string]),
     ...Object.entries(c.notes.watch).map(([k, v]) => [`watch.${k}`, v] as [string, string]),
     ...c.notes.repeat.map(r => [r.tag, r.note] as [string, string]),
+    ...c.events.list.flatMap(e => [[e.id, e.title], [e.id, e.text]] as [string, string][]),
+    ...Object.entries({ ...c.events.labels }).map(([k, v]) => [`events.${k}`, v] as [string, string]),
+    ...Object.entries(c.events.betrayed).map(([k, v]) => [`betrayed.${k}`, v ?? ''] as [string, string]),
+    ...Object.entries(c.events.kept).map(([k, v]) => [`kept.${k}`, v ?? ''] as [string, string]),
   ];
   for (const [where, text] of texts)
     for (const p of placeholders(text)) {
@@ -243,5 +247,59 @@ function validateWatch(c: Content, b: Balance): string[] {
   if (!c.notes.watch.hidden.includes('{obs}')) errs.push('Ellenjelentés: a „hidden” szövegből hiányzik az {obs} helyettesítő.');
   if (!c.notes.watch.epilogueSome.includes('{n}')) errs.push('Ellenjelentés: az „epilogueSome” szövegből hiányzik az {n} helyettesítő.');
   if (b.watch.calmAt <= b.watch.hBelow) errs.push('Ellenjelentés: a calmAt legyen nagyobb, mint a hBelow.');
+  return errs;
+}
+
+/** House events, the observations they bring, and the alibi cards of close residents. */
+function validateEvents(c: Content): string[] {
+  const errs: string[] = [];
+  const ev = c.events;
+  const quote = (t: string) => /["']/.test(t);
+  for (const [k, v] of Object.entries(ev.labels)) {
+    if (!v) errs.push(`Esemény: hiányzó felirat: ${k}`);
+    if (quote(v)) errs.push(`Esemény: egyenes idézőjel: ${v}`);
+  }
+  const quarters = new Set(c.weeks.map(w => w.quarter));
+  const ids = new Set<string>();
+  for (const e of ev.list) {
+    if (ids.has(e.id)) errs.push(`Esemény: duplikált azonosító: ${e.id}`);
+    ids.add(e.id);
+    if (quote(e.title + e.text)) errs.push(`${e.id}: egyenes idézőjel az esemény szövegében.`);
+    if (e.expect !== undefined && !Number.isInteger(e.expect)) errs.push(`${e.id}: az elvárás-módosítás egész szám legyen.`);
+    for (const q of e.quarters ?? []) if (!quarters.has(q)) errs.push(`${e.id}: nincs ${q}. negyedév.`);
+    for (const [who, sts] of Object.entries(e.requires ?? {})) {
+      if (!(who in c.residents)) errs.push(`${e.id}: ismeretlen lakó a feltételben: ${who}`);
+      for (const st of sts ?? []) if (!STATUSES.includes(st)) errs.push(`${e.id}: ismeretlen állapot: ${st}`);
+    }
+    const mine = (e.obs ?? []).map(id => c.obs.find(o => o.id === id));
+    mine.forEach((o, k) => {
+      if (!o) errs.push(`${e.id}: ismeretlen megfigyelés: ${e.obs![k]}`);
+      else if (o.event !== e.id) errs.push(`${o.id}: az „event” mezője nem ${e.id}.`);
+    });
+    if (e.kind === 'kind') {
+      const who = e.who;
+      if (!who || !c.residents[who]?.fate) { errs.push(`${e.id}: a kedvesség csak történettel bíró lakótól jöhet.`); continue; }
+      if (!mine.some(o => o?.who === who)) errs.push(`${e.id}: a kedvességhez kell egy bizalmas megfigyelés a lakóról.`);
+      if (!ev.betrayed[who] || !ev.kept[who]) errs.push(`${e.id}: a(z) ${who} lakónak nincs „betrayed” vagy „kept” szövege.`);
+    } else if (e.kind === 'house') {
+      if (e.who) errs.push(`${e.id}: házi eseménynek nincs „who” mezője.`);
+    } else errs.push(`${e.id}: ismeretlen eseményfajta: ${String(e.kind)}`);
+  }
+  for (const o of c.obs.filter(x => x.event)) {
+    const e = ev.list.find(x => x.id === o.event);
+    if (!e?.obs?.includes(o.id)) errs.push(`${o.id}: egyik esemény sem hozza (${o.event}).`);
+    if (o.self || o.quarters || o.requires || o.tag) errs.push(`${o.id}: eseményhez tartozó megfigyelésnek nem lehet saját feltétele vagy címkéje.`);
+  }
+  // Every resident who can become close needs alibi cards, and every alibi card someone to cover.
+  const close = new Set(ev.list.filter(e => e.kind === 'kind').map(e => e.who!));
+  for (const who of close) {
+    const n = c.ints.filter(x => x.tier === 'alibi' && x.who === who).length;
+    if (n < 2) errs.push(`Alibi: a(z) ${who} lakóhoz legalább két alibi kártya kell, most ${n} van.`);
+  }
+  for (const it of c.ints) {
+    if (it.tier === 'alibi' && (!it.who || !close.has(it.who))) errs.push(`${it.id}: az alibi kártya olyan lakóé legyen, aki megkedvelheti a játékost.`);
+    if (it.tier !== 'alibi' && it.who) errs.push(`${it.id}: csak alibi kártyának lehet „who” mezője.`);
+    if (it.tier === 'alibi' && it.who && it.text.includes('{') && !it.text.includes(`{${it.who}}`)) errs.push(`${it.id}: az alibi más lakó nevét említi.`);
+  }
   return errs;
 }

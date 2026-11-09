@@ -1,10 +1,11 @@
 import { expectFor, quarterOf, residentStatus, weekInQuarter } from '../engine/career';
+import { eventOf } from '../engine/events';
 import { CAPTAIN, fillNames } from '../engine/names';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { endingKey } from '../engine/rules';
 import { nextStep } from '../engine/state';
-import type { Balance, Content, GameState, Hint, Meters, ResidentId, ResidentStatus } from '../engine/types';
+import type { Balance, Content, GameState, Hint, HouseEvent, Meters, ResidentId, ResidentStatus } from '../engine/types';
 
 export interface View {
   dev: boolean;
@@ -95,6 +96,12 @@ function taskBox(s: GameState, c: Content): string {
   return `<aside class="task" aria-label="${c.career.task.title}"><h2>${c.career.task.title}</h2><p class="task-order">${t.title}</p><p class="meta">Állapot: ${st}</p></aside>`;
 }
 
+/** What happened in the house this week; a kindness also explains the trust it brings. */
+function eventBox(e: HouseEvent, c: Content, v: View): string {
+  const dev = v.dev && e.expect ? ` <span class="dev">(elvárás ${e.expect > 0 ? '+' : ''}${e.expect})</span>` : '';
+  return `<aside class="event${e.kind === 'kind' ? ' kind' : ''}" aria-label="${c.events.labels.title}"><h2>${c.events.labels.title}: ${e.title}</h2><p>${e.text}${dev}</p>${e.kind === 'kind' ? `<p class="meta">${c.events.labels.bond}</p>` : ''}</aside>`;
+}
+
 function week(s: GameState, c: Content, b: Balance, v: View): string {
   const w = c.weeks[s.week];
   const pool = weekObs(s, c);
@@ -103,11 +110,19 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   const placedO = new Set(s.slots.map(x => x.o).filter(Boolean));
   const placedI = new Set(s.slots.map(x => x.i).filter(Boolean));
 
-  const obsSlips = pool.map(o => `<button class="slip${o.self ? ' self' : ''}" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${o.self ? c.notes.watch.label : o.who ? c.residents[o.who].name : 'Közös terület'}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
+  const ev = eventOf(s, c);
+  const L = c.events.labels;
+  const who = (o: typeof pool[number]) => o.who ? c.residents[o.who].name : 'Közös terület';
+  const obsLabel = (o: typeof pool[number]) => o.self ? c.notes.watch.label
+    : o.event && ev?.kind === 'kind' ? `${L.confidential} · ${who(o)}` : who(o);
+  const obsClass = (o: typeof pool[number]) => o.self ? ' self' : o.event ? (ev?.kind === 'kind' ? ' confidential' : ' event') : '';
+  const obsSlips = pool.map(o => `<button class="slip${obsClass(o)}" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${obsLabel(o)}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
   const intSlips = s.dealt.map(id => {
     const it = int(id);
-    const tag = it.tier === 'divert' ? `<small>${c.career.task.divert}</small>` : '';
-    return `<button class="slip${it.tier === 'divert' ? ' divert' : ''}" data-action="toggleInt" data-id="${id}" aria-pressed="${placedI.has(id)}">…, ${it.text}.${tag}${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;
+    const tag = it.tier === 'divert' ? `<small>${c.career.task.divert}</small>`
+      : it.tier === 'alibi' && it.who ? `<small>${L.alibi} · ${c.residents[it.who].name}</small>` : '';
+    const cls = it.tier === 'divert' || it.tier === 'alibi' ? ` ${it.tier}` : '';
+    return `<button class="slip${cls}" data-action="toggleInt" data-id="${id}" aria-pressed="${placedI.has(id)}">…, ${it.text}.${tag}${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;
   }).join('');
 
   const sentences = s.slots.map((sl, idx) => {
@@ -126,9 +141,10 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   <p class="meta">Időszak: ${w.label} (${c.career.quarters[w.quarter]})</p>
   <p class="meta">Besorolás: ${c.career.ranks[s.rank].label}</p>
   <p class="meta">Tárgy: a Bem utca 12. lakói</p>
-  ${v.dev ? `<p class="dev">elvárás ezen a héten: ${expectFor(s, b)}</p>` : ''}
+  ${v.dev ? `<p class="dev">elvárás ezen a héten: ${expectFor(s, b, c)}</p>` : ''}
   ${meters(s.meters, null, v)}
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
+  ${ev ? eventBox(ev, c, v) : ''}
   ${taskBox(s, c)}
   <h2>Megfigyelések a héten</h2>
   ${s.watched ? `<p class="hint watch">${c.notes.watch.weekHint}</p>` : ''}
@@ -147,8 +163,9 @@ function response(s: GameState, c: Content, v: View): string {
   const body = r.sents.length
     ? `<ol>${r.sents.map(x => `<li>${x.text}${x.note ? `<span class="note">${x.note}</span>` : ''}</li>`).join('')}</ol>`
     : `<p>Jelentem, a megfigyelt időszakban nem történt semmi.</p>`;
-  const news = r.newCons.length
-    ? `<h2>Hírek a házból</h2><div class="news">${r.newCons.map(k => `<p>${c.residents[k].cons}</p>`).join('')}</div>`
+  const items = [...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.newCons.map(k => c.residents[k].cons ?? '')].filter(Boolean);
+  const news = items.length
+    ? `<h2>Hírek a házból</h2><div class="news">${items.map(t => `<p>${t}</p>`).join('')}</div>`
     : '';
   const step = nextStep(s, c);
   const label = step === 'week' ? 'Következő hét' : step === 'quarter' ? 'Negyedéves értékelés'
@@ -185,7 +202,8 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   const ranks = c.career.ranks;
   const change = q.rankAfter > q.rankBefore ? ranks[q.rankAfter].promo
     : q.rankAfter < q.rankBefore ? ranks[q.rankAfter].demo : c.career.stay;
-  const house = STORY.map(k => `<li>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}</li>`).join('');
+  const trust = (k: ResidentId) => s.bonds.includes(k) ? `, ${c.events.labels.bonded}` : s.betrayed.includes(k) ? `, ${c.events.labels.betrayed}` : '';
+  const house = STORY.map(k => `<li>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}${trust(k)}</li>`).join('');
   return `<article class="sheet">${head(s)}
   <div class="stamp" aria-hidden="true">${g.title}</div>
   <h1 id="t" tabindex="-1">Negyedéves értékelés</h1>
@@ -214,7 +232,8 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   const truths = STORY.map(k => {
     const r = c.residents[k];
     const fate = r.fate ? ` ${r.fate[s.cons.includes(k) ? 'bajban' : 'ok']}` : '';
-    return `<p>${r.truth}${fate}</p>`;
+    const kept = s.bonds.includes(k) && c.events.kept[k] ? ` ${c.events.kept[k]}` : '';
+    return `<p>${r.truth}${fate}${kept}</p>`;
   }).join('');
   return `<article class="sheet">${head(s)}
   <h1 id="t" tabindex="-1">${e.title}</h1>

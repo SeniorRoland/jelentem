@@ -151,6 +151,12 @@ p{margin:0 0 .85rem;max-width:68ch}
 .slip.self{border-style:dotted;border-color:var(--ink)}
 .hint.watch{color:var(--stamp);font-style:normal;font-weight:700}
 .slip.divert{border-style:dashed;border-color:var(--stamp)}
+/* House events: what happened this week; a kindness is set apart by a double rule. */
+.event{margin:1.25rem 0 0;padding:.2rem 1rem .6rem;border-left:4px solid var(--ink-soft)}
+.event.kind{border-left-style:double;border-left-width:6px}
+.event h2{margin-top:.8rem}
+.slip.event{border-style:dotted}
+.slip.confidential,.slip.alibi{border-style:double;border-width:3px}
 .house{margin:0 0 .5rem;padding-left:1.4rem}
 .news{border-left:3px solid var(--stamp);padding-left:.9rem}
 .quote{margin:1rem 0 1rem 1rem;font-style:italic}

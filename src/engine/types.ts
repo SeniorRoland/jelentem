@@ -1,7 +1,10 @@
 export type ResidentId = 'mari' | 'jozsi' | 'pityu' | 'porgoly';
-/** `divert` cards are only dealt while a task is open: they answer the task by blaming something harmless. */
-export type Tier = 'safe' | 'mid' | 'wild' | 'divert';
-export type DealTier = Exclude<Tier, 'divert'>;
+/**
+ * `divert` cards are only dealt while a task is open: they answer the task by blaming something harmless.
+ * `alibi` cards are only dealt while a resident is close to the player (`GameState.bonds`).
+ */
+export type Tier = 'safe' | 'mid' | 'wild' | 'divert' | 'alibi';
+export type DealTier = Exclude<Tier, 'divert' | 'alibi'>;
 export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas';
 export type Screen = 'intro' | 'week' | 'response' | 'quarter' | 'ending';
 /** How the reports have treated a resident so far. */
@@ -34,6 +37,8 @@ export interface Observation {
    * week while the caretaker is reporting on the player (`GameState.watched`).
    */
   self?: boolean;
+  /** Comes only with this house event (`HouseEvent.obs`), never in a normal slot. */
+  event?: string;
 }
 
 /**
@@ -60,6 +65,45 @@ export interface Interpretation {
   note?: string;
   /** Task topics this interpretation answers. Every `divert` card has exactly one. */
   topics?: string[];
+  /** An `alibi` card covers this resident only; on anyone else it costs credibility. */
+  who?: ResidentId;
+}
+
+/**
+ * Something that happens in the house in a week. A `kind` event is a resident being kind to
+ * the player: they become close (`GameState.bonds`) and tell something in confidence.
+ * A `house` event changes what the captain expects that week. Both may bring observations.
+ */
+export interface HouseEvent {
+  id: string;
+  kind: 'kind' | 'house';
+  /** The resident who is kind (kind events only). */
+  who?: ResidentId;
+  quarters?: number[];
+  requires?: Partial<Record<ResidentId, ResidentStatus[]>>;
+  title: string;
+  text: string;
+  /** Added to the week's expectation. */
+  expect?: number;
+  /** Observation ids that come with the event (each has `event` set to this id). */
+  obs?: string[];
+}
+
+/** House events and the texts around the residents' trust. */
+export interface EventsContent {
+  labels: {
+    title: string;
+    bond: string;
+    confidential: string;
+    alibi: string;
+    misuse: string;
+    bonded: string;
+    betrayed: string;
+  };
+  /** What happens when the player harms a close resident, and how it ends if they never do. */
+  betrayed: Partial<Record<ResidentId, string>>;
+  kept: Partial<Record<ResidentId, string>>;
+  list: HouseEvent[];
 }
 
 /** A family name candidate for a resident, with the true trait it comes from. */
@@ -250,6 +294,7 @@ export interface Content {
   tasks: Task[];
   /** The handler: family name candidates, each hinting at what he does. Texts use `{szazados}`. */
   captain: { surnames: ResidentName[] };
+  events: EventsContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -278,6 +323,12 @@ export interface Balance {
    * adds `honest` credibility, leaving it out costs `hidden` (both before `weight.H`).
    */
   watch: { hBelow: number; calmAt: number; honest: number; hidden: number };
+  /**
+   * House events: from week `fromWeek` (0-based) one comes with `chance` each week. Harm to a
+   * close resident costs `guilt` times the conscience; an alibi card on someone else gives
+   * `-misuse` credibility.
+   */
+  events: { fromWeek: number; chance: number; guilt: number; misuse: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
   task: { fromQuarter: number; reward: number; penalty: number };
   quarter: {
@@ -325,6 +376,8 @@ export interface WeekResult {
   taskDone: boolean;
   /** What the caretaker did this week: started reporting, or reported what the player left out. */
   watch: { started: boolean; hidden: string | null; honest: boolean };
+  /** Close residents this report harmed: the trust is gone. */
+  betrayed: ResidentId[];
 }
 
 /** The open task of the quarter. */
@@ -360,6 +413,11 @@ export interface GameState {
   /** The caretaker is reporting on the player; and how many of her reports went in. */
   watched: boolean;
   reportsOnYou: number;
+  /** The house event of each week so far (index = week), null when nothing happened. */
+  events: (string | null)[];
+  /** Residents close to the player now, and those whose trust the reports broke. */
+  bonds: ResidentId[];
+  betrayed: ResidentId[];
   meters: Meters;
   code: string;
   recruit: Recruit;

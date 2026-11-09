@@ -15,7 +15,7 @@ export function fits(o: Observation, st: Statuses): boolean {
 
 /** The observations that fit a slot of a week, for the given resident states. */
 export const candidates = (c: Content, w: Week, slot: readonly (string | null)[], st: Statuses = {}): Observation[] =>
-  c.obs.filter(o => !o.self && o.level === w.level && slot.includes(o.who)
+  c.obs.filter(o => !o.self && !o.event && o.level === w.level && slot.includes(o.who)
     && (!o.quarters || o.quarters.includes(w.quarter)) && fits(o, st));
 
 export function statusesOf(s: GameState, c: Content): Statuses {
@@ -27,7 +27,8 @@ export function statusesOf(s: GameState, c: Content): Statuses {
 /**
  * Draws this week's observations: one per slot, at the week's level and quarter, fitting
  * how the residents stand now, never one already drawn in this game. While the caretaker
- * is reporting on the player, one observation about the player comes on top. Pure.
+ * is reporting on the player, one observation about the player comes on top, and the
+ * week's house event may bring its own. Pure.
  */
 export function pickWeek(s: GameState, c: Content, rng: Rng): string[] {
   const w = c.weeks[s.week];
@@ -44,6 +45,8 @@ export function pickWeek(s: GameState, c: Content, rng: Rng): string[] {
     const self = c.obs.filter(o => o.self && !used.has(o.id));
     if (self.length) ids.push(self[Math.floor(rng() * self.length)].id);
   }
+  const ev = s.events[s.week];
+  if (ev) ids.push(...(c.events.list.find(e => e.id === ev)?.obs ?? []));
   return ids;
 }
 

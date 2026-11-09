@@ -1,4 +1,4 @@
-import type { Balance, CareerContent, Content, Ending, EndingKey, Interpretation, Notes, Observation, Resident, ResidentId, RecruitContent, Week } from '../engine/types';
+import type { Balance, CareerContent, EventsContent, Content, Ending, EndingKey, Interpretation, Notes, Observation, Resident, ResidentId, RecruitContent, Week } from '../engine/types';
 import weeks from './weeks.json';
 import obs from './observations.json';
 import ints from './interpretations.json';
@@ -11,6 +11,7 @@ import loading from './loading.json';
 import career from './career.json';
 import tasks from './tasks.json';
 import captain from './captain.json';
+import events from './events.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -26,6 +27,7 @@ export const content: Content = {
   career: career as CareerContent,
   tasks,
   captain,
+  events: events as EventsContent,
 };
 
 export const balance: Balance = balanceJson as unknown as Balance;

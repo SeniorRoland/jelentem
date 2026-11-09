@@ -109,10 +109,11 @@ describe('observation pool', () => {
       const s = finalOf(g);
       s.weekObs.forEach((ids, wi) => {
         const w = content.weeks[wi];
-        // One per slot, plus at most one about the player while the caretaker is watching.
-        expect(ids.length - w.slots.length).toBeGreaterThanOrEqual(0);
-        expect(ids.length - w.slots.length).toBeLessThanOrEqual(1);
-        ids.slice(w.slots.length).forEach(id => expect(obsById(content, id)!.self).toBe(true));
+        // One per slot, plus at most one about the player while the caretaker is watching,
+        // plus the ones the week's house event brings.
+        const extra = ids.slice(w.slots.length).map(id => obsById(content, id)!);
+        expect(extra.filter(o => o.self).length).toBeLessThanOrEqual(1);
+        extra.forEach(o => expect(o.self || o.event === s.events[wi]).toBe(true));
         ids.slice(0, w.slots.length).forEach((id, si) => {
           const o = obsById(content, id)!;
           expect(o.self).toBeFalsy();

@@ -486,5 +486,89 @@
     "topics": [
       "vicc"
     ]
+  },
+  {
+    "id": "a_mari1",
+    "tier": "alibi",
+    "who": "mari",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "amelynek során {mari} Mária végig alulírott szeme előtt volt, és kizárólag a befőzésről beszélt"
+  },
+  {
+    "id": "a_mari2",
+    "tier": "alibi",
+    "who": "mari",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "ami {mari} Mária korára és cukorbetegségére tekintettel kizárólag háztartási jellegű",
+    "note": "Cukorbetegség. Ezt feljegyezzük. Vagy mégsem."
+  },
+  {
+    "id": "a_mari3",
+    "tier": "alibi",
+    "who": "mari",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "és {mari} Mária ezt követően alulírottal együtt hallgatta a Kossuth rádió esti híreit, mélyen egyetértve"
+  },
+  {
+    "id": "a_jozsi1",
+    "tier": "alibi",
+    "who": "jozsi",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "amit alulírott a helyszínen megvizsgált: az anyag hulladék, a szándék gyermekbarát"
+  },
+  {
+    "id": "a_jozsi2",
+    "tier": "alibi",
+    "who": "jozsi",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "és {jozsi} József munka közben végig a szocialista brigád becsületéről beszélt",
+    "note": "Ennyit egy ember nem beszél a brigádról. Hacsak nem igaz."
+  },
+  {
+    "id": "a_jozsi3",
+    "tier": "alibi",
+    "who": "jozsi",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "ami alulírott tanúsága szerint a lakóközösség javát szolgálja"
+  },
+  {
+    "id": "a_pityu1",
+    "tier": "alibi",
+    "who": "pityu",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "ami alulírott meghallgatása szerint szerelmes vers volt, politikai tartalom, sőt rím nélkül"
+  },
+  {
+    "id": "a_pityu2",
+    "tier": "alibi",
+    "who": "pityu",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "és {pityu} István ezt követően alulírottal együtt a KISZ-taggyűlésre sietett",
+    "note": "A KISZ-taggyűlésre sietni? Ilyet még nem láttunk."
+  },
+  {
+    "id": "a_pityu3",
+    "tier": "alibi",
+    "who": "pityu",
+    "izg": 1,
+    "hih": 0,
+    "mult": 0.2,
+    "text": "amit alulírott ellenőrzött: a fiatalember lelkesedése kizárólag a Kovács lánynak szól"
   }
 ]

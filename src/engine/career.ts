@@ -14,9 +14,15 @@ export const isQuarterEnd = (s: GameState, c: Content): boolean =>
 
 const profile = (s: GameState, b: Balance) => b.categories[s.recruit.categoryId] ?? { expectBonus: 0, doubt: 1 };
 
-/** The captain expects more each week, more from a higher rank, and more from a compromised agent. */
-export const expectFor = (s: GameState, b: Balance): number =>
-  b.expect[s.week] + b.ranks[s.rank].expectBonus + profile(s, b).expectBonus;
+/**
+ * The captain expects more each week, more from a higher rank, more from a compromised agent,
+ * and more or less when something happened in the house.
+ */
+export const expectFor = (s: GameState, b: Balance, c: Content): number => {
+  const ev = s.events[s.week];
+  const bonus = ev ? c.events.list.find(e => e.id === ev)?.expect ?? 0 : 0;
+  return b.expect[s.week] + b.ranks[s.rank].expectBonus + profile(s, b).expectBonus + bonus;
+};
 
 /** How much harder lost credibility hits, by the recruit's category. */
 export const doubtFor = (s: GameState, b: Balance): number => profile(s, b).doubt;

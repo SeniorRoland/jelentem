@@ -60,6 +60,18 @@ Minden negyedév harmadik hetén lakónként egy történet-megfigyelés jön (`
 
 A befejezésben a „Ami valójában történt” rész a titok mellett a lakó sorsát is elmondja (`residents.json` → `fate`). A játék minden lépés után mentődik (localStorage).
 
+## A ház élete
+
+A második héttől hetente 60% eséllyel történik valami a házban (`events.json`), és egy játékban egyik sem ismétlődik. Két fajtája van:
+
+- **Házi esemény:** áramszünet, lakógyűlés, kommunista szombat, csőtörés, a tanács ellenőre, a százados civilben, új tévé, banán a közértben, telefon a házmesternél; negyedévhez kötve a kánikula, a szüreti bál és a fenyőfavásár. Módosíthatja a hét elvárását (−2 … +2), és hoz egy saját megfigyelést.
+- **Kedvesség:** egy nyugodt lakó kedves hozzád (pogácsa, meggybefőtt, megjavított szék, pálinka, kölcsönlemez, felhordott szén…). Ettől **bizalmas viszony** lesz köztetek:
+  - kapsz egy bizalmas megfigyelést, ami izgalmas, de terhelő: ez a kísértés;
+  - amíg a viszony tart, hetente egy **alibi** kártya jár rá, amely a hétköznapi ügyeit szinte ártalom nélkül fedezi (izgalom 1, hihetőség 0, ártalom ×0,2), a bizalmas megfigyelést viszont nem; más lakóra vagy eseményre téve semmit sem fed, és a százados gyanakszik (−3 hihetőség);
+  - ha mégis terhelőt írsz róla, az ártalom kétszer annyit von le a lelkiismeretedből, a viszony véget ér, és ő sem lesz többé kedves.
+
+A negyedéves értékelés jelzi, ki bízik benned, és kit árultál el; a befejezésben a megtartott bizalomról külön mondat szól.
+
 ## Mérők
 
 - **A százados elégedettsége (E):** az elvárás alatti izgalom csökkenti. Nullán: behívatás.
@@ -113,6 +125,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Generált százados-név** (a9bb2aa): a szerepére utaló vezetéknév, kezdőbetűs szignó.
 - [x] **Az asztal mint háttér** (5b823f9): a tartótiszt íróasztalának fotója a betöltő képernyőn élesen, játék közben elmosva, sötétítve; mobilon álló változat.
 - [x] **A házmester ellenjelentése** (97b0cf1): alacsony hihetőségnél rólad szóló megfigyelések, önkritika vagy számonkérés, megnyugvás a negyedév végén, számlálás az epilógusban.
+- [x] **Szomszédi viszony és véletlen események** (`feature/house-life`): 12 házi esemény és 9 kedvesség, bizalmas megfigyelések, alibi kártyák, árulás dupla lelkiismeret-veszteséggel. A puszta óvatosság így gyakrabban elég (10% → 36%), a tervezés jobban kifizetődik (76% → 89%).
 
 ### Hátralévő
 
@@ -126,7 +139,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **A ház élete**
 
-- [ ] **Szomszédi viszony és véletlen események:** pl. Mari néni megkínál pogácsával, és a következő terhelő mondat jobban fáj; a bizalom korábban felfedheti a titkot, és „alibi” kártyát ad.
 - [ ] **Fokozódó következmények:** most lakónként egyetlen következmény van; legyen fokozatos (figyelmeztetés → házkutatás → a munkahely elvesztése).
 - [ ] **A Kovács lány neve:** most fix; generálható lenne a többi névhez hasonlóan.
 
@@ -138,5 +150,5 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **Hangolás és karbantartás**
 
-- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 10%-ban, az előrelátó 76%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
 - [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.

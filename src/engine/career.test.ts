@@ -39,10 +39,10 @@ describe('endQuarter', () => {
 
   it('a higher rank writes more and is expected to deliver more', () => {
     const s = fresh();
-    const low = { slots: slotsFor(s, balance), exp: expectFor(s, balance) };
+    const low = { slots: slotsFor(s, balance), exp: expectFor(s, balance, content) };
     s.rank = balance.ranks.length - 1;
     expect(slotsFor(s, balance)).toBeGreaterThan(low.slots);
-    expect(expectFor(s, balance)).toBeGreaterThan(low.exp);
+    expect(expectFor(s, balance, content)).toBeGreaterThan(low.exp);
   });
 });
 

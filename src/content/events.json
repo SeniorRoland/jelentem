@@ -1,0 +1,237 @@
+{
+  "labels": {
+    "title": "A héten a házban",
+    "bond": "Bizalmas viszony. Amíg nem írsz róla terhelőt, hetente kaphatsz rá alibit a hétköznapi ügyeihez. Ha mégis írsz, jobban fog fájni.",
+    "confidential": "Bizalmasan",
+    "alibi": "Alibi",
+    "misuse": "Ez az alibi nem erre szól. Kit véd Ön, elvtárs, és mitől?",
+    "bonded": "megbízik benned",
+    "betrayed": "elárultad"
+  },
+  "betrayed": {
+    "mari": "{mari} Mária azóta nem köszön a lépcsőházban. A kölcsönkapott tálat nem kérte vissza.",
+    "jozsi": "{jozsi} József azóta bezárja a műhelyét, ha meglát a gangon. A kulcsot a nyakában hordja.",
+    "pityu": "{pityu} István elfordítja a fejét, ha találkoztok. Az új versének címe: „Szomszéd”."
+  },
+  "kept": {
+    "mari": "{mari} Mária minden karácsonykor átküldött egy tál pogácsát. Sosem tudta meg, hogy a kedves szomszédnak fedőneve is van.",
+    "jozsi": "{jozsi} József a megjavított szék mellé egy hintát is ácsolt neked. Nem tudta, hogy a jelentéseidben is szerepel, mindig csak jóval.",
+    "pityu": "{pityu} István az első verseskötetét neked dedikálta: „A szomszédnak, aki hallgatni tudott.”"
+  },
+  "list": [
+    {
+      "id": "k_mari_pogacsa",
+      "kind": "kind",
+      "who": "mari",
+      "title": "Pogácsa",
+      "text": "{mari} Mária (Mari néni) becsöngetett egy tál tepertős pogácsával. „Maga olyan sokat dolgozik, fiam, éjjel is hallom az írógépet.” Leültetett a konyhájában, és mesélni kezdett.",
+      "obs": [
+        "o_k_mari_pogacsa"
+      ]
+    },
+    {
+      "id": "k_mari_befott",
+      "kind": "kind",
+      "who": "mari",
+      "title": "Meggybefőtt",
+      "text": "{mari} Mária (Mari néni) szerint sápadt vagy, ezért kaptál tőle két üveg meggybefőttet. A második üveg mellé egy titkot is.",
+      "obs": [
+        "o_k_mari_befott"
+      ]
+    },
+    {
+      "id": "k_mari_level",
+      "kind": "kind",
+      "who": "mari",
+      "title": "Felolvasás",
+      "text": "{mari} Mária (Mari néni) szemüvege eltört, ezért téged kért meg, hogy olvasd fel neki a sógornője levelét. „Magában megbízom, fiam.”",
+      "obs": [
+        "o_k_mari_level"
+      ]
+    },
+    {
+      "id": "k_jozsi_szek",
+      "kind": "kind",
+      "who": "jozsi",
+      "title": "A szék",
+      "text": "{jozsi} József (Józsi bácsi) meghallotta, hogy nyikorog a széked, és ingyen megjavította. „Egy rendes embernek ne nyikorogjon a széke.” Utána a műhelyét is megmutatta.",
+      "obs": [
+        "o_k_jozsi_szek"
+      ]
+    },
+    {
+      "id": "k_jozsi_palinka",
+      "kind": "kind",
+      "who": "jozsi",
+      "title": "Pálinka",
+      "text": "{jozsi} József (Józsi bácsi) lehívott a pincébe egy kupica szilvóriumra. A második kupica után barátjának szólított.",
+      "obs": [
+        "o_k_jozsi_palinka"
+      ]
+    },
+    {
+      "id": "k_jozsi_trabant",
+      "kind": "kind",
+      "who": "jozsi",
+      "title": "Fuvar",
+      "text": "{jozsi} József (Józsi bácsi) elvitt a Trabanttal a piacra, pedig nem is kérted. Útközben olyasmit mesélt, amit csak barátnak szokás.",
+      "obs": [
+        "o_k_jozsi_trabant"
+      ]
+    },
+    {
+      "id": "k_pityu_lemez",
+      "kind": "kind",
+      "who": "pityu",
+      "title": "Lemez",
+      "text": "{pityu} István (Pityu) átjött egy bakelitlemezzel. „Ezt hallgasd meg, de ne mondd senkinek.” Nem mondod. Csak leírod. Vagy nem.",
+      "obs": [
+        "o_k_pityu_lemez"
+      ]
+    },
+    {
+      "id": "k_pityu_szen",
+      "kind": "kind",
+      "who": "pityu",
+      "title": "Szén",
+      "text": "{pityu} István (Pityu) felhordta helyetted a szenet a pincéből, két mázsát, egy szó nélkül. Fent aztán mégis beszélgetni kezdett.",
+      "obs": [
+        "o_k_pityu_szen"
+      ]
+    },
+    {
+      "id": "k_pityu_vers",
+      "kind": "kind",
+      "who": "pityu",
+      "title": "Tanács",
+      "text": "{pityu} István (Pityu) a te véleményedet kérte a Kovács lánynak írt verséről. „Te értesz az írásokhoz, hallom, sokat gépelsz.”",
+      "obs": [
+        "o_k_pityu_vers"
+      ]
+    },
+    {
+      "id": "h_aramszunet",
+      "kind": "house",
+      "title": "Áramszünet",
+      "text": "Kedd este a DÉDÁSZ az egész utcában kikapcsolta az áramot. Sötétben kevesebbet látni, ezt a százados is belátja.",
+      "expect": -2,
+      "obs": [
+        "o_h_aramszunet"
+      ]
+    },
+    {
+      "id": "h_lakogyules",
+      "kind": "house",
+      "title": "Lakógyűlés",
+      "text": "{porgoly} Lajosné lakógyűlést hívott össze a lépcsőházi villanykörte ügyében. Három órán át tartott, a villanykörte nem került elő.",
+      "expect": 1,
+      "obs": [
+        "o_h_lakogyules"
+      ]
+    },
+    {
+      "id": "h_kommunista_szombat",
+      "kind": "house",
+      "title": "Kommunista szombat",
+      "text": "Önkéntes és kötelező udvartakarítás. A ház lakói lelkesen söpörtek, a házmester lelkesen jegyzetelt.",
+      "expect": 1,
+      "obs": [
+        "o_h_kommunista_szombat"
+      ]
+    },
+    {
+      "id": "h_csotores",
+      "kind": "house",
+      "title": "Csőtörés",
+      "text": "Szerda hajnalban eltört a fővezeték, a pincében bokáig ért a víz. Mindenki lement menteni, amit tudott, és mindenki látta, ki mit ment.",
+      "obs": [
+        "o_h_csotores"
+      ]
+    },
+    {
+      "id": "h_tanacs",
+      "kind": "house",
+      "title": "A tanács ellenőre",
+      "text": "A városi tanács ellenőre bejárta a házat, és mindent rendben talált. A százados kíváncsi, mit nem talált.",
+      "expect": 2,
+      "obs": [
+        "o_h_tanacs"
+      ]
+    },
+    {
+      "id": "h_szazados",
+      "kind": "house",
+      "title": "Civil sétáló",
+      "text": "{szazados} százados civilben végigsétált a Bem utcán. A függöny mögül láttad. Ő is látta, hogy a függöny mögül látod.",
+      "expect": 2,
+      "obs": [
+        "o_h_szazados"
+      ]
+    },
+    {
+      "id": "h_tv",
+      "kind": "house",
+      "title": "Új tévé",
+      "text": "A földszintre Videoton televíziót szállítottak. Este a fél ház ott ült a nappaliban, a másik fele a gangon hallgatta.",
+      "obs": [
+        "o_h_tv"
+      ]
+    },
+    {
+      "id": "h_szuret",
+      "kind": "house",
+      "title": "Szüreti bál",
+      "text": "A művelődési házban szüreti bált tartottak. A Bem utca 12. teljes létszámban megjelent, a házmester kivételével, aki otthonról figyelt.",
+      "quarters": [
+        2
+      ],
+      "obs": [
+        "o_h_szuret"
+      ]
+    },
+    {
+      "id": "h_fenyo",
+      "kind": "house",
+      "title": "Fenyőfa",
+      "text": "Az idén is kevés a fenyőfa. A ház lakói hajnali ötkor álltak sorba a piactéren, és volt idő beszélgetni.",
+      "quarters": [
+        3
+      ],
+      "obs": [
+        "o_h_fenyo"
+      ]
+    },
+    {
+      "id": "h_kanikula",
+      "kind": "house",
+      "title": "Kánikula",
+      "text": "Harmincöt fok árnyékban. A ház a strandon, a százados a ventilátor előtt. Senki sem vár sokat.",
+      "quarters": [
+        1
+      ],
+      "expect": -2,
+      "obs": [
+        "o_h_kanikula"
+      ]
+    },
+    {
+      "id": "h_banan",
+      "kind": "house",
+      "title": "Banán",
+      "text": "Szerdán banánt hoztak a közértbe. Fél órán belül a ház minden lakója sorban állt, a sor egészen a kapuig ért.",
+      "obs": [
+        "o_h_banan"
+      ]
+    },
+    {
+      "id": "h_telefon",
+      "kind": "house",
+      "title": "Telefon",
+      "text": "A posta bevezette a telefont a házba. Egyetlen készüléket, a házmester előszobájába. Mostantól mindenki nála telefonál.",
+      "expect": 1,
+      "obs": [
+        "o_h_telefon"
+      ]
+    }
+  ]
+}

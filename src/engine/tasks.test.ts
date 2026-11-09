@@ -105,7 +105,7 @@ describe('recruit category', () => {
 
   it('changes what the captain expects', () => {
     for (const [id, p] of Object.entries(balance.categories))
-      expect(expectFor(withCat(id), balance)).toBe(balance.expect[0] + balance.ranks[balance.startRank].expectBonus + p.expectBonus);
+      expect(expectFor(withCat(id), balance, content)).toBe(balance.expect[0] + balance.ranks[balance.startRank].expectBonus + p.expectBonus);
   });
 
   it('makes exaggeration cost more for loyal recruits, and never touches gained credibility', () => {
