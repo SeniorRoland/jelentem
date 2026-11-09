@@ -2,9 +2,11 @@ import './styles.css';
 import { balance, content } from './content';
 import { dispatch, newGame, type Action } from './engine/state';
 import type { GameState } from './engine/types';
+import { cuesFor } from './ui/cues';
 import { showLoading } from './ui/loading';
 import { renderScreen, type View } from './ui/render';
 import { loadGame, saveGame } from './ui/save';
+import { play, setSound, soundOn } from './ui/sound';
 
 const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
@@ -53,9 +55,20 @@ app.addEventListener('click', e => {
   if (!el) return;
   const a = toAction(el);
   if (!a) return;
+  const before = state;
   state = dispatch(state, a, content, balance, rng);
   saveGame(state);
   render();
+  // Without the stamp animation the stamp is down at once, and so is its sound.
+  const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  for (const x of cuesFor(a, before, state)) play(x.cue, x.cue === 'stamp' && still ? 0 : x.at);
+});
+
+const soundToggle = document.getElementById('soundToggle') as HTMLInputElement;
+soundToggle.checked = soundOn();
+soundToggle.addEventListener('change', () => {
+  setSound(soundToggle.checked);
+  if (soundToggle.checked) play('key');
 });
 
 document.getElementById('devToggle')!.addEventListener('change', e => {
@@ -71,12 +84,14 @@ document.getElementById('restartBtn')!.addEventListener('click', () => {
   saveGame(state);
   lastKey = '';
   render();
+  play('page');
 });
 
 // The loading screen shows the desk in focus (see body.loading-screen in styles.css).
 document.body.classList.add('loading-screen');
 cancelLoading = showLoading(app, content.loading, rng, () => {
   cancelLoading = null;
+  play('page');
   document.body.classList.remove('loading-screen');
   render();
 });

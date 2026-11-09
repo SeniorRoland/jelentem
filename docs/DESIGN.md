@@ -132,6 +132,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Változatos ház, nevek és arcképek** (671d983): generált cím, keresztnév és becenév, 60 arckép kor és nem szerint, arcképes lakólista, arc a jelentés mondatai mellett, fénykép a kartonon; a Kovács lány neve is generált.
 - [x] **Szomszédi viszony és véletlen események** (e9ac014): 12 házi esemény és 9 kedvesség, bizalmas megfigyelések, alibi kártyák, árulás dupla lelkiismeret-veszteséggel. A puszta óvatosság így gyakrabban elég (10% → 36%), a tervezés jobban kifizetődik (76% → 89%).
 - [x] **v0.0.2** (1a570f5): a négy negyedév, a célfeladatok, az ellenjelentés, az asztal-háttér, a ház élete és a változatos nevek, arcképek a `master` ágon, taggel.
+- [x] **Hang** (`feature/sound`): valódi írógép-felvételek (BigSoundBank, CC0, Hermes Precisa 305: billentyű, szóköz, csengő), a hiányzó hangok Web Audio-val szintetizálva: írógép-kattogás, ha egy cetli a jelentésbe kerül, csengő és új sor, ha egy mondatnak a megfigyelése és az értelmezése is megvan, egy billentyű, ha kikerül, a lap kihúzása a leadáskor, pecsétpuffanás a válasz és a negyedéves értékelés pecsétjével egy időben, lapozás képernyőváltáskor. A láblécben kikapcsolható, a beállítás megmarad.
 
 ### Hátralévő
 
@@ -151,9 +152,9 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 - [ ] **Megosztható akta:** a befejezés után egy kép vagy link a saját aktáról, az év legviccesebb mondatával.
 - [ ] **Képrészletek a képernyőkön:** a háttérfotóból kivágott apróságok egy-egy alkalmas helyre (a cigarettásdoboz az előléptetés jutalmánál, a piros telefon a behívatásnál). Előtte érdemes a fotók torz feliratait javítani, vagy WebP-re váltani, ha lesz hozzá kódoló.
-- [ ] **Hang:** írógép-kattogás a jelentésíráskor, pecsétpuffanás a válasznál (kikapcsolható).
 
 **Hangolás és karbantartás**
 
+- [ ] **Kocsivissza-felvétel:** a sorváltás most szintetizált; egy CC0 felvétel `src/assets/sounds/return.mp3` néven kódváltoztatás nélkül a helyére lép (a Freesoundon sok van, de a letöltéshez fiók kell).
 - [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consThreshold` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
 - [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.
