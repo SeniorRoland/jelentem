@@ -143,7 +143,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Fokozódó következmények** (260d9de): lakónként három lépcső az év során összegyűlt ártalom szerint: figyelmeztetés (2), bajba kerülés (4, a régi egyetlen következmény), a megélhetés elvesztése (7). A hét híre a legmagasabb új lépcső, a negyedéves értékelés jelzi a figyelmeztetést és a rombadöntést, a befejezés lépésről lépésre elmondja, és a lakó sorsának külön változata van. A kiegyensúlyozás nem változott; a véletlen játékos átlagosan 1,2 lakót tesz tönkre.
 - [x] **Címkép** (b2a7a59): a betöltés előtt fekete képernyőn, drámaian, idézetként jelenik meg a cím, forrásként „(Egy beszervezett)”.
 - [x] **v0.0.4** (a9fccd5): a fokozódó következmények és a címkép a `master` ágon, taggel.
-- [x] **Megosztható akta** (`feature/dossier`): a befejezés után a saját dossziéd képként (1080×1350, megsárgult karton): fénykép, fedőnév, kitakart valódi név, végső besorolás, a házmester jelentései rólad, az év mondata a százados kék tintás megjegyzésével, a bajba juttatott lakók és az értékelés pecsétje. Letölthető PNG-ként, telefonon megosztható, a rövid változata szövegként másolható; közzététel után a játék címe is rákerül.
+- [x] **Megosztható akta** (7924b6c): a befejezés után a saját dossziéd képként (1080×1350, megsárgult karton): fénykép, fedőnév, kitakart valódi név, végső besorolás, a házmester jelentései rólad, az év mondata a százados kék tintás megjegyzésével, a bajba juttatott lakók és az értékelés pecsétje. Letölthető PNG-ként, telefonon megosztható, a rövid változata szövegként másolható; közzététel után a játék címe is rákerül.
 
 ### Hátralévő
 
