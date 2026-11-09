@@ -4,6 +4,8 @@
   padding-bottom:env(safe-area-inset-bottom,0px);
   color-scheme:light;
   --desk:#2f3d33; --desk-2:#283429; --desk-text:#c7d1c2;
+  --desk-dim:.62; --desk-load-dim:.85;
+  --desk-shade:rgba(24,16,6,.28); --desk-shade-edge:rgba(12,8,3,.72);
   --paper:#e9ecdf; --paper-edge:#c9cfbb;
   --ink:#2e2862; --ink-soft:#5f598c;
   --stamp:#b0261c; --pen:#1d4ea3;
@@ -15,6 +17,10 @@
   :root:not([data-theme="light"]){
     color-scheme:dark;
     --desk:#141a16; --desk-2:#0f1411; --desk-text:#9fab9c;
+  --desk-dim:.42; --desk-load-dim:.7;
+  --desk-shade:rgba(6,6,4,.38); --desk-shade-edge:rgba(0,0,0,.82);
+    --desk-dim:.42; --desk-load-dim:.7;
+    --desk-shade:rgba(6,6,4,.38); --desk-shade-edge:rgba(0,0,0,.82);
     --paper:#c6cab9; --paper-edge:#9ca290;
     --ink:#241e54; --ink-soft:#463f74;
     --stamp:#97211a; --pen:#16418a;
@@ -38,13 +44,50 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{
   margin:0;
   background-color:var(--desk);
-  background-image:radial-gradient(var(--desk-2) 1px,transparent 1.6px);
-  background-size:5px 5px;
   color:var(--ink);
   font-family:"Courier Prime","Courier New",Courier,monospace;
   font-size:1.0625rem; line-height:1.55;
 }
 main{padding:2rem 1rem 1rem}
+
+/*
+ * The handler's desk under the paper. Two fixed layers behind everything: the photo
+ * (::before, blurred and dimmed while playing) and a vignette (::after) that keeps the
+ * footer and the sheet edges readable. Static: no parallax, no animation.
+ */
+body::before,body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none}
+body::before{
+  background:var(--desk) url("./assets/desk-wide-blur.jpg") center/cover no-repeat;
+  filter:blur(6px) brightness(var(--desk-dim)) saturate(.85);
+  transform:scale(1.08);
+}
+body::after{
+  background:
+    radial-gradient(ellipse at 50% 35%,transparent 0 35%,var(--desk-shade-edge) 100%),
+    linear-gradient(var(--desk-shade),var(--desk-shade));
+}
+@media (max-aspect-ratio:1/1){
+  body::before{background-image:url("./assets/desk-tall-blur.jpg")}
+}
+/* Loading screen: the desk in focus, just soft enough to hide the photo's fake lettering. */
+body.loading-screen::before{
+  background-image:url("./assets/desk-wide-900.jpg");
+  filter:blur(1.5px) brightness(var(--desk-load-dim));
+  transform:scale(1.02);
+}
+@media (min-width:1000px){
+  body.loading-screen::before{background-image:url("./assets/desk-wide-1376.jpg")}
+}
+@media (max-aspect-ratio:1/1){
+  body.loading-screen::before{background-image:url("./assets/desk-tall-640.jpg");background-position:50% 60%}
+}
+@media (max-aspect-ratio:1/1) and (min-width:700px){
+  body.loading-screen::before{background-image:url("./assets/desk-tall-992.jpg")}
+}
+body.loading-screen::after{
+  background:radial-gradient(ellipse at 50% 45%,transparent 0 45%,var(--desk-shade-edge) 100%)
+}
+body.loading-screen main{padding-top:max(2rem,8vh)}
 .sheet{
   position:relative; max-width:46rem; margin:0 auto;
   background:var(--paper); color:var(--ink);

@@ -111,6 +111,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Célfeladatok** (9905479): negyedévente egy feladat a második negyedévtől, terelő kártyákkal, jutalommal és büntetéssel. A kiemelt rangtól kötelező változat helyett minden rangon jár.
 - [x] **Beolvasztás a `develop` ágba** (9905479): a negyedéves rendszer és a célfeladatok a `develop` ágon.
 - [x] **Generált százados-név** (a9bb2aa): a szerepére utaló vezetéknév, kezdőbetűs szignó.
+- [x] **Az asztal mint háttér** (`feature/desk-background` ág): a tartótiszt íróasztalának fotója a betöltő képernyőn élesen, játék közben elmosva, sötétítve; mobilon álló változat.
 - [x] **A házmester ellenjelentése** (97b0cf1): alacsony hihetőségnél rólad szóló megfigyelések, önkritika vagy számonkérés, megnyugvás a negyedév végén, számlálás az epilógusban.
 
 ### Hátralévő
@@ -132,6 +133,7 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 **Befejezés és megjelenés**
 
 - [ ] **Megosztható akta:** a befejezés után egy kép vagy link a saját aktáról, az év legviccesebb mondatával.
+- [ ] **Képrészletek a képernyőkön:** a háttérfotóból kivágott apróságok egy-egy alkalmas helyre (a cigarettásdoboz az előléptetés jutalmánál, a piros telefon a behívatásnál). Előtte érdemes a fotók torz feliratait javítani, vagy WebP-re váltani, ha lesz hozzá kódoló.
 - [ ] **Hang:** írógép-kattogás a jelentésíráskor, pecsétpuffanás a válasznál (kikapcsolható).
 
 **Hangolás és karbantartás**

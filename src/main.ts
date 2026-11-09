@@ -66,13 +66,17 @@ document.getElementById('devToggle')!.addEventListener('change', e => {
 document.getElementById('restartBtn')!.addEventListener('click', () => {
   cancelLoading?.();
   cancelLoading = null;
+  document.body.classList.remove('loading-screen');
   state = newGame(content, balance, rng);
   saveGame(state);
   lastKey = '';
   render();
 });
 
+// The loading screen shows the desk in focus (see body.loading-screen in styles.css).
+document.body.classList.add('loading-screen');
 cancelLoading = showLoading(app, content.loading, rng, () => {
   cancelLoading = null;
+  document.body.classList.remove('loading-screen');
   render();
 });

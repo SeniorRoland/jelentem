@@ -51,6 +51,7 @@ Három réteg, szigorúan elválasztva:
 - Mobil az elsődleges: koppintásos kezelés, nincs kötelező drag-and-drop.
 - Billentyűzettel is játszható legyen: minden interaktív elem `<button>`, látható fókusz.
 - Világos és sötét téma: színek csak a `:root` CSS-változókon keresztül (`src/styles.css`).
+- Háttér: a tartótiszt asztala (`src/assets/desk-*.jpg`), két rögzített rétegen (`body::before` a fotó, `body::after` a sötétítés). Játék közben elmosott, kis felbontású változat (`*-blur.jpg`), a betöltő képernyőn (`body.loading-screen`) élesebb; fekvő kép széles, álló kép keskeny képernyőn. A fényerő témánként a `--desk-dim` / `--desk-load-dim` változóban van. A fotókon a feliratok mesterséges intelligencia által torzítottak, ezért élesen csak úgy jelenhetnek meg, hogy a lap takarja őket.
 - Mozgás csak a pecsét-animációnál, `prefers-reduced-motion` mellett kikapcsol.
 - Nincs keretrendszer. Ha valami miatt mégis kellene (pl. Angular vagy Svelte), előbb kérdezd meg.
 
