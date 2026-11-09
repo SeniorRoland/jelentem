@@ -35,6 +35,24 @@ export function planTitle(quote: string, reduced = false): TitlePlan {
   return { open, words, close, source, out, done: out + 1400 };
 }
 
+/**
+ * The quote's markup: each word and quote mark surfaces on its own, but the opening mark is
+ * glued to the first word and the closing mark to the last (`.tc-glue` never wraps), so a mark
+ * never ends up alone on a line. The breath after a comma is also a line break:
+ * „Jelentem, / nem történt semmi”.
+ */
+export function titleWords(p: TitlePlan): string {
+  const ms = (n: number) => `style="--at:${n}ms"`;
+  const last = p.words.length - 1;
+  return p.words.map((w, i) => {
+    let word = `<span class="tc-word tc-in" ${ms(w.at)}>${w.text}</span>`;
+    if (i === 0) word = `<span class="tc-mark tc-in" ${ms(p.open)}>„</span>${word}`;
+    if (i === last) word = `${word}<span class="tc-mark tc-in" ${ms(p.close)}>”</span>`;
+    if (i === 0 || i === last) word = `<span class="tc-glue">${word}</span>`;
+    return word + (i === last ? '' : /,$/.test(w.text) ? '<br>' : ' ');
+  }).join('');
+}
+
 /** How fast the card fades when the player does not want to wait. */
 const SKIP_FADE = 450;
 
@@ -52,10 +70,7 @@ export function showTitle(t: TitleCard, onDone: () => void): () => void {
   card.tabIndex = -1;
   const ms = (n: number) => `style="--at:${n}ms"`;
   card.innerHTML = `<figure class="tc-figure" aria-hidden="true">
-  <blockquote class="tc-quote"><span class="tc-mark tc-in" ${ms(p.open)}>„</span>${p.words
-    // The breath after a comma is also a line break: „Jelentem, / nem történt semmi”.
-    .map((w, i) => `<span class="tc-word tc-in" ${ms(w.at)}>${w.text}</span>${i === p.words.length - 1 ? '' : /,$/.test(w.text) ? '<br>' : ' '}`)
-    .join('')}<span class="tc-mark tc-in" ${ms(p.close)}>”</span></blockquote>
+  <blockquote class="tc-quote">${titleWords(p)}</blockquote>
   <figcaption class="tc-source tc-in" ${ms(p.source)}>(${t.source})</figcaption>
   </figure>
   <button type="button" class="tc-skip">${t.skip}</button>`;

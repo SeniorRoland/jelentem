@@ -264,10 +264,12 @@ footer button{font:inherit;color:var(--desk-text);background:none;border:1px sol
 .title-card:focus{outline:none}
 .title-card.tc-out{opacity:0}
 body.title-showing{overflow:hidden}
-.tc-figure{margin:0;max-width:36rem;text-align:center}
+.tc-figure{margin:0;max-width:44rem;text-align:center}
 .tc-quote{margin:0;font-family:"Courier Prime","Courier New",Courier,monospace;font-weight:700;
   font-size:clamp(1.7rem,6.5vw,3.4rem);line-height:1.25;letter-spacing:.01em;text-wrap:balance}
 .tc-mark{color:var(--night-soft);font-weight:400}
+/* A quote mark stays on the line of the word next to it. */
+.tc-glue{white-space:nowrap}
 .tc-source{margin-top:1.6rem;font-family:"Courier Prime","Courier New",Courier,monospace;font-style:italic;
   font-size:clamp(1rem,3.4vw,1.35rem);color:var(--night-soft);letter-spacing:.04em}
 .tc-in{display:inline-block;opacity:0;animation:tc-surface 1.9s cubic-bezier(.25,.1,.25,1) var(--at,0ms) forwards}

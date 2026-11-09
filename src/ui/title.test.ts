@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { content } from '../content';
-import { planTitle } from './title';
+import { planTitle, titleWords } from './title';
 
 describe('the title card', () => {
   const p = planTitle(content.loading.card.quote);
@@ -16,6 +16,14 @@ describe('the title card', () => {
     const afterComma = p.words.findIndex(w => w.text.endsWith(','));
     expect(gaps[afterComma]).toBeGreaterThan(Math.max(...gaps.filter((_, i) => i !== afterComma && i !== gaps.length - 1)));
     expect(gaps[gaps.length - 1]).toBeGreaterThan(gaps[gaps.length - 2] ?? 0);
+  });
+
+  it('glues the quote marks to the first and last word, so neither can wrap onto a line of its own', () => {
+    const html = titleWords(p);
+    const glued = [...html.matchAll(/<span class="tc-glue">(.*?)<\/span>(?=<br>| |$)/g)].map(m => m[1].replace(/<[^>]+>/g, ''));
+    expect(glued[0]).toBe(`„${p.words[0].text}`);
+    expect(glued[glued.length - 1]).toBe(`${p.words[p.words.length - 1].text}”`);
+    expect(html).toContain('<br>');
   });
 
   it('is dramatic but not endless', () => {
