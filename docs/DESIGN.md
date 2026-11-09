@@ -136,7 +136,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.2** (1a570f5): a négy negyedév, a célfeladatok, az ellenjelentés, az asztal-háttér, a ház élete és a változatos nevek, arcképek a `master` ágon, taggel.
 - [x] **Hang** (feed514): valódi írógép-felvételek (BigSoundBank, CC0, Hermes Precisa 305: billentyű, szóköz, csengő), a hiányzó hangok Web Audio-val szintetizálva: írógép-kattogás, ha egy cetli a jelentésbe kerül, csengő és új sor, ha egy mondatnak a megfigyelése és az értelmezése is megvan, egy billentyű, ha kikerül, a lap kihúzása a leadáskor, pecsétpuffanás a válasz és a negyedéves értékelés pecsétjével egy időben, lapozás képernyőváltáskor. A láblécben kikapcsolható, a beállítás megmarad.
 - [x] **v0.0.3** (9296343): a hangok a `master` ágon, taggel.
-- [x] **Fokozódó következmények** (`feature/consequences`): lakónként három lépcső az év során összegyűlt ártalom szerint: figyelmeztetés (2), bajba kerülés (4, a régi egyetlen következmény), a megélhetés elvesztése (7). A hét híre a legmagasabb új lépcső, a negyedéves értékelés jelzi a figyelmeztetést és a rombadöntést, a befejezés lépésről lépésre elmondja, és a lakó sorsának külön változata van. A kiegyensúlyozás nem változott; a véletlen játékos átlagosan 1,2 lakót tesz tönkre.
+- [x] **Fokozódó következmények** (260d9de): lakónként három lépcső az év során összegyűlt ártalom szerint: figyelmeztetés (2), bajba kerülés (4, a régi egyetlen következmény), a megélhetés elvesztése (7). A hét híre a legmagasabb új lépcső, a negyedéves értékelés jelzi a figyelmeztetést és a rombadöntést, a befejezés lépésről lépésre elmondja, és a lakó sorsának külön változata van. A kiegyensúlyozás nem változott; a véletlen játékos átlagosan 1,2 lakót tesz tönkre.
 
 ### Hátralévő
 
