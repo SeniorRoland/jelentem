@@ -12,6 +12,8 @@
   --slip:#f1efd9; --focus:#d79a00;
   --karton:#ecdfae; --karton-edge:#c7ad6e; --karton-stain:rgba(150,104,30,.13);
   --k-label:#1f1c17; --k-typed:#45423c; --k-dots:#5b5345; --k-serial:#1b1915;
+  /* The title card is black in both themes: a cinema before the film. */
+  --night:#050505; --night-text:#e9e3d0; --night-soft:#8e8775; --night-glow:rgba(233,227,208,.22);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
@@ -247,4 +249,36 @@ footer button{font:inherit;color:var(--desk-text);background:none;border:1px sol
   .stamp{top:7.5rem;right:.8rem;font-size:1.2rem}
   .meters{grid-template-columns:1fr}
   .meters dd{margin-bottom:.4rem}
+}
+
+/*
+ * Title card: a black screen on which the title surfaces slowly, word by word, out of a blur,
+ * as a quote, then its source. Each part waits for its --at delay (set by title.ts); the whole
+ * card fades out over --fade. With reduced motion everything is simply there.
+ */
+.title-card{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:1.5rem 1rem;
+  background:var(--night);color:var(--night-text);cursor:pointer;opacity:1;transition:opacity var(--fade,1400ms) ease-in}
+.title-card:focus{outline:none}
+.title-card.tc-out{opacity:0}
+body.title-showing{overflow:hidden}
+.tc-figure{margin:0;max-width:36rem;text-align:center}
+.tc-quote{margin:0;font-family:"Courier Prime","Courier New",Courier,monospace;font-weight:700;
+  font-size:clamp(1.7rem,6.5vw,3.4rem);line-height:1.25;letter-spacing:.01em;text-wrap:balance}
+.tc-mark{color:var(--night-soft);font-weight:400}
+.tc-source{margin-top:1.6rem;font-family:"Courier Prime","Courier New",Courier,monospace;font-style:italic;
+  font-size:clamp(1rem,3.4vw,1.35rem);color:var(--night-soft);letter-spacing:.04em}
+.tc-in{display:inline-block;opacity:0;animation:tc-surface 1.9s cubic-bezier(.25,.1,.25,1) var(--at,0ms) forwards}
+.tc-source.tc-in{display:block;animation-duration:2.2s}
+@keyframes tc-surface{
+  0%{opacity:0;filter:blur(10px);transform:translateY(.12em);text-shadow:0 0 0 transparent}
+  60%{opacity:.9;filter:blur(1px);text-shadow:0 0 1.2rem var(--night-glow)}
+  100%{opacity:1;filter:blur(0);transform:none;text-shadow:0 0 .4rem transparent}
+}
+.tc-skip{position:fixed;right:1rem;bottom:max(1rem,env(safe-area-inset-bottom));font:inherit;font-size:.85rem;
+  color:var(--night-soft);background:none;border:1px solid transparent;padding:.35rem .7rem;cursor:pointer;
+  opacity:0;animation:tc-surface 1s ease var(--at,2500ms) forwards}
+.tc-skip:focus-visible{outline:2px solid var(--focus);outline-offset:2px;opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .tc-in,.tc-skip{animation:none;opacity:1}
+  .title-card{transition:none}
 }

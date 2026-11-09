@@ -300,6 +300,13 @@ export interface CareerContent {
   task: { title: string; open: string; done: string; now: string; divert: string };
 }
 
+/** The black opening screen: the title as a quote, and who said it. Quote marks are added by the UI. */
+export interface TitleCard {
+  quote: string;
+  source: string;
+  skip: string;
+}
+
 /** Texts of the satirical loading screen shown before the game. */
 export interface LoadingContent {
   office: string;
@@ -314,6 +321,8 @@ export interface LoadingContent {
   stamp: string;
   skip: string;
   enter: string;
+  /** The title card shown before the loading screen. */
+  card: TitleCard;
 }
 
 export interface Content {

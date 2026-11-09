@@ -33,5 +33,10 @@
   "overfulfil": "A betöltési terv teljesítése: 112 százalék",
   "stamp": "Engedélyezve",
   "skip": "Sorban állás nélkül (protekcióval)",
-  "enter": "Az akta megnyitása"
+  "enter": "Az akta megnyitása",
+  "card": {
+    "quote": "Jelentem, nem történt semmi",
+    "source": "Egy beszervezett",
+    "skip": "Tovább"
+  }
 }

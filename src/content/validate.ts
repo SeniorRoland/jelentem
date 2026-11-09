@@ -227,6 +227,11 @@ function validateLoading(c: Content): string[] {
   if (!l.setbacks.length) errs.push('Betöltés: legalább egy visszaesés kell.');
   for (const t of [...Object.values(l).filter(v => typeof v === 'string'), ...l.steps, ...l.setbacks] as string[])
     if (/["']/.test(t)) errs.push(`Betöltés: egyenes idézőjel: ${t}`);
+  // The title card puts the quote marks and the brackets around the texts itself.
+  const card = l.card;
+  if (!card?.quote || !card.source || !card.skip) errs.push('Címkép: hiányzó idézet, forrás vagy gombfelirat.');
+  else for (const t of [card.quote, card.source, card.skip])
+    if (/["'„”()]/.test(t)) errs.push(`Címkép: a szövegben ne legyen idézőjel vagy zárójel, a felület teszi hozzá: ${t}`);
   for (const t of [...l.steps, ...l.setbacks])
     if (/[.…]$/.test(t)) errs.push(`Betöltés: a lépés ne végződjön ponttal vagy három ponttal (a felület teszi hozzá): ${t}`);
   return errs;

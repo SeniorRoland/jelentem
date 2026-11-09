@@ -8,6 +8,8 @@ A játék lényege egyensúlyozás: a jelentés legyen elég izgalmas a százado
 
 ## Betöltő képernyő
 
+Előtte a címkép: fekete képernyő, amelyen lassan, szavanként, elmosódásból élesedve előtűnik a cím, idézetként: „Jelentem, / nem történt semmi”. A vessző után lélegzetnyi szünet és sortörés, az utolsó szó előtt még egy. Alatta később a forrás: (Egy beszervezett). Pár másodperc csend után a kép elsötétül, és jön az irattár. Bármelyik kattintásra vagy billentyűre átugorható, csökkentett mozgásnál egyben látszik.
+
 Indításkor a Központi Irattár „kikéri az aktát” (`src/ui/loading.ts`, szövegek: `src/content/loading.json`). Hat véletlen bürokratikus lépés fut le (pl. „Engedély kérése az engedélykéréshez”), írógépes folyamatjelzővel. Közben egy visszaesés visszaveti a haladást (pl. „A 2026-os adatbázis túlterhelt. Kérjük, próbálkozzon 1979-ben”), a végén 112 százalékos tervteljesítés és „Engedélyezve” pecsét jön. A pecsét a betűtípusok betöltését is megvárja. Mozgás csak a pecsétnél van; a „Sorban állás nélkül (protekcióval)” gomb azonnal átugorja.
 
 ## Beszervezési karton
@@ -137,6 +139,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Hang** (feed514): valódi írógép-felvételek (BigSoundBank, CC0, Hermes Precisa 305: billentyű, szóköz, csengő), a hiányzó hangok Web Audio-val szintetizálva: írógép-kattogás, ha egy cetli a jelentésbe kerül, csengő és új sor, ha egy mondatnak a megfigyelése és az értelmezése is megvan, egy billentyű, ha kikerül, a lap kihúzása a leadáskor, pecsétpuffanás a válasz és a negyedéves értékelés pecsétjével egy időben, lapozás képernyőváltáskor. A láblécben kikapcsolható, a beállítás megmarad.
 - [x] **v0.0.3** (9296343): a hangok a `master` ágon, taggel.
 - [x] **Fokozódó következmények** (260d9de): lakónként három lépcső az év során összegyűlt ártalom szerint: figyelmeztetés (2), bajba kerülés (4, a régi egyetlen következmény), a megélhetés elvesztése (7). A hét híre a legmagasabb új lépcső, a negyedéves értékelés jelzi a figyelmeztetést és a rombadöntést, a befejezés lépésről lépésre elmondja, és a lakó sorsának külön változata van. A kiegyensúlyozás nem változott; a véletlen játékos átlagosan 1,2 lakót tesz tönkre.
+- [x] **Címkép** (`feature/title-card`): a betöltés előtt fekete képernyőn, drámaian, idézetként jelenik meg a cím, forrásként „(Egy beszervezett)”.
 
 ### Hátralévő
 

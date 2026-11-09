@@ -4,6 +4,7 @@ import { dispatch, newGame, type Action } from './engine/state';
 import type { GameState } from './engine/types';
 import { cuesFor } from './ui/cues';
 import { showLoading } from './ui/loading';
+import { showTitle } from './ui/title';
 import { renderScreen, type View } from './ui/render';
 import { loadGame, saveGame } from './ui/save';
 import { play, setSound, soundOn } from './ui/sound';
@@ -87,11 +88,18 @@ document.getElementById('restartBtn')!.addEventListener('click', () => {
   play('page');
 });
 
-// The loading screen shows the desk in focus (see body.loading-screen in styles.css).
+/** The loading screen shows the desk in focus (see body.loading-screen in styles.css). */
+function startLoading(): void {
+  document.body.classList.add('loading-screen');
+  cancelLoading = showLoading(app, content.loading, rng, () => {
+    cancelLoading = null;
+    play('page');
+    document.body.classList.remove('loading-screen');
+    render();
+  });
+}
+
+// First the title on a black screen, as a quote; then the file is fetched from the archive.
+// Until the loading screen starts, `cancelLoading` removes the title card instead.
 document.body.classList.add('loading-screen');
-cancelLoading = showLoading(app, content.loading, rng, () => {
-  cancelLoading = null;
-  play('page');
-  document.body.classList.remove('loading-screen');
-  render();
-});
+cancelLoading = showTitle(content.loading.card, startLoading);
