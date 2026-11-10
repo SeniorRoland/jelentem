@@ -159,6 +159,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.9** (51aef6e): a sarok gombjai és a rejtett fejlesztői mód a `master` ágon, taggel, élesben.
 - [x] **v0.0.10** (4965d60): a hosszabb heti átvezetés a `master` ágon, taggel, élesben.
 - [x] **Bővített megfigyelés- és értelmezés-készlet** (1ae79d6): 48 új megfigyelés (lakónként +5 az 1. és +5 a 2. szinten, a házmesternek és a közös területnek szintenként +3) és 30 új értelmezés (tierenként +10), a felük a százados margójegyzetével. Az értékek a csoportjuk átlagán, így a kiegyensúlyozás nem változott (óvatos 36% → 35%, előrelátó 89% → 88%, a futtatások szórásán belül).
+- [x] **v0.0.11** (750ae64): a bővített készlet a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
