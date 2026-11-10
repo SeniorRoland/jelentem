@@ -169,7 +169,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.14** (d49aa68): a rezidensjelölt szint a `master` ágon, taggel, élesben.
 - [x] **A százados arca** (4fcef92): a kukucskáló figura a negyedéves értékelésen gemkapoccsal feltűzött fényképként (a minősítés pecsétje alatt, a kézírásos megjegyzés mellett), és a bevezető jelenet elején a sötétből előtűnve, lágyan elhalványuló széllel. Világos és sötét témában is; a képernyőolvasó nem olvassa fel.
 - [x] **v0.0.15** (d3dd80b): a százados arca és a teljes játékleírás a `master` ágon, taggel, élesben.
-- [x] **Verziószám a sarokban** (COMMIT): a sarokgombok mellett kis gépelt címkén a játék verziója, a `package.json`-ból a build során, így minden kiadásnál magától frissül.
+- [x] **Verziószám a sarokban** (8154384): a sarokgombok mellett kis gépelt címkén a játék verziója, a `package.json`-ból a build során, így minden kiadásnál magától frissül.
 
 ### Hátralévő
 
