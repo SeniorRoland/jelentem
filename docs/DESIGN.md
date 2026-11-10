@@ -155,7 +155,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.7** (af477a4): az átvezetések a `master` ágon, taggel; az első kiadás, amely automatikusan kikerült a nyilvános oldalra.
 - [x] **Tájékoztató** (df494c4): mi a játék, és mi nem: szatíra a rendszerről, amely nem relativizálja a korszak eseményeit, és nem az áldozatokon nevet. Saját lapon a címkép után, „Tudomásul vettem” gombbal; a bal felső sarokban „!” gombbal előhívható; a súgó gombja „H” helyett „?”.
 - [x] **v0.0.8** (6c6f98b): a tájékoztató és a „?”/„!” gombok a `master` ágon, taggel, élesben.
-- [x] **A sarok gombjai** (`feature/corner`): a lábléc megszűnt; a bal felső sarokban „?”, „!”, „♪” (hang be/ki: bekapcsolva olyan, mint a többi gomb, kikapcsolva piros vonal húzza át) és „↺” (új játék, előtte humoros kérdéssel: „Biztosan új fedőnevet kér, elvtárs?”). A fejlesztői mód csak a rejtett `?fejleszto` URL-paraméterrel kapcsol be.
+- [x] **A sarok gombjai** (242b806): a lábléc megszűnt; a bal felső sarokban „?”, „!”, „♪” (hang be/ki: bekapcsolva olyan, mint a többi gomb, kikapcsolva piros vonal húzza át) és „↺” (új játék, előtte humoros kérdéssel: „Biztosan új fedőnevet kér, elvtárs?”). A fejlesztői mód csak a rejtett `?fejleszto` URL-paraméterrel kapcsol be.
 
 ### Hátralévő
 
