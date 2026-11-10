@@ -20,7 +20,7 @@ const HINTS: Record<Hint, string> = {
   intsFull: 'Minden mondatnak van már értelmezése. Vegyél ki egyet, ha cserélnél.',
 };
 
-const STATUS_LABEL: Record<ResidentStatus, string> = { nyugodt: 'nyugodt', gyanus: 'szóba került', bajban: 'bajban' };
+export const STATUS_LABEL: Record<ResidentStatus, string> = { nyugodt: 'nyugodt', gyanus: 'szóba került', bajban: 'bajban' };
 const STORY: ResidentId[] = ['mari', 'jozsi', 'pityu'];
 
 /** The handler's initial under his margin notes: „V. szds.” */

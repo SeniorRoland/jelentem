@@ -6,6 +6,8 @@ import { cuesFor } from './ui/cues';
 import { mountDossier } from './ui/dossier';
 import { showLoading } from './ui/loading';
 import { mountHelp } from './ui/help';
+import { reducedMotion, runScene } from './ui/scene';
+import { introScene, sceneFor } from './ui/transitions';
 import { showTitle } from './ui/title';
 import { renderScreen, type View } from './ui/render';
 import { loadGame, saveGame } from './ui/save';
@@ -15,7 +17,10 @@ const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
 const view: View = { dev: false };
 let lastKey = '';
-/** Set while the loading screen is up; the game is not rendered until it is gone. */
+/**
+ * Set while something covers the game (the title card, the loading screen, a scene between
+ * screens); the game is not rendered until it is gone. Calling it removes the cover at once.
+ */
 let cancelLoading: (() => void) | null = null;
 
 const app = document.getElementById('app')!;
@@ -62,11 +67,26 @@ app.addEventListener('click', e => {
   const before = state;
   state = dispatch(state, a, content, balance, rng);
   saveGame(state);
-  render();
+  const cues = cuesFor(a, before, state);
   // Without the stamp animation the stamp is down at once, and so is its sound.
-  const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  for (const x of cuesFor(a, before, state)) play(x.cue, x.cue === 'stamp' && still ? 0 : x.at);
+  const still = reducedMotion();
+  const sound = (skipPage: boolean) => {
+    for (const x of cues) if (!(skipPage && x.cue === 'page')) play(x.cue, x.cue === 'stamp' && still ? 0 : x.at);
+  };
+  // A new week or a quarterly review comes with a short scene; the new sheet appears after it.
+  const scene = sceneFor(a, before, state, content, still);
+  if (!scene) { render(); sound(false); return; }
+  cancelLoading = runScene(scene, content.transitions.skip, () => { cancelLoading = null; render(); sound(true); });
 });
+
+/** A new game opens with the captain taking the file off the shelf; a saved one goes straight on. */
+function openGame(): void {
+  if (state.screen !== 'intro') { render(); return; }
+  cancelLoading = runScene(introScene(state, content, reducedMotion()), content.transitions.skip, () => {
+    cancelLoading = null;
+    render();
+  });
+}
 
 // The boxed „H” in the top left corner opens the manual.
 mountHelp(document.getElementById('helpBtn') as HTMLButtonElement, document.getElementById('help') as HTMLDialogElement,
@@ -91,8 +111,8 @@ document.getElementById('restartBtn')!.addEventListener('click', () => {
   state = newGame(content, balance, rng);
   saveGame(state);
   lastKey = '';
-  render();
   play('page');
+  openGame();
 });
 
 /** The loading screen shows the desk in focus (see body.loading-screen in styles.css). */
@@ -102,7 +122,7 @@ function startLoading(): void {
     cancelLoading = null;
     play('page');
     document.body.classList.remove('loading-screen');
-    render();
+    openGame();
   });
 }
 

@@ -345,6 +345,7 @@ export interface Content {
   events: EventsContent;
   dossier: DossierContent;
   help: HelpContent;
+  transitions: TransitionsContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -425,6 +426,14 @@ export interface LoggedSentence {
   izg: number;
   hih: number;
   harm: number;
+}
+
+/** Texts of the scenes between screens: the weekly calendar, the quarter's results, the opening. */
+export interface TransitionsContent {
+  skip: string;
+  week: { weekNo: string; lines: string[] };
+  quarter: { title: string; grade: string; rank: string; unchanged: string; task: string; taskDone: string; taskFail: string; house: string };
+  intro: { lines: string[]; folder: string; code: string; stamp: string };
 }
 
 /** The help dialog behind the boxed „H”: how the game works, without its secrets. */

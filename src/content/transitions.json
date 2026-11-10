@@ -1,0 +1,40 @@
+{
+  "skip": "Tovább",
+  "week": {
+    "weekNo": "{n}. hét",
+    "lines": [
+      "A lépcsőházban megint valaki nem kapcsolta le a villanyt. A házmester feljegyezte.",
+      "A közértben a héten is volt kenyér. Mindenki gyanús volt, aki nem állt sorba.",
+      "A gangon száradó lepedők alapján a ház jól van.",
+      "A posta egy héttel később hozta a múlt heti újságot. Az események így is ugyanúgy történtek.",
+      "A százados kávét főzött. Ez ritka.",
+      "A ház lakói köszöntek egymásnak. Egyelőre.",
+      "A kapu nyikorgott. A házmester szerint jelzésként.",
+      "Esett. A jelentés szárazon maradt.",
+      "A szemközti ablakban valaki újságot olvasott. Vagy úgy tett.",
+      "A héten senki sem költözött el. Ez is valami.",
+      "A rádióban szép időt mondtak. A ház nem hitte el.",
+      "A lépcsőházi faliújságra új hirdetmény került. Senki sem olvasta el, mindenki tudta, mi áll rajta."
+    ]
+  },
+  "quarter": {
+    "title": "Negyedéves értékelés",
+    "grade": "Minősítés",
+    "rank": "Besorolás",
+    "unchanged": "változatlan",
+    "task": "Kiemelt feladat",
+    "taskDone": "teljesítve",
+    "taskFail": "nem teljesült",
+    "house": "A ház"
+  },
+  "intro": {
+    "lines": [
+      "{szazados} százados reggel új ügyeket kapott.",
+      "Az egyikhez {ev} óta senki sem nyúlt. A dosszié vékony volt, és poros.",
+      "Egy beszervezési karton volt benne, és egyetlen jelentés sem. Még."
+    ],
+    "folder": "Hálózati személy",
+    "code": "Fedőnév",
+    "stamp": "Átvéve"
+  }
+}

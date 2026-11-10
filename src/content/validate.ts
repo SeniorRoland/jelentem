@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c));
   return errs;
 }
 
@@ -397,5 +397,22 @@ function validateHelp(c: Content): string[] {
   // The secrets behind the residents' stories: the words their truths turn on.
   for (const word of ['kávé', 'hintá', 'petőfi', 'versei', 'sógornő', 'trabant'])
     if (all.includes(word)) errs.push(`Súgó: elárul egy titkot (${word}).`);
+  return errs;
+}
+
+/** The scenes between screens: the calendar needs dates it can split, and enough lines for a year. */
+function validateTransitions(c: Content): string[] {
+  const errs: string[] = [];
+  const t = c.transitions;
+  for (const w of c.weeks)
+    if (!/^\d{4}\.\s+\S+\s+.+$/.test(w.label)) errs.push(`Átvezetés: a(z) „${w.label}” hét címe nem „év. hónap napok” alakú, a naptárlap nem bontja fel.`);
+  if (t.week.lines.length < c.weeks.length - 1) errs.push(`Átvezetés: legalább ${c.weeks.length - 1} heti mondat kell, hogy egy évben ne ismétlődjön.`);
+  if (!t.week.weekNo.includes('{n}')) errs.push('Átvezetés: a „weekNo” szövegből hiányzik az {n}.');
+  if (!t.intro.lines.some(l => l.includes('{ev}'))) errs.push('Átvezetés: a bevezető egyik sora se említi a beszervezés évét ({ev}).');
+  const texts = [t.skip, t.week.weekNo, ...t.week.lines, ...Object.values(t.quarter), ...t.intro.lines, t.intro.folder, t.intro.code, t.intro.stamp];
+  for (const x of texts) {
+    if (!x) errs.push('Átvezetés: üres szöveg.');
+    if (/["']/.test(x)) errs.push(`Átvezetés: egyenes idézőjel: ${x}`);
+  }
   return errs;
 }

@@ -16,6 +16,8 @@
   /* The shared file image looks the same in both themes. */
   --akta-paper:#ecdfae; --akta-edge:#c7ad6e; --akta-stain:rgba(150,104,30,.13); --akta-label:#1f1c17;
   --akta-typed:#3b3832; --akta-stamp:#b0261c; --akta-pen:#1d4ea3; --akta-bar:#111; --akta-dots:#5b5345;
+  /* Scenes between screens: the dimmed desk behind the calendar, a stamp that reads on black. */
+  --scene-dim:rgba(8,10,8,.86); --night-stamp:#e3533f;
   --night:#050505; --night-text:#e9e3d0; --night-soft:#8e8775; --night-glow:rgba(233,227,208,.22);
 }
 @media (prefers-color-scheme:dark){
@@ -313,3 +315,70 @@ body.title-showing{overflow:hidden}
 .dossier-preview{display:block;width:100%;max-width:27rem;height:auto;margin:1rem auto;border:1px solid var(--paper-edge);
   box-shadow:0 .4rem 1.2rem rgba(0,0,0,.25);transform:rotate(-.6deg)}
 .dossier-actions{flex-wrap:wrap}
+
+/*
+ * Scenes between screens (src/ui/scene.ts, transitions.ts): the same surfacing as the title
+ * card, each part on its --at delay. The week tears a calendar page off; the quarter shows its
+ * results on black; a new game opens with the captain stamping the file. All skippable.
+ */
+.scene{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:1.5rem 1rem;overflow:auto;cursor:pointer;
+  color:var(--night-text);opacity:1;transition:opacity var(--fade,700ms) ease-in}
+.scene:focus{outline:none}
+.scene.tc-out{opacity:0}
+.sc-week{background:var(--scene-dim);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.sc-quarter,.sc-intro{background:var(--night)}
+.sc-body{width:100%;max-width:38rem;font-family:"Courier Prime","Courier New",Courier,monospace}
+.sc-in{opacity:0;animation:tc-surface 1.4s cubic-bezier(.25,.1,.25,1) var(--at,0ms) forwards}
+.sc-skip{--at:700ms}
+.sc-soft{color:var(--night-soft)}
+
+/* The tear-off calendar. */
+.cal-stack{position:relative;width:13rem;height:15rem;margin:0 auto}
+.cal{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;
+  background:var(--paper);color:var(--ink);border:1px solid var(--paper-edge);box-shadow:0 .6rem 1.6rem rgba(0,0,0,.45)}
+.cal-top{align-self:stretch;padding:.4rem;background:var(--stamp);color:var(--paper);font-weight:700;letter-spacing:.25em}
+.cal-month{margin-top:1.3rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.cal-days{margin-top:.7rem;font-size:2.7rem;font-weight:700;line-height:1}
+.cal-week{margin:auto 0 1rem;display:flex;flex-direction:column;gap:.25rem;color:var(--ink-soft);font-size:.9rem}
+.cal-q{font-size:.78rem}
+.cal-old{transform-origin:50% 0;animation:cal-tear .75s cubic-bezier(.5,0,.9,.6) .2s forwards}
+@keyframes cal-tear{
+  0%{transform:none;opacity:1}
+  30%{transform:rotate(-4deg) translateY(.4rem);opacity:1}
+  100%{transform:rotate(-18deg) translate(-35%,140%);opacity:0}
+}
+.cal-line{max-width:24rem;margin:1.6rem auto 0;text-align:center;font-style:italic;line-height:1.45}
+
+/* The quarter's results. */
+.sc-quarter h2{margin:0 0 1.8rem;text-align:center;font-size:clamp(1.3rem,5vw,2rem);line-height:1.3;text-decoration:none}
+.sc-quarter .sc-results{font-size:1.05rem}
+.sc-quarter .sc-stamp{font-size:clamp(1.3rem,4.5vw,1.8rem);padding:.15rem .8rem}
+.sc-results{display:grid;gap:1.1rem;margin:0}
+.sc-results>div{display:grid;grid-template-columns:10rem 1fr;gap:.4rem 1rem;align-items:baseline}
+.sc-results dt{color:var(--night-soft);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+.sc-results dd{margin:0;line-height:1.4}
+.sc-arrow{color:var(--night-stamp)}
+.sc-house{display:flex;flex-wrap:wrap;gap:.9rem 1.4rem;margin:.2rem 0 0;padding:0;list-style:none}
+.sc-house li{display:flex;gap:.55rem;align-items:center;font-size:.9rem;line-height:1.3}
+.sc-stamp{display:inline-block;padding:.1rem .65rem;border:3px double currentColor;color:var(--night-stamp);
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;transform:rotate(-6deg)}
+.sc-stamp.sc-in{animation:sc-stamp .4s cubic-bezier(.2,1.5,.4,1) var(--at,0ms) both}
+@keyframes sc-stamp{from{transform:rotate(-6deg) scale(2.4);opacity:0}to{transform:rotate(-6deg) scale(1);opacity:.92}}
+@media (max-width:32rem){.sc-results>div{grid-template-columns:1fr}}
+
+/* The opening: the captain's morning, and the file. */
+.sc-lines p{max-width:32rem;margin:0 auto 1rem;font-size:clamp(1.05rem,3.8vw,1.35rem);line-height:1.5}
+.sc-folder{position:relative;width:min(21rem,100%);margin:2.2rem auto 0;padding:1.7rem 1.2rem 1.4rem;
+  background:var(--karton);color:var(--k-label);box-shadow:0 .6rem 1.8rem rgba(0,0,0,.5)}
+.sc-folder p{margin:0;font-size:1.1rem}
+.sc-folder .sc-soft{color:var(--k-dots)}
+.sc-folder-tab{position:absolute;top:-1.15rem;left:1rem;padding:.3rem .8rem;background:var(--karton);
+  font:700 .78rem Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.sc-code{font-weight:700;color:var(--k-typed)}
+.sc-folder .sc-stamp{position:absolute;right:.9rem;bottom:-1rem;color:var(--stamp);background:var(--karton)}
+
+@media (prefers-reduced-motion:reduce){
+  .sc-in,.sc-stamp.sc-in{animation:none;opacity:1}
+  .cal-old{display:none}
+  .scene{transition:none}
+}
