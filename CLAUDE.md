@@ -1,6 +1,6 @@
 # Jelentem, nem történt semmi
 
-Szatirikus böngészős játék: 1979, egy kitalált dunántúli kisváros (Alsóbürokrác), a játékos egy motiválatlan besúgó, aki heti jelentést ír a házról. A cél úgy kielégíteni a tartótisztet, hogy közben senkinek ne ártson. A játékot a 2026. november 4-i ügynökakta-nyilvánosságra hozatal ihlette. A részletes játéktervet a `docs/DESIGN.md` tartalmazza.
+Szatirikus böngészős játék: 1979, egy kitalált dunántúli kisváros (Alsóbürokrác), a játékos egy motiválatlan besúgó, aki heti jelentést ír a házról. A cél úgy kielégíteni a tartótisztet, hogy közben senkinek ne ártson. A játékot a 2026. november 4-i ügynökakta-nyilvánosságra hozatal ihlette. A részletes játéktervet a `docs/DESIGN.md` tartalmazza. A teljes, mindent elmagyarázó (spoileres) játékleírás a `docs/JATEKLEIRAS.md`: minden szabály, szám, befejezés és tipp. Ha szabályt vagy `balance.json`-értéket változtatsz, ezt is frissítsd (a szimulációs táblázatot is).
 
 ## Parancsok
 

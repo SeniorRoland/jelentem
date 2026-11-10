@@ -20,6 +20,11 @@ Majd nyisd meg a kiírt címet (alapból http://localhost:5173).
 | `npm run sim` | kiegyensúlyozási szimuláció |
 | `npm run build` | éles build a `dist/` mappába |
 
+## Dokumentáció
+
+- `docs/JATEKLEIRAS.md` – a játék teljes leírása: szabályok, számok, példák, a befejezések és a hozzájuk vezető tippek. **Mindent elárul**, a játékbeli súgó szándékosan nem.
+- `docs/DESIGN.md` – a játékterv és az ütemterv.
+
 ## Közzététel
 
 A játék itt játszható: https://seniorroland.github.io/jelentem/
