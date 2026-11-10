@@ -153,7 +153,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Közzététel** (976fa5e): a játék a https://seniorroland.github.io/jelentem/ címen játszható. A GitHub Actions minden `master`-re érkező push után validál, tesztel, buildel és kiteszi; a tároló a https://github.com/SeniorRoland/jelentem, a `master` az alapértelmezett ág.
 - [x] **Átvezetések** (63f7125): közös jelenetlejátszó (átugorható, csökkentett mozgásnál egyben látszik), és három jelenet: új játék előtt a százados leemeli a poros dossziét, és rápecsételi a fedőnevet; hetek között letépett naptárlap az új hét dátumával és egy mondattal a házról (kb. 2 másodperc); a negyedéves értékelés előtt fekete lapon a negyedév eredményei: a minősítés pecsétje, a besorolás változása, a kiemelt feladat sorsa és a lakók állapota arcképpel.
 - [x] **v0.0.7** (af477a4): az átvezetések a `master` ágon, taggel; az első kiadás, amely automatikusan kikerült a nyilvános oldalra.
-- [x] **Tájékoztató** (`feature/notice`): mi a játék, és mi nem: szatíra a rendszerről, amely nem relativizálja a korszak eseményeit, és nem az áldozatokon nevet. Saját lapon a címkép után, „Tudomásul vettem” gombbal; a bal felső sarokban „!” gombbal előhívható; a súgó gombja „H” helyett „?”.
+- [x] **Tájékoztató** (df494c4): mi a játék, és mi nem: szatíra a rendszerről, amely nem relativizálja a korszak eseményeit, és nem az áldozatokon nevet. Saját lapon a címkép után, „Tudomásul vettem” gombbal; a bal felső sarokban „!” gombbal előhívható; a súgó gombja „H” helyett „?”.
 
 ### Hátralévő
 
