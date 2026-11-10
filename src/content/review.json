@@ -1,0 +1,21 @@
+{
+  "title": "Átnézendő jelentés",
+  "lede": "Beküldő: „{peer}” fedőnevű hálózati személy. Továbbítás előtt rezidensjelöltként Önnek kell átnéznie. Koppintson a kihúzandó mondatra; minden kihúzást indokolni kell.",
+  "struck": "kihúzva",
+  "kept": "továbbítva",
+  "excuse": "Indoklás",
+  "noExcuse": "Miért húzta ki? Kit véd?",
+  "left": "Felhasználható indoklás a héten",
+  "excuses": [
+    "A forrás megbízhatatlan, ugyanis a házmester.",
+    "Az adat ellenőrizhetetlen, a célszemély aznap a szomszéd városban tartózkodott.",
+    "A megfigyelés a lépcsőházi világítás hiányában nem volt lehetséges.",
+    "A közlés ismétlés, az ügy már szerepel a márciusi jelentésben.",
+    "A beküldő a megfigyelés idején a közértben állt sorban, tehát nem lehetett jelen.",
+    "A mondat a beküldő személyes sérelmét tükrözi, a szomszédok közti vitából ered.",
+    "Az eset nem állambiztonsági, hanem lakásügyi kérdés, a tanács hatáskörébe tartozik.",
+    "A beküldő a hét folyamán többször is összetévesztette a lakókat egymással.",
+    "Az állítás a Szabad Európa Rádió szóhasználatát követi, ezért gyanúsan hangzik.",
+    "A közölt tény a hivatalos statisztikák szerint is átlagosnak tekinthető."
+  ]
+}

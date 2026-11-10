@@ -32,7 +32,7 @@ export function statusesOf(s: GameState, c: Content): Statuses {
  */
 export function pickWeek(s: GameState, c: Content, rng: Rng): string[] {
   const w = c.weeks[s.week];
-  const used = new Set(s.weekObs.flat());
+  const used = new Set([...s.weekObs.flat(), ...(s.peerUsed ?? [])]);
   const st = statusesOf(s, c);
   const ids = w.slots.map(slot => {
     const free = candidates(c, w, slot, st).filter(o => !used.has(o.id));

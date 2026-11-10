@@ -1,5 +1,6 @@
 import { endQuarter, isLastWeek, isQuarterEnd, isQuarterStart, quarterOf, settleTask, slotsFor } from './career';
 import { applyEvent, pickEvent } from './events';
+import { makeReview, peerCode, reviews } from './review';
 import { makeAddress, makeCaptain, makeGirl, makeNames, makeOwnFace, makePeople } from './names';
 import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
@@ -12,6 +13,7 @@ export type Action =
   | { type: 'toggleObs'; id: string }
   | { type: 'toggleInt'; id: string }
   | { type: 'unplace'; slot: number; part: 'o' | 'i' }
+  | { type: 'strike'; idx: number }
   | { type: 'submit' }
   | { type: 'next' }
   | { type: 'restart' };
@@ -35,6 +37,9 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     doneTasks: [],
     watched: false,
     reportsOnYou: 0,
+    peer: null,
+    review: null,
+    peerUsed: [],
     passiveStreak: 0,
     excluded: false,
     holiday: null,
@@ -84,6 +89,13 @@ function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
   s.weekObs[s.week] = pickWeek(s, c, rng);
   s.slots = emptySlots(slotsFor(s, b));
   s.dealt = deal(s, c, b, rng);
+  // On the top rank, another informant's report waits to be checked.
+  s.review = null;
+  if (reviews(s, b)) {
+    if (!s.peer) s.peer = peerCode(s, c, rng);
+    s.review = makeReview(s, c, b, rng);
+    if (s.review) s.peerUsed.push(...s.review.items.map(x => x.o));
+  }
   s.hint = '';
   s.screen = 'week';
 }
@@ -91,7 +103,7 @@ function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
 /** Which screen each action belongs to; actions from another screen are ignored. */
 const SCREEN_OF: Record<Exclude<Action['type'], 'restart'>, GameState['screen'][]> = {
   reroll: ['intro'], start: ['intro'],
-  toggleObs: ['week'], toggleInt: ['week'], unplace: ['week'], submit: ['week'],
+  toggleObs: ['week'], toggleInt: ['week'], unplace: ['week'], submit: ['week'], strike: ['week'],
   next: ['response', 'quarter'],
 };
 
@@ -127,6 +139,12 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       const free = s.slots.findIndex(x => x.o && !x.i);
       if (free >= 0) { s.slots[free].i = a.id; s.hint = ''; }
       else s.hint = s.slots.some(x => !x.o) ? 'needObs' : 'intsFull';
+      break;
+    }
+    case 'strike': {
+      // Strike a sentence of the other report out, or put it back.
+      if (!s.review || a.idx < 0 || a.idx >= s.review.items.length) break;
+      s.review.struck[a.idx] = !s.review.struck[a.idx];
       break;
     }
     case 'unplace': {

@@ -382,6 +382,15 @@ body.title-showing{overflow:hidden}
 .peek-note-bottom{bottom:4rem;margin-left:-4rem}
 .peek-note-top{top:4rem;margin-left:-4rem}
 @media (prefers-reduced-motion:reduce){.peek{display:none}}
+/* The other informant's report, to be checked: a typed carbon copy, struck out with a pen. */
+.review{margin-top:1.6rem;padding:.4rem 1rem .8rem;border:1px dashed var(--ink-soft);background:var(--slip)}
+.review h2{margin-top:.6rem}
+.rv-list{margin:.6rem 0;padding-left:1.4rem}
+.rv-list li{margin-bottom:.6rem}
+.rv-item{display:block;font:inherit;color:inherit;text-align:left;background:none;border:0;padding:0 0 .2rem;cursor:pointer;width:100%}
+.rv-item.struck .rv-text,.rv-done li.struck .rv-text{text-decoration:line-through;text-decoration-color:var(--pen);text-decoration-thickness:2px;color:var(--ink-soft)}
+.rv-why{display:block;margin-top:.2rem;font-size:.85rem;color:var(--pen)}
+.rv-none{color:var(--stamp)}
 /* The SZOT postcard: a picture-postcard back, written by hand. */
 .postcard{width:min(24rem,100%);margin:1.6rem auto 0;padding:.9rem 1.1rem;background:var(--slip);color:var(--ink);
   border:1px solid var(--paper-edge);box-shadow:0 .5rem 1.4rem rgba(0,0,0,.45);transform:rotate(-2deg);

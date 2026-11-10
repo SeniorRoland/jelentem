@@ -36,6 +36,7 @@
   },
   "holiday": { "expect": 1 },
   "exclusion": { "streak": 2 },
+  "review": { "sentences": 3, "excuses": 2, "keptIzg": 0.5, "keptHarm": 0.5, "excused": 1, "unexcused": 4 },
   "events": { "fromWeek": 1, "chance": 0.6, "guilt": 2, "misuse": 3 },
   "watch": { "hBelow": 40, "calmAt": 55, "honest": 2, "hidden": 4 },
   "quarter": {

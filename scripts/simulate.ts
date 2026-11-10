@@ -18,6 +18,8 @@ import type { EndingKey, GameState, Rng } from '../src/engine/types';
 type Plan = { o: string; i: string | null }[];
 type Score = { izg: number; hih: number; harm: number; task: boolean };
 type Strategy = (s: GameState, rng: Rng) => Plan;
+/** Which sentences of the other informant's report a strategy strikes out (candidate resident only). */
+type Reviewer = (s: GameState, rng: Rng) => number[];
 
 const N = Number(process.argv[2] ?? 2000);
 
@@ -90,7 +92,20 @@ const strategies: Record<string, Strategy> = {
   },
 };
 
-function play(strat: Strategy, seed: number): GameState {
+/** The harm each sentence of this week's other report would do if kept. */
+const reviewHarm = (s: GameState) => (s.review?.items ?? []).map(x => scoreSentence(content.obs.find(o => o.id === x.o)!, intOf.get(x.i)!, balance).harm);
+const reviewers: Record<string, Reviewer> = {
+  'üres jelentés': () => [],
+  'véletlen': (s, rng) => (s.review?.items ?? []).map((_, k) => k).filter(() => rng() < 0.5),
+  'mohó (max izgalom)': () => [],
+  // Strikes everything that would harm anyone, whatever it costs.
+  'óvatos (0 ártalom)': s => reviewHarm(s).map((h, k) => (h > 0 ? k : -1)).filter(k => k >= 0),
+  // Strikes everything that would harm anyone: the justifications go first, and a credible
+  // informant can afford the one without (it keeps the best ending in reach, see the sim notes).
+  'előrelátó': s => reviewHarm(s).map((h, k) => (h > 0 ? k : -1)).filter(k => k >= 0),
+};
+
+function play(strat: Strategy, seed: number, reviewer: Reviewer = () => []): GameState {
   const rng = mulberry32(seed);
   const d = (s: GameState, a: Action) => dispatch(s, a, content, balance, rng);
   let s = d(newGame(content, balance, rng), { type: 'start' });
@@ -100,6 +115,7 @@ function play(strat: Strategy, seed: number): GameState {
         s = d(s, { type: 'toggleObs', id: x.o });
         if (x.i) s = d(s, { type: 'toggleInt', id: x.i });
       }
+      for (const idx of reviewer(s, rng)) s = d(s, { type: 'strike', idx });
       s = d(s, { type: 'submit' });
     }
     s = d(s, { type: 'next' });
@@ -117,7 +133,7 @@ for (const [name, strat] of Object.entries(strategies)) {
   const count: Record<EndingKey, number> = { best: 0, kizarva: 0, kivalo: 0, megfigyelt: 0, behivatas: 0 };
   let full = 0, rank = 0, cons = 0, tasks = 0, given = 0, onYou = 0, bonds = 0, ruin = 0;
   for (let i = 0; i < N; i++) {
-    const s = play(strat, i + 1);
+    const s = play(strat, i + 1, reviewers[name]);
     const key = endingKey(s, balance);
     count[key]++;
     const cat = ((byCategory[name] ??= {})[s.recruit.categoryId] ??= [0, 0]);

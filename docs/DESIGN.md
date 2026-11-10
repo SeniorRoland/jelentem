@@ -165,6 +165,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.12** (b9138ad): a jutalmak és a kizárás a `master` ágon, taggel, élesben.
 - [x] **A százados bekukucskál** (f36b926): easter egg. Ritkán, véletlen pillanatban a százados (bajszos, ballonkabátos, kalapos, cigarettázó, áttetsző hátterű, generált figura) bekukucskál a képernyő egyik széléről, felülről fejjel lefelé lógva, egy pillanatig figyel, majd eltűnik. Akit rajtakap, annak kézzel írt megjegyzést hagy („A bizalom jó. Az ellenőrzés jobb.”). A súgó nem említi.
 - [x] **v0.0.13** (735269d): a kukucskáló százados a `master` ágon, taggel, élesben.
+- [x] **Rezidensjelölt szint** (`feature/resident`): a legfelső rangon – csak az utolsó negyedévben, legfeljebb három hétig – egy másik, generált fedőnevű besúgó háromsoros jelentését is át kell nézni. A meghagyott mondat ártalma a lakót terheli, a felét a lelkiismeret is megérzi; a kihúzáshoz hetente két bikkfanyelvű indoklás jár, nélküle a százados megkérdezi: „Miért húzta ki? Kit véd?” A szimulációban a jól játszó, mindent ártalmasat kihúzó bot legjobb vége nem változott (86%); a mohó, mindent meghagyó játékosnál a lakók szenvednek.
 
 ### Hátralévő
 
@@ -172,7 +173,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 
 **A karrier tartalma**
 
-- [ ] **Rezidensjelölt szint:** egy másik besúgó jelentését is szerkeszteni kell (kihúzni belőle, de a hiányt megmagyarázni). Most a legfelső rang csak több mondatot és nagyobb elvárást jelent.
 
 **Befejezés és megjelenés**
 

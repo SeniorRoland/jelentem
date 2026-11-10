@@ -53,12 +53,14 @@ function render(): void {
 }
 
 function toAction(el: HTMLElement): Action | null {
-  const { action, id, slot, part } = el.dataset;
+  const { action, id, slot, part, idx } = el.dataset;
   switch (action) {
     case 'reroll': case 'start': case 'submit': case 'next': case 'restart':
       return { type: action };
     case 'toggleObs': case 'toggleInt':
       return id ? { type: action, id } : null;
+    case 'strike':
+      return idx !== undefined ? { type: 'strike', idx: Number(idx) } : null;
     case 'unplace':
       return slot !== undefined && (part === 'o' || part === 'i') ? { type: 'unplace', slot: Number(slot), part } : null;
     default:

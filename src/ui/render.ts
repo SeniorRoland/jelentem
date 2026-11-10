@@ -1,6 +1,8 @@
 import { expectFor, quarterOf, residentStatus, weekInQuarter } from '../engine/career';
 import { eventOf } from '../engine/events';
 import { fillNames, nameVars } from '../engine/names';
+import { excuseOf } from '../engine/review';
+import { scoreSentence } from '../engine/rules';
 import { faceImg } from './faces';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
@@ -119,6 +121,29 @@ function taskBox(s: GameState, c: Content): string {
   return `<aside class="task" aria-label="${c.career.task.title}"><h2>${c.career.task.title}</h2><p class="task-order">${t.title}</p><p class="meta">Állapot: ${st}</p></aside>`;
 }
 
+/**
+ * The candidate resident's duty: the other informant's report, sentence by sentence. A tap strikes a
+ * sentence out (or puts it back); the week's justifications go to the struck ones in order.
+ */
+function reviewBox(s: GameState, c: Content, b: Balance, v: View): string {
+  const r = s.review;
+  if (!r) return '';
+  const t = c.review;
+  const used = r.struck.filter(Boolean).length;
+  const items = r.items.map((x, idx) => {
+    const o = c.obs.find(y => y.id === x.o)!;
+    const it = c.ints.find(y => y.id === x.i)!;
+    const excuse = excuseOf(r, idx);
+    const tag = r.struck[idx] ? `<small class="rv-why">${t.struck}. ${excuse ? `${t.excuse}: ${excuse}` : `<span class="rv-none">${t.noExcuse}</span>`}</small>` : '';
+    const dev = v.dev ? `<span class="dev">ártalom ${scoreSentence(o, it, b).harm}</span>` : '';
+    return `<li><button class="rv-item${r.struck[idx] ? ' struck' : ''}" data-action="strike" data-idx="${idx}" aria-pressed="${r.struck[idx]}"><span class="rv-text">${o.text}, ${it.text}.</span>${tag}${dev}</button></li>`;
+  }).join('');
+  return `<section class="review" aria-labelledby="rv-t"><h2 id="rv-t">${t.title}</h2>
+  <p class="meta">${t.lede.replace('{peer}', s.peer ?? '')}</p>
+  <ol class="rv-list">${items}</ol>
+  <p class="meta">${t.left}: ${Math.max(0, r.excuses.length - used)} / ${r.excuses.length}</p></section>`;
+}
+
 /** What happened in the house this week; a kindness also explains the trust it brings. */
 function eventBox(e: HouseEvent, c: Content, v: View): string {
   const dev = v.dev && e.expect ? ` <span class="dev">(elvárás ${e.expect > 0 ? '+' : ''}${e.expect})</span>` : '';
@@ -176,9 +201,21 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   <div class="slips">${intSlips}</div>
   <h2>A jelentés szövege</h2>
   <div class="report"><ol>${sentences}</ol></div>
+  ${reviewBox(s, c, b, v)}
   <p class="hint" aria-live="polite">${HINTS[s.hint]}</p>
   <div class="actions"><button class="btn" data-action="submit">Jelentés leadása</button></div>
   </article>`;
+}
+
+/** On the reply: the other report as it went on, struck sentences crossed out with their justification. */
+function reviewResult(s: GameState, c: Content): string {
+  const r = s.last?.review;
+  if (!r) return '';
+  const t = c.review;
+  return `<h2>${t.title}</h2><p class="meta">${t.lede.split('.')[0].replace('{peer}', r.peer)}.</p>
+  <ol class="rv-list rv-done">${r.sents.map(x => `<li class="${x.struck ? 'struck' : ''}"><span class="rv-text">${x.text}</span>${x.struck
+    ? `<small class="rv-why">${t.struck}. ${x.excuse ? `${t.excuse}: ${x.excuse}` : ''}</small>${x.excuse ? '' : `<span class="note">${t.noExcuse}</span>`}`
+    : `<small class="rv-why">${t.kept}</small>`}</li>`).join('')}</ol>`;
 }
 
 function response(s: GameState, c: Content, v: View): string {
@@ -204,6 +241,7 @@ function response(s: GameState, c: Content, v: View): string {
   ${r.watch.honest ? `<span class="note">${c.notes.watch.honest}</span>` : ''}
   ${r.watch.hidden ? `<span class="note">${c.notes.watch.hidden.replace('{obs}', r.watch.hidden)}</span>` : ''}
   <span class="sig">${sig(s)}</span>
+  ${reviewResult(s, c)}
   ${news}
   ${r.watch.started ? `<h2>Önről</h2><div class="news"><p>${c.notes.watch.started}</p></div>` : ''}
   <h2>Állásod</h2>

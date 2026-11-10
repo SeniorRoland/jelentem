@@ -1,5 +1,6 @@
 import { doubtFor, expectFor } from './career';
 import { isBonded } from './events';
+import { scoreReview } from './review';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import { CONS_LEVELS } from './types';
@@ -132,6 +133,15 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     taskDone = true;
   }
 
+  // The other informant's report: kept sentences count as half the player's, struck ones cost credibility.
+  let review: WeekResult['review'] = null;
+  if (s.review) {
+    const rv = scoreReview(s.review, c, b);
+    izgSum += rv.izg; hihSum += rv.hih; guiltSum += rv.guilt;
+    for (const [k, v] of Object.entries(rv.harmBy) as [ResidentId, number][]) s.harmBy[k] += v;
+    review = { peer: s.peer ?? '', sents: rv.sents.map(x => ({ text: x.text, struck: x.struck, excuse: x.excuse })) };
+  }
+
   const expect = expectFor(s, b, c);
   s.meters = {
     E: clamp(s.meters.E + (izgSum - expect) * b.weight.E),
@@ -163,6 +173,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     taskDone,
     watch: { started, hidden, honest },
     betrayed,
+    review,
   };
 }
 

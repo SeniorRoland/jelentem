@@ -93,7 +93,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b));
   return errs;
 }
 
@@ -445,5 +445,19 @@ function validateCorner(c: Content): string[] {
     if (!t) errs.push('Sarok: üres szöveg.');
     if (/["'{}]/.test(t)) errs.push(`Sarok: egyenes idézőjel vagy helyettesítő: ${t}`);
   }
+  return errs;
+}
+
+/** The candidate resident's review: enough justifications for a week, every text in house style. */
+function validateReview(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const t = c.review;
+  const r = b.review;
+  if (t.excuses.length < r.excuses * 3) errs.push(`Átnézés: legalább ${r.excuses * 3} indoklás kell, hogy három héten át változzanak.`);
+  if (r.sentences < 1 || r.excuses < 0 || r.keptIzg < 0 || r.keptHarm < 0) errs.push('Átnézés: hibás számok a balance.review-ban.');
+  if (r.unexcused <= r.excused) errs.push('Átnézés: az indoklás nélküli kihúzás legyen drágább az indokoltnál.');
+  if (!t.lede.includes('{peer}')) errs.push('Átnézés: a bevezetőből hiányzik a {peer} (a másik besúgó fedőneve).');
+  for (const x of [t.title, t.lede, t.struck, t.kept, t.excuse, t.noExcuse, t.left, ...t.excuses])
+    if (!x || /["']/.test(x)) errs.push(`Átnézés: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
   return errs;
 }

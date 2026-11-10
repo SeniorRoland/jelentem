@@ -35,7 +35,7 @@ export function cuesFor(a: Action, before: GameState, after: GameState): Timed[]
       if (!placed(after) && placed(before)) return [{ cue: 'key', at: 0 }];
       return [];
     }
-    case 'unplace':
+    case 'unplace': case 'strike':
       return [{ cue: 'key', at: 0 }];
     case 'reroll':
       return [{ cue: 'type', at: 0 }];

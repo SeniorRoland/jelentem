@@ -350,6 +350,7 @@ export interface Content {
   events: EventsContent;
   dossier: DossierContent;
   help: HelpContent;
+  review: ReviewContent;
   transitions: TransitionsContent;
   corner: CornerContent;
 }
@@ -392,6 +393,12 @@ export interface Balance {
    */
   rewards: Record<string, { E?: number; H?: number; L?: number; holiday?: boolean }>;
   holiday: { expect: number };
+  /**
+   * The candidate resident's review: sentences in the other report, justifications a week, the share
+   * of a kept sentence's excitement and harm that counts for the player, and the credibility a strike
+   * costs with and without a justification (before `weight.H`).
+   */
+  review: { sentences: number; excuses: number; keptIzg: number; keptHarm: number; excused: number; unexcused: number };
   /** Hiányos quarters in a row on the passive rank that get the player excluded from the network. */
   exclusion: { streak: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
@@ -497,6 +504,25 @@ export interface DossierContent {
   file: string;
 }
 
+/** Another informant's report the candidate resident checks: sentences, which are struck, the week's justifications. */
+export interface Review {
+  items: { o: string; i: string }[];
+  struck: boolean[];
+  excuses: string[];
+}
+
+/** Texts of the reviewed report: the heading, the hint, the captain's remark, the justifications. */
+export interface ReviewContent {
+  title: string;
+  lede: string;
+  struck: string;
+  kept: string;
+  excuse: string;
+  noExcuse: string;
+  left: string;
+  excuses: string[];
+}
+
 export interface WeekResult {
   sents: SentenceResult[];
   before: Meters;
@@ -512,6 +538,8 @@ export interface WeekResult {
   watch: { started: boolean; hidden: string | null; honest: boolean };
   /** Close residents this report harmed: the trust is gone. */
   betrayed: ResidentId[];
+  /** The reviewed report as it went on: each sentence, struck or kept, and its justification. */
+  review: { peer: string; sents: { text: string; struck: boolean; excuse: string | null }[] } | null;
 }
 
 /** The open task of the quarter. */
@@ -556,6 +584,10 @@ export interface GameState {
   /** Residents close to the player now, and those whose trust the reports broke. */
   bonds: ResidentId[];
   betrayed: ResidentId[];
+  /** The other informant whose reports the candidate resident checks, this week's one, and the observations used for them. */
+  peer: string | null;
+  review: Review | null;
+  peerUsed: string[];
   /** Hiányos quarters in a row on the passive rank; at `exclusion.streak` the player is excluded. */
   passiveStreak: number;
   excluded: boolean;
