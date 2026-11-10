@@ -164,6 +164,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Jutalmak és kizárás** (79d4e2b): az előléptetés jutalmának hatása van: megbízhatóként 100 forint és cigaretta (elégedettség +4, lelkiismeret −5), kiemeltként SZOT-beutaló (elégedettség +10, a következő negyedév első hete kimarad egy balatonfüredi képeslappal, utána +1 elvárás), rezidensjelöltként íróasztal és táskarádió (hihetőség +6, lelkiismeret −6). Passzív állományban két egymást követő hiányos negyedév után kizárás a hálózatból, saját befejezéssel. Szimuláció: óvatos 31,5% legjobb vég és 20,2% kizárás (a behívatás 54% → 38%), előrelátó 85,7% (88% volt; a beutaló kihagyott hete okozza).
 - [x] **v0.0.12** (b9138ad): a jutalmak és a kizárás a `master` ágon, taggel, élesben.
 - [x] **A százados bekukucskál** (f36b926): easter egg. Ritkán, véletlen pillanatban a százados (bajszos, ballonkabátos, kalapos, cigarettázó, áttetsző hátterű, generált figura) bekukucskál a képernyő egyik széléről, felülről fejjel lefelé lógva, egy pillanatig figyel, majd eltűnik. Akit rajtakap, annak kézzel írt megjegyzést hagy („A bizalom jó. Az ellenőrzés jobb.”). A súgó nem említi.
+- [x] **v0.0.13** (735269d): a kukucskáló százados a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
