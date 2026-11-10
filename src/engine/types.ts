@@ -450,6 +450,8 @@ export interface TransitionsContent {
   intro: { lines: string[]; folder: string; code: string; stamp: string };
   /** The postcard of the week the SZOT stay skips. */
   holiday: { title: string; text: string };
+  /** What the captain says when caught peeking in (an easter egg, src/ui/peek.ts). */
+  peek: { lines: string[] };
 }
 
 /** The boxed buttons in the top left corner: sound on and off, and the new game with its question. */

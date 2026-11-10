@@ -426,7 +426,8 @@ function validateTransitions(c: Content): string[] {
   if (t.week.lines.length < c.weeks.length - 1) errs.push(`Átvezetés: legalább ${c.weeks.length - 1} heti mondat kell, hogy egy évben ne ismétlődjön.`);
   if (!t.week.weekNo.includes('{n}')) errs.push('Átvezetés: a „weekNo” szövegből hiányzik az {n}.');
   if (!t.intro.lines.some(l => l.includes('{ev}'))) errs.push('Átvezetés: a bevezető egyik sora se említi a beszervezés évét ({ev}).');
-  const texts = [t.skip, t.week.weekNo, ...t.week.lines, ...Object.values(t.quarter), ...t.intro.lines, t.intro.folder, t.intro.code, t.intro.stamp];
+  if (!t.peek?.lines?.length) errs.push('Átvezetés: a százados kukucskálásához nincs egy mondat sem.');
+  const texts = [...(t.peek?.lines ?? []), t.skip, t.week.weekNo, ...t.week.lines, ...Object.values(t.quarter), ...t.intro.lines, t.intro.folder, t.intro.code, t.intro.stamp];
   for (const x of texts) {
     if (!x) errs.push('Átvezetés: üres szöveg.');
     if (/["']/.test(x)) errs.push(`Átvezetés: egyenes idézőjel: ${x}`);

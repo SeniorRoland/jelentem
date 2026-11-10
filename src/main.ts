@@ -4,6 +4,7 @@ import { dispatch, newGame, type Action } from './engine/state';
 import type { GameState } from './engine/types';
 import { cuesFor } from './ui/cues';
 import { mountDossier } from './ui/dossier';
+import { cancelPeek, schedulePeek } from './ui/peek';
 import { showLoading } from './ui/loading';
 import { mountDialog, mountHelp, restartHtml } from './ui/help';
 import { noticeDialogHtml, showNotice } from './ui/notice';
@@ -18,6 +19,8 @@ const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
 // Developer mode (the numbers behind every card) is only for those who know the address: ?fejleszto
 const view: View = { dev: new URLSearchParams(window.location.search).has('fejleszto') };
+// Now and then the captain peeks in; ?kukucs makes him come at once on every sheet (for testing).
+const eagerPeek = new URLSearchParams(window.location.search).has('kukucs');
 let lastKey = '';
 /**
  * Set while something covers the game (the title card, the loading screen, a scene between
@@ -28,7 +31,7 @@ let cancelLoading: (() => void) | null = null;
 const app = document.getElementById('app')!;
 
 function render(): void {
-  if (cancelLoading) return;
+  if (cancelLoading) { cancelPeek(); return; }
   const key = `${state.screen}:${state.week}`;
   const active = document.activeElement as HTMLElement | null;
   const keepFocus = key === lastKey && active?.dataset?.action && active.dataset.id
@@ -37,6 +40,8 @@ function render(): void {
 
   app.innerHTML = renderScreen(state, content, balance, view);
   if (state.screen === 'ending') void mountDossier(app, state, content, balance);
+  // A new sheet may get a visit; staying on the same sheet keeps the one planned.
+  if (key !== lastKey) schedulePeek(state, content, rng, eagerPeek);
 
   if (key !== lastKey) {
     window.scrollTo(0, 0);

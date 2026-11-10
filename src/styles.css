@@ -356,6 +356,32 @@ body.title-showing{overflow:hidden}
   100%{transform:rotate(-18deg) translate(-35%,140%);opacity:0}
 }
 .cal-line{max-width:24rem;margin:1.6rem auto 0;text-align:center;font-style:italic;line-height:1.45}
+/*
+ * The captain peeking in (an easter egg, src/ui/peek.ts): his face slides in from an edge, half of
+ * it shows, it watches for --stay, then slides back. From the top he hangs upside down.
+ */
+.peek{position:fixed;z-index:80;padding:0;border:0;background:none;cursor:pointer;width:6.4rem;height:8.3rem;
+  animation:peek-in-out calc(var(--stay,1500ms) + 1400ms) cubic-bezier(.3,.7,.3,1) forwards}
+/* A cut-out figure, no frame: the shadow follows his outline. */
+.peek-face{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 .3rem .6rem rgba(0,0,0,.55))}
+.peek-left{left:0;--from:translateX(-110%);--to:translateX(-34%) rotate(8deg);margin-top:-4.15rem}
+.peek-right{right:0;--from:translateX(110%);--to:translateX(34%) rotate(-8deg);margin-top:-4.15rem}
+.peek-bottom{bottom:0;--from:translateY(110%);--to:translateY(45%);margin-left:-3.2rem}
+.peek-top{top:0;--from:translateY(-110%) rotate(180deg);--to:translateY(-45%) rotate(180deg);margin-left:-3.2rem}
+@keyframes peek-in-out{
+  0%{transform:var(--from)}
+  22%,78%{transform:var(--to)}
+  100%{transform:var(--from)}
+}
+.peek-caught{animation-duration:900ms}
+.peek-note{position:fixed;z-index:81;max-width:14rem;padding:.45rem .7rem;background:var(--paper);color:var(--pen);
+  border:1px solid var(--paper-edge);box-shadow:0 .3rem .9rem rgba(0,0,0,.4);font:600 1.15rem/1.2 Caveat,cursive;
+  animation:tc-surface .4s ease both}
+.peek-note-left{left:3.4rem;margin-top:-1rem}
+.peek-note-right{right:3.4rem;margin-top:-1rem}
+.peek-note-bottom{bottom:4rem;margin-left:-4rem}
+.peek-note-top{top:4rem;margin-left:-4rem}
+@media (prefers-reduced-motion:reduce){.peek{display:none}}
 /* The SZOT postcard: a picture-postcard back, written by hand. */
 .postcard{width:min(24rem,100%);margin:1.6rem auto 0;padding:.9rem 1.1rem;background:var(--slip);color:var(--ink);
   border:1px solid var(--paper-edge);box-shadow:0 .5rem 1.4rem rgba(0,0,0,.45);transform:rotate(-2deg);
