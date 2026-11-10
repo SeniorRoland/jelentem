@@ -180,9 +180,10 @@ describe('observation pool', () => {
 });
 
 describe('interpretations', () => {
-  it('has 30–50 regular cards, plus diversion cards for the tasks', () => {
-    const regular = content.ints.filter(x => x.tier !== 'divert');
+  it('has plenty of regular cards in every tier, so a year of dealing rarely repeats one', () => {
+    const regular = content.ints.filter(x => x.tier === 'safe' || x.tier === 'mid' || x.tier === 'wild');
     expect(regular.length).toBeGreaterThanOrEqual(30);
-    expect(regular.length).toBeLessThanOrEqual(50);
+    for (const t of ['safe', 'mid', 'wild'] as const)
+      expect(content.ints.filter(x => x.tier === t).length).toBeGreaterThanOrEqual(20);
   });
 });

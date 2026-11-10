@@ -86,7 +86,7 @@ A negyedéves értékelés jelzi, ki bízik benned, és kit árultál el; a befe
 
 ## Egy hét menete
 
-1. **Megfigyelés:** négy eseménykártya a házból, a 60 darabos készletből sorsolva: egy-egy Mari nénire, Józsi bácsira és Pityura, a negyedik a házmesterre vagy a közös területre. A hét szintje (1–3) dönti el, mennyire izgalmas és terhelő; a harmadik héten minden változat a lakó titkára utal (kávé Bécsből, hinta, gépelt versek). Egy játékban egy megfigyelés csak egyszer jöhet. Ha ugyanaz a téma (Trabant, Bécs, gépelés) másodszor is bekerül a jelentésbe, a százados külön megjegyzést ír.
+1. **Megfigyelés:** négy eseménykártya a házból, a 144 darabos készletből sorsolva: egy-egy Mari nénire, Józsi bácsira és Pityura, a negyedik a házmesterre vagy a közös területre. A hét szintje (1–3) dönti el, mennyire izgalmas és terhelő; a harmadik héten minden változat a lakó titkára utal (kávé Bécsből, hinta, gépelt versek). Egy játékban egy megfigyelés csak egyszer jöhet. Ha ugyanaz a téma (Trabant, Bécs, gépelés) másodszor is bekerül a jelentésbe, a százados külön megjegyzést ír.
 2. **Jelentésírás:** két mondat, mindegyik egy megfigyelés és egy választható értelmezés. Hat értelmezés kerül kézbe a 40 darabos pakliból (két óvatos, két közepes, két vad), a még nem használtak előnyben.
 3. **A százados válasza:** kék tintás margójegyzetek, összesítő megjegyzés, pecsét („Átvéve” vagy „Hiányos”), és ha valakire túl sok ártalom gyűlt, hír a házból.
 
@@ -158,6 +158,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **A sarok gombjai** (242b806): a lábléc megszűnt; a bal felső sarokban „?”, „!”, „♪” (hang be/ki: bekapcsolva olyan, mint a többi gomb, kikapcsolva piros vonal húzza át) és „↺” (új játék, előtte humoros kérdéssel: „Biztosan új fedőnevet kér, elvtárs?”). A fejlesztői mód csak a rejtett `?fejleszto` URL-paraméterrel kapcsol be.
 - [x] **v0.0.9** (51aef6e): a sarok gombjai és a rejtett fejlesztői mód a `master` ágon, taggel, élesben.
 - [x] **v0.0.10** (4965d60): a hosszabb heti átvezetés a `master` ágon, taggel, élesben.
+- [x] **Bővített megfigyelés- és értelmezés-készlet** (`feature/more-cards`): 48 új megfigyelés (lakónként +5 az 1. és +5 a 2. szinten, a házmesternek és a közös területnek szintenként +3) és 30 új értelmezés (tierenként +10), a felük a százados margójegyzetével. Az értékek a csoportjuk átlagán, így a kiegyensúlyozás nem változott (óvatos 36% → 35%, előrelátó 89% → 88%, a futtatások szórásán belül).
 
 ### Hátralévő
 

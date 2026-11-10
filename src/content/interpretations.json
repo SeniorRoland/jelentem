@@ -570,5 +570,259 @@
     "hih": 0,
     "mult": 0.2,
     "text": "amit alulírott ellenőrzött: a fiatalember lelkesedése kizárólag a {lany} lánynak szól"
+  },
+  {
+    "id": "s15",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami a lakóközösség békés együttélésének jegyében történt"
+  },
+  {
+    "id": "s16",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 3,
+    "mult": 0.4,
+    "text": "amiben semmi rendkívülit nem tapasztaltam, és ezt kétszer is ellenőriztem",
+    "note": "Kétszer semmi az még mindig semmi."
+  },
+  {
+    "id": "s17",
+    "tier": "safe",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0.4,
+    "text": "amelynek pontos célját a célszemély sem tudta megmondani, pedig megkérdeztem",
+    "note": "Megkérdezte?! Ezt ne csinálja többet."
+  },
+  {
+    "id": "s18",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami a Népszabadság tegnapi vezércikkének szellemében értékelhető",
+    "note": "Olvasta a vezércikket? Elismerésem."
+  },
+  {
+    "id": "s19",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "amit alulírott a zord időjárásnak tulajdonít"
+  },
+  {
+    "id": "s20",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 3,
+    "mult": 0.4,
+    "text": "és ezzel a célszemély a nap hátralévő részére be is fejezte a tevékenységét"
+  },
+  {
+    "id": "s21",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 1,
+    "mult": 0.4,
+    "text": "ami a házban ilyenkor szokásos, főleg csütörtökönként",
+    "note": "Mi van csütörtökönként? Jelentse."
+  },
+  {
+    "id": "s22",
+    "tier": "safe",
+    "izg": 1,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami alulírott megítélése szerint a családi költségvetés takarékos kezelését szolgálja"
+  },
+  {
+    "id": "s23",
+    "tier": "safe",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0.4,
+    "text": "amelynek részleteire alulírott a fáradtság miatt nem emlékszik pontosan",
+    "note": "A fáradtság nem mentség. Kávé viszont nincs."
+  },
+  {
+    "id": "s24",
+    "tier": "safe",
+    "izg": 0,
+    "hih": 2,
+    "mult": 0.4,
+    "text": "ami a szocialista életforma megszokott, ünnepnapokon is látható része"
+  },
+  {
+    "id": "m15",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.6,
+    "text": "ami a közösségi szellem hiányára vall"
+  },
+  {
+    "id": "m16",
+    "tier": "mid",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.8,
+    "text": "ami mögött alulírott tapasztalata szerint mindig van valami"
+  },
+  {
+    "id": "m17",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 1,
+    "mult": 0.5,
+    "text": "és közben egy dalt dúdolt, amelynek a szövegét gondosan elhallgatta",
+    "note": "A hallgatás is lehet szöveg."
+  },
+  {
+    "id": "m18",
+    "tier": "mid",
+    "izg": 5,
+    "hih": -2,
+    "mult": 0.7,
+    "text": "ami túlságosan is rendben van ahhoz, hogy rendben legyen",
+    "note": "Ezt a mondatot ellopom."
+  },
+  {
+    "id": "m19",
+    "tier": "mid",
+    "izg": 2,
+    "hih": 1,
+    "mult": 0.5,
+    "text": "amit a célszemély a házmester megjelenésekor azonnal abbahagyott"
+  },
+  {
+    "id": "m20",
+    "tier": "mid",
+    "izg": 4,
+    "hih": 0,
+    "mult": 0.8,
+    "text": "ami a nyugati divatlapok romboló hatására utalhat"
+  },
+  {
+    "id": "m21",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.6,
+    "text": "ami a tervteljesítés iránti közömbösségről árulkodik"
+  },
+  {
+    "id": "m22",
+    "tier": "mid",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.7,
+    "text": "és alulírott köszönésére a szokottnál egy árnyalattal hűvösebben válaszolt",
+    "note": "Hány fokkal? Mérje meg."
+  },
+  {
+    "id": "m23",
+    "tier": "mid",
+    "izg": 3,
+    "hih": 0,
+    "mult": 0.6,
+    "text": "ami a polgári csökevények makacs továbbélése"
+  },
+  {
+    "id": "m24",
+    "tier": "mid",
+    "izg": 4,
+    "hih": -1,
+    "mult": 0.9,
+    "text": "amit egy, a rokonságban található nyugdíjas tanár befolyásának tulajdonítok"
+  },
+  {
+    "id": "x13",
+    "tier": "wild",
+    "izg": 8,
+    "hih": -8,
+    "mult": 1.6,
+    "text": "ami egy, a Balaton alá ásott alagútrendszer előkészítésére utal",
+    "note": "A Balaton alá? Ott víz van. Vagy nem?"
+  },
+  {
+    "id": "x14",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -6,
+    "mult": 1.5,
+    "text": "és ezzel a célszemély a KGST egész ötéves tervét veszélyezteti"
+  },
+  {
+    "id": "x15",
+    "tier": "wild",
+    "izg": 9,
+    "hih": -10,
+    "mult": 2,
+    "text": "ami alapján a célszemély három különböző nyugati titkosszolgálat egyetlen közös ügynöke lehet",
+    "note": "Hárman fizetik? Akkor miért lakik ilyen kis lakásban?"
+  },
+  {
+    "id": "x16",
+    "tier": "wild",
+    "izg": 6,
+    "hih": -4,
+    "mult": 1.2,
+    "text": "ami a Szabad Európa Rádió esti műsorának szó szerinti ismeretére enged következtetni",
+    "note": "Honnan tudja, mi hangzott el benne? Ön is hallgatja?"
+  },
+  {
+    "id": "x17",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -6,
+    "mult": 1.8,
+    "text": "és mindezt nyilvánvalóan a nyugati sajtó számára, fényképezőgéppel dokumentálták"
+  },
+  {
+    "id": "x18",
+    "tier": "wild",
+    "izg": 8,
+    "hih": -7,
+    "mult": 1.6,
+    "text": "ami a házban szervezkedő titkos befőttkör létezését bizonyítja",
+    "note": "Befőttkör. Ezt a kifejezést jegyezzük fel."
+  },
+  {
+    "id": "x19",
+    "tier": "wild",
+    "izg": 6,
+    "hih": -5,
+    "mult": 1.4,
+    "text": "ami a lépcsőház fokozatos, csendes megszállását célozza"
+  },
+  {
+    "id": "x20",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -6,
+    "mult": 1.5,
+    "text": "és ehhez a célszemély minden bizonnyal holland tulipánhagymába rejtett mikrofilmet használt",
+    "note": "Holland tulipán? Az nálunk hiánycikk. Tehát akár igaz is lehet."
+  },
+  {
+    "id": "x21",
+    "tier": "wild",
+    "izg": 8,
+    "hih": -8,
+    "mult": 1.8,
+    "text": "ami egy nemzetközi összeesküvés alsóbürokráci fiókjának megnyitására utal",
+    "note": "Fiók? Akkor van nyitvatartása is. Derítse ki."
+  },
+  {
+    "id": "x22",
+    "tier": "wild",
+    "izg": 7,
+    "hih": -5,
+    "mult": 1.7,
+    "text": "és mindezt a házmester elvtársnő megtévesztésére, álszakállban végezte"
   }
 ]
