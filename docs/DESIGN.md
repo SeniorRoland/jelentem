@@ -157,6 +157,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.8** (6c6f98b): a tájékoztató és a „?”/„!” gombok a `master` ágon, taggel, élesben.
 - [x] **A sarok gombjai** (242b806): a lábléc megszűnt; a bal felső sarokban „?”, „!”, „♪” (hang be/ki: bekapcsolva olyan, mint a többi gomb, kikapcsolva piros vonal húzza át) és „↺” (új játék, előtte humoros kérdéssel: „Biztosan új fedőnevet kér, elvtárs?”). A fejlesztői mód csak a rejtett `?fejleszto` URL-paraméterrel kapcsol be.
 - [x] **v0.0.9** (51aef6e): a sarok gombjai és a rejtett fejlesztői mód a `master` ágon, taggel, élesben.
+- [x] **v0.0.10** (4965d60): a hosszabb heti átvezetés a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
