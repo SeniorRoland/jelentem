@@ -10,7 +10,7 @@ Szatirikus böngészős játék: 1979, egy kitalált dunántúli kisváros (Als�
 - `npm run sim` – kiegyensúlyozási szimuláció (bot-stratégiák, befejezések eloszlása, végső rang, bajba került lakók); `npm run sim -- 10000` több játékkal; `SIM_BALANCE='{"quarter":{"resetE":0.3}}' npm run sim` a `balance.json` ideiglenes felülírásával (objektumok kulcsonként, tömbök elemenként olvadnak össze)
 - `npm run build` – típusellenőrzés + éles build a `dist/` mappába
 
-Minden változtatás után futtasd: `npm run validate && npm test && npm run build`. Ha a `balance.json`-t vagy kártyaértékeket módosítottál, futtasd a `npm run sim`-et is, és írd le az eredményt a módosítás összefoglalójában.
+Minden változtatás után futtasd: `npm run validate && npm test && npm run build`. Ha a `balance.json`-t vagy kártyaértékeket módosítottál, futtasd a `npm run sim`-et is, és írd le az eredményt a módosítás összefoglalójában. Ha a változás bármit érint abból, amit a `docs/JATEKLEIRAS.md` leír (szabály, képlet, szám, kártyaértékek, képernyők sorrendje, befejezések és feltételeik, tippek, rejtett paraméterek, easter egg, szimulációs táblázat), a leírást ugyanabban a változtatásban frissítsd; a példákat a motorral ellenőrizd, ne fejben.
 
 ## Architektúra
 
