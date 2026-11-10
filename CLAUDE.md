@@ -40,7 +40,7 @@ Három réteg, szigorúan elválasztva:
 
 ## Tartalmi és hangnemi szabályok
 
-- A játék szatíra a rendszerről és a bürokráciáról, nem az áldozatokról. A humor a jelentések bikkfanyelvéből és az abszurditásból jön.
+- A játék szatíra a rendszerről és a bürokráciáról, nem az áldozatokról. A humor a jelentések bikkfanyelvéből és az abszurditásból jön. Ezt a tájékoztató (`loading.json` → `notice`, a címkép utáni képernyőn és a „!” gomb mögött) ki is mondja: a játék nem relativizálja a korszak eseményeit; a szövegét csak ugyanebben a szellemben módosítsd, és ne rövidítsd el a lényegét.
 - **Csak kitalált szereplők, helyszínek és intézményi alakok.** Valós, élő vagy elhunyt személyt soha ne nevezz meg besúgóként, tartótisztként vagy megfigyeltként, még viccként sem. Valós intézménynév (BM III/III., DÉDÁSZ, Szabad Európa Rádió) korfestésként használható.
 - Magyar tipográfia: idézőjel „ ”, gondolatjel –, három pont …. Egyenes idézőjelet a validátor elutasít.
 - A lakók, a százados, a ház és a lány neve generált, soha ne írj be fix nevet vagy címet. Helyettesítők: `{mari}` (vezetéknév), `{mari.n}` (keresztnév), `{mari.b}` (ahogy a ház hívja: „Mari néni”), ragozott alak `{mari.nal}`, `{pityu.t}`; ugyanígy `{jozsi}`, `{pityu}`, `{porgoly}` (`{porgoly.n}` = „Lajosné”); `{szazados}`, `{cim}` (a ház címe: „Béke utca 17.”), `{lany}` („a {lany} lány”). Ragozott alak csak akkor kell, ha a szöveg ragozza a keresztnevet; új alakot minden keresztnév-jelöltnél fel kell venni (`residents.json` → `given`), ezt a validátor ellenőrzi. Az utcanév és a lány neve mássalhangzóval kezdődik, mert „a” névelő áll előttük. A behelyettesítés a `renderScreen()`-ben történik (`nameVars`), az ismeretlen helyettesítőt a validátor jelzi.
@@ -51,7 +51,7 @@ Három réteg, szigorúan elválasztva:
 
 ## UI-szabályok
 
-- Súgó: a bal felső sarokban bekeretezett „H” (`#helpBtn`), mögötte natív `<dialog>` (`src/ui/help.ts`, szöveg: `help.json`). A súgó a szabályokat magyarázza, de **titkot nem árul el**: se számot, se befejezés nevét, se a lakók titkát; a validátor ezt ellenőrzi (számjegy, befejezés-cím, titok-szavak). Ha új titok kerül a játékba, a kulcsszavát vedd fel a `validateHelp` listájába.
+- Súgó és tájékoztató: a bal felső sarokban két bekeretezett gomb, „?” (`#helpBtn`, a súgó: `help.json`) és „!” (`#noticeBtn`, a játék jellegéről szóló tájékoztató: `loading.json` → `notice`), mögöttük natív `<dialog>` (`src/ui/help.ts` → `mountDialog`, `src/ui/notice.ts`). A tájékoztató a címkép után saját képernyőn is megjelenik, és csak a „Tudomásul vettem” gombbal lehet továbblépni. A súgó a szabályokat magyarázza, de **titkot nem árul el**: se számot, se befejezés nevét, se a lakók titkát; a validátor ezt ellenőrzi (számjegy, befejezés-cím, titok-szavak). Ha új titok kerül a játékba, a kulcsszavát vedd fel a `validateHelp` listájába.
 - Mobil az elsődleges: koppintásos kezelés, nincs kötelező drag-and-drop.
 - Billentyűzettel is játszható legyen: minden interaktív elem `<button>`, látható fókusz.
 - Világos és sötét téma: színek csak a `:root` CSS-változókon keresztül (`src/styles.css`).

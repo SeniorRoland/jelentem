@@ -27,6 +27,13 @@ describe('planLoading', () => {
     }
   });
 
+  it('comes with the notice on what the game is, and what it is not', () => {
+    expect(content.loading.notice.title).toBeTruthy();
+    const text = content.loading.notice.text.join(' ');
+    expect(text).toContain('szatirikus');
+    expect(text).toContain('relativizálja');
+  });
+
   it('never shows the same step twice', () => {
     for (const p of plans) expect(new Set(p.map(e => e.text)).size).toBe(p.length);
   });

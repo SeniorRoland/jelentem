@@ -323,6 +323,8 @@ export interface LoadingContent {
   enter: string;
   /** The title card shown before the loading screen. */
   card: TitleCard;
+  /** What the game is and is not: satire of the system, never making light of what people went through. */
+  notice: { title: string; text: string[]; ack: string; button: string };
 }
 
 export interface Content {

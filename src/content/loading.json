@@ -38,5 +38,16 @@
     "quote": "Jelentem, nem történt semmi",
     "source": "Egy beszervezett",
     "skip": "Tovább"
+  },
+  "notice": {
+    "title": "Mielőtt kinyitod az aktát",
+    "text": [
+      "Ez egy szatirikus játék. A korszak állambiztonsági gyakorlatát a bürokrácia és a hatalom abszurditásán keresztül mutatja be: a jelentések bikkfanyelvén, egy kitalált város kitalált házának kitalált lakóin át.",
+      "Nem célja, hogy a magyar történelem e korszakának eseményeit relativizálja vagy elbagatellizálja. A megfigyelés, a beszervezés és a besúgás valódi emberek életét torzította el. Volt, aki az állását, a szabadságát vagy az útlevelét vesztette el miatta, és sokan a barátaikba, a szomszédaikba, a családjukba vetett bizalmukat. Vannak, akik a mai napig hordozzák a terhét, és vannak, akik csak most, az iratok nyilvánossá válásával tudták meg, ki írt róluk.",
+      "A játék nem az áldozatokon nevet, és nem is azokon, akiket kényszerítettek, hanem a rendszeren, amely mindenkit gyanúsnak tekintett, és amely a hétköznapi élet legapróbb mozzanatait is aktába zárta. A szereplők, a ház, a város és a százados kitaláltak; valós személyre egyik sem utal.",
+      "Ha a nevetés közben eszedbe jut, hogy egyetlen leírt mondaton mennyi múlhatott, a játék elérte a célját."
+    ],
+    "ack": "Tudomásul vettem",
+    "button": "A játékról"
   }
 }

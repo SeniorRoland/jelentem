@@ -10,6 +10,8 @@ A játék lényege egyensúlyozás: a jelentés legyen elég izgalmas a százado
 
 Előtte a címkép: fekete képernyő, amelyen lassan, szavanként, elmosódásból élesedve előtűnik a cím, idézetként: „Jelentem, / nem történt semmi”. A vessző után lélegzetnyi szünet és sortörés, az utolsó szó előtt még egy. Alatta később a forrás: (Egy beszervezett). Pár másodperc csend után a kép elsötétül, és jön az irattár. Bármelyik kattintásra vagy billentyűre átugorható, csökkentett mozgásnál egyben látszik.
 
+A címkép és a betöltés között egy tájékoztató lap áll (`loading.json` → `notice`): a játék szatíra a rendszerről, nem célja a korszak eseményeinek relativizálása, és nem az áldozatokon nevet. Továbblépni csak a „Tudomásul vettem” gombbal lehet. Ugyanez a szöveg bármikor előhívható a bal felső sarok „!” gombjával, a súgó „?” gombja mellett.
+
 Indításkor a Központi Irattár „kikéri az aktát” (`src/ui/loading.ts`, szövegek: `src/content/loading.json`). Hat véletlen bürokratikus lépés fut le (pl. „Engedély kérése az engedélykéréshez”), írógépes folyamatjelzővel. Közben egy visszaesés visszaveti a haladást (pl. „A 2026-os adatbázis túlterhelt. Kérjük, próbálkozzon 1979-ben”), a végén 112 százalékos tervteljesítés és „Engedélyezve” pecsét jön. A pecsét a betűtípusok betöltését is megvárja. Mozgás csak a pecsétnél van; a „Sorban állás nélkül (protekcióval)” gomb azonnal átugorja.
 
 ## Beszervezési karton
@@ -146,11 +148,12 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Megosztható akta** (7924b6c): a befejezés után a saját dossziéd képként (1080×1350, megsárgult karton): fénykép, fedőnév, kitakart valódi név, végső besorolás, a házmester jelentései rólad, az év mondata a százados kék tintás megjegyzésével, a bajba juttatott lakók és az értékelés pecsétje. Letölthető PNG-ként, telefonon megosztható, a rövid változata szövegként másolható; közzététel után a játék címe is rákerül.
 - [x] **v0.0.5** (2c105b2): a megosztható akta a `master` ágon, taggel.
 - [x] **A címkép idézőjele** (f59ac4a): a záró idézőjel nem törhet külön sorba.
-- [x] **Súgó** (6e89972): bekeretezett „H” a bal felső sarokban, mögötte kivonatos útmutató a játék menetéről (feladat, egy hét, a három mérő, negyedévek, a ház, tudnivalók), számok és titkok nélkül; Escape-pel vagy a háttérre kattintva zárul.
+- [x] **Súgó** (6e89972): bekeretezett gomb a bal felső sarokban (eredetileg „H”, ma „?”), mögötte kivonatos útmutató a játék menetéről (feladat, egy hét, a három mérő, negyedévek, a ház, tudnivalók), számok és titkok nélkül; Escape-pel vagy a háttérre kattintva zárul.
 - [x] **v0.0.6** (d638d50): a címkép javítása és a súgó a `master` ágon, taggel.
 - [x] **Közzététel** (976fa5e): a játék a https://seniorroland.github.io/jelentem/ címen játszható. A GitHub Actions minden `master`-re érkező push után validál, tesztel, buildel és kiteszi; a tároló a https://github.com/SeniorRoland/jelentem, a `master` az alapértelmezett ág.
 - [x] **Átvezetések** (63f7125): közös jelenetlejátszó (átugorható, csökkentett mozgásnál egyben látszik), és három jelenet: új játék előtt a százados leemeli a poros dossziét, és rápecsételi a fedőnevet; hetek között letépett naptárlap az új hét dátumával és egy mondattal a házról (kb. 2 másodperc); a negyedéves értékelés előtt fekete lapon a negyedév eredményei: a minősítés pecsétje, a besorolás változása, a kiemelt feladat sorsa és a lakók állapota arcképpel.
 - [x] **v0.0.7** (af477a4): az átvezetések a `master` ágon, taggel; az első kiadás, amely automatikusan kikerült a nyilvános oldalra.
+- [x] **Tájékoztató** (`feature/notice`): mi a játék, és mi nem: szatíra a rendszerről, amely nem relativizálja a korszak eseményeit, és nem az áldozatokon nevet. Saját lapon a címkép után, „Tudomásul vettem” gombbal; a bal felső sarokban „!” gombbal előhívható; a súgó gombja „H” helyett „?”.
 
 ### Hátralévő
 

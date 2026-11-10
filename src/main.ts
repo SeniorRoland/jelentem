@@ -5,7 +5,8 @@ import type { GameState } from './engine/types';
 import { cuesFor } from './ui/cues';
 import { mountDossier } from './ui/dossier';
 import { showLoading } from './ui/loading';
-import { mountHelp } from './ui/help';
+import { mountDialog, mountHelp } from './ui/help';
+import { noticeDialogHtml, showNotice } from './ui/notice';
 import { reducedMotion, runScene } from './ui/scene';
 import { introScene, sceneFor } from './ui/transitions';
 import { showTitle } from './ui/title';
@@ -88,9 +89,11 @@ function openGame(): void {
   });
 }
 
-// The boxed „H” in the top left corner opens the manual.
+// The boxed „?” in the top left corner opens the manual, the „!” next to it the notice on what the game is.
 mountHelp(document.getElementById('helpBtn') as HTMLButtonElement, document.getElementById('help') as HTMLDialogElement,
   content.help, () => play('page'));
+mountDialog(document.getElementById('noticeBtn') as HTMLButtonElement, document.getElementById('notice') as HTMLDialogElement,
+  noticeDialogHtml(content.loading.notice, content.help.close), 'notice-d', content.loading.notice.button, () => play('page'));
 
 const soundToggle = document.getElementById('soundToggle') as HTMLInputElement;
 soundToggle.checked = soundOn();
@@ -126,7 +129,13 @@ function startLoading(): void {
   });
 }
 
-// First the title on a black screen, as a quote; then the file is fetched from the archive.
-// Until the loading screen starts, `cancelLoading` removes the title card instead.
+/** Before the archive: what the game is and is not. The game goes on only once it is acknowledged. */
+function startNotice(): void {
+  document.body.classList.add('loading-screen');
+  cancelLoading = showNotice(app, content.loading.notice, () => { play('page'); startLoading(); });
+}
+
+// First the title on a black screen, as a quote; then the notice; then the file is fetched from
+// the archive. Until the game starts, `cancelLoading` removes whichever of them is up.
 document.body.classList.add('loading-screen');
-cancelLoading = showTitle(content.loading.card, startLoading);
+cancelLoading = showTitle(content.loading.card, startNotice);

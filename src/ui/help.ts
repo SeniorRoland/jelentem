@@ -12,15 +12,15 @@ export function helpHtml(h: HelpContent): string {
 }
 
 /**
- * Wires the boxed „H” in the top left corner to the help dialog. The native `<dialog>` keeps
- * the focus inside and closes with Escape; a click on the dim backdrop closes it too.
+ * Wires one of the boxed buttons in the top left corner to its dialog. The native `<dialog>`
+ * keeps the focus inside and closes with Escape; a click on the dim backdrop closes it too.
  * `onOpen` lets the caller add a sound.
  */
-export function mountHelp(button: HTMLButtonElement, dialog: HTMLDialogElement, h: HelpContent, onOpen: () => void = () => {}): void {
-  dialog.innerHTML = helpHtml(h);
-  dialog.setAttribute('aria-labelledby', 'help-t');
-  button.setAttribute('aria-label', h.button);
-  button.title = h.button;
+export function mountDialog(button: HTMLButtonElement, dialog: HTMLDialogElement, html: string, titleId: string, label: string, onOpen: () => void = () => {}): void {
+  dialog.innerHTML = html;
+  dialog.setAttribute('aria-labelledby', titleId);
+  button.setAttribute('aria-label', label);
+  button.title = label;
   const open = () => {
     if (dialog.open) return;
     dialog.showModal();
@@ -31,3 +31,7 @@ export function mountHelp(button: HTMLButtonElement, dialog: HTMLDialogElement, 
   dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
   dialog.addEventListener('close', () => button.focus({ preventScroll: true }));
 }
+
+/** The „?” in the top left corner opens the manual. */
+export const mountHelp = (button: HTMLButtonElement, dialog: HTMLDialogElement, h: HelpContent, onOpen?: () => void): void =>
+  mountDialog(button, dialog, helpHtml(h), 'help-t', h.button, onOpen);
