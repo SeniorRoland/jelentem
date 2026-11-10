@@ -22,14 +22,16 @@ Majd nyisd meg a kiírt címet (alapból http://localhost:5173).
 
 ## Közzététel
 
-A `.github/workflows/deploy.yml` minden `main` ágra küldött push után ellenőriz, tesztel, buildel és kiteszi a játékot GitHub Pagesre. A repó beállításaiban a Pages forrását „GitHub Actions”-re kell állítani.
+A játék itt játszható: https://seniorroland.github.io/jelentem/
+
+A `.github/workflows/deploy.yml` minden `master` ágra küldött push után ellenőriz, tesztel, buildel és kiteszi a játékot GitHub Pagesre. A fejlesztés a `develop` ágon folyik, a `master` a kiadott változat (`v0.0.x` tagek). A repó beállításaiban a Pages forrását „GitHub Actions”-re kell állítani.
 
 ## Folytatás Claude Code-dal
 
 A projekt gyökerében lévő `CLAUDE.md` minden fontos tudnivalót tartalmaz Claude Code számára (architektúra, parancsok, hangnemi szabályok). Néhány jó első kérés:
 
 - „Olvasd el a docs/DESIGN.md-t, és tegyél javaslatot a balance.json hangolására úgy, hogy a véletlen játékos 10–15%-ban érje el a legjobb befejezést. Használd az npm run sim-et.”
-- „Adj hozzá mentést localStorage-ba, hogy frissítés után is folytatható legyen a játék.”
-- „Írj egy negyedik és ötödik hetet a lakók titkainak továbbvitelével.”
+- „Készítsd el a DESIGN.md ütemtervéből a következő pontot, egy új feature ágon a develop ágból.”
+- „Írj három új megfigyelést a második szintre a házmesterről, és futtasd a validátort.”
 
 Szatíra. A szereplők, a ház, a város és a százados kitaláltak.
