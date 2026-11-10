@@ -34,10 +34,10 @@ export function weekScene(before: GameState, after: GameState, c: Content, reduc
   const line = lines[(after.week - 1) % lines.length];
   const prev = { ...after, week: after.week - 1 };
   const html = `<div class="cal-stack">${page(after, c, 'cal-new')}${page(prev, c, 'cal-old')}</div>
-  <p class="cal-line sc-in" ${at(650)}>${line}</p>`;
+  <p class="cal-line sc-in" ${at(1000)}>${line}</p>`;
   return {
     cls: 'sc-week', label: c.weeks[after.week].label, html: fillNames(html, nameVars(after)),
-    out: 1750, fade: 350, sounds: [{ cue: 'page', at: 200 }],
+    out: 3200, fade: 500, sounds: [{ cue: 'page', at: 450 }],
   };
 }
 

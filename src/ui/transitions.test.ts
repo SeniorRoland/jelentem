@@ -38,7 +38,9 @@ describe('the scenes between screens', () => {
       expect(sc.html).toContain(splitLabel(content.weeks[after.week - 1].label).days);
       lines.add(sc.html.match(/cal-line[^>]*>([^<]+)</)![1]);
       noPlaceholders(sc.html);
-      expect(sc.out + sc.fade).toBeLessThan(2500);
+      // Long enough to read the line, short enough for twelve weeks.
+      expect(sc.out + sc.fade).toBeGreaterThan(3000);
+      expect(sc.out + sc.fade).toBeLessThan(4500);
     }
     expect(lines.size).toBe(weeks.length);
   });
