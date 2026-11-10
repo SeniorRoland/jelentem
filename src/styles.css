@@ -6,7 +6,7 @@
   --desk:#2f3d33; --desk-2:#283429; --desk-text:#c7d1c2;
   --desk-dim:.62; --desk-load-dim:.85;
   --desk-shade:rgba(24,16,6,.28); --desk-shade-edge:rgba(12,8,3,.72);
-  --paper:#e9ecdf; --paper-edge:#c9cfbb; --photo:#f6f3ea; --photo-bg:#cfcfca; --clip:#8a8e93;
+  --paper:#e9ecdf; --paper-edge:#c9cfbb; --version-ink:#fff; --photo:#f6f3ea; --photo-bg:#cfcfca; --clip:#8a8e93;
   --ink:#2e2862; --ink-soft:#5f598c;
   --stamp:#b0261c; --pen:#1d4ea3;
   --slip:#f1efd9; --focus:#d79a00;
@@ -188,9 +188,10 @@ ul.house{padding-left:0;list-style:none}
   font:700 1.35rem/1 "Courier Prime","Courier New",Courier,monospace;color:var(--ink);background:var(--paper);
   border:2px solid var(--ink);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--ink-soft),0 .15rem .5rem rgba(0,0,0,.35)}
 .help-btn:hover{background:var(--slip)}
-/* The version beside the corner keys: a small typed label on paper, readable on the desk and on the sheet. */
-.version{align-self:flex-end;padding:.1rem .4rem;font:400 .72rem/1.3 "Courier Prime","Courier New",Courier,monospace;
-  color:var(--ink-soft);background:var(--paper);border:1px solid var(--paper-edge);box-shadow:0 .1rem .3rem rgba(0,0,0,.3);user-select:none}
+/* The version: small and quiet in the bottom left corner, white against the dark desk. */
+.version{position:fixed;z-index:20;left:max(.75rem,env(safe-area-inset-left));bottom:max(.5rem,env(safe-area-inset-bottom));margin:0;
+  font:400 .72rem/1 "Courier Prime","Courier New",Courier,monospace;letter-spacing:.04em;color:var(--version-ink);opacity:.6;
+  text-shadow:0 0 .3rem rgba(0,0,0,.85);pointer-events:none;user-select:none}
 /* The sound key looks like the others; while the sound is off, a red line strikes it through. */
 .sound-btn{position:relative}
 .sound-btn[aria-pressed="false"]::after{content:"";position:absolute;left:18%;right:18%;top:50%;border-top:3px solid var(--stamp);transform:rotate(-40deg)}
