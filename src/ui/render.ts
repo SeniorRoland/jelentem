@@ -4,6 +4,7 @@ import { fillNames, nameVars } from '../engine/names';
 import { excuseOf } from '../engine/review';
 import { scoreSentence } from '../engine/rules';
 import { faceImg } from './faces';
+import CAPTAIN_URL from '../assets/captain.png';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { endingKey, TROUBLE } from '../engine/rules';
@@ -27,6 +28,9 @@ const STORY: ResidentId[] = ['mari', 'jozsi', 'pityu'];
 
 /** The handler's initial under his margin notes: „V. szds.” */
 const sig = (s: GameState) => `${s.captain.name[0]}. szds.`;
+
+/** The captain's photo, clipped to his quarterly review like a personnel file's (src/assets/captain.png). */
+const captainPhoto = () => `<figure class="cpt-photo" aria-hidden="true"><span class="cpt-clip"></span><img src="${CAPTAIN_URL}" alt="" width="240" height="312" decoding="async"></figure>`;
 
 export const bar = (v: number) => { const n = Math.round(v / 10); return '█'.repeat(n) + '░'.repeat(10 - n); };
 const level = (v: number) => (v >= 70 ? 'magas' : v >= 40 ? 'közepes' : v >= 20 ? 'alacsony' : 'kritikus');
@@ -270,6 +274,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   return `<article class="sheet">${head(s)}
   <div class="stamp" aria-hidden="true">${g.title}</div>
   <h1 id="t" tabindex="-1">Negyedéves értékelés</h1>
+  ${captainPhoto()}
   <p class="lede">${c.career.quarters[q.quarter]}. Minősítés: ${g.title.toLowerCase()}.</p>
   <span class="note big">${g.note}</span>
   <span class="sig">${sig(s)}</span>

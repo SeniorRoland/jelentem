@@ -51,10 +51,10 @@ A játék szatíra a rendszerről és a bürokráciáról, nem az áldozatokról
 1. **Címkép:** fekete képernyő, a cím idézetként, szavanként előtűnve: „Jelentem, / nem történt semmi”, alatta „(Egy beszervezett)”. Kb. 11 másodperc, kattintásra vagy billentyűre átugorható.
 2. **Tájékoztató:** mit jelent a játék, és mit nem. Csak a **„Tudomásul vettem”** gombbal lehet továbblépni.
 3. **Betöltés:** a Központi Irattár „kikéri az aktát”: hat véletlen bürokratikus lépés, egy visszaesés, végül 112%-os tervteljesítés és „Engedélyezve” pecsét. Az „Az akta megnyitása” gomb visz tovább, a „Sorban állás nélkül (protekcióval)” átugorja.
-4. **Bevezető jelenet** (csak új játéknál): a százados leemeli a poros dossziét, ráírja a fedőnevedet, és lepecsételi („Átvéve”).
+4. **Bevezető jelenet** (csak új játéknál): a sötétből előtűnik a százados (bajusz, ballonkabát, kalap, cigaretta), leemeli a poros dossziét, ráírja a fedőnevedet, és lepecsételi („Átvéve”).
 5. **Nyitólevél és beszervezési karton:** a százados levele, a megfigyelendő személyek arcképes listája, a beszervezési kartonod. Itt kérhetsz másik fedőnevet. A „Munkába állok” indítja a játékot.
 6. **Hetek** (12): minden hét előtt egy rövid naptárlap-jelenet, utána a **heti lap** (megfigyelések, értelmezések, a jelentés), majd a **visszaküldött lap** (a százados megjegyzései, a mérők, a hírek).
-7. **Negyedéves értékelés** (a 3., 6. és 9. hét után): előtte egy jelenet a negyedév eredményeivel, utána a százados értékelése.
+7. **Negyedéves értékelés** (a 3., 6. és 9. hét után): előtte egy jelenet a negyedév eredményeivel, utána a százados értékelése, amelyre gemkapoccsal a fényképét is feltűzte.
 8. **Befejezés:** a 12. hét után, vagy korábban, ha egy mérő elfogy, vagy ha kizárnak. A végén a megosztható **akta**.
 
 A játék minden lépés után mentődik; a böngésző bezárása után ugyanonnan folytatható.

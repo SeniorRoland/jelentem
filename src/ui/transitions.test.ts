@@ -4,6 +4,7 @@ import { mulberry32 } from '../engine/rng';
 import { dispatch, newGame, type Action } from '../engine/state';
 import { gentle, playGame } from '../engine/test-utils';
 import type { GameState } from '../engine/types';
+import { renderScreen } from './render';
 import { introScene, quarterScene, sceneFor, splitLabel, weekScene } from './transitions';
 
 const game = playGame(3, gentle);
@@ -75,10 +76,20 @@ describe('the scenes between screens', () => {
     expect(sc.html).toContain(s.code);
     expect(sc.html).toContain(s.recruit.recruitedOn.slice(0, 4));
     expect(sc.html).toContain(s.captain.name);
+    expect(sc.html).toMatch(/<img class="sc-cpt[^>]*alt=""/);
     noPlaceholders(sc.html);
     const times = sc.sounds.map(x => x.at);
     expect([...times].sort((x, y) => x - y)).toEqual(times);
     expect(sc.sounds[sc.sounds.length - 1].cue).toBe('stamp');
+  });
+
+  it('put the captain’s photo on every quarterly review, and only there among the sheets', () => {
+    const photo = /<figure class="cpt-photo" aria-hidden="true">.*?<img [^>]*alt=""/;
+    for (const s of game) {
+      const html = renderScreen(s, content, balance, { dev: false });
+      if (s.screen === 'quarter') expect(html).toMatch(photo);
+      else expect(html).not.toContain('cpt-photo');
+    }
   });
 
   it('stay out of the way: nothing for other actions, no calendar with reduced motion, everything at once for the rest', () => {

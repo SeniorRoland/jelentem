@@ -3,6 +3,7 @@ import { fillNames, nameVars } from '../engine/names';
 import type { Content, GameState, ResidentId } from '../engine/types';
 import type { Action } from '../engine/state';
 import { faceImg } from './faces';
+import CAPTAIN_URL from '../assets/captain.png';
 import { STATUS_LABEL } from './render';
 import type { Scene } from './scene';
 
@@ -91,7 +92,8 @@ export function introScene(s: GameState, c: Content, reduced = false): Scene {
   const t = c.transitions.intro;
   const T = reduced ? [0, 0, 0, 0, 0, 0] : [400, 1900, 3500, 5100, 5700, 6500];
   const fill = (x: string) => x.replace('{ev}', s.recruit.recruitedOn.slice(0, 4));
-  const html = `<div class="sc-lines">${t.lines.map((l, i) => `<p class="sc-in" ${at(T[i])}>${fill(l)}</p>`).join('')}</div>
+  const html = `<img class="sc-cpt sc-in" ${at(T[0])} src="${CAPTAIN_URL}" alt="" width="240" height="312" decoding="async">
+  <div class="sc-lines">${t.lines.map((l, i) => `<p class="sc-in" ${at(T[i])}>${fill(l)}</p>`).join('')}</div>
   <div class="sc-folder sc-in" ${at(T[3])}><div class="sc-folder-tab">${t.folder}</div>
     <p><span class="sc-soft">${t.code}:</span> <span class="sc-code sc-in" ${at(T[4])}>${s.code}</span></p>
     <span class="sc-stamp sc-in" ${at(T[5])}>${t.stamp}</span></div>`;

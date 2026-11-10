@@ -6,7 +6,7 @@
   --desk:#2f3d33; --desk-2:#283429; --desk-text:#c7d1c2;
   --desk-dim:.62; --desk-load-dim:.85;
   --desk-shade:rgba(24,16,6,.28); --desk-shade-edge:rgba(12,8,3,.72);
-  --paper:#e9ecdf; --paper-edge:#c9cfbb;
+  --paper:#e9ecdf; --paper-edge:#c9cfbb; --photo:#f6f3ea; --photo-bg:#cfcfca; --clip:#8a8e93;
   --ink:#2e2862; --ink-soft:#5f598c;
   --stamp:#b0261c; --pen:#1d4ea3;
   --slip:#f1efd9; --focus:#d79a00;
@@ -28,7 +28,7 @@
   --desk-shade:rgba(6,6,4,.38); --desk-shade-edge:rgba(0,0,0,.82);
     --desk-dim:.42; --desk-load-dim:.7;
     --desk-shade:rgba(6,6,4,.38); --desk-shade-edge:rgba(0,0,0,.82);
-    --paper:#c6cab9; --paper-edge:#9ca290;
+    --paper:#c6cab9; --paper-edge:#9ca290; --photo:#d9d6cc; --photo-bg:#b3b3ae; --clip:#70747a;
     --ink:#241e54; --ink-soft:#463f74;
     --stamp:#97211a; --pen:#16418a;
     --slip:#d2cfb8; --focus:#e0a400;
@@ -39,7 +39,7 @@
 :root[data-theme="dark"]{
   color-scheme:dark;
   --desk:#141a16; --desk-2:#0f1411; --desk-text:#9fab9c;
-  --paper:#c6cab9; --paper-edge:#9ca290;
+  --paper:#c6cab9; --paper-edge:#9ca290; --photo:#d9d6cc; --photo-bg:#b3b3ae; --clip:#70747a;
   --ink:#241e54; --ink-soft:#463f74;
   --stamp:#97211a; --pen:#16418a;
   --slip:#d2cfb8; --focus:#e0a400;
@@ -432,3 +432,16 @@ body.title-showing{overflow:hidden}
   .cal-old{display:none}
   .scene{transition:none}
 }
+
+/*
+ * The captain's photo: clipped to the quarterly review like a personnel file's, and surfacing out
+ * of the dark at the start of the opening scene. The same cut-out figure as the peek (captain.png).
+ */
+.cpt-photo{position:relative;float:right;width:6.6rem;margin:.8rem -.4rem .8rem 1.1rem;padding:.35rem .35rem 1.2rem;
+  background:var(--photo);box-shadow:1px 3px 6px rgba(0,0,0,.35);transform:rotate(3deg)}
+.cpt-photo img{display:block;width:100%;height:auto;background:var(--photo-bg);filter:grayscale(1) contrast(1.05)}
+.cpt-clip{position:absolute;top:-.75rem;left:1.1rem;width:.75rem;height:2.1rem;border:2px solid var(--clip);
+  border-radius:.45rem;transform:rotate(-6deg);z-index:1}
+@media (max-width:32rem){.cpt-photo{width:5.2rem;margin-left:.8rem}}
+.sc-cpt{display:block;width:min(9rem,32vw);height:auto;margin:0 auto 1.2rem;filter:grayscale(1) brightness(.92);
+  -webkit-mask-image:radial-gradient(ellipse 62% 72% at 50% 36%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 72% at 50% 36%,#000 62%,transparent 100%)}
