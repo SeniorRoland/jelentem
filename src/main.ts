@@ -5,7 +5,7 @@ import type { GameState } from './engine/types';
 import { cuesFor } from './ui/cues';
 import { mountDossier } from './ui/dossier';
 import { showLoading } from './ui/loading';
-import { mountDialog, mountHelp } from './ui/help';
+import { mountDialog, mountHelp, restartHtml } from './ui/help';
 import { noticeDialogHtml, showNotice } from './ui/notice';
 import { reducedMotion, runScene } from './ui/scene';
 import { introScene, sceneFor } from './ui/transitions';
@@ -16,7 +16,8 @@ import { play, setSound, soundOn } from './ui/sound';
 
 const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
-const view: View = { dev: false };
+// Developer mode (the numbers behind every card) is only for those who know the address: ?fejleszto
+const view: View = { dev: new URLSearchParams(window.location.search).has('fejleszto') };
 let lastKey = '';
 /**
  * Set while something covers the game (the title card, the loading screen, a scene between
@@ -95,19 +96,27 @@ mountHelp(document.getElementById('helpBtn') as HTMLButtonElement, document.getE
 mountDialog(document.getElementById('noticeBtn') as HTMLButtonElement, document.getElementById('notice') as HTMLDialogElement,
   noticeDialogHtml(content.loading.notice, content.help.close), 'notice-d', content.loading.notice.button, () => play('page'));
 
-const soundToggle = document.getElementById('soundToggle') as HTMLInputElement;
-soundToggle.checked = soundOn();
-soundToggle.addEventListener('change', () => {
-  setSound(soundToggle.checked);
-  if (soundToggle.checked) play('key');
+// The boxed „♪” switches the sound; it shows whether it is on.
+const soundBtn = document.getElementById('soundBtn') as HTMLButtonElement;
+const showSound = () => {
+  soundBtn.setAttribute('aria-pressed', String(soundOn()));
+  soundBtn.setAttribute('aria-label', content.corner.sound);
+  soundBtn.title = soundOn() ? content.corner.soundOn : content.corner.soundOff;
+};
+showSound();
+soundBtn.addEventListener('click', () => {
+  setSound(!soundOn());
+  showSound();
+  if (soundOn()) play('key');
 });
 
-document.getElementById('devToggle')!.addEventListener('change', e => {
-  view.dev = (e.target as HTMLInputElement).checked;
-  render();
-});
-
-document.getElementById('restartBtn')!.addEventListener('click', () => {
+// The boxed „↺” starts a new game, but asks first.
+const restartDialog = document.getElementById('restart') as HTMLDialogElement;
+mountDialog(document.getElementById('restartBtn') as HTMLButtonElement, restartDialog,
+  restartHtml(content.corner.restart), 'restart-t', content.corner.restart.button, () => play('page'));
+restartDialog.addEventListener('close', () => {
+  if (restartDialog.returnValue !== 'yes') return;
+  restartDialog.returnValue = '';
   cancelLoading?.();
   cancelLoading = null;
   document.body.classList.remove('loading-screen');

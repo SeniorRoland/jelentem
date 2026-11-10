@@ -1,0 +1,16 @@
+{
+  "sound": "Hang",
+  "soundOn": "A hang be van kapcsolva. Kattints a kikapcsoláshoz.",
+  "soundOff": "A hang ki van kapcsolva. Kattints a bekapcsoláshoz.",
+  "restart": {
+    "button": "Új játék",
+    "title": "Új ügy nyitása",
+    "text": [
+      "Biztosan új fedőnevet kér, elvtárs?",
+      "A jelenlegi dossziéját ez esetben a „kallódó iratok” közé soroljuk. Senki sem fogja keresni. Ami azt illeti, eddig sem kereste senki.",
+      "A ház lakói semmit sem vesznek észre. Ők sosem vesznek észre semmit. Ezt írja a jelentésében is."
+    ],
+    "yes": "Igen, új életet kezdek",
+    "no": "Mégsem, maradok a régiben"
+  }
+}

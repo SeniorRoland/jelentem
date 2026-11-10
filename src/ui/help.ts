@@ -1,4 +1,4 @@
-import type { HelpContent } from '../engine/types';
+import type { CornerContent, HelpContent } from '../engine/types';
 
 /** The help text as HTML: a short manual of how the game works, with no secret given away. Pure. */
 export function helpHtml(h: HelpContent): string {
@@ -31,6 +31,17 @@ export function mountDialog(button: HTMLButtonElement, dialog: HTMLDialogElement
   dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
   dialog.addEventListener('close', () => button.focus({ preventScroll: true }));
 }
+
+/**
+ * The question before a new game, as a dialog. „Igen” closes it with the value `yes`; anything
+ * else (the other button, Escape, the backdrop) keeps the game as it is. Pure.
+ */
+export const restartHtml = (r: CornerContent['restart']): string =>
+  `<form method="dialog" class="help-sheet">
+  <h1 id="restart-t">${r.title}</h1>
+  ${r.text.map(p => `<p>${p}</p>`).join('')}
+  <div class="actions"><button class="btn" value="no" autofocus>${r.no}</button><button class="btn quiet" value="yes">${r.yes}</button></div>
+  </form>`;
 
 /** The „?” in the top left corner opens the manual. */
 export const mountHelp = (button: HTMLButtonElement, dialog: HTMLDialogElement, h: HelpContent, onOpen?: () => void): void =>

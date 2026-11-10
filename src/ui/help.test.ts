@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { balance, content } from '../content';
 import { validateContent } from '../content/validate';
-import { helpHtml } from './help';
+import { helpHtml, restartHtml } from './help';
 import { noticeDialogHtml, noticeHtml } from './notice';
 
 describe('the help', () => {
@@ -18,6 +18,15 @@ describe('the help', () => {
     for (const p of n.text) expect(memo).toContain(p);
     expect(noticeDialogHtml(n, content.help.close)).toContain(noticeHtml(n, 'notice-d'));
     expect(n.ack).toBeTruthy();
+  });
+
+  it('asks before a new game, with „no” as the safe default', () => {
+    const r = content.corner.restart;
+    const html = restartHtml(r);
+    expect(html).toContain('method="dialog"');
+    expect(html).toMatch(new RegExp(`value="no" autofocus>${r.no}<`));
+    expect(html).toContain(`value="yes">${r.yes}<`);
+    for (const p of r.text) expect(html).toContain(p);
   });
 
   it('never gives a secret away: the validator catches numbers, endings and story secrets', () => {

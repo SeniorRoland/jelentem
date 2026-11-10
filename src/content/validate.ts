@@ -81,7 +81,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c));
   return errs;
 }
 
@@ -418,6 +418,19 @@ function validateTransitions(c: Content): string[] {
   for (const x of texts) {
     if (!x) errs.push('Átvezetés: üres szöveg.');
     if (/["']/.test(x)) errs.push(`Átvezetés: egyenes idézőjel: ${x}`);
+  }
+  return errs;
+}
+
+/** The corner buttons' labels and the question before a new game. */
+function validateCorner(c: Content): string[] {
+  const errs: string[] = [];
+  const k = c.corner;
+  const texts = [k.sound, k.soundOn, k.soundOff, k.restart.button, k.restart.title, k.restart.yes, k.restart.no, ...k.restart.text];
+  if (!k.restart.text.length) errs.push('Sarok: az új játék kérdése üres.');
+  for (const t of texts) {
+    if (!t) errs.push('Sarok: üres szöveg.');
+    if (/["'{}]/.test(t)) errs.push(`Sarok: egyenes idézőjel vagy helyettesítő: ${t}`);
   }
   return errs;
 }

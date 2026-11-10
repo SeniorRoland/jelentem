@@ -55,7 +55,7 @@ body{
   font-family:"Courier Prime","Courier New",Courier,monospace;
   font-size:1.0625rem; line-height:1.55;
 }
-main{padding:2rem 1rem 1rem}
+main{padding:2rem 1rem 2.5rem}
 
 /*
  * The handler's desk under the paper. Two fixed layers behind everything: the photo
@@ -188,6 +188,9 @@ ul.house{padding-left:0;list-style:none}
   font:700 1.35rem/1 "Courier Prime","Courier New",Courier,monospace;color:var(--ink);background:var(--paper);
   border:2px solid var(--ink);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--ink-soft),0 .15rem .5rem rgba(0,0,0,.35)}
 .help-btn:hover{background:var(--slip)}
+/* The sound key looks like the others; while the sound is off, a red line strikes it through. */
+.sound-btn{position:relative}
+.sound-btn[aria-pressed="false"]::after{content:"";position:absolute;left:18%;right:18%;top:50%;border-top:3px solid var(--stamp);transform:rotate(-40deg)}
 .help-btn:active{transform:translateY(1px);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--ink-soft),0 .05rem .2rem rgba(0,0,0,.35)}
 .help{width:min(40rem,calc(100% - 2rem));max-height:calc(100% - 2rem);padding:0;border:0;background:transparent;color:var(--ink)}
 .help::backdrop{background:rgba(0,0,0,.6)}
@@ -209,9 +212,6 @@ ul.house{padding-left:0;list-style:none}
 .news{border-left:3px solid var(--stamp);padding-left:.9rem}
 .quote{margin:1rem 0 1rem 1rem;font-style:italic}
 .fine{font-size:.82rem;color:var(--ink-soft);margin-top:2rem}
-footer{max-width:46rem;margin:0 auto;padding:1rem 1rem 2.5rem;color:var(--desk-text);font-size:.85rem;display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;justify-content:space-between;align-items:center}
-footer label{cursor:pointer;display:inline-flex;gap:.4rem;align-items:center}
-footer button{font:inherit;color:var(--desk-text);background:none;border:1px solid var(--desk-text);padding:.25rem .6rem;cursor:pointer}
 
 /* Beszervezési karton: megsárgult, megviselt nyomtatvány */
 .karton{

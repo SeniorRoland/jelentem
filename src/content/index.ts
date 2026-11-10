@@ -17,6 +17,7 @@ import faces from './faces.json';
 import dossier from './dossier.json';
 import help from './help.json';
 import transitions from './transitions.json';
+import corner from './corner.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -38,6 +39,7 @@ export const content: Content = {
   dossier,
   help,
   transitions,
+  corner,
 };
 
 export const balance: Balance = balanceJson as unknown as Balance;

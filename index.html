@@ -13,18 +13,13 @@
 <nav class="corner">
   <button type="button" id="helpBtn" class="help-btn" aria-haspopup="dialog"><span aria-hidden="true">?</span></button>
   <button type="button" id="noticeBtn" class="help-btn" aria-haspopup="dialog"><span aria-hidden="true">!</span></button>
+  <button type="button" id="soundBtn" class="help-btn sound-btn"><span aria-hidden="true">♪</span></button>
+  <button type="button" id="restartBtn" class="help-btn" aria-haspopup="dialog"><span aria-hidden="true">↺</span></button>
 </nav>
 <dialog id="help" class="help"></dialog>
 <dialog id="notice" class="help"></dialog>
+<dialog id="restart" class="help"></dialog>
 <main id="app"></main>
-<footer>
-  <span>Szatíra. A szereplők, a ház és a százados kitaláltak.</span>
-  <span>
-    <label><input type="checkbox" id="soundToggle"> Hang</label>
-    <label><input type="checkbox" id="devToggle"> Fejlesztői mód</label>
-    <button type="button" id="restartBtn">Új játék</button>
-  </span>
-</footer>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

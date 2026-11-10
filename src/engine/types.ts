@@ -348,6 +348,7 @@ export interface Content {
   dossier: DossierContent;
   help: HelpContent;
   transitions: TransitionsContent;
+  corner: CornerContent;
 }
 
 /** E = százados elégedettsége, H = hihetőség, L = lelkiismeret. All 0–100. */
@@ -436,6 +437,14 @@ export interface TransitionsContent {
   week: { weekNo: string; lines: string[] };
   quarter: { title: string; grade: string; rank: string; unchanged: string; task: string; taskDone: string; taskFail: string; house: string };
   intro: { lines: string[]; folder: string; code: string; stamp: string };
+}
+
+/** The boxed buttons in the top left corner: sound on and off, and the new game with its question. */
+export interface CornerContent {
+  sound: string;
+  soundOn: string;
+  soundOff: string;
+  restart: { button: string; title: string; text: string[]; yes: string; no: string };
 }
 
 /** The help dialog behind the boxed „H”: how the game works, without its secrets. */
