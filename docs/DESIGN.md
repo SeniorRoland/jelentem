@@ -159,8 +159,13 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 - [ ] **A jutalmak mechanikai hatása:** a 100 forint és a cigaretta most csak szöveg; adjon például elégedettség-pluszt, egy SZOT-beutaló pedig hagyjon ki egy hetet, miközben nő az elvárás.
 - [ ] **A passzív állomány mint út:** ha passzív állományban is hiányos a munka, „kizárás a hálózatból”, ami a legjobb vég egy másik változata lehet: a rendszer egyszerűen elfelejt.
 
-**A ház élete**
+**Átvezetések**
 
+Mind a címkép mintájára: rövid, kattintásra vagy billentyűre átugorható, `prefers-reduced-motion` mellett egyben látszik. A CLAUDE.md mozgásszabályát (most csak a pecsét és a címkép mozoghat) ehhez bővíteni kell.
+
+- [ ] **Bevezető a megbízáshoz:** a nyitólevél előtt egy rövid jelenet arról, ahogy a százados elővesz a polcról, és megbízza a játékost: például a poros dosszié leemelése, a fedőnév ráírása, a levél lepecsételése.
+- [ ] **Átvezetés a hetek között:** a válasz és a következő hét között egy pillanatnyi váltás, ami az idő múlását érezteti (naptárlap, a hét dátuma, a házról egy mondat), és nem lassítja a játékot.
+- [ ] **Átvezetés a negyedévek között:** a negyedéves értékelés felé egy hangsúlyosabb jelenet, amely a negyedév eredményeit is megmutatja (minősítés, besorolás változása, a kiemelt feladat, a ház állapota), mielőtt a százados levele megérkezik.
 
 **Befejezés és megjelenés**
 
