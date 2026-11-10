@@ -1,5 +1,10 @@
 {
-  "quarters": ["1979. I. negyedév", "1979. II. negyedév", "1979. III. negyedév", "1979. IV. negyedév"],
+  "quarters": [
+    "1979. I. negyedév",
+    "1979. II. negyedév",
+    "1979. III. negyedév",
+    "1979. IV. negyedév"
+  ],
   "ranks": [
     {
       "label": "passzív állomány",
@@ -14,17 +19,20 @@
     {
       "label": "megbízható hálózati személy",
       "promo": "Előléptetve megbízható hálózati személlyé. Jutalma 100 forint és egy doboz cigaretta. A forintot nyugtázni kell, a cigarettát nem.",
-      "demo": "Lefokozva megbízható hálózati személlyé. Mostantól eggyel kevesebb mondatot írhat. Ezt büntetésnek szánjuk."
+      "demo": "Lefokozva megbízható hálózati személlyé. Mostantól eggyel kevesebb mondatot írhat. Ezt büntetésnek szánjuk.",
+      "reward": "100 forint és egy doboz cigaretta"
     },
     {
       "label": "kiemelt hálózati személy",
       "promo": "Előléptetve kiemelt hálózati személlyé. Mostantól három mondatban jelent, mert a bizalom kötelez.",
-      "demo": "Lefokozva kiemelt hálózati személlyé. A rezidensi íróasztalt átadtuk a fénymásolónak."
+      "demo": "Lefokozva kiemelt hálózati személlyé. A rezidensi íróasztalt átadtuk a fénymásolónak.",
+      "reward": "SZOT-beutaló Balatonfüredre, a következő negyedév első hetére"
     },
     {
       "label": "rezidensjelölt",
       "promo": "Előléptetve rezidensjelöltté. Gratulálunk. Visszaút nincs.",
-      "demo": ""
+      "demo": "",
+      "reward": "saját íróasztal és egy Orion táskarádió"
     }
   ],
   "grades": {
@@ -48,5 +56,11 @@
     "done": "teljesítve",
     "now": "A kiemelt feladatot ezzel teljesítettnek tekintjük.",
     "divert": "a kiemelt feladathoz"
+  },
+  "rewardTitle": "Jutalom",
+  "excluded": {
+    "label": "kizárva a hálózatból",
+    "text": "Passzív állományban is hiányos munka. A százados a dosszié borítójára ráírta: „Alkalmatlan. A kapcsolattartást megszüntetjük.”",
+    "button": "Az ügy lezárása"
   }
 }

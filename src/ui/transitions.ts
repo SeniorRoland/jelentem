@@ -19,7 +19,9 @@ export function splitLabel(label: string): { year: string; month: string; days: 
 function page(s: GameState, c: Content, cls: string): string {
   const w = c.weeks[s.week];
   const l = splitLabel(w.label);
-  const quarter = isQuarterStart(s, c) ? `<span class="cal-q">${c.career.quarters[w.quarter]}</span>` : '';
+  // The first page of a quarter names it; after a SZOT stay, the first page played does.
+  const first = isQuarterStart(s, c) || (s.holiday !== null && s.week === s.holiday + 1);
+  const quarter = first ? `<span class="cal-q">${c.career.quarters[w.quarter]}</span>` : '';
   return `<div class="cal ${cls}"><div class="cal-top">${l.year}</div><div class="cal-month">${l.month}</div>
   <div class="cal-days">${l.days}</div><div class="cal-week">${c.transitions.week.weekNo.replace('{n}', String(weekInQuarter(s, c)))}${quarter}</div></div>`;
 }
@@ -29,15 +31,23 @@ function page(s: GameState, c: Content, cls: string): string {
  * line about the house. Short, so twelve of them never slow the game. None with reduced motion.
  */
 export function weekScene(before: GameState, after: GameState, c: Content, reduced = false): Scene | null {
-  if (reduced || after.screen !== 'week' || after.week <= before.week) return null;
+  if (after.screen !== 'week' || after.week <= before.week) return null;
+  // A skipped week is the SZOT stay: a postcard from the lake instead of a line about the house.
+  // It is shown even with reduced motion, as the player has to know a week went by.
+  const holiday = after.week - before.week > 1;
+  if (reduced && !holiday) return null;
   const lines = c.transitions.week.lines;
   const line = lines[(after.week - 1) % lines.length];
-  const prev = { ...after, week: after.week - 1 };
-  const html = `<div class="cal-stack">${page(after, c, 'cal-new')}${page(prev, c, 'cal-old')}</div>
+  const prev = { ...after, week: before.week };
+  const h = c.transitions.holiday;
+  const html = holiday
+    ? `<div class="cal-stack">${page(after, c, 'cal-new')}${page(prev, c, 'cal-old')}</div>
+  <div class="sc-in" ${at(reduced ? 0 : 900)}><div class="postcard"><p class="postcard-title">${h.title}</p><p>${h.text}</p></div></div>`
+    : `<div class="cal-stack">${page(after, c, 'cal-new')}${page(prev, c, 'cal-old')}</div>
   <p class="cal-line sc-in" ${at(1000)}>${line}</p>`;
   return {
     cls: 'sc-week', label: c.weeks[after.week].label, html: fillNames(html, nameVars(after)),
-    out: 3200, fade: 500, sounds: [{ cue: 'page', at: 450 }],
+    out: holiday ? (reduced ? 3500 : 5200) : 3200, fade: reduced ? 0 : 500, sounds: reduced ? [] : [{ cue: 'page', at: 450 }],
   };
 }
 
@@ -51,7 +61,9 @@ export function quarterScene(before: GameState, after: GameState, c: Content, re
   const t = c.transitions.quarter;
   const T = reduced ? [0, 0, 0, 0, 0] : [200, 900, 1900, 2700, 3500];
   const ranks = c.career.ranks;
-  const rank = q.rankAfter === q.rankBefore
+  const rank = q.excluded
+    ? `${ranks[q.rankBefore].label} <span class="sc-arrow">→</span> <strong>${c.career.excluded.label}</strong>`
+    : q.rankAfter === q.rankBefore
     ? `${ranks[q.rankAfter].label} <span class="sc-soft">(${t.unchanged})</span>`
     : `${ranks[q.rankBefore].label} <span class="sc-arrow">→</span> <strong>${ranks[q.rankAfter].label}</strong>`;
   const task = q.task && c.tasks.find(x => x.id === q.task!.id);

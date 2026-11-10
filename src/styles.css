@@ -356,6 +356,13 @@ body.title-showing{overflow:hidden}
   100%{transform:rotate(-18deg) translate(-35%,140%);opacity:0}
 }
 .cal-line{max-width:24rem;margin:1.6rem auto 0;text-align:center;font-style:italic;line-height:1.45}
+/* The SZOT postcard: a picture-postcard back, written by hand. */
+.postcard{width:min(24rem,100%);margin:1.6rem auto 0;padding:.9rem 1.1rem;background:var(--slip);color:var(--ink);
+  border:1px solid var(--paper-edge);box-shadow:0 .5rem 1.4rem rgba(0,0,0,.45);transform:rotate(-2deg);
+  font:600 1.25rem/1.3 Caveat,cursive}
+.postcard p{margin:0}
+.postcard-title{margin-bottom:.4rem!important;color:var(--pen);font-size:1.45rem}
+.reward{padding:.4rem .7rem;border-left:3px solid var(--pen)}
 
 /* The quarter's results. */
 .sc-quarter h2{margin:0 0 1.8rem;text-align:center;font-size:clamp(1.3rem,5vw,2rem);line-height:1.3;text-decoration:none}

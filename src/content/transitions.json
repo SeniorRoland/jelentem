@@ -36,5 +36,9 @@
     "folder": "Hálózati személy",
     "code": "Fedőnév",
     "stamp": "Átvéve"
+  },
+  "holiday": {
+    "title": "Üdvözlet a balatonfüredi SZOT-üdülőből!",
+    "text": "Egy hétig nem írtál jelentést, és a százados sem írt neked. A víz langyos volt, a lángos zsíros, a szobatárs horkolt. Ez volt az év legszebb hete."
   }
 }

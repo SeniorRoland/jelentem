@@ -21,8 +21,12 @@ const profile = (s: GameState, b: Balance) => b.categories[s.recruit.categoryId]
 export const expectFor = (s: GameState, b: Balance, c: Content): number => {
   const ev = s.events[s.week];
   const bonus = ev ? c.events.list.find(e => e.id === ev)?.expect ?? 0 : 0;
-  return b.expect[s.week] + b.ranks[s.rank].expectBonus + profile(s, b).expectBonus + bonus;
+  return b.expect[s.week] + b.ranks[s.rank].expectBonus + profile(s, b).expectBonus + bonus + rested(s, b, c);
 };
+
+/** After a SZOT stay the captain expects more for the rest of that quarter. */
+const rested = (s: GameState, b: Balance, c: Content): number =>
+  s.holidayQuarter !== null && s.holidayQuarter === quarterOf(s, c) && s.week !== s.holiday ? b.holiday.expect : 0;
 
 /** How much harder lost credibility hits, by the recruit's category. */
 export const doubtFor = (s: GameState, b: Balance): number => profile(s, b).doubt;
@@ -59,7 +63,20 @@ export function endQuarter(s: GameState, c: Content, b: Balance): QuarterResult 
   // The caretaker calms down once the player is credible again.
   const calmed = s.watched ? s.meters.H >= b.watch.calmAt : null;
   if (calmed) s.watched = false;
-  return { quarter: quarterOf(s, c), grade, task, calmed, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
+
+  // On the passive rank, hiányos again and again: the network forgets the player.
+  s.passiveStreak = rankBefore === 0 && grade === 'hianyos' ? s.passiveStreak + 1 : 0;
+  const excluded = s.passiveStreak >= b.exclusion.streak;
+  if (excluded) s.excluded = true;
+
+  // A promotion comes with its reward, and every reward has its price.
+  const reward = s.rank > rankBefore && b.rewards[String(s.rank)] ? s.rank : null;
+  if (reward !== null) {
+    const r = b.rewards[String(reward)];
+    s.meters = { E: clamp(s.meters.E + (r.E ?? 0)), H: clamp(s.meters.H + (r.H ?? 0)), L: clamp(s.meters.L + (r.L ?? 0)) };
+    if (r.holiday && !isLastWeek(s, c)) { s.holiday = s.week + 1; s.holidayQuarter = c.weeks[s.week + 1].quarter; }
+  }
+  return { quarter: quarterOf(s, c), grade, task, calmed, reward, excluded, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
 }
 
 /** Closes the open task: the captain's mood goes up if done, down if not. Mutates `s`. */

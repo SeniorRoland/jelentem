@@ -29,6 +29,13 @@
     "osztalyidegen": { "expectBonus": 1, "doubt": 1 }
   },
   "task": { "fromQuarter": 1, "reward": 8, "penalty": 12 },
+  "rewards": {
+    "2": { "E": 4, "L": -5 },
+    "3": { "E": 10, "holiday": true },
+    "4": { "H": 6, "L": -6 }
+  },
+  "holiday": { "expect": 1 },
+  "exclusion": { "streak": 2 },
   "events": { "fromWeek": 1, "chance": 0.6, "guilt": 2, "misuse": 3 },
   "watch": { "hBelow": 40, "calmAt": 55, "honest": 2, "hidden": 4 },
   "quarter": {

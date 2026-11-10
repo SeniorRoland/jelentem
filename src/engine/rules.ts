@@ -175,6 +175,7 @@ export const TROUBLE = CONS_LEVELS.indexOf('trouble') + 1;
 export const anyMeterZero = (m: Meters): boolean => m.E <= 0 || m.H <= 0 || m.L <= 0;
 
 export function endingKey(s: GameState, b: Balance): EndingKey {
+  if (s.excluded) return 'kizarva';
   const { E, H, L } = s.meters;
   if (H <= 0) return 'megfigyelt';
   if (E <= 0) return 'behivatas';

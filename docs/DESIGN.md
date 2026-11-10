@@ -110,6 +110,7 @@ Az alábbi nevek az eredetiek, ezek a jelöltlisták első elemei.
 - **Kiváló munkatárs:** a százados elégedett, de valakinek baja lett, vagy a lelkiismeret 70 alá esett.
 - **Megfigyelt megfigyelő:** a hihetőség 30 alá esett.
 - **Behívatás:** a százados elégedettsége 30 alá esett.
+- **Kizárva a hálózatból:** passzív állományban két egymást követő negyedévet is hiányosra zártál, a dossziédat visszatették a polcra. A harmadik negyedéves értékelésnél, a játék vége előtt jöhet. Megúsztad, de nem dicsőséggel.
 
 A befejezés az év végén, a 12. hét után jön, vagy korábban, ha valamelyik mérő nullára esik. Minden befejezés után jön a 2026. november 4-i epilógus: a játékos megnézi a saját aktáját a túlterhelt adatbázisban, és a házmester jelentését találja róla.
 
@@ -160,6 +161,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.10** (4965d60): a hosszabb heti átvezetés a `master` ágon, taggel, élesben.
 - [x] **Bővített megfigyelés- és értelmezés-készlet** (1ae79d6): 48 új megfigyelés (lakónként +5 az 1. és +5 a 2. szinten, a házmesternek és a közös területnek szintenként +3) és 30 új értelmezés (tierenként +10), a felük a százados margójegyzetével. Az értékek a csoportjuk átlagán, így a kiegyensúlyozás nem változott (óvatos 36% → 35%, előrelátó 89% → 88%, a futtatások szórásán belül).
 - [x] **v0.0.11** (750ae64): a bővített készlet a `master` ágon, taggel, élesben.
+- [x] **Jutalmak és kizárás** (`feature/career`): az előléptetés jutalmának hatása van: megbízhatóként 100 forint és cigaretta (elégedettség +4, lelkiismeret −5), kiemeltként SZOT-beutaló (elégedettség +10, a következő negyedév első hete kimarad egy balatonfüredi képeslappal, utána +1 elvárás), rezidensjelöltként íróasztal és táskarádió (hihetőség +6, lelkiismeret −6). Passzív állományban két egymást követő hiányos negyedév után kizárás a hálózatból, saját befejezéssel. Szimuláció: óvatos 31,5% legjobb vég és 20,2% kizárás (a behívatás 54% → 38%), előrelátó 85,7% (88% volt; a beutaló kihagyott hete okozza).
 
 ### Hátralévő
 
@@ -168,8 +170,6 @@ Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
 **A karrier tartalma**
 
 - [ ] **Rezidensjelölt szint:** egy másik besúgó jelentését is szerkeszteni kell (kihúzni belőle, de a hiányt megmagyarázni). Most a legfelső rang csak több mondatot és nagyobb elvárást jelent.
-- [ ] **A jutalmak mechanikai hatása:** a 100 forint és a cigaretta most csak szöveg; adjon például elégedettség-pluszt, egy SZOT-beutaló pedig hagyjon ki egy hetet, miközben nő az elvárás.
-- [ ] **A passzív állomány mint út:** ha passzív állományban is hiányos a munka, „kizárás a hálózatból”, ami a legjobb vég egy másik változata lehet: a rendszer egyszerűen elfelejt.
 
 **Befejezés és megjelenés**
 

@@ -50,6 +50,12 @@ function upgrade(s: unknown, c: Content, b: Balance): void {
   if (g.last && !g.last.steps) g.last.steps = [];
   // Saves from before the end-of-game file: the sentences so far are not known.
   if (!g.log) g.log = [];
+  // Saves from before the rewards and the exclusion: none of them has happened yet.
+  if (g.passiveStreak === undefined) g.passiveStreak = 0;
+  if (g.excluded === undefined) g.excluded = false;
+  if (g.holiday === undefined) g.holiday = null;
+  if (g.holidayQuarter === undefined) g.holidayQuarter = null;
+  if (g.lastQuarter && g.lastQuarter.reward === undefined) { g.lastQuarter.reward = null; g.lastQuarter.excluded = false; }
   if (!g.recruit || !g.names) return;
   if (!g.captain) g.captain = makeCaptain(c, Math.random, [g.recruit.name.split(' ')[0], ...Object.values(g.names).map(n => n.name)]);
   // Saves from before the generated given names and portraits: the original names and address

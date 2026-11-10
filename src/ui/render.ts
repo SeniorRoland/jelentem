@@ -237,16 +237,27 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   <span class="sig">${sig(s)}</span>
   ${q.task ? taskResult(q.task, c, b, v) : ''}
   <h2>Besorolás</h2>
-  <p><strong>${ranks[q.rankAfter].label}</strong></p>
+  ${q.excluded
+    ? `<p><strong>${c.career.excluded.label}</strong></p><p>${c.career.excluded.text}</p>`
+    : `<p><strong>${ranks[q.rankAfter].label}</strong></p>
   <p>${change}</p>
-  <p class="meta">Jelentésenként ${b.ranks[q.rankAfter].slots} mondat.</p>
+  ${q.reward !== null && ranks[q.reward].reward ? `<p class="reward"><strong>${c.career.rewardTitle}:</strong> ${ranks[q.reward].reward}.${v.dev ? rewardDev(b, q.reward) : ''}</p>` : ''}
+  <p class="meta">Jelentésenként ${b.ranks[q.rankAfter].slots} mondat.</p>`}
   ${q.calmed === null ? '' : `<p>${q.calmed ? c.notes.watch.calmed : c.notes.watch.still}</p>`}
   <h2>A ház a negyedév végén</h2>
   <ul class="house">${house}</ul>
   <h2>Állásod a következő negyedév elején</h2>
   ${meters(q.after, q.before, v)}
-  <div class="actions"><button class="btn" data-action="next">Következő negyedév</button></div>
+  <div class="actions"><button class="btn" data-action="next">${q.excluded ? c.career.excluded.button : 'Következő negyedév'}</button></div>
   </article>`;
+}
+
+/** Developer mode: what a reward does to the meters. */
+function rewardDev(b: Balance, rank: number): string {
+  const r = b.rewards[String(rank)];
+  const parts = [r.E && `elégedettség ${r.E > 0 ? '+' : ''}${r.E}`, r.H && `hihetőség ${r.H > 0 ? '+' : ''}${r.H}`,
+    r.L && `lelkiismeret ${r.L > 0 ? '+' : ''}${r.L}`, r.holiday && `egy hét kimarad, utána +${b.holiday.expect} elvárás`].filter(Boolean);
+  return ` <span class="dev">(${parts.join(', ')})</span>`;
 }
 
 function ending(s: GameState, c: Content, b: Balance, v: View): string {

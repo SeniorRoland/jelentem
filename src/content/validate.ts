@@ -54,6 +54,18 @@ export function validateContent(c: Content, b: Balance): string[] {
     }
   }));
 
+  // Rewards: only for ranks one can be promoted to, each with its text on the review.
+  for (const [k, r] of Object.entries(b.rewards ?? {})) {
+    const rank = Number(k);
+    if (!Number.isInteger(rank) || rank < 1 || rank >= b.ranks.length) errs.push(`Jutalom: nincs ilyen rang: ${k}`);
+    else if (!c.career.ranks[rank].reward) errs.push(`Jutalom: a(z) ${k}. rangnak nincs jutalomszövege.`);
+    if (!r.E && !r.H && !r.L && !r.holiday) errs.push(`Jutalom: a(z) ${k}. rang jutalmának nincs hatása.`);
+  }
+  if (!(b.exclusion?.streak >= 1)) errs.push('Kizárás: a streak legalább 1 legyen.');
+  if (!c.endings.kizarva) errs.push('Befejezés: hiányzik a „kizarva” befejezés.');
+  for (const t of [c.career.rewardTitle, ...Object.values(c.career.excluded), ...c.career.ranks.map(r => r.reward ?? ''), c.transitions.holiday.title, c.transitions.holiday.text])
+    if (/["']/.test(t)) errs.push(`Karrier: egyenes idézőjel: ${t}`);
+
   // Ranks and quarterly grading.
   if (b.ranks.length !== c.career.ranks.length) errs.push(`A rangok száma eltér: balance ${b.ranks.length}, career ${c.career.ranks.length}.`);
   if (b.startRank < 0 || b.startRank >= b.ranks.length) errs.push('A balance.startRank nem létező rang.');

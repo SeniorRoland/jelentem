@@ -25,6 +25,7 @@ Három réteg, szigorúan elválasztva:
 ## Játékmechanika röviden
 
 - Négy negyedév × 3 hét (`weeks.json` → `quarter`, `level`). Negyedév végén `career.ts` → `endQuarter`: minősítés (`kivalo` ha E ≥ `promoteE` és H ≥ `promoteH`, `hianyos` ha E < `demoteE`), rangváltás (0 = passzív állomány … 4 = rezidensjelölt; a rang adja a mondathelyek számát és az elvárás-pótlékot, `balance.ranks`), majd E `resetE` arányban visszahúzódik `start.E` felé, H `healH`-val, L `healL`-lel nő.
+- Jutalom és kizárás (`career.ts` → `endQuarter`, `balance.rewards`, `balance.holiday`, `balance.exclusion`): előléptetéskor az új rang jutalma a pihentetés után módosítja a mérőket; a `holiday` (SZOT-beutaló) a következő hetet kihagyja (`state.holiday`: nincs jelentés, esemény, megfigyelés; a heti jelenet képeslapot mutat), és az a negyedév további heteiben `holiday.expect`-tel többet vár; a feladatot ilyenkor az első lejátszott hét kapja. Passzív állományban `exclusion.streak` egymást követő hiányos negyedév után `state.excluded`: a negyedéves értékelés után a `kizarva` befejezés jön.
 - Kategória (`balance.categories[recruit.categoryId]`): `expectBonus` az elváráshoz, `doubt` szorzó a negatív hihetőségre (`scoreSentence` 4. paramétere).
 - Célfeladat (`tasks.json`, `balance.task`): `task.fromQuarter`-től minden negyedév első hetén a motor kiad egyet (`state.task`); a jelentés teljesíti, ha egy mondat megfigyelése vagy értelmezése a feladat `topic`-jához tartozik (`topics` mező). Nyitott feladatnál a `deal` egy `divert` tierű terelő kártyát is ad. Elszámolás: `settleTask` a negyedév végén (E ± `reward`/`penalty` a minősítés előtt), az utolsó negyedévben a befejezés előtt.
 - Ellenjelentés (`balance.watch`, `notes.watch`): ha egy jelentés után H < `hBelow`, `state.watched` igaz lesz; ilyenkor a `pickWeek` a helyeken felül egy `self` megfigyelést is ad. Beírva +`honest`, kihagyva −`hidden` hihetőség (a `weight.H` előtt) és `reportsOnYou`++. Negyedév végén H ≥ `calmAt` esetén leáll.
@@ -34,7 +35,7 @@ Három réteg, szigorúan elválasztva:
 - Egy mondat = megfigyelés + opcionális értelmezés. A megfigyelésnek `izg` (izgalom) és `art` (ártalom) értéke van, az értelmezésnek `izg`, `hih` (hihetőség-változás) és `mult` (ártalom-szorzó).
 - Hetente (elvárás = `expect[hét] + ranks[rang].expectBonus`): `E += (izgalom összeg − elvárás) × weight.E`, `H += hihetőség összeg × weight.H`, `L −= ártalom összeg × weight.L`.
 - Következmények (`balance.consequences`, `residents.json` → `cons`): a lakóra az év során összegyűlt ártalom három lépcsőt léphet át: `warn` (figyelmeztetés), `trouble` (a lakó `bajban` van, a története elágazik, `state.cons`), `ruin` (elveszíti a megélhetését). A lépcső sosem megy vissza (`state.consLevel`, 0–3); egy hét híre a hét legmagasabb új lépcsője, a befejezés mindet felsorolja, a lakó sorsa `fate.ok` / `fate.bajban` / `fate.ruin`. A legjobb véget csak a `trouble` zárja ki, a figyelmeztetés nem.
-- Befejezések: `best`, `kivalo`, `megfigyelt`, `behivatas` (`rules.ts` → `endingKey`), a 12. hét után vagy amikor egy mérő nullára esik. A „Ami valójában történt” rész lakónként a `fate.ok` vagy `fate.bajban` szöveget mutatja.
+- Befejezések: `best`, `kizarva`, `kivalo`, `megfigyelt`, `behivatas` (`rules.ts` → `endingKey`), a 12. hét után, amikor egy mérő nullára esik, vagy a kizáráskor. A „Ami valójában történt” rész lakónként a `fate.ok` vagy `fate.bajban` szöveget mutatja.
 - Akta (`src/engine/dossier.ts`, `src/ui/dossier.ts`, szövegek: `dossier.json`): a motor minden jelentett mondatot `state.log`-ba ír; a `makeDossier` ebből és az állapotból tisztán összeállítja a befejezés dossziéját (az év mondata a `memorable` szerint), a UI vásznon (1080×1350) rajzolja meg; a színei a témától független `--akta-*` változók. Letöltés, megosztás (Web Share, ha van), szövegmásolás (Clipboard API, különben a régi kijelöléses másolás).
 - Mentés: `src/ui/save.ts`, minden lépés után localStorage-ba; a befejezett vagy a tartalomhoz már nem illő mentést elveti.
 
@@ -63,14 +64,14 @@ Három réteg, szigorúan elválasztva:
 
 ## Ismert kiegyensúlyozási állapot
 
-Négy negyedév, 12 hét, házi események 60% eséllyel a 2. héttől (alibi: izgalom 1, hihetőség 0, ártalom ×0,2; árulás ×2 lelkiismeret). Elvárás `[7, 9, 11, 7, 9, 11, 8, 10, 12, 8, 10, 12]` + rangpótlék (0, 0, 1, 3, 4; a 3–4. rang három mondatot ír) + kategóriapótlék (−1 … +3), célfeladat a 2. negyedévtől (+8 / −12), következmény-lépcsők 2 / 4 / 7 (a 12 hét alatt összeadódik; a 4-es a régi egyetlen küszöb), negyedév végén `resetE` 0,2, `healH` 8, `healL` 15, minősítés: kiváló E ≥ 65 és H ≥ 45, hiányos E < 45.
+Négy negyedév, 12 hét, házi események 60% eséllyel a 2. héttől (alibi: izgalom 1, hihetőség 0, ártalom ×0,2; árulás ×2 lelkiismeret). Elvárás `[7, 9, 11, 7, 9, 11, 8, 10, 12, 8, 10, 12]` + rangpótlék (0, 0, 1, 3, 4; a 3–4. rang három mondatot ír) + kategóriapótlék (−1 … +3), célfeladat a 2. negyedévtől (+8 / −12), következmény-lépcsők 2 / 4 / 7 (a 12 hét alatt összeadódik; a 4-es a régi egyetlen küszöb), jutalmak: megbízható E +4 / L −5, kiemelt E +10 és SZOT-hét (+1 elvárás utána), rezidensjelölt H +6 / L −6; kizárás 2 hiányos passzív negyedév után, negyedév végén `resetE` 0,2, `healH` 8, `healL` 15, minősítés: kiváló E ≥ 65 és H ≥ 45, hiányos E < 45.
 
-A `npm run sim -- 3000` eredménye (best / kivalo / megfigyelt / behivatas, végső átlagrang, teljesített feladatok):
+A `npm run sim -- 3000` eredménye (best / kizarva / kivalo / megfigyelt / behivatas, végső átlagrang, teljesített feladatok):
 
-- véletlen: 0% / 33% / 59% / 8%, rang 1,1, feladat 65%, rólad átlag 2,7 jelentés (az ellenjelentés gyorsítja a hihetőség zuhanását)
-- mohó: 0% / 6% / 94% / 0%
-- óvatos (0 ártalom): 36% / 0% / 11% / 53%, rang 0,44, feladat 46%, a végén 2,3 lakó bízik benne (a „hű” kategóriával 80%, a csendőrrel 3%)
-- előrelátó (mindent lát, egy hétre előre tervez, keresi a feladatot): 89% / 11% / 1% / 0%, rang 2,8, feladat 100%, rólad 0,07 (kategóriánként 81–95%)
+- véletlen: 0% / 4% / 32% / 57% / 7%, rang 1,1, feladat 65%, rólad átlag 2,7 jelentés (az ellenjelentés gyorsítja a hihetőség zuhanását)
+- mohó: 0% / 0% / 5% / 95% / 0%
+- óvatos (0 ártalom): 31,5% / 20% / 0% / 10% / 38%, rang 0,44, feladat 46%, a végén 2,3 lakó bízik benne (a „hű” kategóriával 80%, a csendőrrel 3%)
+- előrelátó (mindent lát, egy hétre előre tervez, keresi a feladatot): 86% / 0% / 13% / 1% / 0%, rang 2,8, feladat 100%, rólad 0,07 (kategóriánként 81–95%)
 
 Az események előtt az óvatos bot 10,5%, az előrelátó 76% volt: a kedvességek és az alibi a kíméletes játékot jutalmazzák. Ha emberi próbán túl könnyűnek bizonyul, az alibi `mult` 0,3-ra emelése az óvatost kb. 22%-ra, az előrelátót 81%-ra viszi vissza.
 

@@ -14,5 +14,9 @@
   "behivatas": {
     "title": "Behívatás",
     "text": "A százados szerint a jelentéseid a rádió időjárás-jelentésénél is kevésbé izgalmasak. Elbeszélgetésre rendeltek be, ahol három órán át egy eltűnt szánkóról kérdeztek."
+  },
+  "kizarva": {
+    "title": "Kizárva a hálózatból",
+    "text": "{szazados} százados a dossziédra ráírta: „Alkalmatlan. A kapcsolattartást megszüntetjük.” A dossziét visszatették a polcra, ahonnan elővették, és többé senki sem kereste. A {cim} lakói semmit sem vettek észre. Talán ez volt a legtöbb, amit értük tehettél, még ha nem is így tervezted."
   }
 }

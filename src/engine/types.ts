@@ -5,7 +5,7 @@ export type ResidentId = 'mari' | 'jozsi' | 'pityu' | 'porgoly';
  */
 export type Tier = 'safe' | 'mid' | 'wild' | 'divert' | 'alibi';
 export type DealTier = Exclude<Tier, 'divert' | 'alibi'>;
-export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas';
+export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas' | 'kizarva';
 export type Screen = 'intro' | 'week' | 'response' | 'quarter' | 'ending';
 /** How the reports have treated a resident so far. */
 export type ResidentStatus = 'nyugodt' | 'gyanus' | 'bajban';
@@ -293,9 +293,12 @@ export interface Task {
 /** Rank names and the captain's quarterly texts. Numbers live in `Balance`. */
 export interface CareerContent {
   quarters: string[];
-  ranks: { label: string; promo: string; demo: string }[];
+  ranks: { label: string; promo: string; demo: string; reward?: string }[];
   grades: Record<Grade, { title: string; note: string }>;
   stay: string;
+  /** What a promotion brings (`ranks[i].reward`), and the exclusion from the network. */
+  rewardTitle: string;
+  excluded: { label: string; text: string; button: string };
   /** Labels around the quarterly task. */
   task: { title: string; open: string; done: string; now: string; divert: string };
 }
@@ -383,6 +386,14 @@ export interface Balance {
    * `-misuse` credibility.
    */
   events: { fromWeek: number; chance: number; guilt: number; misuse: number };
+  /**
+   * What a promotion to a rank brings (key = the new rank): meter changes, or `holiday`, a SZOT
+   * stay that skips the first week of the next quarter while its other weeks expect `holiday.expect` more.
+   */
+  rewards: Record<string, { E?: number; H?: number; L?: number; holiday?: boolean }>;
+  holiday: { expect: number };
+  /** Hiányos quarters in a row on the passive rank that get the player excluded from the network. */
+  exclusion: { streak: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
   task: { fromQuarter: number; reward: number; penalty: number };
   quarter: {
@@ -437,6 +448,8 @@ export interface TransitionsContent {
   week: { weekNo: string; lines: string[] };
   quarter: { title: string; grade: string; rank: string; unchanged: string; task: string; taskDone: string; taskFail: string; house: string };
   intro: { lines: string[]; folder: string; code: string; stamp: string };
+  /** The postcard of the week the SZOT stay skips. */
+  holiday: { title: string; text: string };
 }
 
 /** The boxed buttons in the top left corner: sound on and off, and the new game with its question. */
@@ -512,6 +525,10 @@ export interface QuarterResult {
   task: TaskState | null;
   /** The caretaker stopped reporting at this review (true), kept on (false), or was not (null). */
   calmed: boolean | null;
+  /** The reward the promotion brought (the new rank), or null. */
+  reward: number | null;
+  /** The player was excluded from the network at this review: the game ends here. */
+  excluded: boolean;
   rankBefore: number;
   rankAfter: number;
   before: Meters;
@@ -537,6 +554,12 @@ export interface GameState {
   /** Residents close to the player now, and those whose trust the reports broke. */
   bonds: ResidentId[];
   betrayed: ResidentId[];
+  /** Hiányos quarters in a row on the passive rank; at `exclusion.streak` the player is excluded. */
+  passiveStreak: number;
+  excluded: boolean;
+  /** The week skipped for a SZOT stay, and the quarter whose other weeks expect more (null: none). */
+  holiday: number | null;
+  holidayQuarter: number | null;
   meters: Meters;
   code: string;
   recruit: Recruit;

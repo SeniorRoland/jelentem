@@ -35,6 +35,10 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     doneTasks: [],
     watched: false,
     reportsOnYou: 0,
+    passiveStreak: 0,
+    excluded: false,
+    holiday: null,
+    holidayQuarter: null,
     events: [],
     bonds: [],
     betrayed: [],
@@ -63,7 +67,9 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
 
 /** At the start of a quarter (from `task.fromQuarter`) the captain gives a task not given before. */
 function assignTask(s: GameState, c: Content, b: Balance, rng: Rng): void {
-  if (!isQuarterStart(s, c) || quarterOf(s, c) < b.task.fromQuarter) return;
+  // After a SZOT stay skipped the quarter's first week, the first week played gets the task.
+  const backFromHoliday = s.holiday !== null && s.week === s.holiday + 1 && c.weeks[s.holiday].quarter === quarterOf(s, c);
+  if (!(isQuarterStart(s, c) || backFromHoliday) || quarterOf(s, c) < b.task.fromQuarter) return;
   const fresh = c.tasks.filter(t => !s.pastTasks.includes(t.id));
   if (!fresh.length) return;
   const t = fresh[Math.floor(rng() * fresh.length)];
@@ -135,7 +141,8 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       s.screen = 'response';
       break;
     case 'next': {
-      const step = s.screen === 'quarter' ? 'week' : nextStep(s, c);
+      // An excluded player's file is closed at the review.
+      const step = s.screen === 'quarter' ? (s.excluded ? 'ending' : 'week') : nextStep(s, c);
       // The last quarter has no review: its task is settled right before the ending.
       // An early ending settles nothing, but a task already done still counts as done.
       if (step === 'ending') {
@@ -144,7 +151,12 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
         s.screen = 'ending';
       }
       else if (step === 'quarter') { s.lastQuarter = endQuarter(s, c, b); s.screen = 'quarter'; }
-      else { s.week++; startWeek(s, c, b, rng); }
+      else {
+        s.week++;
+        // The SZOT stay: that week passes without a report, and nothing happens in the house.
+        if (s.week === s.holiday && !isLastWeek(s, c)) { s.weekObs[s.week] = []; s.events[s.week] = null; s.week++; }
+        startWeek(s, c, b, rng);
+      }
       break;
     }
   }
