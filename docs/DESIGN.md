@@ -148,6 +148,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **A címkép idézőjele** (f59ac4a): a záró idézőjel nem törhet külön sorba.
 - [x] **Súgó** (6e89972): bekeretezett „H” a bal felső sarokban, mögötte kivonatos útmutató a játék menetéről (feladat, egy hét, a három mérő, negyedévek, a ház, tudnivalók), számok és titkok nélkül; Escape-pel vagy a háttérre kattintva zárul.
 - [x] **v0.0.6** (d638d50): a címkép javítása és a súgó a `master` ágon, taggel.
+- [x] **Közzététel** (976fa5e): a játék a https://seniorroland.github.io/jelentem/ címen játszható. A GitHub Actions minden `master`-re érkező push után validál, tesztel, buildel és kiteszi; a tároló a https://github.com/SeniorRoland/jelentem, a `master` az alapértelmezett ág.
 
 ### Hátralévő
 
@@ -174,5 +175,4 @@ Mind a címkép mintájára: rövid, kattintásra vagy billentyűre átugorható
 **Hangolás és karbantartás**
 
 - [ ] **Kocsivissza-felvétel:** a sorváltás most szintetizált; egy CC0 felvétel `src/assets/sounds/return.mp3` néven kódváltoztatás nélkül a helyére lép (a Freesoundon sok van, de a letöltéshez fiók kell).
-- [ ] **Emberi nehézségi próba:** a véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consequences.trouble` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
-- [ ] **Közzététel:** a README GitHub Pages-telepítést ír (`.github/workflows/deploy.yml`), de a fájl nincs a repóban, és távoli tároló sincs beállítva.
+- [ ] **Emberi nehézségi próba:** most, hogy a játék nyilvános, valódi játékosokkal is mérhető. A véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consequences.trouble` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
