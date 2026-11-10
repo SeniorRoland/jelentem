@@ -168,6 +168,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Rezidensjelölt szint** (cf37a3c): a legfelső rangon – csak az utolsó negyedévben, legfeljebb három hétig – egy másik, generált fedőnevű besúgó háromsoros jelentését is át kell nézni. A meghagyott mondat ártalma a lakót terheli, a felét a lelkiismeret is megérzi; a kihúzáshoz hetente két bikkfanyelvű indoklás jár, nélküle a százados megkérdezi: „Miért húzta ki? Kit véd?” A szimulációban a jól játszó, mindent ártalmasat kihúzó bot legjobb vége nem változott (86%); a mohó, mindent meghagyó játékosnál a lakók szenvednek.
 - [x] **v0.0.14** (d49aa68): a rezidensjelölt szint a `master` ágon, taggel, élesben.
 - [x] **A százados arca** (4fcef92): a kukucskáló figura a negyedéves értékelésen gemkapoccsal feltűzött fényképként (a minősítés pecsétje alatt, a kézírásos megjegyzés mellett), és a bevezető jelenet elején a sötétből előtűnve, lágyan elhalványuló széllel. Világos és sötét témában is; a képernyőolvasó nem olvassa fel.
+- [x] **v0.0.15** (d3dd80b): a százados arca és a teljes játékleírás a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
