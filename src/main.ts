@@ -117,6 +117,11 @@ soundBtn.addEventListener('click', () => {
   if (soundOn()) play('key');
 });
 
+// The version, always in sight beside the corner keys.
+const versionEl = document.getElementById('version')!;
+versionEl.textContent = `v${__APP_VERSION__}`;
+versionEl.title = `Verzió: ${__APP_VERSION__}`;
+
 // The boxed „↺” starts a new game, but asks first.
 const restartDialog = document.getElementById('restart') as HTMLDialogElement;
 mountDialog(document.getElementById('restartBtn') as HTMLButtonElement, restartDialog,

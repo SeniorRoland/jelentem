@@ -470,7 +470,7 @@ Gombok: **letöltés** PNG-ként, **megosztás** (ahol a böngésző tudja, fől
 
 ## 17. A felület, a hang, a mentés, a rejtett dolgok
 
-- **Bal felső sarok:** „?” – súgó (a szabályok titkok nélkül); „!” – a tájékoztató a játék jellegéről; „♪” – hang be/ki (kikapcsolva piros vonal húzza át); „↺” – új játék, előtte egy humoros kérdés („Biztosan új fedőnevet kér, elvtárs?”), alapértelmezett válasza a „Mégsem”.
+- **Bal felső sarok:** „?” – súgó (a szabályok titkok nélkül); „!” – a tájékoztató a játék jellegéről; „♪” – hang be/ki (kikapcsolva piros vonal húzza át); „↺” – új játék, előtte egy humoros kérdés („Biztosan új fedőnevet kér, elvtárs?”), alapértelmezett válasza a „Mégsem”. Mellettük kis címkén a játék verziószáma (pl. „v0.0.15”).
 - **Hang:** valódi írógép-felvételek (CC0). Cetli a jelentésbe: gépelés; kész mondat: csengő és új sor; kivétel: egy billentyű; leadás: a lap kihúzása; a válasz és a negyedéves értékelés: pecsét; képernyőváltás: lapozás.
 - **Mozgás:** csak a pecsétek, a címkép és a képernyők közti jelenetek mozognak. Csökkentett mozgásnál (rendszerbeállítás) a heti naptár elmarad, a többi jelenet egyben látszik, és a százados sem kukucskál.
 - **Mentés:** minden lépés után, ebben a böngészőben. A befejezett játék mentése törlődik. A régebbi változatok mentései a frissítés után is folytathatók.
