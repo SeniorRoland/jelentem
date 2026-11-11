@@ -174,6 +174,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Képrészletek a képernyőkön** (05023b0): a háttérfotóból kivágott apróságok a százados fényképéhez hasonlóan gemkapoccsal feltűzve, gépelt felirattal: a cigarettásdoboz a megbízhatói jutalomnál („Nyugtázni nem kell”), a piros telefon a behívatásnál („Ezen jött a hívás”). A kivágások kicsik, a torz feliratok nem olvashatók rajtuk. Újabb részlet: kép a `src/assets/details`-be, és `photo` mező a rangnál vagy a befejezésnél.
 - [x] **v0.0.17** (abb54fe): a képrészletek a `master` ágon, taggel, élesben.
 - [x] **Teljesítménykimutatás** (a631f24): a befejezés lapján táblázat az évről: a kiinduló állapot, minden hét és minden negyedév vége (a minősítéssel), mérőnként a pontos érték és a változása, színezve. Alatta mérőnként a legjobb és a legrosszabb hét, és a heti jelentések összhatása, a százados kézírásos megjegyzésével („Számokkal minden szebb.”). Mobilon a változás a szám alá kerül, így a táblázat kifér. A motor a `state.history`-ba jegyzi a heteket; régi mentésnél a korábbi lapok „elkallódtak az irattárban”.
+- [x] **v0.0.18** (a445386): a teljesítménykimutatás a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
