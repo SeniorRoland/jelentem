@@ -157,9 +157,16 @@ export interface Resident {
   fate?: { ok: string; bajban: string; ruin: string };
 }
 
+/** A detail of the desk photo clipped to a sheet (`src/assets/details/<id>.jpg`), with a typed caption. */
+export interface Photo {
+  id: string;
+  caption: string;
+}
+
 export interface Ending {
   title: string;
   text: string;
+  photo?: Photo;
 }
 
 export interface Notes {
@@ -293,7 +300,7 @@ export interface Task {
 /** Rank names and the captain's quarterly texts. Numbers live in `Balance`. */
 export interface CareerContent {
   quarters: string[];
-  ranks: { label: string; promo: string; demo: string; reward?: string }[];
+  ranks: { label: string; promo: string; demo: string; reward?: string; photo?: Photo }[];
   grades: Record<Grade, { title: string; note: string }>;
   stay: string;
   /** What a promotion brings (`ranks[i].reward`), and the exclusion from the network. */

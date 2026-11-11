@@ -275,6 +275,8 @@ A 3., 6. és 9. hét után jön a **negyedéves értékelés** (a 12. után ninc
 
 A rangot csak negyedév végén lehet váltani, és egyszerre csak eggyel. Rezidensjelöltté ezért legkorábban a III. negyedév végén lehet válni (kezdőből három kiváló negyedév kell), vagyis **ez a rang legfeljebb az utolsó három hétre szól**.
 
+A megbízhatói jutalom mellé az értékelésen a cigarettásdoboz fényképe is odakerül („Nyugtázni nem kell”).
+
 A beutaló hetében nincs jelentés, nincs esemény, és a mérők sem változnak. Ha abban a negyedévben célfeladat jár, azt az első lejátszott hét adja ki.
 
 > **Tipp:** az előléptetés kétélű. Több mondat több izgalmat ad, de nagyobb elvárást is, és a jutalmak a lelkiismeretbe kerülnek. Ha a legjobb végre hajtasz, nem baj, ha nem rohansz a ranglétrán.
@@ -421,6 +423,8 @@ A befejezés a 12. hét után jön (az utolsó negyedév feladata ilyenkor még 
 ### 14.4. „Behívatás”
 
 *A százados szerint a jelentéseid a rádió időjárás-jelentésénél is kevésbé izgalmasak. Elbeszélgetésre rendeltek be, ahol három órán át egy eltűnt szánkóról kérdeztek.*
+
+A lapon gemkapoccsal a piros telefon fényképe („Ezen jött a hívás”).
 
 **Feltétel:** az elégedettség a végén 30 alatt van, vagy közben 0-ra esik.
 

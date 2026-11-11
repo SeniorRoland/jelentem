@@ -449,3 +449,8 @@ body.title-showing{overflow:hidden}
 @media (max-width:32rem){.cpt-photo{width:5.2rem;margin-left:.8rem}}
 .sc-cpt{display:block;width:min(9rem,32vw);height:auto;margin:0 auto 1.2rem;filter:grayscale(1) brightness(.92);
   -webkit-mask-image:radial-gradient(ellipse 62% 72% at 50% 36%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 72% at 50% 36%,#000 62%,transparent 100%)}
+/* Details of the desk photo, clipped to a sheet the same way, with a typed caption on the white border. */
+.detail-photo{width:7.5rem;padding-bottom:.35rem;transform:rotate(-2.5deg)}
+.detail-photo img{filter:sepia(.25) saturate(.85) contrast(1.05) brightness(1.1);background:none}
+.detail-photo figcaption{margin-top:.3rem;font-size:.62rem;white-space:nowrap;line-height:1.2;text-align:center;color:var(--ink-soft)}
+@media (max-width:32rem){.detail-photo{width:6rem}}

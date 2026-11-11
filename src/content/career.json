@@ -20,7 +20,8 @@
       "label": "megbízható hálózati személy",
       "promo": "Előléptetve megbízható hálózati személlyé. Jutalma 100 forint és egy doboz cigaretta. A forintot nyugtázni kell, a cigarettát nem.",
       "demo": "Lefokozva megbízható hálózati személlyé. Mostantól eggyel kevesebb mondatot írhat. Ezt büntetésnek szánjuk.",
-      "reward": "100 forint és egy doboz cigaretta"
+      "reward": "100 forint és egy doboz cigaretta",
+      "photo": { "id": "cigs", "caption": "Nyugtázni nem kell" }
     },
     {
       "label": "kiemelt hálózati személy",

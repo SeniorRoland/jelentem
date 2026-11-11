@@ -4,6 +4,7 @@ import { fillNames, nameVars } from '../engine/names';
 import { excuseOf } from '../engine/review';
 import { scoreSentence } from '../engine/rules';
 import { faceImg } from './faces';
+import { detailPhoto } from './details';
 import CAPTAIN_URL from '../assets/captain.png';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
@@ -284,7 +285,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
     ? `<p><strong>${c.career.excluded.label}</strong></p><p>${c.career.excluded.text}</p>`
     : `<p><strong>${ranks[q.rankAfter].label}</strong></p>
   <p>${change}</p>
-  ${q.reward !== null && ranks[q.reward].reward ? `<p class="reward"><strong>${c.career.rewardTitle}:</strong> ${ranks[q.reward].reward}.${v.dev ? rewardDev(b, q.reward) : ''}</p>` : ''}
+  ${q.reward !== null && ranks[q.reward].reward ? `${detailPhoto(ranks[q.reward].photo)}<p class="reward"><strong>${c.career.rewardTitle}:</strong> ${ranks[q.reward].reward}.${v.dev ? rewardDev(b, q.reward) : ''}</p>` : ''}
   <p class="meta">Jelentésenként ${b.ranks[q.rankAfter].slots} mondat.</p>`}
   ${q.calmed === null ? '' : `<p>${q.calmed ? c.notes.watch.calmed : c.notes.watch.still}</p>`}
   <h2>A ház a negyedév végén</h2>
@@ -320,6 +321,7 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   }).join('');
   return `<article class="sheet">${head(s)}
   <h1 id="t" tabindex="-1">${e.title}</h1>
+  ${detailPhoto(e.photo)}
   <p>${e.text}</p>
   <p class="meta">Végső besorolásod: ${c.career.ranks[s.rank].label} (${c.career.quarters[quarterOf(s, c)]})</p>
   ${s.pastTasks.length ? `<p class="meta">Teljesített kiemelt feladatok: ${s.doneTasks.length} / ${s.pastTasks.length}</p>` : ''}

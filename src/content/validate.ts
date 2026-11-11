@@ -93,7 +93,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c));
   return errs;
 }
 
@@ -459,5 +459,17 @@ function validateReview(c: Content, b: Balance): string[] {
   if (!t.lede.includes('{peer}')) errs.push('Átnézés: a bevezetőből hiányzik a {peer} (a másik besúgó fedőneve).');
   for (const x of [t.title, t.lede, t.struck, t.kept, t.excuse, t.noExcuse, t.left, ...t.excuses])
     if (!x || /["']/.test(x)) errs.push(`Átnézés: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
+  return errs;
+}
+
+/** Desk-photo details on the sheets: a plain file id and a caption in house style (the file itself: details.test.ts). */
+function validatePhotos(c: Content): string[] {
+  const errs: string[] = [];
+  const photos = [...c.career.ranks.map(r => r.photo), ...Object.values(c.endings).map(e => e.photo)];
+  for (const p of photos) {
+    if (!p) continue;
+    if (!/^[a-z-]+$/.test(p.id)) errs.push(`Fénykép: hibás azonosító: ${p.id}`);
+    if (!p.caption || /["']/.test(p.caption) || /\.$/.test(p.caption)) errs.push(`Fénykép: hiányzó felirat, egyenes idézőjel vagy záró pont: ${p.caption}`);
+  }
   return errs;
 }

@@ -13,7 +13,8 @@
   },
   "behivatas": {
     "title": "Behívatás",
-    "text": "A százados szerint a jelentéseid a rádió időjárás-jelentésénél is kevésbé izgalmasak. Elbeszélgetésre rendeltek be, ahol három órán át egy eltűnt szánkóról kérdeztek."
+    "text": "A százados szerint a jelentéseid a rádió időjárás-jelentésénél is kevésbé izgalmasak. Elbeszélgetésre rendeltek be, ahol három órán át egy eltűnt szánkóról kérdeztek.",
+    "photo": { "id": "phone", "caption": "Ezen jött a hívás" }
   },
   "kizarva": {
     "title": "Kizárva a hálózatból",
