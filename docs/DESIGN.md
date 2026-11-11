@@ -171,7 +171,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.15** (d3dd80b): a százados arca és a teljes játékleírás a `master` ágon, taggel, élesben.
 - [x] **Verziószám a sarokban** (8154384, a bal alsó sarokba költöztetve: d8b55a6): a bal alsó sarokban halványan, fehérrel a játék verziója, a `package.json`-ból a build során, így minden kiadásnál magától frissül.
 - [x] **v0.0.16** (f93e53e): a verziószám a `master` ágon, taggel, élesben.
-- [x] **Képrészletek a képernyőkön** (COMMIT): a háttérfotóból kivágott apróságok a százados fényképéhez hasonlóan gemkapoccsal feltűzve, gépelt felirattal: a cigarettásdoboz a megbízhatói jutalomnál („Nyugtázni nem kell”), a piros telefon a behívatásnál („Ezen jött a hívás”). A kivágások kicsik, a torz feliratok nem olvashatók rajtuk. Újabb részlet: kép a `src/assets/details`-be, és `photo` mező a rangnál vagy a befejezésnél.
+- [x] **Képrészletek a képernyőkön** (05023b0): a háttérfotóból kivágott apróságok a százados fényképéhez hasonlóan gemkapoccsal feltűzve, gépelt felirattal: a cigarettásdoboz a megbízhatói jutalomnál („Nyugtázni nem kell”), a piros telefon a behívatásnál („Ezen jött a hívás”). A kivágások kicsik, a torz feliratok nem olvashatók rajtuk. Újabb részlet: kép a `src/assets/details`-be, és `photo` mező a rangnál vagy a befejezésnél.
 
 ### Hátralévő
 
