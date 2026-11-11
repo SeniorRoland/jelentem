@@ -358,6 +358,7 @@ export interface Content {
   dossier: DossierContent;
   help: HelpContent;
   review: ReviewContent;
+  stats: StatsContent;
   transitions: TransitionsContent;
   corner: CornerContent;
 }
@@ -622,6 +623,8 @@ export interface GameState {
   reported: string[];
   /** Every sentence reported this game, for the file at the end. */
   log: LoggedSentence[];
+  /** The meters before and after every week's report and every quarter's review, for the ending's statement. */
+  history: StatRow[];
   usedInts: string[];
   slots: Slot[];
   dealt: string[];
@@ -631,3 +634,37 @@ export interface GameState {
 
 /** Random source in [0, 1). Inject a seeded one in tests and simulations. */
 export type Rng = () => number;
+
+/** One line of the year's statement: a week's report, a quarter's review, or the last week's task settled. */
+export interface StatRow {
+  kind: 'week' | 'quarter' | 'task';
+  /** The week it happened after (index into `weeks.json`). */
+  week: number;
+  quarter: number;
+  before: Meters;
+  after: Meters;
+  /** The quarter's grade, on a quarter row. */
+  grade: Grade | null;
+}
+
+/** The ending's statement of the year, week by week (`stats.json`). */
+export interface StatsContent {
+  title: string;
+  lede: string;
+  cols: { when: string; E: string; H: string; L: string };
+  /** Placeholders: `{n}` the week's number, `{q}` the quarter (`quarters`). */
+  week: string;
+  quarter: string;
+  task: string;
+  /** The first row: where the meters stood when the file was opened. */
+  start: string;
+  quarters: string[];
+  summaryTitle: string;
+  /** Placeholders: `{meter}`, `{best}`, `{worst}`, `{total}`. */
+  summary: string;
+  /** For a meter the reports never moved. Placeholder: `{meter}`. */
+  still: string;
+  none: string;
+  empty: string;
+  note: string;
+}

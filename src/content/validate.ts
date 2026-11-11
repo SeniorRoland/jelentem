@@ -93,7 +93,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c));
   return errs;
 }
 
@@ -471,5 +471,19 @@ function validatePhotos(c: Content): string[] {
     if (!/^[a-z-]+$/.test(p.id)) errs.push(`Fénykép: hibás azonosító: ${p.id}`);
     if (!p.caption || /["']/.test(p.caption) || /\.$/.test(p.caption)) errs.push(`Fénykép: hiányzó felirat, egyenes idézőjel vagy záró pont: ${p.caption}`);
   }
+  return errs;
+}
+
+/** The ending's statement: every text in house style, a name for every quarter and meter. */
+function validateStats(c: Content): string[] {
+  const errs: string[] = [];
+  const t = c.stats;
+  if (t.quarters.length !== c.career.quarters.length) errs.push('Kimutatás: minden negyedévnek kell név (stats.quarters).');
+  if (!t.week.includes('{n}')) errs.push('Kimutatás: a hét nevéből hiányzik az {n}.');
+  if (!t.quarter.includes('{q}')) errs.push('Kimutatás: a negyedév nevéből hiányzik a {q}.');
+  for (const k of ['{meter}', '{best}', '{worst}', '{total}']) if (!t.summary.includes(k)) errs.push(`Kimutatás: az összesítésből hiányzik: ${k}`);
+  if (!t.still.includes('{meter}')) errs.push('Kimutatás: a mozdulatlan mérő mondatából hiányzik a {meter}.');
+  for (const x of [t.title, t.lede, t.task, t.start, t.still, t.summaryTitle, t.none, t.empty, t.note, t.cols.when, t.cols.E, t.cols.H, t.cols.L])
+    if (!x || /["']/.test(x)) errs.push(`Kimutatás: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
   return errs;
 }

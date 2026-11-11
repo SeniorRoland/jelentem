@@ -454,3 +454,28 @@ body.title-showing{overflow:hidden}
 .detail-photo img{filter:sepia(.25) saturate(.85) contrast(1.05) brightness(1.1);background:none}
 .detail-photo figcaption{margin-top:.3rem;font-size:.62rem;white-space:nowrap;line-height:1.2;text-align:center;color:var(--ink-soft)}
 @media (max-width:32rem){.detail-photo{width:6rem}}
+
+/*
+ * The ending's statement of the year: a typed table, week by week, the quarter's reviews set off
+ * by a rule. Scrolls sideways on its own on a narrow screen rather than squeezing the numbers.
+ */
+.stats h3{font-size:.95rem;margin:1.4rem 0 .5rem}
+.st-wrap{overflow-x:auto;margin:0 -.25rem;padding:0 .25rem}
+.st-table{width:100%;border-collapse:collapse;font-size:.84rem;font-variant-numeric:tabular-nums}
+.st-table th,.st-table td{padding:.28rem .5rem;text-align:right;white-space:nowrap;border-bottom:1px dotted var(--paper-edge)}
+.st-table th:first-child{text-align:left;font-weight:400}
+.st-table thead th{font-weight:700;border-bottom:2px solid var(--ink);vertical-align:bottom}
+.st-table .st-quarter th,.st-table .st-quarter td{border-top:1px solid var(--ink-soft);border-bottom:1px solid var(--ink-soft);font-weight:700;background:var(--slip)}
+.st-table .st-task th{font-style:italic}
+.st-table .st-start th,.st-table .st-start td{color:var(--ink-soft)}
+.st-table .delta-up,.st-table .delta-down,.st-zero{display:inline-block;min-width:2.6em;margin-left:.2rem;font-size:.78rem}
+.st-zero{color:var(--ink-soft)}
+.st-summary{margin:0;padding-left:1.3rem;font-size:.92rem}
+.st-summary li{margin-bottom:.35rem}
+@media (max-width:32rem){
+  .st-table{font-size:.76rem}
+  .st-table th,.st-table td{padding:.25rem .3rem}
+  .st-table thead th,.st-table th:first-child{white-space:normal}
+  .st-table thead th{font-size:.7rem;hyphens:manual}
+  .st-table .delta-up,.st-table .delta-down,.st-zero{display:block;min-width:0;margin:0}
+}

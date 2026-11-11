@@ -440,6 +440,7 @@ A lapon gemkapoccsal a piros telefon fényképe („Ezen jött a hívás”).
 
 ### 14.6. Ami minden befejezés után jön
 
+- **Teljesítménykimutatás:** táblázat az évedről. Az első sor a kiinduló állapot (E 50, H 60, L 100), utána soronként minden lejátszott hét jelentése és minden negyedév vége (a minősítéssel), az utolsó negyedévben a célfeladat elszámolása is. Minden cellában a mérő értéke a sor után, és mellette a változása (+, −, ±0). A negyedévsor a pihentetést, a feladatot és a jutalmat együtt mutatja. Alatta az **összesítés** mérőnként: a legjobb és a legrosszabb hét (csak a heti jelentésekből, egyenlőségnél a korábbi), és a heti jelentések összes hatása. A SZOT-hét kimarad belőle. Ez az egyetlen hely, ahol a mérők pontos számait fejlesztői mód nélkül is látod.
 - **Ami a jelentéseid nyomán történt:** minden lakó minden elért lépcsője, sorrendben.
 - **Ami valójában történt:** a lakók titkai (lásd [4. fejezet](#4-a-ház-és-a-lakók)), a sorsuk a lépcsőjük szerint (rendben / bajban / tönkretéve), és ha valaki megbízott benned a végéig, az ő külön mondata.
 - **2026. november 4.:** az iratok nyilvánosak lettek; megtudod, hány jelentés szól rólad.

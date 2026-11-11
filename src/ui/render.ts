@@ -5,13 +5,14 @@ import { excuseOf } from '../engine/review';
 import { scoreSentence } from '../engine/rules';
 import { faceImg } from './faces';
 import { detailPhoto } from './details';
+import { delta, extremes, METER_KEYS, totals } from '../engine/stats';
 import CAPTAIN_URL from '../assets/captain.png';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { endingKey, TROUBLE } from '../engine/rules';
 import { CONS_LEVELS } from '../engine/types';
 import { nextStep } from '../engine/state';
-import type { Balance, Content, GameState, Hint, HouseEvent, Meters, ResidentId, ResidentStatus } from '../engine/types';
+import type { Balance, Content, GameState, Hint, HouseEvent, Meters, ResidentId, ResidentStatus, StatRow } from '../engine/types';
 
 export interface View {
   dev: boolean;
@@ -48,6 +49,45 @@ function meters(m: Meters, prev: Meters | null, v: View): string {
     }
     return `<dt>${label}</dt><dd><span class="bar" aria-hidden="true">${bar(val)}</span><span class="level">${level(val)}${v.dev ? ` (${val})` : ''}</span>${d}</dd>`;
   }).join('')}</dl>`;
+}
+
+/** A signed number with a real minus sign: „+5”, „−3”, „±0”. */
+const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '±0');
+
+/**
+ * The ending's statement of the year: every week's report and every quarter's review, each meter
+ * where it ended up and how much it moved, then each meter's best and worst week.
+ */
+function statsSection(s: GameState, c: Content): string {
+  const t = c.stats;
+  const h = s.history;
+  if (!h.length) return `<section class="stats" aria-labelledby="stats-t"><h2 id="stats-t">${t.title}</h2><p>${t.empty}</p></section>`;
+  const weekName = (w: number) => t.week.replace('{n}', String(w + 1));
+  const when = (r: StatRow) => r.kind === 'week' ? weekName(r.week)
+    : r.kind === 'quarter' ? `${t.quarter.replace('{q}', t.quarters[r.quarter])}${r.grade ? ` (${c.career.grades[r.grade].title.toLowerCase()})` : ''}`
+    : t.task;
+  const cell = (r: StatRow, k: keyof Meters) => {
+    const d = delta(r, k);
+    const cls = d > 0 ? 'delta-up' : d < 0 ? 'delta-down' : 'st-zero';
+    return `<td>${r.after[k]} <span class="${cls}">${signed(d)}</span></td>`;
+  };
+  const rows = h.map(r => `<tr class="st-${r.kind}"><th scope="row">${when(r)}</th>${METER_KEYS.map(k => cell(r, k)).join('')}</tr>`).join('');
+  const first = h[0].before;
+  const start = `<tr class="st-start"><th scope="row">${t.start}</th>${METER_KEYS.map(k => `<td>${first[k]}</td>`).join('')}</tr>`;
+  const summary = METER_KEYS.map(k => {
+    const { best, worst } = extremes(h, k);
+    if (!best && !worst) return `<li>${t.still.replace('{meter}', t.cols[k])}</li>`;
+    const at = (r: StatRow | null) => (r ? `${weekName(r.week)} (${signed(delta(r, k))})` : t.none);
+    return `<li>${t.summary.replace('{meter}', t.cols[k]).replace('{best}', at(best)).replace('{worst}', at(worst)).replace('{total}', signed(totals(h, k).weeks))}</li>`;
+  }).join('');
+  return `<section class="stats" aria-labelledby="stats-t"><h2 id="stats-t">${t.title}</h2>
+  <p>${t.lede}</p>
+  <div class="st-wrap"><table class="st-table">
+  <thead><tr><th scope="col">${t.cols.when}</th>${METER_KEYS.map(k => `<th scope="col">${t.cols[k]}</th>`).join('')}</tr></thead>
+  <tbody>${start}${rows}</tbody></table></div>
+  <h3>${t.summaryTitle}</h3><ul class="st-summary">${summary}</ul>
+  <span class="note">${t.note}</span><span class="sig">${sig(s)}</span>
+  </section>`;
 }
 
 const head = (s: GameState) =>
@@ -326,6 +366,7 @@ function ending(s: GameState, c: Content, b: Balance, v: View): string {
   <p class="meta">Végső besorolásod: ${c.career.ranks[s.rank].label} (${c.career.quarters[quarterOf(s, c)]})</p>
   ${s.pastTasks.length ? `<p class="meta">Teljesített kiemelt feladatok: ${s.doneTasks.length} / ${s.pastTasks.length}</p>` : ''}
   ${meters(s.meters, null, v)}
+  ${statsSection(s, c)}
   ${cons}
   <h2>Ami valójában történt</h2>
   ${truths}

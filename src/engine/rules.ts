@@ -3,6 +3,7 @@ import { isBonded } from './events';
 import { scoreReview } from './review';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
+import { statRow } from './stats';
 import { CONS_LEVELS } from './types';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
@@ -161,6 +162,8 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     steps.push({ who: k, level: CONS_LEVELS[reached - 1] });
     if (reached >= TROUBLE && !s.cons.includes(k)) s.cons.push(k);
   }
+
+  s.history.push(statRow('week', s.week, c.weeks[s.week].quarter, before, s.meters));
 
   return {
     sents,

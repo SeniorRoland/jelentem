@@ -5,6 +5,7 @@ import { makeAddress, makeCaptain, makeGirl, makeNames, makeOwnFace, makePeople 
 import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
+import { statRow } from './stats';
 import type { Balance, Content, GameState, Rng, Slot } from './types';
 
 export type Action =
@@ -62,6 +63,7 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     consLevel: {},
     reported: [],
     log: [],
+    history: [],
     usedInts: [],
     slots: emptySlots(b.ranks[b.startRank].slots),
     dealt: [],
@@ -164,7 +166,10 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       // The last quarter has no review: its task is settled right before the ending.
       // An early ending settles nothing, but a task already done still counts as done.
       if (step === 'ending') {
-        if (isLastWeek(s, c)) settleTask(s, b);
+        if (isLastWeek(s, c)) {
+          const start = { ...s.meters };
+          if (settleTask(s, b)) s.history.push(statRow('task', s.week, quarterOf(s, c), start, s.meters));
+        }
         else if (s.task?.done) { s.doneTasks.push(s.task.id); s.task = null; }
         s.screen = 'ending';
       }

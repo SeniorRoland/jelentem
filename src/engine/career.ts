@@ -1,4 +1,5 @@
 import { clamp } from './rules';
+import { statRow } from './stats';
 import type { Balance, Content, GameState, Grade, Meters, QuarterResult, ResidentId, ResidentStatus, TaskState } from './types';
 
 export const quarterOf = (s: GameState, c: Content): number => c.weeks[s.week].quarter;
@@ -48,6 +49,7 @@ export function gradeQuarter(m: Meters, b: Balance): Grade {
  * conscience recover a little. Mutates `s` (callers pass a clone).
  */
 export function endQuarter(s: GameState, c: Content, b: Balance): QuarterResult {
+  const start = { ...s.meters };
   const task = settleTask(s, b);
   const before = { ...s.meters };
   const grade = gradeQuarter(before, b);
@@ -76,6 +78,7 @@ export function endQuarter(s: GameState, c: Content, b: Balance): QuarterResult 
     s.meters = { E: clamp(s.meters.E + (r.E ?? 0)), H: clamp(s.meters.H + (r.H ?? 0)), L: clamp(s.meters.L + (r.L ?? 0)) };
     if (r.holiday && !isLastWeek(s, c)) { s.holiday = s.week + 1; s.holidayQuarter = c.weeks[s.week + 1].quarter; }
   }
+  s.history.push(statRow('quarter', s.week, quarterOf(s, c), start, s.meters, grade));
   return { quarter: quarterOf(s, c), grade, task, calmed, reward, excluded, rankBefore, rankAfter: s.rank, before, after: { ...s.meters } };
 }
 

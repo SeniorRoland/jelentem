@@ -1,0 +1,16 @@
+{
+  "title": "Teljesítménykimutatás",
+  "lede": "Az Értékelő Alosztály minden hálózati személy évét táblázatba foglalja, hétről hétre. A táblázatot senki sem olvassa el, de el kell készíteni.",
+  "cols": { "when": "Időszak", "E": "Elé\u00adgedett\u00adség", "H": "Hihe\u00adtőség", "L": "Lelki\u00adisme\u00adret" },
+  "week": "{n}. hét",
+  "quarter": "{q} negyedév vége",
+  "task": "Kiemelt feladat",
+  "start": "Kiinduló állapot",
+  "quarters": ["I.", "II.", "III.", "IV."],
+  "summaryTitle": "Összesítés",
+  "summary": "{meter}: legjobb hete {best}, legrosszabb hete {worst}; a heti jelentések összesen {total}.",
+  "still": "{meter}: a heti jelentések egész évben egy pontot sem mozdítottak rajta.",
+  "none": "nem volt",
+  "empty": "A kimutatás korábbi lapjai elkallódtak az irattárban. Ami megmaradt, az sem sok.",
+  "note": "Számokkal minden szebb."
+}

@@ -50,6 +50,8 @@ function upgrade(s: unknown, c: Content, b: Balance): void {
   if (g.last && !g.last.steps) g.last.steps = [];
   // Saves from before the end-of-game file: the sentences so far are not known.
   if (!g.log) g.log = [];
+  // Saves from before the year's statement: the weeks so far are lost, the rest is recorded.
+  if (g.history === undefined) g.history = [];
   // Saves from before the candidate resident's review: no other report has been checked yet.
   if (g.peer === undefined) g.peer = null;
   if (g.review === undefined) g.review = null;

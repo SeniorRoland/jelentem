@@ -19,6 +19,7 @@ import help from './help.json';
 import transitions from './transitions.json';
 import corner from './corner.json';
 import review from './review.json';
+import stats from './stats.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -42,6 +43,7 @@ export const content: Content = {
   transitions,
   corner,
   review,
+  stats,
 };
 
 export const balance: Balance = balanceJson as unknown as Balance;
