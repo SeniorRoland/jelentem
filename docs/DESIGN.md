@@ -178,9 +178,31 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 
 ### Hátralévő
 
-Az első blokk a következő nagyobb lépés; utána a sorrend javaslat.
+A blokkok sorrendje javaslat; a blokkon belül az első a legjobb következő lépés.
+
+**Újrajátszás és megosztás**
+
+- [ ] **Érdemrendek** (kicsi–közepes): több játékon át gyűlő kitüntetések a böngészőben (localStorage), kitűzőként egy fiókban. Például „Kiváló dolgozó, de senkinek sem ártott”, „Három órán át a szánkóról” (behívatás), „A házmester kedvence”, „Kizárva, becsülettel”. Okot ad egy újabb évre. A feltételeket a motor tisztán, a befejezett állapotból döntse el, a szövegük JSON-ba kerüljön; a súgó a létezésüket említheti, a feltételeiket nem.
+- [ ] **Közös ház** (kicsi): megosztható link, amelyből a barátok ugyanazt a házat kapják (lakók, nevek, arcok, a megfigyelések sorsolása); a végén összevethetik az aktájukat („ugyanabból a házból én senkit sem juttattam bajba, te kettőt”). A motor már seedelt `Rng`-t kap, ezért elég a seedet a linkbe tenni (pl. `?haz=…`), és a játék elején abból indítani. Javasolt sorrend: az érdemrendek után.
+
+**Új játékelemek**
+
+- [ ] **Lakói kérések** (közepes): néha egy lakó szívességet kér (feladni egy levelet, eltenni egy csomagot). Elvállalva nő a bizalom, de ha a százados megtudja, gyanús leszel; elutasítva a lakó eltávolodik. Erkölcsi dilemma a kártyákon túl; a házi események (`events.ts`, közeli lakó, árulás) mintájára építhető. A játékelemek közül ez a legerősebb.
+- [ ] **Keresztellenőrzés** (közepes): a százados időnként összeveti a jelentésedet egy másik besúgóéval; ha ugyanarról te ártatlant írtál, ő terhelőt, hihetőséget veszítesz. A rezidensjelölt szint fordítottja: itt téged ellenőriznek.
+- [ ] **Tartótiszt-csere** (közepes): év közben új százados jöhet más ízléssel (az egyik a vad értelmezéseket szereti, a másik a száraz, hivatalos stílust), így a bevált stratégiát újra kell gondolni. Az ízlés az értelmezések `tier`-ére vagy `topics`-ára adhat szorzót.
+- [ ] **Gépelési hibák** (kicsi): a jelentésben néha elírás marad, a százados a margón kijavítja; sok hiba kissé rontja az elégedettséget. Inkább humor, mint mechanika.
+
+**Hangulat**
+
+- [ ] **Alsóbürokráci Hírlap** (kicsi, csak tartalom): hetente egy újságcím a naptárlap-jelenetben („Túlteljesítette a tervet a cipőgyár”, „Megérkezett a narancs”), ugyanabból a kitalált városi világból.
+- [ ] **Köszönés a lépcsőházban** (kicsi): a heti lapon egy mondat arról, hogyan néz rád egy lakó; mérőszám nélkül, finoman jelzi a bizalmat vagy a gyanút.
+
+**Nagyobb falat**
+
+- [ ] **Angol változat** (nagy): a teljes tartalom kétnyelvűvé tétele. A humor egy része nyelvi (bikkfanyelv, ragozott nevek), ezért ez átírás, nem fordítás; a helyettesítők és a validátor is nyelvfüggővé válnak.
 
 **Hangolás és karbantartás**
 
 - [ ] **Kocsivissza-felvétel:** a sorváltás most szintetizált; egy CC0 felvétel `src/assets/sounds/return.mp3` néven kódváltoztatás nélkül a helyére lép (a Freesoundon sok van, de a letöltéshez fiók kell).
-- [ ] **Emberi nehézségi próba:** most, hogy a játék nyilvános, valódi játékosokkal is mérhető. A véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 36%-ban, az előrelátó 89%-ban. Ha emberi játékosnak túl nehéz, a `consequences.trouble` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos.
+- [ ] **Emberi nehézségi próba:** most, hogy a játék nyilvános, valódi játékosokkal is mérhető. A véletlen játékos most 0%-ban éri el a legjobb véget, az óvatos bot 31,5%-ban, az előrelátó 86%-ban. Ha emberi játékosnak túl nehéz, a `consequences.trouble` 4 → 5 sokat könnyít. Ötlet még, hogy a hat kiosztott értelmezésből ne mindig legyen kettő óvatos. Túl könnyű játéknál az alibi `mult` 0,2 → 0,3.
+- [ ] **Saját domain:** a jelentem.hu regisztrációja folyamatban (Rackhost). Ha aktív: négy A rekord a GitHub Pages címeire (185.199.108–111.153), `www` CNAME a `seniorroland.github.io`-ra, a tároló Pages-beállításában Custom domain + Enforce HTTPS, a fiókban a domain igazolása (TXT). Utána a README és ez a dokumentum az új címre.
