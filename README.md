@@ -27,9 +27,11 @@ Majd nyisd meg a kiírt címet (alapból http://localhost:5173).
 
 ## Közzététel
 
-A játék itt játszható: https://seniorroland.github.io/jelentem/
+A játék itt játszható: https://jelentem.hu/ (a régi https://seniorroland.github.io/jelentem/ cím ide irányít át).
 
-A `.github/workflows/deploy.yml` minden `master` ágra küldött push után ellenőriz, tesztel, buildel és kiteszi a játékot GitHub Pagesre. A fejlesztés a `develop` ágon folyik, a `master` a kiadott változat (`v0.0.x` tagek). A repó beállításaiban a Pages forrását „GitHub Actions”-re kell állítani.
+A `.github/workflows/deploy.yml` minden `master` ágra küldött push után ellenőriz, tesztel, buildel és kiteszi a játékot GitHub Pagesre. A fejlesztés a `develop` ágon folyik, a `master` a kiadott változat (`v0.0.x` tagek). A repó beállításaiban a Pages forrását „GitHub Actions”-re kell állítani, a Custom domain mezőben a `jelentem.hu` áll (Enforce HTTPS bekapcsolva). A domain a Rackhostnál van: négy A rekord a GitHub Pages címeire (185.199.108–111.153), a `www` CNAME a `seniorroland.github.io`-ra.
+
+Keresők és megosztás: az `index.html` fejlécében leírás, `canonical`, Open Graph- és Twitter-kártya (a kép: `public/og.jpg`, 1200×630) és `VideoGame` JSON-LD; a `<main>`-ben statikus bemutatkozás a keresőknek és a JavaScript nélküli látogatóknak, amelyet a játék induláskor lecserél. A `public/robots.txt` és a `public/sitemap.xml` a build gyökerébe kerül. A Google Search Console-ban a domain tulajdonosként igazolva (DNS TXT), ott lehet a sitemapet beküldeni és az indexelést kérni.
 
 ## Folytatás Claude Code-dal
 

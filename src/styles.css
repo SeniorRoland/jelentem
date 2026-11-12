@@ -479,3 +479,15 @@ body.title-showing{overflow:hidden}
   .st-table thead th{font-size:.7rem;hyphens:manual}
   .st-table .delta-up,.st-table .delta-down,.st-zero{display:block;min-width:0;margin:0}
 }
+
+/*
+ * The static introduction in index.html: for search engines and for visitors without JavaScript.
+ * Black like the title card, so the moment before the game starts does not flash a different page.
+ */
+.intro{position:fixed;inset:0;z-index:95;overflow:auto;display:flex;flex-direction:column;justify-content:center;
+  padding:2rem max(1rem,calc(50% - 19rem));background:var(--night);color:var(--night-soft);
+  font-family:"Courier Prime","Courier New",Courier,monospace;line-height:1.55}
+.intro h1{margin:0;color:var(--night-text);font-size:clamp(1.6rem,6vw,2.6rem);text-align:center}
+.intro .intro-src{margin:.4rem 0 2rem;text-align:center;font-style:italic}
+.intro p{max-width:none}
+.intro noscript p{color:var(--night-text)}
