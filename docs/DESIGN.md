@@ -176,6 +176,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Teljesítménykimutatás** (a631f24): a befejezés lapján táblázat az évről: a kiinduló állapot, minden hét és minden negyedév vége (a minősítéssel), mérőnként a pontos érték és a változása, színezve. Alatta mérőnként a legjobb és a legrosszabb hét, és a heti jelentések összhatása, a százados kézírásos megjegyzésével („Számokkal minden szebb.”). Mobilon a változás a szám alá kerül, így a táblázat kifér. A motor a `state.history`-ba jegyzi a heteket; régi mentésnél a korábbi lapok „elkallódtak az irattárban”.
 - [x] **v0.0.18** (a445386): a teljesítménykimutatás a `master` ágon, taggel, élesben.
 - [x] **Saját domain és keresőbarát oldal** (5658250): a játék a https://jelentem.hu/ címen (Rackhost DNS, GitHub Pages Custom domain, HTTPS; a `www`, a `http` és a régi `github.io` cím átirányít). Az `index.html`-ben leírás, `canonical`, Open Graph- és Twitter-kártya saját megosztási képpel (`public/og.jpg`: a cím az elmosott asztalfotón, „Szigorúan titkos” pecséttel), `VideoGame` JSON-LD, és statikus bemutatkozó szöveg a keresőknek és a JavaScript nélküli látogatóknak (fekete, mint a címkép, így induláskor nem villan); `robots.txt` és `sitemap.xml`.
+- [x] **v0.0.19** (cc43712): a keresőbarát oldal a `master` ágon, taggel, élesben a jelentem.hu-n.
 
 ### Hátralévő
 
