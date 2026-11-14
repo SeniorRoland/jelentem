@@ -184,6 +184,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **Polaroid arcképek** (d0ff208): a lakók arcképei mindenhol (a megfigyelendők listája, a jelentés mondatai, a negyedéves lakólista) polaroid fotóként: törtfehér keret, alul szélesebb sávval, enyhe, váltakozó dőlés és halvány árnyék, mintha kézzel tették volna a lapra. Sötét témában tompább keret. Később (b35e5cd) a beszervezési karton fényképe is polaroid lett.
 - [x] **v0.0.22** (742fd3c): a polaroid arcképek a `master` ágon, taggel, élesben.
 - [x] **v0.0.23** (83a60ae): a karton polaroidja a `master` ágon, taggel, élesben.
+- [x] **v0.0.24** (bd923d3): a gépelési hibák és a lépcsőház a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
