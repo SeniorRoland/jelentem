@@ -188,6 +188,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.25** (7e142c9): a tartótiszt-csere a `master` ágon, taggel, élesben.
 - [x] **Értelmezés a megfelelő mondathoz, húzással is** (369d4c5): a koppintott értelmezés a legutóbb betett, még értelmezés nélküli megfigyeléshez kerül (nem az elsőhöz), így „megfigyelés, megfigyelés, értelmezés” után az első mondat puszta tény marad. Emellett a cetlik és a jelentés részei rá is húzhatók a kívánt mondatra: egérrel azonnal, telefonon hosszú nyomásra, a lap szélén automatikus görgetéssel; a célmondat szaggatott kerettel jelzi, ha oda kerülhet (piros, ha egy értelmezés még megfigyelés nélküli mondatra menne). A koppintás marad a fő kezelés.
 - [x] **v0.0.26** (d109678): a ráhúzás a `master` ágon, taggel, élesben.
+- [x] **v0.0.27** (45f4ba7): a szívességek és az érdemrendek a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
