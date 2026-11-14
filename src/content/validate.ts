@@ -242,7 +242,8 @@ function validateLoading(c: Content): string[] {
   // What the game is and is not: it must be there, and read like the rest.
   if (!l.notice?.title || !l.notice.text?.length) errs.push('Betöltés: hiányzik a játék jellegéről szóló tájékoztató.');
   if (!l.notice?.ack || !l.notice?.button) errs.push('Betöltés: hiányzik a tájékoztató gombfelirata.');
-  for (const t of [l.notice?.title ?? '', l.notice?.ack ?? '', l.notice?.button ?? '', ...(l.notice?.text ?? [])])
+  if (!l.notice?.privacy) errs.push('Betöltés: hiányzik a látogatásszámlálásról szóló mondat (notice.privacy).');
+  for (const t of [l.notice?.title ?? '', l.notice?.ack ?? '', l.notice?.button ?? '', l.notice?.privacy ?? '', ...(l.notice?.text ?? [])])
     if (/["'{}]/.test(t)) errs.push(`Betöltés: a tájékoztatóban egyenes idézőjel vagy helyettesítő van: ${t.slice(0, 40)}`);
   // The title card puts the quote marks and the brackets around the texts itself.
   const card = l.card;

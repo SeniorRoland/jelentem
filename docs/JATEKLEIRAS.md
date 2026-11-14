@@ -481,7 +481,7 @@ Gombok: **letöltés** PNG-ként, **megosztás** (ahol a böngésző tudja, fől
 - **Mentés:** minden lépés után, ebben a böngészőben. A befejezett játék mentése törlődik. A régebbi változatok mentései a frissítés után is folytathatók.
 - **Easter egg:** a heti és válaszlapok kb. negyedén, véletlen pillanatban (9–45 másodperc után) a százados – bajusz, ballonkabát, kalap, cigaretta – bekukucskál a képernyő egyik széléről (felülről fejjel lefelé), másfél másodpercig figyel, aztán eltűnik. Ha rákattintasz, kézzel írt megjegyzést hagy (pl. „A bizalom jó. Az ellenőrzés jobb.”).
 - **Rejtett URL-paraméterek:**
-  - `?fejleszto` – fejlesztői mód: minden kártya és megfigyelés értékei, a heti elvárás, a nevek oka, a jutalmak hatása, a mérők pontos számai.
+  - `?fejleszto` – fejlesztői mód: minden kártya és megfigyelés értékei, a heti elvárás, a nevek oka, a jutalmak hatása, a mérők pontos számai. Ilyenkor a látogatásszámláló sem számol.
   - `?kukucs` – a százados minden lapon szinte azonnal bekukucskál (teszteléshez).
 
 ---

@@ -334,7 +334,8 @@ export interface LoadingContent {
   /** The title card shown before the loading screen. */
   card: TitleCard;
   /** What the game is and is not: satire of the system, never making light of what people went through. */
-  notice: { title: string; text: string[]; ack: string; button: string };
+  /** `privacy`: how the site counts visits, shown only behind the „!”, not on the first screen. */
+  notice: { title: string; text: string[]; ack: string; button: string; privacy: string };
 }
 
 export interface Content {

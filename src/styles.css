@@ -492,3 +492,4 @@ body.title-showing{overflow:hidden}
 .intro p{max-width:none}
 .intro noscript p{color:var(--night-text)}
 .intro h2{margin:1.6rem 0 .6rem;color:var(--night-text);font-size:1.05rem;text-decoration:none}
+.notice-privacy{margin-top:1.4rem;padding-top:.8rem;border-top:1px dotted var(--paper-edge);color:var(--ink-soft);font-size:.85rem}

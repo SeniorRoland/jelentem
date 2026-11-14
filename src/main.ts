@@ -14,6 +14,7 @@ import { showTitle } from './ui/title';
 import { renderScreen, type View } from './ui/render';
 import { loadGame, saveGame } from './ui/save';
 import { play, setSound, soundOn } from './ui/sound';
+import { eventsFor, setTracking, track } from './ui/track';
 
 const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
@@ -21,6 +22,8 @@ let state: GameState = loadGame(content, balance) ?? newGame(content, balance, r
 const view: View = { dev: new URLSearchParams(window.location.search).has('fejleszto') };
 // Now and then the captain peeks in; ?kukucs makes him come at once on every sheet (for testing).
 const eagerPeek = new URLSearchParams(window.location.search).has('kukucs');
+// The developer's own games are not counted.
+setTracking(!view.dev);
 let lastKey = '';
 /**
  * Set while something covers the game (the title card, the loading screen, a scene between
@@ -76,6 +79,7 @@ app.addEventListener('click', e => {
   const before = state;
   state = dispatch(state, a, content, balance, rng);
   saveGame(state);
+  for (const ev of eventsFor(a, before, state, content, balance)) track(ev);
   const cues = cuesFor(a, before, state);
   // Without the stamp animation the stamp is down at once, and so is its sound.
   const still = reducedMotion();
@@ -99,7 +103,7 @@ function openGame(): void {
 
 // The boxed „?” in the top left corner opens the manual, the „!” next to it the notice on what the game is.
 mountHelp(document.getElementById('helpBtn') as HTMLButtonElement, document.getElementById('help') as HTMLDialogElement,
-  content.help, () => play('page'));
+  content.help, () => { play('page'); track('sugo'); });
 mountDialog(document.getElementById('noticeBtn') as HTMLButtonElement, document.getElementById('notice') as HTMLDialogElement,
   noticeDialogHtml(content.loading.notice, content.help.close), 'notice-d', content.loading.notice.button, () => play('page'));
 
@@ -134,6 +138,7 @@ restartDialog.addEventListener('close', () => {
   document.body.classList.remove('loading-screen');
   state = newGame(content, balance, rng);
   saveGame(state);
+  track('uj-jatek');
   lastKey = '';
   play('page');
   openGame();

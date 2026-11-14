@@ -32,5 +32,6 @@ export const noticeDialogHtml = (n: Notice, close: string): string =>
   `<form method="dialog" class="help-sheet">
   <button class="help-x" value="close" aria-label="${close}">×</button>
   ${noticeHtml(n, 'notice-d')}
+  <p class="meta notice-privacy">${n.privacy}</p>
   <div class="actions"><button class="btn" value="close">${close}</button></div>
   </form>`;

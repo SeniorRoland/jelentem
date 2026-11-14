@@ -1,3 +1,4 @@
+import { track } from './track';
 import { dossierText, makeDossier, type Dossier } from '../engine/dossier';
 import type { Balance, Content, GameState } from '../engine/types';
 import { FACE_URL } from './faces';
@@ -221,6 +222,7 @@ export async function mountDossier(root: HTMLElement, s: GameState, c: Content, 
   box.addEventListener('click', async e => {
     const kind = (e.target as HTMLElement).closest<HTMLElement>('[data-dossier]')?.dataset.dossier;
     if (!kind) return;
+    track(`akta-${kind}`);
     try {
       if (kind === 'copy') return say(await copyText(text) ? c.dossier.copied : c.dossier.failed);
       const blob = await toBlob(await canvas);

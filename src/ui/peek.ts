@@ -1,3 +1,4 @@
+import { track } from './track';
 import type { Content, GameState, Rng } from '../engine/types';
 import CAPTAIN_URL from '../assets/captain.png';
 
@@ -68,6 +69,7 @@ export function schedulePeek(s: GameState, c: Content, rng: Rng, eager = false):
     el.innerHTML = `<img class="peek-face" src="${CAPTAIN_URL}" alt="" width="240" height="312" decoding="async">`;
     // Caught in the act: a remark, and he is gone faster.
     el.addEventListener('click', () => {
+      track('kukucs-elkapva');
       const lines = c.transitions.peek.lines;
       const note = document.createElement('div');
       note.className = `peek-note peek-note-${plan.edge}`;
