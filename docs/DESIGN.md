@@ -177,6 +177,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.18** (a445386): a teljesítménykimutatás a `master` ágon, taggel, élesben.
 - [x] **Saját domain és keresőbarát oldal** (5658250): a játék a https://jelentem.hu/ címen (Rackhost DNS, GitHub Pages Custom domain, HTTPS; a `www`, a `http` és a régi `github.io` cím átirányít). Az `index.html`-ben leírás, `canonical`, Open Graph- és Twitter-kártya saját megosztási képpel (`public/og.jpg`: a cím az elmosott asztalfotón, „Szigorúan titkos” pecséttel), `VideoGame` JSON-LD, és statikus bemutatkozó szöveg a keresőknek és a JavaScript nélküli látogatóknak (fekete, mint a címkép, így induláskor nem villan); `robots.txt` és `sitemap.xml`.
 - [x] **v0.0.19** (cc43712): a keresőbarát oldal a `master` ágon, taggel, élesben a jelentem.hu-n.
+- [x] **Kulcsszavak, villanás nélkül** (COMMIT): a statikus bemutatkozás JavaScripttel már az első kirajzolás előtt rejtve van (beágyazott szkript és stílus a fejlécben), így induláskor nem villan fel. A cím, a leírás, a bemutatkozás (új bekezdés: „Az akták másik oldala”, a november 4-i nyilvános ügynökaktákról) és a JSON-LD `keywords` mezője tartalmazza a keresett szavakat: besúgó, ügynök, beszervezett, akták, nyilvános akták, ügynökakták, III/III.
 
 ### Hátralévő
 
