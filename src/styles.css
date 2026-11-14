@@ -177,9 +177,11 @@ ul.house{padding-left:0;list-style:none}
 .people{list-style:none;padding:0;margin:.5rem 0 0;display:grid;gap:.75rem}
 .people li{display:flex;gap:.9rem;align-items:flex-start}
 .people .meta{margin:0}
-.karton .k-head{position:relative;padding-right:5.5rem;min-height:6rem}
-.k-photo{position:absolute;right:0;top:0;width:4.5rem;height:6rem;object-fit:cover;border:1px solid var(--paper-edge);
-  filter:sepia(.35) contrast(1.05);transform:rotate(1.5deg)}
+.karton .k-head{position:relative;padding-right:6.4rem;min-height:7.6rem}
+/* The recruit's own photo: the same Polaroid as the residents', clipped to the card at a tilt. */
+.k-photo{position:absolute;right:0;top:0;box-sizing:content-box;width:4.5rem;height:6rem;object-fit:cover;
+  padding:.28rem .28rem 1.05rem;background:var(--polaroid);border:1px solid var(--polaroid-edge);
+  box-shadow:0 2px 5px rgba(0,0,0,.32);filter:sepia(.3) contrast(1.05);transform:rotate(2.5deg)}
 @media (min-width:560px){.people{grid-template-columns:1fr 1fr}}
 /*
  * Help: a boxed „H” in the top left corner, like a typewriter key, and a paper sheet as a modal
