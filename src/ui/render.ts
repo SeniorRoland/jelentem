@@ -1,5 +1,5 @@
 import { expectFor, quarterOf, residentStatus, weekInQuarter } from '../engine/career';
-import { eventOf } from '../engine/events';
+import { eventOf, isBonded } from '../engine/events';
 import { fillNames, nameVars } from '../engine/names';
 import { excuseOf } from '../engine/review';
 import { scoreSentence } from '../engine/rules';
@@ -7,6 +7,7 @@ import { faceImg } from './faces';
 import { detailPhoto } from './details';
 import { delta, extremes, METER_KEYS, totals } from '../engine/stats';
 import { greetingFor } from '../engine/greetings';
+import { requestOf } from '../engine/requests';
 import CAPTAIN_URL from '../assets/captain.png';
 import CAPTAIN2_URL from '../assets/captain2.jpg';
 import { weekObs } from '../engine/observations';
@@ -200,6 +201,18 @@ function eventBox(e: HouseEvent, c: Content, v: View): string {
   return `<aside class="event${e.kind === 'kind' ? ' kind' : ''}" aria-label="${c.events.labels.title}"><h2>${c.events.labels.title}: ${e.title}</h2><p>${e.text}${dev}</p>${e.kind === 'kind' ? `<p class="meta">${c.events.labels.bond}</p>` : ''}</aside>`;
 }
 
+/** A resident's favour on the weekly sheet: the request and the two answers, the chosen one pressed. */
+function requestBox(s: GameState, c: Content, b: Balance, v: View): string {
+  const r = requestOf(s, c);
+  if (!r || !s.request) return '';
+  const t = c.requests;
+  const a = s.request.answer;
+  const dev = v.dev ? ` <span class="dev">(igen: közeli lakó, ${Math.round(b.requests.risk * 100)}% eséllyel kiderül: E −${b.requests.found.E}, H −${b.requests.found.H}; nem: L −${b.requests.refuse})</span>` : '';
+  return `<aside class="request" aria-label="${t.title}"><h2>${t.title}</h2><p>${r.text}${dev}</p>
+  <div class="actions"><button class="btn quiet" data-action="answer" data-yes="true" aria-pressed="${a === true}">${t.yes}</button><button class="btn quiet" data-action="answer" data-yes="false" aria-pressed="${a === false}">${t.no}</button></div>
+  <p class="meta" aria-live="polite">${a === true ? t.chosenYes : a === false ? t.chosenNo : t.pending}</p></aside>`;
+}
+
 function week(s: GameState, c: Content, b: Balance, v: View): string {
   const w = c.weeks[s.week];
   const pool = weekObs(s, c);
@@ -244,6 +257,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
   ${greeting(s, c)}
   ${ev ? eventBox(ev, c, v) : ''}
+  ${requestBox(s, c, b, v)}
   ${taskBox(s, c)}
   <h2>Megfigyelések a héten</h2>
   ${s.watched ? `<p class="hint watch">${c.notes.watch.weekHint}</p>` : ''}
@@ -287,7 +301,8 @@ function response(s: GameState, c: Content, v: View): string {
   const body = r.sents.length
     ? `<ol>${r.sents.map(x => `<li class="with-face">${faceOf(s, c, x.self ? 'self' : x.who)}<span>${typed(x)}${x.note ? `<span class="note">${x.note}</span>` : ''}</span></li>`).join('')}</ol>`
     : `<p>Jelentem, a megfigyelt időszakban nem történt semmi.</p>`;
-  const items = [...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.steps.map(x => c.residents[x.who].cons?.[x.level] ?? '')].filter(Boolean);
+  const asked = r.request ? c.requests.items.find(x => x.id === r.request!.id) : undefined;
+  const items = [...(asked ? [r.request!.yes ? asked.yes : asked.no] : []), ...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.steps.map(x => c.residents[x.who].cons?.[x.level] ?? '')].filter(Boolean);
   const news = items.length
     ? `<h2>Hírek a házból</h2><div class="news">${items.map(t => `<p>${t}</p>`).join('')}</div>`
     : '';
@@ -302,6 +317,7 @@ function response(s: GameState, c: Content, v: View): string {
   <span class="note big">${r.overall}</span>
   ${r.extra ? `<span class="note">${r.extra}</span>` : ''}
   ${r.typos ? `<span class="note">${c.notes.typo[s.week % c.notes.typo.length]}</span>` : ''}
+  ${r.request?.found ? `<span class="note">${c.requests.found}</span>` : ''}
   ${r.taskDone ? `<span class="note">${c.career.task.now}</span>` : ''}
   ${r.watch.honest ? `<span class="note">${c.notes.watch.honest}</span>` : ''}
   ${r.watch.hidden ? `<span class="note">${c.notes.watch.hidden.replace('{obs}', r.watch.hidden)}</span>` : ''}
@@ -328,7 +344,7 @@ function quarter(s: GameState, c: Content, b: Balance, v: View): string {
   const ranks = c.career.ranks;
   const change = q.rankAfter > q.rankBefore ? ranks[q.rankAfter].promo
     : q.rankAfter < q.rankBefore ? ranks[q.rankAfter].demo : c.career.stay;
-  const trust = (k: ResidentId) => s.bonds.includes(k) ? `, ${c.events.labels.bonded}` : s.betrayed.includes(k) ? `, ${c.events.labels.betrayed}` : '';
+  const trust = (k: ResidentId) => isBonded(s, k) ? `, ${c.events.labels.bonded}` : s.betrayed.includes(k) ? `, ${c.events.labels.betrayed}` : '';
   // „Bajban” already says trouble; a warning or ruin is added to it.
   const step = (k: ResidentId) => { const l = s.consLevel[k] ?? 0; return l && l !== TROUBLE ? `, ${c.notes.cons[CONS_LEVELS[l - 1]]}` : ''; };
   const house = STORY.map(k => `<li class="with-face">${faceOf(s, c, k)}<span>${c.residents[k].name}: ${STATUS_LABEL[residentStatus(s, k)]}${step(k)}${trust(k)}</span></li>`).join('');

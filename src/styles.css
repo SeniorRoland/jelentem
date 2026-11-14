@@ -528,3 +528,31 @@ body.dragging,body.dragging *{cursor:grabbing!important}
   font-size:.85rem;line-height:1.35;opacity:.95}
 .report li.drop-target{outline:2px dashed var(--pen);outline-offset:.25rem}
 .report li.drop-bad{outline:2px dashed var(--stamp);outline-offset:.25rem}
+
+/* A resident's favour on the weekly sheet: a note slipped under the door, two answers to choose from. */
+.request{margin:1.25rem 0;padding:.4rem 1rem .5rem;background:var(--slip);border:1px solid var(--paper-edge);
+  box-shadow:1px 2px 0 var(--paper-edge);transform:rotate(-.4deg)}
+.request h2{margin-top:.6rem}
+.request .actions{margin-top:.6rem}
+.request .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/*
+ * Medals (src/ui/medals.ts): a ribbon in the medal's colours over a brass disc, the title and
+ * what it was given for beside it. A locked one is a dashed outline with only its hint; a medal
+ * new this year glows softly.
+ */
+.medals{list-style:none;padding:0;margin:.6rem 0;display:grid;gap:.9rem}
+@media (min-width:560px){.medals{grid-template-columns:1fr 1fr}}
+.medal{display:grid;grid-template-columns:2.6rem 1fr;gap:0 .8rem;align-items:start}
+.medal-ribbon{grid-column:1;grid-row:1;justify-self:center;width:1.6rem;height:1.5rem;
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);background:var(--paper-edge)}
+.medal-disc{grid-column:1;grid-row:1;justify-self:center;margin-top:1.05rem;display:grid;place-items:center;
+  width:2.3rem;height:2.3rem;border-radius:50%;font-size:1.1rem;color:#5b4310;
+  background:radial-gradient(circle at 35% 30%,#f6e3a1,#c9a248 55%,#8a6a22);
+  box-shadow:0 1px 3px rgba(0,0,0,.4),inset 0 0 0 2px rgba(255,255,255,.25)}
+.medal-body{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:.1rem;font-size:.88rem;line-height:1.35}
+.medal-body small{color:var(--ink-soft);font-size:.75rem}
+.medal-locked .medal-disc{background:none;border:2px dashed var(--paper-edge);color:var(--ink-soft);box-shadow:none}
+.medal-locked .medal-body{color:var(--ink-soft)}
+.medal-new .medal-disc{box-shadow:0 0 0 3px var(--paper),0 0 .9rem .25rem rgba(217,180,74,.75)}
+.ending-medals{margin-top:1rem}

@@ -50,6 +50,11 @@ function upgrade(s: unknown, c: Content, b: Balance): void {
   if (g.last && !g.last.steps) g.last.steps = [];
   // Saves from before the end-of-game file: the sentences so far are not known.
   if (!g.log) g.log = [];
+  // Saves from before residents asked favours: none asked yet.
+  if (g.request === undefined) g.request = null;
+  if (g.favored === undefined) g.favored = [];
+  if (g.asked === undefined) g.asked = [];
+  if (g.last && g.last.request === undefined) g.last.request = null;
   // Saves from before the handler could be replaced: the same captain all year.
   if (g.handover === undefined) g.handover = null;
   if (g.prevCaptain === undefined) g.prevCaptain = null;

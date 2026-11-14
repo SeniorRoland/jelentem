@@ -1,0 +1,26 @@
+{
+  "button": "Érdemrendek",
+  "title": "Kitüntetések fiókja",
+  "lede": "Amit az évek során kiérdemeltél, itt őrizzük, a fiók mélyén. Ami még nincs meg, annak csak a helye látszik.",
+  "count": "Kiérdemelve: {n} / {all}",
+  "locked": "Titkos érdemrend",
+  "endingTitle": "Érdemrendek",
+  "endingNew": "Ebben az évben kiérdemelted:",
+  "endingNone": "Ebben az évben új érdemrend nem járt. A fiókban {n} / {all} vár rád.",
+  "close": "Fiók bezárása",
+  "list": [
+    { "id": "legjobb", "title": "Jelentem, nem történt semmi", "text": "Egy évig jelentettél, és senkinek sem ártottál.", "hint": "Van, aki egy évig ír, és mégsem árt.", "ribbon": ["#b5372e", "#f3efe2", "#3f7a4a"] },
+    { "id": "kivalo", "title": "Kiváló dolgozó", "text": "A százados nagyon elégedett volt veled. A ház kevésbé.", "hint": "Valakinek nagyon tetszettek a jelentéseid.", "ribbon": ["#b5372e", "#d9b44a"] },
+    { "id": "behivatas", "title": "Három óra a szánkóról", "text": "Behívattak, és egy eltűnt szánkóról kérdeztek.", "hint": "Egyszer mindenkit behívnak.", "ribbon": ["#5a5f6b", "#c9c2ad"] },
+    { "id": "kizarva", "title": "Kizárva, becsülettel", "text": "A hálózat lemondott rólad. Talán ez a legnagyobb dicséret.", "hint": "A hálózatból ki is lehet esni.", "ribbon": ["#2e2e2e", "#8a8a8a"] },
+    { "id": "megfigyelt", "title": "Saját akta", "text": "Aki másról ír, arról is írnak. Rólad is írtak.", "hint": "A megfigyelő is megfigyelhető.", "ribbon": ["#3b4a73", "#c9c2ad"] },
+    { "id": "tiszta", "title": "Tiszta kéz", "text": "Tizenkét hét, egyetlen ártalmas szó nélkül.", "hint": "Egy teljes év, egyetlen rossz szó nélkül.", "ribbon": ["#f3efe2", "#3f7a4a"] },
+    { "id": "rezidens", "title": "Rezidensjelölt", "text": "Feljutottál a ranglétra tetejére. Lefelé nehezebb.", "hint": "A ranglétra teteje.", "ribbon": ["#7a2e2e", "#d9b44a", "#7a2e2e"] },
+    { "id": "feladat", "title": "Minden feladat teljesítve", "text": "A százados minden kiemelt feladatát teljesítetted.", "hint": "A százados minden kérését teljesítetted.", "ribbon": ["#b5372e", "#2e2e2e"] },
+    { "id": "barat", "title": "A ház barátja", "text": "Az év végén ketten is megbíztak benned.", "hint": "A végén többen is megbíznak benned.", "ribbon": ["#3f7a4a", "#d9b44a"] },
+    { "id": "szomszed", "title": "Jó szomszéd", "text": "Minden szívességet megtettél, és a százados egyről sem tudott.", "hint": "Szívesség, amiről senki nem tud.", "ribbon": ["#c47a3a", "#f3efe2"] },
+    { "id": "balaton", "title": "Balatoni emlék", "text": "Egy hét a tónál, jelentés nélkül.", "hint": "Egy hét, amikor nem kell írni.", "ribbon": ["#3a7ab5", "#f3efe2"] },
+    { "id": "ketgazda", "title": "Két gazda szolgája", "text": "Kibírtad a tartótiszt-cserét, és végigvitted az évet.", "hint": "Nem mindig ugyanaz olvassa a jelentéseidet.", "ribbon": ["#5a3a73", "#c9c2ad"] },
+    { "id": "rajtakapva", "title": "Rajtakapva", "text": "Rajtakaptad a századost, amikor benézett.", "hint": "Néha valaki benéz.", "ribbon": ["#2e2e2e", "#b5372e"] }
+  ]
+}

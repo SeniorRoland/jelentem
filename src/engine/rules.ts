@@ -5,6 +5,7 @@ import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import { statRow } from './stats';
 import { makeTypo, typoChance } from './typos';
+import { settleRequest } from './requests';
 import { CONS_LEVELS } from './types';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
@@ -127,6 +128,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance, rng: Rng): Wee
   for (const x of sents) s.log.push({ week: s.week, text: x.text, note: x.note, izg: x.izg, hih: x.hih, harm: x.harm });
   for (const sl of s.slots) if (sl.o && !s.reported.includes(sl.o)) s.reported.push(sl.o);
   s.bonds = s.bonds.filter(k => !betrayed.includes(k));
+  s.favored = s.favored.filter(k => !betrayed.includes(k));
   s.betrayed.push(...betrayed);
 
   // The caretaker's counter-report: what the player wrote about themself, or left out.
@@ -154,10 +156,12 @@ export function resolveWeek(s: GameState, c: Content, b: Balance, rng: Rng): Wee
 
   const expect = expectFor(s, b, c);
   const typos = sents.filter(x => x.typo).length;
+  // A resident's favour: yes makes them close (and the captain may hear of it), no pushes them away.
+  const req = settleRequest(s, c, b, rng);
   s.meters = {
-    E: clamp(s.meters.E + (izgSum - expect) * b.weight.E - typos * b.typos.penalty),
-    H: clamp(s.meters.H + hihSum * b.weight.H),
-    L: clamp(s.meters.L - guiltSum * b.weight.L),
+    E: clamp(s.meters.E + (izgSum - expect) * b.weight.E - typos * b.typos.penalty + req.E),
+    H: clamp(s.meters.H + hihSum * b.weight.H + req.H),
+    L: clamp(s.meters.L - guiltSum * b.weight.L + req.L),
   };
 
   const started = !s.watched && s.meters.H < b.watch.hBelow;
@@ -188,6 +192,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance, rng: Rng): Wee
     watch: { started, hidden, honest },
     betrayed,
     review,
+    request: req.result,
   };
 }
 

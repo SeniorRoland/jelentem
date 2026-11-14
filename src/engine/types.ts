@@ -380,6 +380,8 @@ export interface Content {
   help: HelpContent;
   review: ReviewContent;
   greetings: GreetingsContent;
+  requests: RequestsContent;
+  medals: MedalsContent;
   stats: StatsContent;
   transitions: TransitionsContent;
   corner: CornerContent;
@@ -433,6 +435,8 @@ export interface Balance {
   typos: { base: number; nervous: number; penalty: number };
   /** The handler's replacement: with `chance`, from `quarter`, with one of the `tastes`. */
   handover: { chance: number; quarter: number; tastes: Record<Taste, TasteTable> };
+  /** Residents' favours: from `fromWeek`, `chance` a week, at most `max`; yes is found out with `risk`. */
+  requests: { fromWeek: number; chance: number; max: number; risk: number; found: { E: number; H: number }; refuse: number };
   /** Hiányos quarters in a row on the passive rank that get the player excluded from the network. */
   exclusion: { streak: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
@@ -579,6 +583,8 @@ export interface ReviewContent {
 
 export interface WeekResult {
   sents: SentenceResult[];
+  /** This week's favour, how it was answered, and whether the captain heard of it. */
+  request: { id: string; yes: boolean; found: boolean } | null;
   /** How many sentences had a typing error. */
   typos: number;
   before: Meters;
@@ -639,6 +645,12 @@ export interface GameState {
   events: (string | null)[];
   /** Residents close to the player now, and those whose trust the reports broke. */
   bonds: ResidentId[];
+  /** Residents who trust the player since a favour was done for them (no alibi card, unlike `bonds`). */
+  favored: ResidentId[];
+  /** This week's favour asked by a resident, and the answer so far (null: not yet). */
+  request: { id: string; answer: boolean | null } | null;
+  /** Every favour asked this year and how it ended. */
+  asked: { id: string; yes: boolean; found: boolean }[];
   betrayed: ResidentId[];
   /** The other informant whose reports the candidate resident checks, this week's one, and the observations used for them. */
   peer: string | null;
@@ -719,4 +731,50 @@ export interface StatsContent {
   none: string;
   empty: string;
   note: string;
+}
+
+/** A favour a resident asks (`requests.json`); `yes` and `no` are the news of how it went. */
+export interface ResidentRequest {
+  id: string;
+  who: ResidentId;
+  text: string;
+  yes: string;
+  no: string;
+}
+
+export interface RequestsContent {
+  title: string;
+  yes: string;
+  no: string;
+  pending: string;
+  chosenYes: string;
+  chosenNo: string;
+  /** The captain's note when he hears of a favour done. */
+  found: string;
+  items: ResidentRequest[];
+}
+
+/** A medal (`medals.json`): its rule is in `medals.ts` by `id` (or given by the UI). */
+export interface Medal {
+  id: string;
+  title: string;
+  text: string;
+  /** Shown while it is not earned: a vague hint, never the rule. */
+  hint: string;
+  /** The ribbon's stripes, left to right. */
+  ribbon: string[];
+}
+
+export interface MedalsContent {
+  button: string;
+  title: string;
+  lede: string;
+  /** Placeholders: `{n}` earned, `{all}` all. */
+  count: string;
+  locked: string;
+  endingTitle: string;
+  endingNew: string;
+  endingNone: string;
+  close: string;
+  list: Medal[];
 }

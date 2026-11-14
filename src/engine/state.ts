@@ -3,6 +3,7 @@ import { applyEvent, pickEvent } from './events';
 import { makeReview, peerCode, reviews } from './review';
 import { makeAddress, makeCaptain, makeGirl, makeNames, makeOwnFace, makePeople } from './names';
 import { pickWeek, weekObs } from './observations';
+import { pickRequest } from './requests';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
 import { statRow } from './stats';
@@ -18,6 +19,8 @@ export type Action =
   | { type: 'placeObs'; id: string; slot: number }
   | { type: 'placeInt'; id: string; slot: number }
   | { type: 'strike'; idx: number }
+  /** The answer to this week's favour; the same answer again takes it back. */
+  | { type: 'answer'; yes: boolean }
   | { type: 'submit' }
   | { type: 'next' }
   | { type: 'restart' };
@@ -64,6 +67,9 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     holidayQuarter: null,
     events: [],
     bonds: [],
+    favored: [],
+    request: null,
+    asked: [],
     betrayed: [],
     meters: { ...b.start },
     code: randCode(c, rng),
@@ -112,6 +118,7 @@ function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
   }
   assignTask(s, c, b, rng);
   s.events[s.week] = pickEvent(s, c, b, rng);
+  s.request = pickRequest(s, c, b, rng);
   applyEvent(s, c);
   s.weekObs[s.week] = pickWeek(s, c, rng);
   s.slots = emptySlots(slotsFor(s, b));
@@ -131,7 +138,7 @@ function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
 const SCREEN_OF: Record<Exclude<Action['type'], 'restart'>, GameState['screen'][]> = {
   reroll: ['intro'], start: ['intro'],
   toggleObs: ['week'], toggleInt: ['week'], unplace: ['week'], submit: ['week'], strike: ['week'],
-  placeObs: ['week'], placeInt: ['week'],
+  placeObs: ['week'], placeInt: ['week'], answer: ['week'],
   next: ['response', 'quarter'],
 };
 
@@ -193,6 +200,9 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       s.hint = '';
       break;
     }
+    case 'answer':
+      if (s.request) s.request.answer = s.request.answer === a.yes ? null : a.yes;
+      break;
     case 'strike': {
       // Strike a sentence of the other report out, or put it back.
       if (!s.review || a.idx < 0 || a.idx >= s.review.items.length) break;

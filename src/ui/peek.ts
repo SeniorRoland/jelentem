@@ -1,4 +1,5 @@
 import { track } from './track';
+import { awardMedals } from './medals';
 import type { Content, GameState, Rng } from '../engine/types';
 import CAPTAIN_URL from '../assets/captain.png';
 
@@ -70,6 +71,7 @@ export function schedulePeek(s: GameState, c: Content, rng: Rng, eager = false):
     // Caught in the act: a remark, and he is gone faster.
     el.addEventListener('click', () => {
       track('kukucs-elkapva');
+      if (awardMedals(['rajtakapva']).length) track('erdemrend-rajtakapva');
       const lines = c.transitions.peek.lines;
       const note = document.createElement('div');
       note.className = `peek-note peek-note-${plan.edge}`;

@@ -1,3 +1,4 @@
+import { trusting } from './events';
 import { quarterOf } from './career';
 import { fillNames, nameVars } from './names';
 import { endingKey } from './rules';
@@ -48,7 +49,7 @@ export function makeDossier(s: GameState, c: Content, b: Balance): Dossier {
     sentences: s.log.length,
     best: best && { text: fill(best.text), note: best.note && fill(best.note), week: best.week + 1 },
     harmed,
-    trusted: s.bonds.length,
+    trusted: trusting(s).length,
     reportsOnYou: s.reportsOnYou,
     address: s.address,
   };

@@ -21,6 +21,8 @@ import corner from './corner.json';
 import review from './review.json';
 import stats from './stats.json';
 import greetings from './greetings.json';
+import requests from './requests.json';
+import medals from './medals.json';
 import balanceJson from './balance.json';
 
 export const content: Content = {
@@ -46,6 +48,8 @@ export const content: Content = {
   review,
   stats,
   greetings: greetings as Content['greetings'],
+  requests: requests as Content['requests'],
+  medals,
 };
 
 export const balance: Balance = balanceJson as unknown as Balance;

@@ -18,6 +18,17 @@ import type { EndingKey, GameState, Rng } from '../src/engine/types';
 type Plan = { o: string; i: string | null }[];
 type Score = { izg: number; hih: number; harm: number; task: boolean };
 type Strategy = (s: GameState, rng: Rng) => Plan;
+/** Whether a strategy does a resident's favour: true, false, or null (no answer, which is a no). */
+type Answerer = (s: GameState, rng: Rng) => boolean | null;
+const answerers: Record<string, Answerer> = {
+  'üres jelentés': () => null,
+  'véletlen': (_, rng) => rng() < 0.5,
+  'mohó (max izgalom)': () => false,
+  // Kind to everyone, whatever the captain thinks of it.
+  'óvatos (0 ártalom)': () => true,
+  // Kind while it can afford the captain hearing of it.
+  'előrelátó': s => s.meters.H >= 55,
+};
 /** Which sentences of the other informant's report a strategy strikes out (candidate resident only). */
 type Reviewer = (s: GameState, rng: Rng) => number[];
 
@@ -105,7 +116,7 @@ const reviewers: Record<string, Reviewer> = {
   'előrelátó': s => reviewHarm(s).map((h, k) => (h > 0 ? k : -1)).filter(k => k >= 0),
 };
 
-function play(strat: Strategy, seed: number, reviewer: Reviewer = () => []): GameState {
+function play(strat: Strategy, seed: number, reviewer: Reviewer = () => [], answerer: Answerer = () => null): GameState {
   const rng = mulberry32(seed);
   const d = (s: GameState, a: Action) => dispatch(s, a, content, balance, rng);
   let s = d(newGame(content, balance, rng), { type: 'start' });
@@ -116,6 +127,7 @@ function play(strat: Strategy, seed: number, reviewer: Reviewer = () => []): Gam
         if (x.i) s = d(s, { type: 'toggleInt', id: x.i });
       }
       for (const idx of reviewer(s, rng)) s = d(s, { type: 'strike', idx });
+      if (s.request) { const yes = answerer(s, rng); if (yes !== null) s = d(s, { type: 'answer', yes }); }
       s = d(s, { type: 'submit' });
     }
     s = d(s, { type: 'next' });
@@ -133,7 +145,7 @@ for (const [name, strat] of Object.entries(strategies)) {
   const count: Record<EndingKey, number> = { best: 0, kizarva: 0, kivalo: 0, megfigyelt: 0, behivatas: 0 };
   let full = 0, rank = 0, cons = 0, tasks = 0, given = 0, onYou = 0, bonds = 0, ruin = 0;
   for (let i = 0; i < N; i++) {
-    const s = play(strat, i + 1, reviewers[name]);
+    const s = play(strat, i + 1, reviewers[name], answerers[name]);
     const key = endingKey(s, balance);
     count[key]++;
     const cat = ((byCategory[name] ??= {})[s.recruit.categoryId] ??= [0, 0]);

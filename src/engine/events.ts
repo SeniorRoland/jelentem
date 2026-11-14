@@ -40,5 +40,11 @@ export function applyEvent(s: GameState, c: Content): void {
   if (e?.kind === 'kind' && e.who && !s.bonds.includes(e.who)) s.bonds.push(e.who);
 }
 
-/** True when the resident is close to the player: harming them hurts more, and an alibi card comes each week. */
-export const isBonded = (s: GameState, who: ResidentId | null): boolean => !!who && s.bonds.includes(who);
+/**
+ * True when the resident trusts the player, after a kindness or a favour done: harming them hurts
+ * more, and is a betrayal. (Only a kindness brings an alibi card: `s.bonds`.)
+ */
+export const isBonded = (s: GameState, who: ResidentId | null): boolean => !!who && (s.bonds.includes(who) || s.favored.includes(who));
+
+/** Everyone who trusts the player, once each. */
+export const trusting = (s: GameState): ResidentId[] => [...new Set([...s.bonds, ...s.favored])];

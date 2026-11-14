@@ -38,6 +38,7 @@
   "exclusion": { "streak": 2 },
   "review": { "sentences": 3, "excuses": 2, "keptIzg": 0.5, "keptHarm": 0.5, "excused": 1, "unexcused": 4 },
   "typos": { "base": 0.04, "nervous": 0.2, "penalty": 1 },
+  "requests": { "fromWeek": 2, "chance": 0.3, "max": 3, "risk": 0.3, "found": { "E": 3, "H": 6 }, "refuse": 3 },
   "handover": {
     "chance": 0.5,
     "quarter": 2,

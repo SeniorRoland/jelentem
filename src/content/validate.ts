@@ -1,3 +1,4 @@
+import { MEDAL_RULES, UI_MEDALS } from '../engine/medals';
 import { ADDRESS, CAPTAIN, GIRL, facesFor, placeholders } from '../engine/names';
 import { candidates } from '../engine/observations';
 import { CONS_LEVELS, type Balance, type Content, type DealTier, type ResidentId, type ResidentStatus, type Surname } from '../engine/types';
@@ -93,7 +94,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c), ...validateGreetings(c), ...validateTypos(c, b), ...validateHandover(c, b));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c), ...validateGreetings(c), ...validateTypos(c, b), ...validateHandover(c, b), ...validateRequests(c, b), ...validateMedals(c));
   return errs;
 }
 
@@ -528,5 +529,44 @@ function validateHandover(c: Content, b: Balance): string[] {
   if (!t.lines.some(x => x.includes('{szazados}'))) errs.push('Tartótiszt-csere: a jelenetből hiányzik a {szazados} (az új százados neve).');
   for (const k of ['wild', 'dry'] as const) if (!t.tastes[k] || !h.tastes[k]) errs.push(`Tartótiszt-csere: hiányzik a(z) ${k} ízlés szövege vagy száma.`);
   for (const x of [t.title, t.photo, ...t.lines, t.tastes.wild, t.tastes.dry]) if (!x || /["']/.test(x)) errs.push(`Tartótiszt-csere: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
+  return errs;
+}
+
+/** Residents' favours: enough for a year, each naming only its own resident, sensible numbers. */
+function validateRequests(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const t = c.requests, q = b.requests;
+  if (q.chance < 0 || q.chance > 1 || q.risk < 0 || q.risk > 1) errs.push('Kérés: az esély és a kockázat 0 és 1 között legyen.');
+  if (q.fromWeek < 1 || q.fromWeek >= c.weeks.length) errs.push('Kérés: a fromWeek a játék heteire essen (az első héten még senki sem ismer).');
+  if (q.found.E < 0 || q.found.H < 0 || q.refuse < 0) errs.push('Kérés: a levonások pozitív számok (a motor vonja le őket).');
+  if (new Set(t.items.map(x => x.id)).size !== t.items.length) errs.push('Kérés: duplikált azonosító.');
+  for (const who of ['mari', 'jozsi', 'pityu'] as const)
+    if (t.items.filter(x => x.who === who).length < 2) errs.push(`Kérés: ${who} legalább 2 kérést kapjon.`);
+  if (t.items.length < q.max * 2) errs.push(`Kérés: legalább ${q.max * 2} kérés kell, hogy egy év se fogyjon ki belőlük.`);
+  for (const x of [t.title, t.yes, t.no, t.pending, t.chosenYes, t.chosenNo, t.found]) if (!x || /["']/.test(x)) errs.push(`Kérés: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
+  for (const r of t.items) for (const x of [r.text, r.yes, r.no]) {
+    if (!x || /["']/.test(x)) errs.push(`Kérés: ${r.id}: hiányzó szöveg vagy egyenes idézőjel.`);
+    if (!x.includes(`{${r.who}`) && x !== r.yes) errs.push(`Kérés: ${r.id}: a szövegben nincs benne a kérő lakó.`);
+    for (const other of ['mari', 'jozsi', 'pityu']) if (other !== r.who && x.includes(`{${other}`)) errs.push(`Kérés: ${r.id}: más lakó is szerepel benne.`);
+  }
+  return errs;
+}
+
+/** Medals: every one has a rule (or is given by the UI), a hint that keeps the secret, a ribbon. */
+function validateMedals(c: Content): string[] {
+  const errs: string[] = [];
+  const t = c.medals;
+  const ids = t.list.map(m => m.id);
+  if (new Set(ids).size !== ids.length) errs.push('Érdemrend: duplikált azonosító.');
+  for (const m of t.list) {
+    if (!MEDAL_RULES[m.id] && !UI_MEDALS.includes(m.id)) errs.push(`Érdemrend: ${m.id}: nincs szabálya (medals.ts).`);
+    if (!m.ribbon.length || m.ribbon.some(x => !/^#[0-9a-f]{6}$/i.test(x))) errs.push(`Érdemrend: ${m.id}: hibás szalagszín.`);
+    if (/\d/.test(m.hint)) errs.push(`Érdemrend: ${m.id}: a tipp ne áruljon el számot.`);
+    if (Object.values(c.endings).some(e => m.hint.includes(e.title))) errs.push(`Érdemrend: ${m.id}: a tipp ne nevezzen meg befejezést.`);
+    for (const x of [m.title, m.text, m.hint]) if (!x || /["']/.test(x)) errs.push(`Érdemrend: ${m.id}: hiányzó szöveg vagy egyenes idézőjel.`);
+  }
+  for (const id of Object.keys(MEDAL_RULES)) if (!ids.includes(id)) errs.push(`Érdemrend: a(z) ${id} szabályhoz nincs szöveg.`);
+  for (const x of [t.button, t.title, t.lede, t.locked, t.endingTitle, t.endingNew, t.endingNone, t.close]) if (!x || /["']/.test(x)) errs.push(`Érdemrend: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
+  if (!t.count.includes('{n}') || !t.count.includes('{all}')) errs.push('Érdemrend: a számlálóból hiányzik az {n} vagy az {all}.');
   return errs;
 }

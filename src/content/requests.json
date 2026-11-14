@@ -1,0 +1,74 @@
+{
+  "title": "Szívesség",
+  "yes": "Elvállalom",
+  "no": "Nem vállalom",
+  "pending": "Ha nem döntesz, a jelentés leadásával nemet mondasz.",
+  "chosenYes": "Elvállaltad.",
+  "chosenNo": "Nemet mondtál.",
+  "found": "Tudomásomra jutott, hogy Ön szívességet tett egy megfigyeltnek. Ez nem az Ön dolga. A barátkozást hagyja ránk.",
+  "items": [
+    {
+      "id": "mari-level",
+      "who": "mari",
+      "text": "{mari.b} megkér, hogy add fel helyette a postán a levelét Bécsbe. Neki nehéz a lépcső, és a postáskisasszony mindig olyan furcsán néz rá.",
+      "yes": "{mari.b} levelét feladtad. Másnap egy tányér diós kalácsot hagyott a kilincseden.",
+      "no": "{mari.b} levelét végül a házmesterné vitte el. {mari.b} azóta csak a fejével biccent, ha találkoztok."
+    },
+    {
+      "id": "mari-csomag",
+      "who": "mari",
+      "text": "{mari.b} megkér, hogy vedd át helyette a bécsi csomagot a postán, mert ő a hét elején orvoshoz megy. Csak kávé van benne, mondja, meg egy kis csokoládé.",
+      "yes": "A csomagot átvetted. Tényleg kávé volt benne, meg egy kis csokoládé. {mari.b} kettéosztotta veled.",
+      "no": "{mari.b} csomagja egy hétig a postán állt. Mire átvette, a csokoládé megolvadt."
+    },
+    {
+      "id": "mari-kulcs",
+      "who": "mari",
+      "text": "{mari.b} a hétvégére vidékre utazik a sógornőjéhez, és megkér, hogy addig vigyázz a lakáskulcsára.",
+      "yes": "{mari.b} kulcsa két napig nálad volt. Nem néztél be. Vagy ha igen, azt senkinek nem mondtad el.",
+      "no": "{mari.b} a kulcsot inkább a házmesternére bízta. Hogy jó helyre-e, azt nem tudhatta."
+    },
+    {
+      "id": "jozsi-alkatresz",
+      "who": "jozsi",
+      "text": "{jozsi.b} megkér, hogy a hétvégén, amíg nincs itthon, tartsd magadnál a garázs kulcsát: valaki hoz egy Trabant-alkatrészt, csak be kell engedni.",
+      "yes": "Beengedted az alkatrészest. Egy nagy, olajos dobozt hozott, nyugta nélkül. {jozsi.b} hálásan megszorította a kezed.",
+      "no": "{jozsi.b} alkatrésze nem érkezett meg. A Trabant azóta is bakon áll, és {jozsi.b} úgy néz rá, mint aki gyászol."
+    },
+    {
+      "id": "jozsi-tanu",
+      "who": "jozsi",
+      "text": "{jozsi.b} megkér, hogy írd alá: a garázsában soha nem folyt ipari tevékenység. A tanács kérte, két szomszéd tanúsága kell hozzá.",
+      "yes": "Aláírtad. A tanács elfogadta. {jozsi.b} kijelentette, hogy ezt nem felejti el neked.",
+      "no": "Nem írtad alá. {jozsi.b} végül a házmesternét kérte meg, aki kéthavi ingyen biciklijavításért cserébe aláírta."
+    },
+    {
+      "id": "jozsi-szerszam",
+      "who": "jozsi",
+      "text": "{jozsi.b} megkér, hogy hadd tegye be hozzád a pincébe néhány napra a szerszámosládáját. A garázsba ellenőrzést jelentettek be.",
+      "yes": "{jozsi.b} ládája két napig a pincédben állt. Az ellenőrzés semmit sem talált, mert nem is volt mit.",
+      "no": "{jozsi.b} a ládát a kertbe ásta el, a ribizlibokor alá. Az ellenőrök a ribizlit nem nézték."
+    },
+    {
+      "id": "pityu-konyvek",
+      "who": "pityu",
+      "text": "{pityu.b} megkér, hogy egy hétig őrizz meg nála lévő könyveket egy dobozban. Csak vizsgajegyzetek, mondja, és nem fér el velük a szobájában.",
+      "yes": "A doboz egy hétig a szekrényed tetején állt. Nem nyitottad ki. {pityu.b} egy lemezzel köszönte meg.",
+      "no": "{pityu.b} dobozát végül a barátja vitte el. {pityu.b} azóta nem kéri kölcsön a sódat."
+    },
+    {
+      "id": "pityu-level",
+      "who": "pityu",
+      "text": "{pityu.b} megkér, hogy vigyél el egy borítékot Pestre, egy barátjának, ha amúgy is arra jársz. Postán lassú volna, mondja.",
+      "yes": "Elvitted a borítékot. A barát egy kávéházban várt, megköszönte, és nem kérdezett semmit. Te sem.",
+      "no": "{pityu.b} végül maga utazott fel Pestre. A vizsgáját emiatt elhalasztotta."
+    },
+    {
+      "id": "pityu-irogep",
+      "who": "pityu",
+      "text": "{pityu.b} megkér, hogy egy estére kölcsönadd neki az írógépedet. A szakdolgozatához kell, és az övé elromlott.",
+      "yes": "Az írógép egy éjszakát {pityu.b} szobájában töltött. Reggel tisztán, kicserélt szalaggal hozta vissza.",
+      "no": "{pityu.b} a szakdolgozatát végül kézzel írta. A konzulense nem tudta elolvasni, ezért elfogadta."
+    }
+  ]
+}

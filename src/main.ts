@@ -16,6 +16,8 @@ import { loadGame, saveGame } from './ui/save';
 import { play, setSound, soundOn } from './ui/sound';
 import { eventsFor, setTracking, track } from './ui/track';
 import { mountDrag } from './ui/drag';
+import { awardMedals, drawerHtml, endingMedalsHtml, loadMedals } from './ui/medals';
+import { medalsFor } from './engine/medals';
 
 const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
@@ -43,7 +45,10 @@ function render(): void {
     : null;
 
   app.innerHTML = renderScreen(state, content, balance, view);
-  if (state.screen === 'ending') void mountDossier(app, state, content, balance);
+  if (state.screen === 'ending') {
+    showEndingMedals();
+    void mountDossier(app, state, content, balance);
+  }
   // A new sheet may get a visit; staying on the same sheet keeps the one planned.
   if (key !== lastKey) schedulePeek(state, content, rng, eagerPeek);
 
@@ -65,6 +70,8 @@ function toAction(el: HTMLElement): Action | null {
       return id ? { type: action, id } : null;
     case 'strike':
       return idx !== undefined ? { type: 'strike', idx: Number(idx) } : null;
+    case 'answer':
+      return { type: 'answer', yes: el.dataset.yes === 'true' };
     case 'unplace':
       return slot !== undefined && (part === 'o' || part === 'i') ? { type: 'unplace', slot: Number(slot), part } : null;
     default:
@@ -132,6 +139,22 @@ soundBtn.addEventListener('click', () => {
 const versionEl = document.getElementById('version')!;
 versionEl.textContent = `v${__APP_VERSION__}`;
 versionEl.title = `Verzió: ${__APP_VERSION__}`;
+
+/** The year's medals on the ending, put in the drawer (a medal already there is not new). */
+function showEndingMedals(): void {
+  const earned = medalsFor(state, content, balance);
+  const fresh = view.dev ? [] : awardMedals(earned);
+  for (const id of fresh) track(`erdemrend-${id}`);
+  app.querySelector('.dossier')?.insertAdjacentHTML('beforebegin', endingMedalsHtml(content, loadMedals(), earned, fresh));
+}
+
+// The boxed „★” opens the medal drawer; it is drawn again each time, as medals come.
+const medalsDialog = document.getElementById('medals') as HTMLDialogElement;
+mountDialog(document.getElementById('medalsBtn') as HTMLButtonElement, medalsDialog, drawerHtml(content, loadMedals()), 'medals-t', content.medals.button, () => {
+  play('page');
+  medalsDialog.innerHTML = drawerHtml(content, loadMedals());
+  medalsDialog.querySelector<HTMLElement>('.help-x')?.focus({ preventScroll: true });
+});
 
 // The boxed „↺” starts a new game, but asks first.
 const restartDialog = document.getElementById('restart') as HTMLDialogElement;

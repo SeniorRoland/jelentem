@@ -113,7 +113,7 @@ A házmesternek nincs titka, és őt nem éri következmény. Viszont ő is figy
 ### 5.1. A heti lap
 
 - **Megfigyelések** (cetlik): hetente **négy**, egy-egy a három fő lakóról, a negyedik a házmesterről vagy a közös területről (pince, lépcsőház, udvar). Ezen felül jöhet egy rólad szóló „Alulírott…” megfigyelés (ha a házmester figyel), és egy-két eseményhez kötött megfigyelés.
-- **Értelmezések** (kártyák): hetente **6**: 2 óvatos, 2 közepes, 2 vad. Ezen felül 1 **terelő** kártya, ha van nyitott célfeladat, és 1 **alibi** kártya, ha valaki megbízik benned. A paklit a játék úgy keveri, hogy előbb a még nem használt kártyák jöjjenek.
+- **Értelmezések** (kártyák): hetente **6**: 2 óvatos, 2 közepes, 2 vad. Ezen felül 1 **terelő** kártya, ha van nyitott célfeladat, és 1 **alibi** kártya, ha valaki egy kedvessége óta megbízik benned (szívesség után nem jár). A paklit a játék úgy keveri, hogy előbb a még nem használt kártyák jöjjenek.
 - **A jelentés:** **2 vagy 3 mondathely**, a rangodtól függően ([9. fejezet](#9-a-negyedév-vége-értékelés-rang-jutalom-kizárás)).
 
 ### 5.2. Egy mondat
@@ -391,6 +391,19 @@ A 2. héttől minden heti lapon, a hét bevezetője alatt egy mondat szól arró
 
 Ez nem ad új információt ahhoz képest, amit a negyedéves értékelés is mutat, de hétről hétre, finoman jelzi, hogyan áll a ház veled.
 
+### 12.4. Szívességek
+
+A 3. héttől hetente **30%** eséllyel egy lakó szívességet kér (évente legfeljebb **3**, mindegyik csak egyszer; elárult vagy bajba jutott lakó nem kér). Kilenc kérés van, lakónként három: feladni egy levelet Bécsbe, átvenni egy csomagot, vigyázni egy kulcsra; elrejteni egy alkatrészt vagy egy szerszámosládát, aláírni egy tanúsítványt; megőrizni egy doboz könyvet, elvinni egy borítékot Pestre, kölcsönadni az írógépet.
+
+A heti lapon a kérés alatt két gomb: **Elvállalom** / **Nem vállalom** (újra megnyomva visszavonható). A döntés a jelentés leadásakor számít; ha nem döntesz, az **nem**.
+
+- **Igen:** a lakó **megbízik benned** (mint egy kedvesség után): ha később ártasz neki, az árulás, kétszeres lelkiismeret-veszteséggel. **Alibi kártya ezért nem jár.** **30%** eséllyel a százados tudomást szerez róla: elégedettség **−3**, hihetőség **−6**, és megjegyzést fűz hozzá („A barátkozást hagyja ránk.”).
+- **Nem:** a lakó eltávolodik (ha megbízott benned, már nem bízik), lelkiismeret **−3**.
+
+A visszaküldött lap „Hírek a házból” részében olvasod, hogyan alakult (pl. „…másnap egy tányér diós kalácsot hagyott a kilincseden.”).
+
+> **Tipp:** a szívesség a kíméletes játékot segíti: aki megbízik benned, azt jobban fáj bántani, és a szimulációban a tervező játékos ettől óvatosabban jelent. Ha a hihetőséged alacsony, egy kiderült szívesség lefokozást hozhat, akkor inkább mondj nemet.
+
 ---
 
 ## 13. Rezidensjelölt: a másik besúgó jelentése
@@ -496,6 +509,30 @@ Gombok: **letöltés** PNG-ként, **megosztás** (ahol a böngésző tudja, fől
 
 ---
 
+### 15.1. Érdemrendek
+
+A játékokon átívelő kitüntetések, ebben a böngészőben tárolva (törléskor elvesznek). A befejezés lapján megjelenik, mit érdemeltél ki az évben (az újak finoman ragyognak), és bármikor megnézheted mindet a bal felső sarok **★** gombja mögötti fiókban. A még meg nem szerzetteknek csak egy homályos tippje látszik.
+
+| Érdemrend | Hogyan kapod |
+|---|---|
+| **Jelentem, nem történt semmi** | a legjobb befejezés |
+| **Kiváló dolgozó** | „Kiváló munkatárs” befejezés |
+| **Három óra a szánkóról** | behívatás |
+| **Kizárva, becsülettel** | kizárás a hálózatból |
+| **Saját akta** | „Megfigyelt” befejezés |
+| **Tiszta kéz** | mind a 12 hét, és senkit (a házmesternét sem) ért ártalom |
+| **Rezidensjelölt** | a legfelső rang a végén |
+| **Minden feladat teljesítve** | legalább 3 célfeladat, mind teljesítve |
+| **A ház barátja** | a végén legalább ketten megbíznak benned (kedvesség vagy szívesség) |
+| **Jó szomszéd** | legalább 2 szívesség, mindet elvállaltad, és egy sem derült ki |
+| **Balatoni emlék** | SZOT-beutaló (a kiemelt rang jutalma) |
+| **Két gazda szolgája** | tartótiszt-csere, és mind a 12 hét |
+| **Rajtakapva** | rákattintasz a bekukucskáló századosra |
+
+Fejlesztői módban (`?fejleszto`) a befejezés nem ad érdemrendet.
+
+---
+
 ## 16. Általános tanácsok
 
 1. **Olvasd a százados megjegyzéseit.** Többet elárulnak a szabályokról, mint gondolnád.
@@ -542,6 +579,7 @@ Gombok: **letöltés** PNG-ként, **megosztás** (ahol a böngésző tudja, fől
 | Jutalmak | megbízható E +4 / L −5; kiemelt E +10, kimaradó hét, +1 elvárás; rezidensjelölt H +6 / L −6 |
 | Kizárás | 2 egymást követő hiányos negyedév passzívban |
 | Tartótiszt-csere | 50% eséllyel, a III. negyedévtől; eseményes: tény −1, óvatos −1, vad +2; száraz: tény +1, óvatos +1, vad −2 izgalom |
+| Szívesség | a 3. héttől 30%, évente legfeljebb 3; igen: bizalom, 30% eséllyel E −3 / H −6; nem: L −3 |
 | Elírás | mondatonként 4% + 20% × (1 − L/100) esély, egyenként −1 elégedettség |
 | Átnézés | 3 mondat, 2 indoklás; meghagyva az izgalom fele és az ártalom fele (a lelkiismeretnek), az ártalom egésze a lakónak; kihúzva −1 / −4 hihetőség |
 | Befejezés határai | H 30, E 30, L 70 |
@@ -554,13 +592,13 @@ A `npm run sim -- 3000` négy bot-stratégiával játszik 3000-3000 játékot:
 
 | Stratégia | Legjobb | Kizárva | Kiváló munkatárs | Megfigyelt | Behívatás |
 |---|---|---|---|---|---|
-| **véletlen** (találomra) | 0% | 4% | 31% | 58% | 7% |
-| **mohó** (mindig a legizgalmasabb) | 0% | 0% | 5% | 95% | 0% |
-| **óvatos** (soha semmi ártalom) | 32% | 22% | 0% | 10% | 37% |
-| **előrelátó** (mindent lát, egy hétre előre tervez) | 86% | 0% | 13% | 1% | 0% |
+| **véletlen** (találomra; a szívességekre fej vagy írás) | 0% | 4% | 32% | 57% | 7% |
+| **mohó** (mindig a legizgalmasabb; minden szívességre nem) | 0% | 0% | 5% | 95% | 0% |
+| **óvatos** (soha semmi ártalom; minden szívességre igen) | 29% | 21% | 0% | 13% | 37% |
+| **előrelátó** (mindent lát, egy hétre előre tervez; igen, ha H ≥ 55) | 91% | 0% | 7% | 2% | 0% |
 
 **Tanulságok:**
 - Vakon nem lehet egy éven át senkinek sem ártani: a véletlen játékos sosem éri el a legjobb véget.
 - A puszta óvatosság kevés: az óvatos játékos gyakran unalmas, és behívatással vagy kizárással végez.
 - Tervezéssel a legjobb vég elérhető, de nem biztos.
-- A kategória számít: az óvatos stratégia a „hű” kategóriával 79%-ban, a csendőrrel szinte soha nem jut a legjobb végig.
+- A kategória számít: az óvatos stratégia a „hű” kategóriával 73%-ban, a csendőrrel szinte soha nem jut a legjobb végig.

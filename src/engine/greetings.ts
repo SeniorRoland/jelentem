@@ -1,4 +1,5 @@
 import { residentStatus } from './career';
+import { isBonded } from './events';
 import type { Content, GameState, Mood, ResidentId } from './types';
 
 /**
@@ -14,7 +15,7 @@ export function moodOf(s: GameState, who: ResidentId): Mood {
   if (s.betrayed.includes(who)) return 'betrayed';
   const st = residentStatus(s, who);
   if (st === 'bajban') return 'bajban';
-  if (s.bonds.includes(who)) return 'bonded';
+  if (isBonded(s, who)) return 'bonded';
   return st === 'gyanus' ? 'gyanus' : 'nyugodt';
 }
 
