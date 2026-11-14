@@ -5,7 +5,7 @@ import { dispatch, newGame, type Action } from '../engine/state';
 import { gentle, playGame } from '../engine/test-utils';
 import type { GameState } from '../engine/types';
 import { renderScreen } from './render';
-import { introScene, quarterScene, sceneFor, splitLabel, weekScene } from './transitions';
+import { handoverScene, introScene, quarterScene, sceneFor, splitLabel, weekScene } from './transitions';
 
 const game = playGame(3, gentle);
 /** Every step of a whole game: the action taken, and the states before and after it. */
@@ -29,7 +29,8 @@ describe('the scenes between screens', () => {
   });
 
   it('tear a calendar page off before every new week, with a line about the house that never repeats', () => {
-    const weeks = steps.filter(x => x.after.screen === 'week');
+    // The week a new handler takes over has its own scene (handover.test.ts).
+    const weeks = steps.filter(x => x.after.screen === 'week' && !handoverScene(x.before, x.after, content));
     expect(weeks.length).toBeGreaterThan(5);
     const lines = new Set<string>();
     for (const { a, before, after } of weeks) {
@@ -84,7 +85,7 @@ describe('the scenes between screens', () => {
   });
 
   it('put the captain’s photo on every quarterly review, and only there among the sheets', () => {
-    const photo = /<figure class="cpt-photo" aria-hidden="true">.*?<img [^>]*alt=""/;
+    const photo = /<figure class="cpt-photo[^"]*" aria-hidden="true">.*?<img [^>]*alt=""/;
     for (const s of game) {
       const html = renderScreen(s, content, balance, { dev: false });
       if (s.screen === 'quarter') expect(html).toMatch(photo);

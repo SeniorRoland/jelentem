@@ -512,3 +512,6 @@ body.title-showing{overflow:hidden}
 /* The weekly encounter on the stairs: a short typed aside under the week's introduction. */
 .greeting{margin:.4rem 0 1rem;padding-left:.8rem;border-left:2px solid var(--paper-edge);font-size:.95rem;color:var(--ink-soft)}
 .greeting-label{font-weight:700;color:var(--ink)}
+/* The handover scene: a title over the new captain's photo (a framed print, not a cut-out). */
+.sc-title{margin:0 0 1rem;text-align:center;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--night-stamp)}
+.sc-cpt2{width:min(10rem,36vw);filter:grayscale(.2) sepia(.15)}

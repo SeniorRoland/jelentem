@@ -8,7 +8,7 @@ import { makeTypo, typoChance } from './typos';
 import { CONS_LEVELS } from './types';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
-  DealTier, ResidentId, Rng, SentenceResult, Tier, WeekResult,
+  DealTier, ResidentId, Rng, SentenceResult, TasteTable, Tier, WeekResult,
 } from './types';
 
 export const clamp = (v: number): number => Math.max(0, Math.min(100, v));
@@ -25,8 +25,12 @@ export function randCode(c: Content, rng: Rng): string {
 export const misused = (o: Observation, it: Interpretation | null): boolean => !!it?.who && (it.who !== o.who || !!o.event);
 
 /** Score one sentence: observation + optional interpretation. `doubt` scales lost credibility. Pure. */
-export function scoreSentence(o: Observation, it: Interpretation | null, b: Balance, doubt = 1) {
-  const izg = o.izg + (it ? it.izg : 0);
+/** The excitement the captain in charge adds to (or takes from) a sentence by its kind; null if no taste. */
+export const tasteOf = (s: GameState, b: Balance): TasteTable | null =>
+  s.handover && s.handover.week !== null ? b.handover.tastes[s.handover.taste] : null;
+
+export function scoreSentence(o: Observation, it: Interpretation | null, b: Balance, doubt = 1, taste: TasteTable | null = null) {
+  const izg = o.izg + (it ? it.izg : 0) + (taste?.[it ? it.tier : 'plain'] ?? 0);
   let hih = it ? it.hih : b.plainFact.hih;
   if (it && it.izg >= b.absurd.minIntIzg && o.izg <= b.absurd.maxObsIzg) hih -= b.absurd.penalty;
   // A misused alibi covers nothing: full harm, and the captain doubts the whole sentence.
@@ -100,7 +104,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance, rng: Rng): Wee
     if (!sl.o) continue;
     const o = week.find(x => x.id === sl.o)!;
     const it = sl.i ? c.ints.find(x => x.id === sl.i)! : null;
-    const sc = scoreSentence(o, it, b, doubtFor(s, b));
+    const sc = scoreSentence(o, it, b, doubtFor(s, b), tasteOf(s, b));
     const text = `${o.text}${it ? ', ' + it.text : ''}.`;
     // A troubled conscience makes for unsteady hands.
     const typo = rng() < typoChance(s.meters.L, b.typos.base, b.typos.nervous) ? makeTypo(text, rng) : null;

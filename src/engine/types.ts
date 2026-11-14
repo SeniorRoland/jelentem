@@ -5,6 +5,20 @@ export type ResidentId = 'mari' | 'jozsi' | 'pityu' | 'porgoly';
  */
 export type Tier = 'safe' | 'mid' | 'wild' | 'divert' | 'alibi';
 export type DealTier = Exclude<Tier, 'divert' | 'alibi'>;
+/** What a new captain likes: lively reports (`wild`) or dry, official ones (`dry`). */
+export type Taste = 'wild' | 'dry';
+/** Extra excitement per sentence by its interpretation's tier; `plain` is a bare fact without one. */
+export type TasteTable = Partial<Record<Tier | 'plain', number>>;
+
+/** The handler is replaced during the year (`state.ts` → `startWeek`), drawn at the start of the game. */
+export interface Handover {
+  /** From this quarter on (its first played week) the new captain is in charge. */
+  quarter: number;
+  taste: Taste;
+  captain: ResidentName;
+  /** The week the new captain took over; null until it happens. */
+  week: number | null;
+}
 export type EndingKey = 'best' | 'kivalo' | 'megfigyelt' | 'behivatas' | 'kizarva';
 export type Screen = 'intro' | 'week' | 'response' | 'quarter' | 'ending';
 /** How the reports have treated a resident so far. */
@@ -353,7 +367,11 @@ export interface Content {
   career: CareerContent;
   tasks: Task[];
   /** The handler: family name candidates, each hinting at what he does. Texts use `{szazados}`. */
-  captain: { surnames: ResidentName[] };
+  captain: {
+    surnames: ResidentName[];
+    /** The handover scene and the new captain's taste, as the house hears of it. */
+    handover: { title: string; lines: string[]; tastes: Record<Taste, string>; photo: string };
+  };
   /** The address (`{cim}`): street names and the house number range; the young resident's girl (`{lany}`). */
   house: { streets: string[]; numbers: [number, number]; girl: ResidentName[] };
   faces: Face[];
@@ -413,6 +431,8 @@ export interface Balance {
   review: { sentences: number; excuses: number; keptIzg: number; keptHarm: number; excused: number; unexcused: number };
   /** Typing errors: chance per sentence `base + nervous × (1 − L/100)`, each costs `penalty` satisfaction. */
   typos: { base: number; nervous: number; penalty: number };
+  /** The handler's replacement: with `chance`, from `quarter`, with one of the `tastes`. */
+  handover: { chance: number; quarter: number; tastes: Record<Taste, TasteTable> };
   /** Hiányos quarters in a row on the passive rank that get the player excluded from the network. */
   exclusion: { streak: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
@@ -635,6 +655,10 @@ export interface GameState {
   names: Record<ResidentId, ResidentName>;
   /** The handler's generated family name. */
   captain: ResidentName;
+  /** The coming (or done) replacement of the handler; null if the year keeps the same captain. */
+  handover: Handover | null;
+  /** The first captain, once replaced. */
+  prevCaptain: ResidentName | null;
   /** Given names, ages and portraits of the residents; the house address; the girl; the recruit's photo. */
   people: Record<ResidentId, Person>;
   address: string;

@@ -8,5 +8,17 @@
     { "name": "Bíró", "why": "ítél a jelentések fölött" },
     { "name": "Hallgató", "why": "a lehallgatás szakértője" },
     { "name": "Vizsgáló", "why": "mindent megvizsgál, kétszer" }
-  ]
+  ],
+  "handover": {
+    "title": "Személyi változás",
+    "lines": [
+      "{elozo} századost áthelyezték. Hogy hová, azt nem közölték.",
+      "Az ügyét {szazados} százados vette át."
+    ],
+    "tastes": {
+      "wild": "Azt mondják, unja a hétköznapokat. Ő szereti, ha történik valami.",
+      "dry": "Azt mondják, nem szereti a fantáziálást. Neki a tények kellenek, szárazon."
+    },
+    "photo": "Az új tartótiszt"
+  }
 }

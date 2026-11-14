@@ -11,7 +11,7 @@ import { doubtFor, expectFor } from '../src/engine/career';
 import { isBonded } from '../src/engine/events';
 import { weekObs } from '../src/engine/observations';
 import { mulberry32 } from '../src/engine/rng';
-import { answersTask, endingKey, scoreSentence } from '../src/engine/rules';
+import { answersTask, endingKey, scoreSentence, tasteOf } from '../src/engine/rules';
 import { dispatch, newGame, type Action } from '../src/engine/state';
 import type { EndingKey, GameState, Rng } from '../src/engine/types';
 
@@ -45,7 +45,7 @@ function allPlans(s: GameState): { p: Plan; e: Score }[] {
   const score = new Map<string, Score>();
   for (const o of obs) for (const i of ints) {
     const it = i ? intOf.get(i)! : null;
-    const sc = scoreSentence(o, it, balance, doubtFor(s, balance));
+    const sc = scoreSentence(o, it, balance, doubtFor(s, balance), tasteOf(s, balance));
     // Harm to a close resident weighs more on the conscience (see resolveWeek).
     const harm = sc.harm * (isBonded(s, o.who) && sc.harm ? balance.events.guilt : 1);
     score.set(`${o.id}|${i}`, { ...sc, harm, task: !!topic && answersTask(topic, o, it) });

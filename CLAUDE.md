@@ -40,6 +40,7 @@ Három réteg, szigorúan elválasztva:
 - Akta (`src/engine/dossier.ts`, `src/ui/dossier.ts`, szövegek: `dossier.json`): a motor minden jelentett mondatot `state.log`-ba ír; a `makeDossier` ebből és az állapotból tisztán összeállítja a befejezés dossziéját (az év mondata a `memorable` szerint), a UI vásznon (1080×1350) rajzolja meg; a színei a témától független `--akta-*` változók. Letöltés, megosztás (Web Share, ha van), szövegmásolás (Clipboard API, különben a régi kijelöléses másolás).
 - Teljesítménykimutatás (`src/engine/stats.ts`, szövegek: `stats.json`): a `resolveWeek`, az `endQuarter` és az utolsó hét feladat-elszámolása a `state.history`-ba írja a mérők előtte–utána állását (`StatRow`: `week` / `quarter` / `task`); a befejezés ebből táblázatot és mérőnkénti összesítést rajzol (`extremes`: legjobb és legrosszabb hét, csak a heti sorokból). Régi mentésnél a lista üres, ilyenkor a `stats.empty` mondat jön.
 - Gépelési hibák (`typos.ts`, `balance.typos`, `notes.json` → `typo`): a `resolveWeek` (rng-vel) mondatonként `base + nervous × (1 − L/100)` eséllyel egy legalább ötbetűs szóban két szomszédos betűt felcserél (`makeTypo`, a helyettesítőket kihagyja), `SentenceResult.typo`; elírásonként E −`penalty` a súlyozás után. A visszaküldött lapon áthúzva, fölötte kézírásos javítással, alatta egy `notes.typo` megjegyzéssel; a `state.log` a helyes szöveget őrzi.
+- Tartótiszt-csere (`balance.handover`, `captain.json` → `handover`): a `newGame` `chance` eséllyel kisorsol egy `state.handover`-t (új név, `taste`: `wild` / `dry`); a `quarter` negyedév első lejátszott hetén a `startWeek` cserél (`state.prevCaptain` a régi, `state.captain` az új, `handover.week` a hét). Ettől kezdve a `tasteOf` táblája a `scoreSentence` 5. paramétere: az értelmezés `tier`-e (vagy `plain`) szerint izgalmat ad vagy von le. A jelenet a `transitions.ts` → `handoverScene` (egyszer, a hét előtt), az új fénykép a `src/assets/captain2.jpg` (300×400, mesterséges intelligenciával generált, kitalált alak), a negyedéves értékelésen `.cpt-photo2`. A kukucskáló easter egg marad a régi figura.
 - Lépcsőház (`greetings.ts`, `greetings.json`): a 2. héttől a heti lapon egy mondat egy lakóról (a hét sorszáma szerint sorban), a hangulata `moodOf`: `betrayed` > `bajban` > `bonded` > `gyanus` > `nyugodt`. Lakónként és hangulatonként legalább 2 mondat, csak a saját helyettesítőjével (a validátor ellenőrzi).
 - Mentés: `src/ui/save.ts`, minden lépés után localStorage-ba; a befejezett vagy a tartalomhoz már nem illő mentést elveti.
 
@@ -75,12 +76,12 @@ Négy negyedév, 12 hét, házi események 60% eséllyel a 2. héttől (alibi: i
 
 A `npm run sim -- 3000` eredménye (best / kizarva / kivalo / megfigyelt / behivatas, végső átlagrang, teljesített feladatok):
 
-- véletlen: 0% / 3% / 32% / 58% / 7%, rang 1,1, feladat 64%, rólad átlag 2,7 jelentés (az ellenjelentés gyorsítja a hihetőség zuhanását)
-- mohó: 0% / 0% / 6% / 94% / 0%
-- óvatos (0 ártalom): 29% / 20% / 0% / 10% / 41%, rang 0,41, feladat 45%, a végén 2,1 lakó bízik benne (a „hű” kategóriával 80%, a csendőrrel 2%)
-- előrelátó (mindent lát, egy hétre előre tervez, keresi a feladatot; rezidensjelöltként minden ártalmas mondatot kihúz): 85% / 0% / 14% / 1% / 0%, rang 2,8, feladat 100%, rólad 0,07 (kategóriánként 77–92%)
+- véletlen: 0% / 4% / 31% / 58% / 7%, rang 1,1, feladat 64%, rólad átlag 2,7 jelentés (az ellenjelentés gyorsítja a hihetőség zuhanását)
+- mohó: 0% / 0% / 5% / 95% / 0%
+- óvatos (0 ártalom): 32% / 22% / 0% / 10% / 37%, rang 0,41, feladat 45%, a végén 2,2 lakó bízik benne (a „hű” kategóriával 79%, a csendőrrel 3%)
+- előrelátó (mindent lát, egy hétre előre tervez, keresi a feladatot; rezidensjelöltként minden ártalmas mondatot kihúz): 86% / 0% / 13% / 1% / 0%, rang 2,8, feladat 100%, rólad 0,06 (kategóriánként 80–92%)
 
-Az elírások (mondatonként 4% + 20% × (1 − L/100), egyenként −1 elégedettség) előtt az óvatos 31,5%, az előrelátó 86% volt.
+Az elírások (mondatonként 4% + 20% × (1 − L/100), egyenként −1 elégedettség) előtt az óvatos 31,5%, az előrelátó 86% volt; utánuk 29% és 85%. A tartótiszt-csere (az évek felében, a III. negyedévtől eseményes vagy száraz ízlés) az óvatosat 32%-ra emelte: a száraz százados a tényszerű, óvatos mondatokat jutalmazza.
 
 Az események előtt az óvatos bot 10,5%, az előrelátó 76% volt: a kedvességek és az alibi a kíméletes játékot jutalmazzák. Ha emberi próbán túl könnyűnek bizonyul, az alibi `mult` 0,3-ra emelése az óvatost kb. 22%-ra, az előrelátót 81%-ra viszi vissza.
 

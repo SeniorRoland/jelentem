@@ -4,6 +4,7 @@ import type { Content, GameState, ResidentId } from '../engine/types';
 import type { Action } from '../engine/state';
 import { faceImg } from './faces';
 import CAPTAIN_URL from '../assets/captain.png';
+import CAPTAIN2_URL from '../assets/captain2.jpg';
 import { STATUS_LABEL } from './render';
 import type { Scene } from './scene';
 
@@ -107,7 +108,30 @@ export function introScene(s: GameState, c: Content, reduced = false): Scene {
   };
 }
 
+/**
+ * The handler is replaced: on black, the new captain's photo surfaces, the old one is gone
+ * („áthelyezték”), and the house's gossip on what the new one likes. Shown once, the week it happens.
+ */
+export function handoverScene(before: GameState, after: GameState, c: Content, reduced = false): Scene | null {
+  const h = after.handover;
+  if (!h || h.week !== after.week || before.handover?.week === h.week || !after.prevCaptain) return null;
+  const t = c.captain.handover;
+  const T = reduced ? [0, 0, 0, 0, 0] : [300, 1200, 2700, 4300, 5900];
+  const fill = (x: string) => x.replace('{elozo}', after.prevCaptain!.name);
+  const lines = [...t.lines.map(fill), t.tastes[h.taste]];
+  const html = `<p class="sc-title sc-in" ${at(T[0])}>${t.title}</p>
+  <img class="sc-cpt sc-cpt2 sc-in" ${at(T[1])} src="${CAPTAIN2_URL}" alt="${t.photo}" width="300" height="400" decoding="async">
+  <div class="sc-lines">${lines.map((l, i) => `<p class="sc-in" ${at(T[i + 2])}>${l}</p>`).join('')}</div>`;
+  return {
+    cls: 'sc-intro', label: fillNames([t.title, ...lines].join(' '), nameVars(after)), html: fillNames(html, nameVars(after)),
+    out: reduced ? 3600 : 8200, fade: reduced ? 0 : 900,
+    sounds: reduced ? [] : [{ cue: 'stamp', at: T[0] + 200 }, ...T.slice(2).map(n => ({ cue: 'type' as const, at: n }))],
+  };
+}
+
 /** The scene an action leads into, if any. Pure. */
 export const sceneFor = (a: Action, before: GameState, after: GameState, c: Content, reduced = false): Scene | null =>
-  a.type === 'next' ? weekScene(before, after, c, reduced) ?? quarterScene(before, after, c, reduced) : null;
+  a.type === 'next'
+    ? handoverScene(before, after, c, reduced) ?? weekScene(before, after, c, reduced) ?? quarterScene(before, after, c, reduced)
+    : null;
 

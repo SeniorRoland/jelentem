@@ -6,7 +6,7 @@ import { pickWeek } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
 import { statRow } from './stats';
-import type { Balance, Content, GameState, Rng, Slot } from './types';
+import type { Balance, Content, GameState, Rng, Slot, Taste } from './types';
 
 export type Action =
   | { type: 'reroll' }
@@ -28,6 +28,12 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
   const captain = makeCaptain(c, rng, taken);
   const people = makePeople(c, rng);
   const face = makeOwnFace(c, rng, recruit.sex, 1979 - recruit.birthYear, Object.values(people).map(p => p.face));
+  const address = makeAddress(c, rng);
+  const girl = makeGirl(c, rng, [...taken, captain.name]);
+  // Some years the handler is replaced halfway: drawn now, it happens when the quarter comes.
+  const handover = rng() < b.handover.chance
+    ? { quarter: b.handover.quarter, taste: (rng() < 0.5 ? 'wild' : 'dry') as Taste, captain: makeCaptain(c, rng, [...taken, captain.name, girl.name]), week: null }
+    : null;
   return {
     screen: 'intro',
     week: 0,
@@ -53,9 +59,11 @@ export function newGame(c: Content, b: Balance, rng: Rng): GameState {
     recruit,
     names,
     captain,
+    handover,
+    prevCaptain: null,
     people,
-    address: makeAddress(c, rng),
-    girl: makeGirl(c, rng, [...taken, captain.name]),
+    address,
+    girl,
     face,
     weekObs: [],
     harmBy: { mari: 0, jozsi: 0, pityu: 0, porgoly: 0 },
@@ -85,6 +93,12 @@ function assignTask(s: GameState, c: Content, b: Balance, rng: Rng): void {
 }
 
 function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
+  // The new handler takes over on the first played week of his quarter.
+  if (s.handover && s.handover.week === null && c.weeks[s.week].quarter >= s.handover.quarter) {
+    s.prevCaptain = s.captain;
+    s.captain = s.handover.captain;
+    s.handover.week = s.week;
+  }
   assignTask(s, c, b, rng);
   s.events[s.week] = pickEvent(s, c, b, rng);
   applyEvent(s, c);

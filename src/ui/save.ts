@@ -50,6 +50,9 @@ function upgrade(s: unknown, c: Content, b: Balance): void {
   if (g.last && !g.last.steps) g.last.steps = [];
   // Saves from before the end-of-game file: the sentences so far are not known.
   if (!g.log) g.log = [];
+  // Saves from before the handler could be replaced: the same captain all year.
+  if (g.handover === undefined) g.handover = null;
+  if (g.prevCaptain === undefined) g.prevCaptain = null;
   // Saves from before typing errors: last week's report had none.
   if (g.last && g.last.typos === undefined) g.last.typos = 0;
   // Saves from before the year's statement: the weeks so far are lost, the rest is recorded.

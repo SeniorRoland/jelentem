@@ -54,8 +54,9 @@ A játék szatíra a rendszerről és a bürokráciáról, nem az áldozatokról
 4. **Bevezető jelenet** (csak új játéknál): a sötétből előtűnik a százados (bajusz, ballonkabát, kalap, cigaretta), leemeli a poros dossziét, ráírja a fedőnevedet, és lepecsételi („Átvéve”).
 5. **Nyitólevél és beszervezési karton:** a százados levele, a megfigyelendő személyek arcképes listája, a beszervezési kartonod. Itt kérhetsz másik fedőnevet. A „Munkába állok” indítja a játékot.
 6. **Hetek** (12): minden hét előtt egy rövid naptárlap-jelenet, utána a **heti lap** (megfigyelések, értelmezések, a jelentés), majd a **visszaküldött lap** (a százados megjegyzései, a mérők, a hírek).
-7. **Negyedéves értékelés** (a 3., 6. és 9. hét után): előtte egy jelenet a negyedév eredményeivel, utána a százados értékelése, amelyre gemkapoccsal a fényképét is feltűzte.
-8. **Befejezés:** a 12. hét után, vagy korábban, ha egy mérő elfogy, vagy ha kizárnak. A végén a megosztható **akta**.
+7. **Tartótiszt-csere** (az évek felében, a III. negyedév első hete előtt): „Személyi változás” jelenet az új százados fényképével ([6.2](#62-tartótiszt-csere)).
+8. **Negyedéves értékelés** (a 3., 6. és 9. hét után): előtte egy jelenet a negyedév eredményeivel, utána a százados értékelése, amelyre gemkapoccsal a fényképét is feltűzte.
+9. **Befejezés:** a 12. hét után, vagy korábban, ha egy mérő elfogy, vagy ha kizárnak. A végén a megosztható **akta**.
 
 A játék minden lépés után mentődik; a böngésző bezárása után ugyanonnan folytatható.
 
@@ -216,6 +217,23 @@ Minden leadott mondatban lehet egy elírás: egy legalább ötbetűs szóban ké
 Minden elírás **−1 elégedettség** (a súlyozás után, közvetlenül). A visszaküldött lapon a hibás szó áthúzva látszik, fölötte a százados kézzel írt javítása, a lap alján pedig egy megjegyzése („Gépírásból elégtelen. A betűk sorrendje nem ízlés kérdése.”, „Kijavítottam. A tintát a fizetéséből vonom le.” …). Az aktába a helyes szöveg kerül.
 
 > **Tipp:** az elírás ellen nem lehet közvetlenül védekezni, de ritkább, ha nem ártasz, mert akkor magas marad a lelkiismeret.
+
+### 6.2. Tartótiszt-csere
+
+Az évek **felében** (50%) a III. negyedév első lejátszott hetén új százados veszi át az ügyedet. Ezt a játék elején sorsolja ki, és előre semmi nem jelzi. A hét előtt egy jelenet mutatja be: „Személyi változás”, az új tartótiszt fényképe (szemüveges, szakállas, csíkos öltönyös férfi), „…századost áthelyezték. Hogy hová, azt nem közölték.”, és egy pletyka arról, mit szeret. Ettől kezdve az ő neve és aláírása áll a lapokon, és az ő fényképe kerül a negyedéves értékelésre.
+
+Az új századosnak **ízlése** van, és ez minden mondatod izgalmát módosítja, az értelmezés fajtája szerint:
+
+| Ízlés | A pletyka | Puszta tény | Óvatos | Közepes | Vad |
+|---|---|---|---|---|---|
+| **Eseményes** | „Ő szereti, ha történik valami.” | −1 | −1 | 0 | **+2** |
+| **Száraz** | „Neki a tények kellenek, szárazon.” | **+1** | **+1** | 0 | −2 |
+
+(A terelő és az alibi kártyát az ízlés nem érinti.)
+
+**Példa:** a száraz százados alatt egy 4-es izgalmú megfigyelés óvatos (izgalom 1) értelmezéssel 4+1+1 = **6** izgalmat ér, vad (izgalom 6) értelmezéssel 4+6−2 = **8**-at.
+
+> **Tipp:** figyeld a pletykát. Eseményes századosnál a vad értelmezés megéri, de vigyázz, mert a vad értelmezés ártalma is nagy. Száraz századosnál az óvatos és a puszta tény is kielégítheti, és ez a kíméletes játéknak kedvez.
 
 ---
 
@@ -523,6 +541,7 @@ Gombok: **letöltés** PNG-ként, **megosztás** (ahol a böngésző tudja, fől
 | Következmények | 2 figyelmeztetés, 4 bajban, 7 a megélhetés elvesztése |
 | Jutalmak | megbízható E +4 / L −5; kiemelt E +10, kimaradó hét, +1 elvárás; rezidensjelölt H +6 / L −6 |
 | Kizárás | 2 egymást követő hiányos negyedév passzívban |
+| Tartótiszt-csere | 50% eséllyel, a III. negyedévtől; eseményes: tény −1, óvatos −1, vad +2; száraz: tény +1, óvatos +1, vad −2 izgalom |
 | Elírás | mondatonként 4% + 20% × (1 − L/100) esély, egyenként −1 elégedettség |
 | Átnézés | 3 mondat, 2 indoklás; meghagyva az izgalom fele és az ártalom fele (a lelkiismeretnek), az ártalom egésze a lakónak; kihúzva −1 / −4 hihetőség |
 | Befejezés határai | H 30, E 30, L 70 |
@@ -535,13 +554,13 @@ A `npm run sim -- 3000` négy bot-stratégiával játszik 3000-3000 játékot:
 
 | Stratégia | Legjobb | Kizárva | Kiváló munkatárs | Megfigyelt | Behívatás |
 |---|---|---|---|---|---|
-| **véletlen** (találomra) | 0% | 3% | 32% | 58% | 7% |
-| **mohó** (mindig a legizgalmasabb) | 0% | 0% | 6% | 94% | 0% |
-| **óvatos** (soha semmi ártalom) | 29% | 20% | 0% | 10% | 41% |
-| **előrelátó** (mindent lát, egy hétre előre tervez) | 85% | 0% | 14% | 1% | 0% |
+| **véletlen** (találomra) | 0% | 4% | 31% | 58% | 7% |
+| **mohó** (mindig a legizgalmasabb) | 0% | 0% | 5% | 95% | 0% |
+| **óvatos** (soha semmi ártalom) | 32% | 22% | 0% | 10% | 37% |
+| **előrelátó** (mindent lát, egy hétre előre tervez) | 86% | 0% | 13% | 1% | 0% |
 
 **Tanulságok:**
 - Vakon nem lehet egy éven át senkinek sem ártani: a véletlen játékos sosem éri el a legjobb véget.
 - A puszta óvatosság kevés: az óvatos játékos gyakran unalmas, és behívatással vagy kizárással végez.
 - Tervezéssel a legjobb vég elérhető, de nem biztos.
-- A kategória számít: az óvatos stratégia a „hű” kategóriával 80%-ban, a csendőrrel szinte soha nem jut a legjobb végig.
+- A kategória számít: az óvatos stratégia a „hű” kategóriával 79%-ban, a csendőrrel szinte soha nem jut a legjobb végig.

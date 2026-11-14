@@ -93,7 +93,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c), ...validateGreetings(c), ...validateTypos(c, b));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c), ...validateGreetings(c), ...validateTypos(c, b), ...validateHandover(c, b));
   return errs;
 }
 
@@ -513,5 +513,20 @@ function validateTypos(c: Content, b: Balance): string[] {
   if (t.base < 0 || t.nervous < 0 || t.base + t.nervous > 0.5 || t.penalty < 0) errs.push('Elírás: hibás számok a balance.typos-ban (az esély legfeljebb 50% legyen).');
   if (c.notes.typo.length < 3) errs.push('Elírás: legalább 3 százados-megjegyzés kell (notes.typo).');
   for (const x of c.notes.typo) if (!x || /["']/.test(x)) errs.push(`Elírás: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
+  return errs;
+}
+
+/** The handler's replacement: a quarter that has a first week to take over, both tastes written. */
+function validateHandover(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const h = b.handover, t = c.captain.handover;
+  const quarters = new Set(c.weeks.map(w => w.quarter)).size;
+  if (h.chance < 0 || h.chance > 1) errs.push('Tartótiszt-csere: az esély 0 és 1 között legyen.');
+  if (h.quarter < 1 || h.quarter >= quarters) errs.push(`Tartótiszt-csere: a negyedév 1 és ${quarters - 1} között legyen (az első negyedévben még nincs kit leváltani).`);
+  if (c.captain.surnames.length < 3) errs.push('Tartótiszt-csere: legalább 3 vezetéknév kell a századosnak.');
+  if (!t.lines.some(x => x.includes('{elozo}'))) errs.push('Tartótiszt-csere: a jelenetből hiányzik az {elozo} (a leváltott százados neve).');
+  if (!t.lines.some(x => x.includes('{szazados}'))) errs.push('Tartótiszt-csere: a jelenetből hiányzik a {szazados} (az új százados neve).');
+  for (const k of ['wild', 'dry'] as const) if (!t.tastes[k] || !h.tastes[k]) errs.push(`Tartótiszt-csere: hiányzik a(z) ${k} ízlés szövege vagy száma.`);
+  for (const x of [t.title, t.photo, ...t.lines, t.tastes.wild, t.tastes.dry]) if (!x || /["']/.test(x)) errs.push(`Tartótiszt-csere: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
   return errs;
 }
