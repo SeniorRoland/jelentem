@@ -6,7 +6,7 @@
   --desk:#2f3d33; --desk-2:#283429; --desk-text:#c7d1c2;
   --desk-dim:.62; --desk-load-dim:.85;
   --desk-shade:rgba(24,16,6,.28); --desk-shade-edge:rgba(12,8,3,.72);
-  --paper:#e9ecdf; --paper-edge:#c9cfbb; --version-ink:#fff; --photo:#f6f3ea; --photo-bg:#cfcfca; --clip:#8a8e93;
+  --paper:#e9ecdf; --paper-edge:#c9cfbb; --version-ink:#fff; --photo:#f6f3ea; --polaroid:#fbf9f3; --polaroid-edge:#d9d6cc; --photo-bg:#cfcfca; --clip:#8a8e93;
   --ink:#2e2862; --ink-soft:#5f598c;
   --stamp:#b0261c; --pen:#1d4ea3;
   --slip:#f1efd9; --focus:#d79a00;
@@ -28,7 +28,7 @@
   --desk-shade:rgba(6,6,4,.38); --desk-shade-edge:rgba(0,0,0,.82);
     --desk-dim:.42; --desk-load-dim:.7;
     --desk-shade:rgba(6,6,4,.38); --desk-shade-edge:rgba(0,0,0,.82);
-    --paper:#c6cab9; --paper-edge:#9ca290; --photo:#d9d6cc; --photo-bg:#b3b3ae; --clip:#70747a;
+    --paper:#c6cab9; --paper-edge:#9ca290; --photo:#d9d6cc; --polaroid:#e4e1d8; --polaroid-edge:#b9b6ad; --photo-bg:#b3b3ae; --clip:#70747a;
     --ink:#241e54; --ink-soft:#463f74;
     --stamp:#97211a; --pen:#16418a;
     --slip:#d2cfb8; --focus:#e0a400;
@@ -39,7 +39,7 @@
 :root[data-theme="dark"]{
   color-scheme:dark;
   --desk:#141a16; --desk-2:#0f1411; --desk-text:#9fab9c;
-  --paper:#c6cab9; --paper-edge:#9ca290; --photo:#d9d6cc; --photo-bg:#b3b3ae; --clip:#70747a;
+  --paper:#c6cab9; --paper-edge:#9ca290; --photo:#d9d6cc; --polaroid:#e4e1d8; --polaroid-edge:#b9b6ad; --photo-bg:#b3b3ae; --clip:#70747a;
   --ink:#241e54; --ink-soft:#463f74;
   --stamp:#97211a; --pen:#16418a;
   --slip:#d2cfb8; --focus:#e0a400;
@@ -159,15 +159,19 @@ p{margin:0 0 .85rem;max-width:68ch}
 .hint.watch{color:var(--stamp);font-style:normal;font-weight:700}
 .slip.divert{border-style:dashed;border-color:var(--stamp)}
 /*
- * Portraits: small greyscale photos stapled to the sheet. Sepia-toned a little so they sit on the
- * yellowed paper; a thin frame like a cut-out ID photo.
+ * Portraits: little instant photos on the sheet. The white frame is the image's own padding (the
+ * photo fills the content box), a little wider at the bottom like a Polaroid; slightly aged, each
+ * tilted a touch, with a soft shadow as if lying loose on the paper.
  */
-.face{display:block;flex:none;width:2.5rem;height:3.33rem;object-fit:cover;border:1px solid var(--paper-edge);
-  background:var(--paper);filter:sepia(.25) contrast(1.05)}
-.face.big{width:4.5rem;height:6rem}
-.face.none{border-style:dashed;opacity:.5}
+.face{display:block;flex:none;box-sizing:content-box;width:2.5rem;height:3.33rem;object-fit:cover;
+  padding:.16rem .16rem .6rem;background:var(--polaroid);border:1px solid var(--polaroid-edge);
+  box-shadow:0 1px 3px rgba(0,0,0,.28);filter:sepia(.2) contrast(1.05);transform:rotate(-1.5deg)}
+li:nth-child(even)>.face{transform:rotate(1.8deg)}
+li:nth-child(3n)>.face{transform:rotate(-.6deg)}
+.face.big{width:4.5rem;height:6rem;padding:.28rem .28rem 1.05rem}
+.face.none{background:transparent;border-style:dashed;box-shadow:none;opacity:.5}
 /* The portrait sits in a strip left of the sentence, so list numbers and the text flow stay as they were. */
-li.with-face,.report li.with-face{position:relative;padding-left:3.25rem;min-height:3.45rem}
+li.with-face,.report li.with-face{position:relative;padding-left:3.6rem;min-height:4.3rem}
 .with-face>.face{position:absolute;left:0;top:.1rem}
 ul.house{padding-left:0;list-style:none}
 .people{list-style:none;padding:0;margin:.5rem 0 0;display:grid;gap:.75rem}
