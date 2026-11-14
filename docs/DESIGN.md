@@ -185,6 +185,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.22** (742fd3c): a polaroid arcképek a `master` ágon, taggel, élesben.
 - [x] **v0.0.23** (83a60ae): a karton polaroidja a `master` ágon, taggel, élesben.
 - [x] **v0.0.24** (bd923d3): a gépelési hibák és a lépcsőház a `master` ágon, taggel, élesben.
+- [x] **v0.0.25** (7e142c9): a tartótiszt-csere a `master` ágon, taggel, élesben.
 
 ### Hátralévő
 
