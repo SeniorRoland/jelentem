@@ -6,13 +6,14 @@ import { scoreSentence } from '../engine/rules';
 import { faceImg } from './faces';
 import { detailPhoto } from './details';
 import { delta, extremes, METER_KEYS, totals } from '../engine/stats';
+import { greetingFor } from '../engine/greetings';
 import CAPTAIN_URL from '../assets/captain.png';
 import { weekObs } from '../engine/observations';
 import { formatDate } from '../engine/recruit';
 import { endingKey, TROUBLE } from '../engine/rules';
 import { CONS_LEVELS } from '../engine/types';
 import { nextStep } from '../engine/state';
-import type { Balance, Content, GameState, Hint, HouseEvent, Meters, ResidentId, ResidentStatus, StatRow } from '../engine/types';
+import type { Balance, Content, GameState, Hint, HouseEvent, Meters, ResidentId, ResidentStatus, SentenceResult, StatRow } from '../engine/types';
 
 export interface View {
   dev: boolean;
@@ -237,6 +238,7 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   ${v.dev ? `<p class="dev">elvárás ezen a héten: ${expectFor(s, b, c)}</p>` : ''}
   ${meters(s.meters, null, v)}
   <p class="lede" style="margin-top:1.25rem">${w.intro}</p>
+  ${greeting(s, c)}
   ${ev ? eventBox(ev, c, v) : ''}
   ${taskBox(s, c)}
   <h2>Megfigyelések a héten</h2>
@@ -263,10 +265,23 @@ function reviewResult(s: GameState, c: Content): string {
     : `<small class="rv-why">${t.kept}</small>`}</li>`).join('')}</ol>`;
 }
 
+/** A reported sentence; a typo shows as typed, struck through, with the captain's correction above it. */
+function typed(x: SentenceResult): string {
+  const t = x.typo;
+  if (!t || x.text.slice(t.at, t.at + t.from.length) !== t.from) return x.text;
+  return `${x.text.slice(0, t.at)}<span class="typo"><s>${t.to}</s><span class="typo-fix" aria-label="helyesen: ${t.from}">${t.from}</span></span>${x.text.slice(t.at + t.from.length)}`;
+}
+
+/** The weekly encounter on the stairs: a line about how a resident looked at the player. */
+function greeting(s: GameState, c: Content): string {
+  const g = greetingFor(s, c);
+  return g ? `<p class="greeting"><span class="greeting-label">${c.greetings.label}:</span> ${g.text}</p>` : '';
+}
+
 function response(s: GameState, c: Content, v: View): string {
   const r = s.last!;
   const body = r.sents.length
-    ? `<ol>${r.sents.map(x => `<li class="with-face">${faceOf(s, c, x.self ? 'self' : x.who)}<span>${x.text}${x.note ? `<span class="note">${x.note}</span>` : ''}</span></li>`).join('')}</ol>`
+    ? `<ol>${r.sents.map(x => `<li class="with-face">${faceOf(s, c, x.self ? 'self' : x.who)}<span>${typed(x)}${x.note ? `<span class="note">${x.note}</span>` : ''}</span></li>`).join('')}</ol>`
     : `<p>Jelentem, a megfigyelt időszakban nem történt semmi.</p>`;
   const items = [...r.betrayed.map(k => c.events.betrayed[k] ?? ''), ...r.steps.map(x => c.residents[x.who].cons?.[x.level] ?? '')].filter(Boolean);
   const news = items.length
@@ -282,6 +297,7 @@ function response(s: GameState, c: Content, v: View): string {
   <div class="report">${body}</div>
   <span class="note big">${r.overall}</span>
   ${r.extra ? `<span class="note">${r.extra}</span>` : ''}
+  ${r.typos ? `<span class="note">${c.notes.typo[s.week % c.notes.typo.length]}</span>` : ''}
   ${r.taskDone ? `<span class="note">${c.career.task.now}</span>` : ''}
   ${r.watch.honest ? `<span class="note">${c.notes.watch.honest}</span>` : ''}
   ${r.watch.hidden ? `<span class="note">${c.notes.watch.hidden.replace('{obs}', r.watch.hidden)}</span>` : ''}

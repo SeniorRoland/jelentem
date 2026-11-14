@@ -499,3 +499,16 @@ body.title-showing{overflow:hidden}
 .intro noscript p{color:var(--night-text)}
 .intro h2{margin:1.6rem 0 .6rem;color:var(--night-text);font-size:1.05rem;text-decoration:none}
 .notice-privacy{margin-top:1.4rem;padding-top:.8rem;border-top:1px dotted var(--paper-edge);color:var(--ink-soft);font-size:.85rem}
+
+/*
+ * A typing error on the returned report: the typed word struck through, the captain's correction
+ * written above it in his hand.
+ */
+.typo{position:relative;display:inline-block}
+.typo s{text-decoration-color:var(--pen);text-decoration-thickness:2px}
+.typo-fix{position:absolute;left:50%;bottom:72%;transform:translateX(-50%) rotate(-3deg);white-space:nowrap;
+  font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-size:1.15rem;line-height:1;color:var(--pen);pointer-events:none}
+.report li{padding-top:.35rem}
+/* The weekly encounter on the stairs: a short typed aside under the week's introduction. */
+.greeting{margin:.4rem 0 1rem;padding-left:.8rem;border-left:2px solid var(--paper-edge);font-size:.95rem;color:var(--ink-soft)}
+.greeting-label{font-weight:700;color:var(--ink)}

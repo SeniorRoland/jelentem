@@ -1,0 +1,71 @@
+{
+  "label": "A lépcsőházban",
+  "lines": {
+    "mari": {
+      "nyugodt": [
+        "{mari.b} a postaládáknál megkérdezte, nem fázol-e. Adott egy szem szaloncukrot is, pedig nem volt karácsony.",
+        "{mari.b} rád köszönt a lépcsőn, és elmondta, hogy a hátának megint nem tetszik az idő."
+      ],
+      "gyanus": [
+        "{mari.b} visszaköszönt, de nem állt meg. Az ajtaja mögött hosszan fordult a kulcs.",
+        "{mari.b} a lépcsőházban hirtelen nagyon érdekesnek találta a villanyórát."
+      ],
+      "bajban": [
+        "{mari.b} lehajtott fejjel jött le a lépcsőn, és nem köszönt. Talán nem vett észre.",
+        "{mari.b} ajtaján behúzták a függönyt. Napok óta nem hallani a rádióját."
+      ],
+      "bonded": [
+        "{mari.b} szólt, hogy hagyott a kilincseden egy kis kóstolót. Krémes volt, még langyos.",
+        "{mari.b} megkért, hogy locsold meg a muskátliját, amíg orvosnál van. A kulcsot is rád bízta."
+      ],
+      "betrayed": [
+        "{mari.b} meglátott a lépcsőn, és visszafordult. Inkább megvárta, amíg elmész.",
+        "{mari.b} a postaládánál nem nézett rád. A szaloncukros zacskót gyorsan eltette."
+      ]
+    },
+    "jozsi": {
+      "nyugodt": [
+        "{jozsi.b} olajos kézzel intett a garázsból: ha valami elromlik, csak szólj.",
+        "{jozsi.b} a pincelépcsőn elmagyarázta, miért jobb a régi csavar az újnál. Húsz percig."
+      ],
+      "gyanus": [
+        "{jozsi.b} lehúzta a garázs redőnyét, amikor elmentél előtte. Félig.",
+        "{jozsi.b} visszaköszönt, de a csavarkulcsot nem tette le."
+      ],
+      "bajban": [
+        "{jozsi.b} garázsa napok óta zárva. A redőnyön új lakat lóg.",
+        "{jozsi.b} az udvaron ült, és nem szerelt semmit. Ilyen még nem volt."
+      ],
+      "bonded": [
+        "{jozsi.b} megjavította a bicikliláncodat. Pénzt nem fogadott el, csak egy sört.",
+        "{jozsi.b} kölcsönadta a fúróját. Azt mondta, nem kell sietni vele."
+      ],
+      "betrayed": [
+        "{jozsi.b} a garázs előtt elfordult, és nagyon elmélyülten kezdett törölgetni egy tiszta csavart.",
+        "{jozsi.b} megköszörülte a torkát, amikor elmentél mellette. Mást nem mondott."
+      ]
+    },
+    "pityu": {
+      "nyugodt": [
+        "{pityu.b} kettesével szedte a lépcsőt, és odakiáltott: szia, mi újság?",
+        "{pityu.b} kölcsönkért két tojást, és megígérte, hogy hármat hoz vissza."
+      ],
+      "gyanus": [
+        "{pityu.b} elhallgatott a lépcsőházban, amikor beléptél. A barátja is.",
+        "{pityu.b} köszönt, de a táskáját szorosabban fogta."
+      ],
+      "bajban": [
+        "{pityu.b} albérletéből hétvégén dobozokat hordtak le. Ő nem segített, csak nézte.",
+        "{pityu.b} már nem kettesével szedi a lépcsőt. Egyesével, lassan."
+      ],
+      "bonded": [
+        "{pityu.b} megmutatta, mit tanul. Nem értetted, de érdekes volt.",
+        "{pityu.b} kölcsönadott egy lemezt: ezt hallgasd meg, nagyon jó."
+      ],
+      "betrayed": [
+        "{pityu.b} meglátott, és megvárta a lépcsőfordulóban, amíg elmész.",
+        "{pityu.b} köszönt. Hivatalosan, mint egy idegennek."
+      ]
+    }
+  }
+}

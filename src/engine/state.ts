@@ -157,7 +157,7 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       break;
     }
     case 'submit':
-      s.last = resolveWeek(s, c, b);
+      s.last = resolveWeek(s, c, b, rng);
       s.screen = 'response';
       break;
     case 'next': {

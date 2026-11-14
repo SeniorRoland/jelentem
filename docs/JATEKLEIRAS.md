@@ -199,7 +199,7 @@ Mindhárom 0 és 100 között mozog. A felületen sávként és szóval látszik
 
 **Hetente, a jelentés leadásakor:**
 
-- **E** += (a mondatok izgalmának összege − a heti elvárás) × **3**
+- **E** += (a mondatok izgalmának összege − a heti elvárás) × **3**, mínusz **1** minden elírásért (lásd lent)
 - **H** += (a mondatok hihetőségének összege, plusz az ellenjelentés hatása) × **2**
 - **L** −= (a mondatok ártalmának összege; egy megbízó lakót ért ártalom kétszeresen) × **5**
 
@@ -208,6 +208,14 @@ Izgalom 4+5 = 9, hihetőség 1+0 = 1, ártalom 0+1 = 1.
 → E: 50 + (9−7)×3 = **56**; H: 60 + 1×2 = **62**; L: 100 − 1×5 = **95**. Az ezermesterre 1 ártalom gyűlt („szóba került”). A százados: „Megfelelő. Folytassa.” (a különbség épp +2).
 
 Ha egy jelentés után **bármelyik mérő 0-ra esik**, az ügyet azonnal lezárják ([14. fejezet](#14-befejezések-és-hogyan-juthatsz-el-hozzájuk)).
+
+### 6.1. Gépelési hibák
+
+Minden leadott mondatban lehet egy elírás: egy legalább ötbetűs szóban két szomszédos betű felcserélődik (az első és az utolsó betű sosem, a nevek sem). Az esélye mondatonként **4% + 20% × (1 − lelkiismeret/100)**, a heti elszámolás előtti lelkiismeret szerint: tiszta lelkiismerettel (L 100) **4%**, L 40-nél **16%**, L 0-nál **24%**. Remeg a kéz.
+
+Minden elírás **−1 elégedettség** (a súlyozás után, közvetlenül). A visszaküldött lapon a hibás szó áthúzva látszik, fölötte a százados kézzel írt javítása, a lap alján pedig egy megjegyzése („Gépírásból elégtelen. A betűk sorrendje nem ízlés kérdése.”, „Kijavítottam. A tintát a fizetéséből vonom le.” …). Az aktába a helyes szöveg kerül.
+
+> **Tipp:** az elírás ellen nem lehet közvetlenül védekezni, de ritkább, ha nem ártasz, mert akkor magas marad a lelkiismeret.
 
 ---
 
@@ -352,6 +360,18 @@ A kedvességtől **bizalmas viszony** lesz köztetek:
 - **Megtartott bizalom:** ha a játék végéig nem árulod el, a befejezésben külön mondat szól róla.
 
 > **Tipp:** a bizalmas megfigyelést hagyd a cetlik között. Az alibivel viszont sokkal biztonságosabban jelenthetsz a lakó hétköznapjairól, mert egy 2-es ártalmat teljesen, egy 3-ast majdnem teljesen eltüntet.
+
+### 12.3. A lépcsőházban
+
+A 2. héttől minden heti lapon, a hét bevezetője alatt egy mondat szól arról, kivel találkoztál a lépcsőházban, és hogyan nézett rád. A három lakó sorban követi egymást (a hét sorszáma szerint), mérőszám nélkül. A mondat a lakó helyzetétől függ, ebben a sorrendben:
+
+1. **elárultad** (bizalmas lakót ért ártalom): kerül téged („meglátott a lépcsőn, és visszafordult”);
+2. **bajban van** (következmény érte): magába roskadt, a lakása elcsendesedett;
+3. **bízik benned**: kedves, rád bíz valamit;
+4. **szóba került** (érte már ártalom): óvatos, gyorsan becsukja az ajtót;
+5. **nyugodt**: hétköznapi, barátságos.
+
+Ez nem ad új információt ahhoz képest, amit a negyedéves értékelés is mutat, de hétről hétre, finoman jelzi, hogyan áll a ház veled.
 
 ---
 
@@ -503,6 +523,7 @@ Gombok: **letöltés** PNG-ként, **megosztás** (ahol a böngésző tudja, fől
 | Következmények | 2 figyelmeztetés, 4 bajban, 7 a megélhetés elvesztése |
 | Jutalmak | megbízható E +4 / L −5; kiemelt E +10, kimaradó hét, +1 elvárás; rezidensjelölt H +6 / L −6 |
 | Kizárás | 2 egymást követő hiányos negyedév passzívban |
+| Elírás | mondatonként 4% + 20% × (1 − L/100) esély, egyenként −1 elégedettség |
 | Átnézés | 3 mondat, 2 indoklás; meghagyva az izgalom fele és az ártalom fele (a lelkiismeretnek), az ártalom egésze a lakónak; kihúzva −1 / −4 hihetőség |
 | Befejezés határai | H 30, E 30, L 70 |
 
@@ -514,13 +535,13 @@ A `npm run sim -- 3000` négy bot-stratégiával játszik 3000-3000 játékot:
 
 | Stratégia | Legjobb | Kizárva | Kiváló munkatárs | Megfigyelt | Behívatás |
 |---|---|---|---|---|---|
-| **véletlen** (találomra) | 0% | 4% | 32% | 57% | 7% |
-| **mohó** (mindig a legizgalmasabb) | 0% | 0% | 5% | 95% | 0% |
-| **óvatos** (soha semmi ártalom) | 31,5% | 20% | 0% | 10% | 38% |
-| **előrelátó** (mindent lát, egy hétre előre tervez) | 86% | 0% | 13% | 1% | 0% |
+| **véletlen** (találomra) | 0% | 3% | 32% | 58% | 7% |
+| **mohó** (mindig a legizgalmasabb) | 0% | 0% | 6% | 94% | 0% |
+| **óvatos** (soha semmi ártalom) | 29% | 20% | 0% | 10% | 41% |
+| **előrelátó** (mindent lát, egy hétre előre tervez) | 85% | 0% | 14% | 1% | 0% |
 
 **Tanulságok:**
 - Vakon nem lehet egy éven át senkinek sem ártani: a véletlen játékos sosem éri el a legjobb véget.
 - A puszta óvatosság kevés: az óvatos játékos gyakran unalmas, és behívatással vagy kizárással végez.
 - Tervezéssel a legjobb vég elérhető, de nem biztos.
-- A kategória számít: az óvatos stratégia a „hű” kategóriával 82%-ban, a csendőrrel szinte soha nem jut a legjobb végig.
+- A kategória számít: az óvatos stratégia a „hű” kategóriával 80%-ban, a csendőrrel szinte soha nem jut a legjobb végig.

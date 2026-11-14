@@ -5,6 +5,12 @@
   "good": "Jó irány. Maradjon ébren.",
   "great": "Kiváló! Végre valami.",
   "fantasy": "Ne fantáziáljon, elvtárs. Az ilyen tehetségre a Filmgyárban van szükség.",
+  "typo": [
+    "Gépírásból elégtelen. A betűk sorrendje nem ízlés kérdése.",
+    "Kijavítottam. A tintát a fizetéséből vonom le.",
+    "Elírás. Remeg a keze, elvtárs? Ha igen, miért?",
+    "Az írógép nem hibázik. Akkor ki?"
+  ],
   "repeat": [
     {
       "tag": "trabant",

@@ -199,12 +199,12 @@ A blokkok sorrendje javaslat; a blokkon belül az első a legjobb következő l�
 - [ ] **Lakói kérések** (közepes): néha egy lakó szívességet kér (feladni egy levelet, eltenni egy csomagot). Elvállalva nő a bizalom, de ha a százados megtudja, gyanús leszel; elutasítva a lakó eltávolodik. Erkölcsi dilemma a kártyákon túl; a házi események (`events.ts`, közeli lakó, árulás) mintájára építhető. A játékelemek közül ez a legerősebb.
 - [ ] **Keresztellenőrzés** (közepes): a százados időnként összeveti a jelentésedet egy másik besúgóéval; ha ugyanarról te ártatlant írtál, ő terhelőt, hihetőséget veszítesz. A rezidensjelölt szint fordítottja: itt téged ellenőriznek.
 - [ ] **Tartótiszt-csere** (közepes): év közben új százados jöhet más ízléssel (az egyik a vad értelmezéseket szereti, a másik a száraz, hivatalos stílust), így a bevált stratégiát újra kell gondolni. Az ízlés az értelmezések `tier`-ére vagy `topics`-ára adhat szorzót.
-- [ ] **Gépelési hibák** (kicsi): a jelentésben néha elírás marad, a százados a margón kijavítja; sok hiba kissé rontja az elégedettséget. Inkább humor, mint mechanika.
+- [x] **Gépelési hibák** (COMMIT): a jelentésben néha elírás marad, a százados a margón kijavítja; sok hiba kissé rontja az elégedettséget. Inkább humor, mint mechanika. Megvalósítva: mondatonként 4% + 20% × (1 − L/100) esély (a rossz lelkiismeret remegő kezet ad), egy szóban két szomszédos betű cseréje, elírásonként −1 elégedettség; a visszaküldött lapon áthúzva, fölötte kézírásos javítás, alul a százados megjegyzése. Szimuláció: óvatos 31,5% → 29%, előrelátó 86% → 85%.
 
 **Hangulat**
 
 - [ ] **Alsóbürokráci Hírlap** (kicsi, csak tartalom): hetente egy újságcím a naptárlap-jelenetben („Túlteljesítette a tervet a cipőgyár”, „Megérkezett a narancs”), ugyanabból a kitalált városi világból.
-- [ ] **Köszönés a lépcsőházban** (kicsi): a heti lapon egy mondat arról, hogyan néz rád egy lakó; mérőszám nélkül, finoman jelzi a bizalmat vagy a gyanút.
+- [x] **Köszönés a lépcsőházban** (COMMIT): a heti lapon egy mondat arról, hogyan néz rád egy lakó; mérőszám nélkül, finoman jelzi a bizalmat vagy a gyanút. Megvalósítva: a 2. héttől, a három lakó sorban; hangulat: elárult > bajban > bízik > szóba került > nyugodt, mindegyikhez két mondat lakónként (`greetings.json`).
 
 **Nagyobb falat**
 

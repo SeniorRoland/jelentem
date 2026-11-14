@@ -4,6 +4,7 @@ import { scoreReview } from './review';
 import { obsById, weekObs } from './observations';
 import { shuffle } from './rng';
 import { statRow } from './stats';
+import { makeTypo, typoChance } from './typos';
 import { CONS_LEVELS } from './types';
 import type {
   Balance, Content, EndingKey, GameState, Interpretation, Meters, Observation,
@@ -88,7 +89,7 @@ export function deal(s: GameState, c: Content, b: Balance, rng: Rng): string[] {
 }
 
 /** Apply the current report to the state. Mutates `s` (callers pass a clone). */
-export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
+export function resolveWeek(s: GameState, c: Content, b: Balance, rng: Rng): WeekResult {
   const week = weekObs(s, c);
   const before: Meters = { ...s.meters };
   let izgSum = 0, hihSum = 0, harmSum = 0, guiltSum = 0;
@@ -100,8 +101,12 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
     const o = week.find(x => x.id === sl.o)!;
     const it = sl.i ? c.ints.find(x => x.id === sl.i)! : null;
     const sc = scoreSentence(o, it, b, doubtFor(s, b));
+    const text = `${o.text}${it ? ', ' + it.text : ''}.`;
+    // A troubled conscience makes for unsteady hands.
+    const typo = rng() < typoChance(s.meters.L, b.typos.base, b.typos.nervous) ? makeTypo(text, rng) : null;
     sents.push({
-      text: `${o.text}${it ? ', ' + it.text : ''}.`,
+      text,
+      ...(typo ? { typo } : {}),
       note: pickNote(o, it, s.reported, c),
       ...sc,
       who: o.who,
@@ -144,8 +149,9 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
   }
 
   const expect = expectFor(s, b, c);
+  const typos = sents.filter(x => x.typo).length;
   s.meters = {
-    E: clamp(s.meters.E + (izgSum - expect) * b.weight.E),
+    E: clamp(s.meters.E + (izgSum - expect) * b.weight.E - typos * b.typos.penalty),
     H: clamp(s.meters.H + hihSum * b.weight.H),
     L: clamp(s.meters.L - guiltSum * b.weight.L),
   };
@@ -167,6 +173,7 @@ export function resolveWeek(s: GameState, c: Content, b: Balance): WeekResult {
 
   return {
     sents,
+    typos,
     before,
     after: { ...s.meters },
     overall: overallNote(izgSum, expect, c, b),

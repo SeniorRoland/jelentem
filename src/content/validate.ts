@@ -93,7 +93,7 @@ export function validateContent(c: Content, b: Balance): string[] {
     if (new Set(tagged.map(o => o.level)).size < 2) errs.push(`Ismétlés-jegyzet („${r.tag}”): legalább két különböző szintű megfigyelés kell ezzel a címkével.`);
   }
   for (const o of c.obs) if (o.tag && !c.notes.repeat.some(r => r.tag === o.tag)) errs.push(`${o.id}: a(z) „${o.tag}” címkéhez nincs ismétlés-jegyzet.`);
-  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c));
+  errs.push(...validateRecruit(c), ...validateNames(c), ...validateLoading(c), ...validateTasks(c, b), ...validateWatch(c, b), ...validateEvents(c), ...validateCons(c, b), ...validateDossier(c), ...validateHelp(c), ...validateTransitions(c), ...validateCorner(c), ...validateReview(c, b), ...validatePhotos(c), ...validateStats(c), ...validateGreetings(c), ...validateTypos(c, b));
   return errs;
 }
 
@@ -486,5 +486,32 @@ function validateStats(c: Content): string[] {
   if (!t.still.includes('{meter}')) errs.push('Kimutatás: a mozdulatlan mérő mondatából hiányzik a {meter}.');
   for (const x of [t.title, t.lede, t.task, t.start, t.still, t.summaryTitle, t.none, t.empty, t.note, t.cols.when, t.cols.E, t.cols.H, t.cols.L])
     if (!x || /["']/.test(x)) errs.push(`Kimutatás: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
+  return errs;
+}
+
+/** The stairwell: two or more lines for every resident in every mood, each naming that resident only. */
+function validateGreetings(c: Content): string[] {
+  const errs: string[] = [];
+  const moods = ['nyugodt', 'gyanus', 'bajban', 'bonded', 'betrayed'] as const;
+  if (!c.greetings.label) errs.push('Lépcsőház: hiányzik a címke.');
+  for (const who of ['mari', 'jozsi', 'pityu'] as const) for (const m of moods) {
+    const lines = c.greetings.lines[who]?.[m] ?? [];
+    if (lines.length < 2) errs.push(`Lépcsőház: ${who} / ${m}: legalább 2 mondat kell.`);
+    for (const x of lines) {
+      if (/["']/.test(x)) errs.push(`Lépcsőház: egyenes idézőjel: ${x}`);
+      if (!x.includes(`{${who}`)) errs.push(`Lépcsőház: ${who} / ${m}: a mondatban nincs benne a lakó: ${x}`);
+      for (const other of ['mari', 'jozsi', 'pityu', 'porgoly']) if (other !== who && x.includes(`{${other}`)) errs.push(`Lépcsőház: ${who} mondatában más lakó: ${x}`);
+    }
+  }
+  return errs;
+}
+
+/** Typing errors: a sensible chance, a remark for the captain, in house style. */
+function validateTypos(c: Content, b: Balance): string[] {
+  const errs: string[] = [];
+  const t = b.typos;
+  if (t.base < 0 || t.nervous < 0 || t.base + t.nervous > 0.5 || t.penalty < 0) errs.push('Elírás: hibás számok a balance.typos-ban (az esély legfeljebb 50% legyen).');
+  if (c.notes.typo.length < 3) errs.push('Elírás: legalább 3 százados-megjegyzés kell (notes.typo).');
+  for (const x of c.notes.typo) if (!x || /["']/.test(x)) errs.push(`Elírás: hiányzó szöveg vagy egyenes idézőjel: ${x}`);
   return errs;
 }

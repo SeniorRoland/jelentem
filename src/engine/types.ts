@@ -176,6 +176,8 @@ export interface Notes {
   good: string;
   great: string;
   fantasy: string;
+  /** The captain's remark under a report with typing errors, one picked per week. */
+  typo: string[];
   /** Fires when an observation is reported whose `tag` was already reported before. */
   repeat: { tag: string; note: string }[];
   /** How far it went for a resident, as the quarterly review and the ending put it. */
@@ -359,6 +361,7 @@ export interface Content {
   dossier: DossierContent;
   help: HelpContent;
   review: ReviewContent;
+  greetings: GreetingsContent;
   stats: StatsContent;
   transitions: TransitionsContent;
   corner: CornerContent;
@@ -408,6 +411,8 @@ export interface Balance {
    * costs with and without a justification (before `weight.H`).
    */
   review: { sentences: number; excuses: number; keptIzg: number; keptHarm: number; excused: number; unexcused: number };
+  /** Typing errors: chance per sentence `base + nervous × (1 − L/100)`, each costs `penalty` satisfaction. */
+  typos: { base: number; nervous: number; penalty: number };
   /** Hiányos quarters in a row on the passive rank that get the player excluded from the network. */
   exclusion: { streak: number };
   /** Tasks start in this quarter; done = E bonus, not done = E penalty at the review. */
@@ -437,8 +442,26 @@ export interface Slot {
   i: string | null;
 }
 
+/** A misspelt word in a reported sentence: where it starts in `text`, the right word and the typed one. */
+export interface Typo {
+  at: number;
+  from: string;
+  to: string;
+}
+
+/** How a resident looks at the player on the stairs (`greetings.ts`). */
+export type Mood = 'nyugodt' | 'gyanus' | 'bajban' | 'bonded' | 'betrayed';
+
+/** The weekly encounter on the stairs: two or more lines per resident and mood. */
+export interface GreetingsContent {
+  label: string;
+  lines: Record<ResidentId, Record<Mood, string[]>>;
+}
+
 export interface SentenceResult {
   text: string;
+  /** A typing error the captain corrected in the margin. */
+  typo?: Typo;
   note: string | null;
   izg: number;
   hih: number;
@@ -534,6 +557,8 @@ export interface ReviewContent {
 
 export interface WeekResult {
   sents: SentenceResult[];
+  /** How many sentences had a typing error. */
+  typos: number;
   before: Meters;
   after: Meters;
   overall: string;
