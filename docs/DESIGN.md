@@ -181,7 +181,7 @@ A „[x]” az elkészült, a „[ ]” a hátralévő lépés. A zárójelben a
 - [x] **v0.0.20** (cf953bb): a kulcsszavak a `master` ágon, taggel, élesben.
 - [x] **Látogatásszámlálás** (65d9efd): GoatCounter (https://seniorroland.goatcounter.com/), sütik és személyes adat nélkül. Az oldalletöltéseken túl a játék eseményei: `jatek-indul`, `negyedev-2`, `negyedev-3`, `negyedev-4` (meddig jutnak a játékosok), `vege-best` / `vege-kivalo` / `vege-megfigyelt` / `vege-behivatas` / `vege-kizarva` (a befejezések aránya: ez az emberi nehézségi próba első adata), `uj-jatek`, `sugo`, `akta-download` / `akta-share` / `akta-copy`, `kukucs-elkapva`. Fejlesztői módban nem számol; a „!” mögötti tájékoztató alján egy mondat mondja el, mit számolunk.
 - [x] **v0.0.21** (f468271): a látogatásszámlálás a `master` ágon, taggel, élesben.
-- [x] **Polaroid arcképek** (d0ff208): a lakók arcképei mindenhol (a megfigyelendők listája, a jelentés mondatai, a negyedéves lakólista) polaroid fotóként: törtfehér keret, alul szélesebb sávval, enyhe, váltakozó dőlés és halvány árnyék, mintha kézzel tették volna a lapra. Sötét témában tompább keret. Később (KPCOMMIT) a beszervezési karton fényképe is polaroid lett.
+- [x] **Polaroid arcképek** (d0ff208): a lakók arcképei mindenhol (a megfigyelendők listája, a jelentés mondatai, a negyedéves lakólista) polaroid fotóként: törtfehér keret, alul szélesebb sávval, enyhe, váltakozó dőlés és halvány árnyék, mintha kézzel tették volna a lapra. Sötét témában tompább keret. Később (b35e5cd) a beszervezési karton fényképe is polaroid lett.
 - [x] **v0.0.22** (742fd3c): a polaroid arcképek a `master` ágon, taggel, élesben.
 
 ### Hátralévő
