@@ -118,7 +118,7 @@ A házmesternek nincs titka, és őt nem éri következmény. Viszont ő is figy
 
 ### 5.2. Egy mondat
 
-Egy mondat = **egy megfigyelés + legfeljebb egy értelmezés**. Koppints egy megfigyelésre: bekerül az első üres helyre. Koppints egy értelmezésre: az első olyan mondathoz kapcsolódik, amelynek még nincs értelmezése. A jelentésben lévő szövegre koppintva kiveheted. Nem kötelező minden helyet kitölteni, és az **üres jelentés** is jelentés (csak a százados nem fog örülni neki).
+Egy mondat = **egy megfigyelés + legfeljebb egy értelmezés**. Koppints egy megfigyelésre: bekerül az első üres helyre. Koppints egy értelmezésre: a **legutóbb betett** olyan megfigyeléshez kapcsolódik, amelynek még nincs értelmezése. Így a megfigyelés → értelmezés → megfigyelés sorrend az első mondatot, a megfigyelés → megfigyelés → értelmezés a másodikat egészíti ki, az első puszta tény marad. Bármelyik cetlit **rá is húzhatod** a kívánt mondatra (egérrel azonnal, telefonon hosszú nyomás után; a lap széléhez érve görget): a megfigyelés lecseréli az ott lévőt, az értelmezés csak olyan mondatra kerülhet, amelyben már van megfigyelés. A jelentésben lévő részeket is áthúzhatod egy másik mondatra. A jelentésben lévő szövegre koppintva kiveheted. Nem kötelező minden helyet kitölteni, és az **üres jelentés** is jelentés (csak a százados nem fog örülni neki).
 
 Értelmezés nélkül a mondat **puszta tény**: kicsit hihetőbb, és az ártalmát kissé csökkenti.
 

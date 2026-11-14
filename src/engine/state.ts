@@ -2,7 +2,7 @@ import { endQuarter, isLastWeek, isQuarterEnd, isQuarterStart, quarterOf, settle
 import { applyEvent, pickEvent } from './events';
 import { makeReview, peerCode, reviews } from './review';
 import { makeAddress, makeCaptain, makeGirl, makeNames, makeOwnFace, makePeople } from './names';
-import { pickWeek } from './observations';
+import { pickWeek, weekObs } from './observations';
 import { makeRecruit } from './recruit';
 import { anyMeterZero, deal, randCode, resolveWeek } from './rules';
 import { statRow } from './stats';
@@ -14,12 +14,23 @@ export type Action =
   | { type: 'toggleObs'; id: string }
   | { type: 'toggleInt'; id: string }
   | { type: 'unplace'; slot: number; part: 'o' | 'i' }
+  /** Dragged onto a chosen sentence: an observation (replacing the one there) or an interpretation. */
+  | { type: 'placeObs'; id: string; slot: number }
+  | { type: 'placeInt'; id: string; slot: number }
   | { type: 'strike'; idx: number }
   | { type: 'submit' }
   | { type: 'next' }
   | { type: 'restart' };
 
 const emptySlots = (n: number): Slot[] => Array.from({ length: n }, () => ({ o: null, i: null }));
+/** The next placement turn, later than every observation in the report. */
+const nextTurn = (slots: Slot[]): number => Math.max(0, ...slots.map(x => x.t ?? 0)) + 1;
+/** The sentence whose observation was put in last and still has no interpretation, or −1. */
+export function latestOpen(slots: Slot[]): number {
+  let best = -1;
+  slots.forEach((x, k) => { if (x.o && !x.i && (best < 0 || (x.t ?? 0) > (slots[best].t ?? 0))) best = k; });
+  return best;
+}
 
 export function newGame(c: Content, b: Balance, rng: Rng): GameState {
   const recruit = makeRecruit(c, rng);
@@ -120,6 +131,7 @@ function startWeek(s: GameState, c: Content, b: Balance, rng: Rng): void {
 const SCREEN_OF: Record<Exclude<Action['type'], 'restart'>, GameState['screen'][]> = {
   reroll: ['intro'], start: ['intro'],
   toggleObs: ['week'], toggleInt: ['week'], unplace: ['week'], submit: ['week'], strike: ['week'],
+  placeObs: ['week'], placeInt: ['week'],
   next: ['response', 'quarter'],
 };
 
@@ -146,15 +158,39 @@ export function dispatch(state: GameState, a: Action, c: Content, b: Balance, rn
       const at = s.slots.findIndex(x => x.o === a.id);
       if (at >= 0) { s.slots[at] = { o: null, i: null }; s.hint = ''; break; }
       const free = s.slots.findIndex(x => !x.o);
-      if (free >= 0) { s.slots[free].o = a.id; s.hint = ''; } else s.hint = 'slotsFull';
+      if (free >= 0) { s.slots[free].o = a.id; s.slots[free].t = nextTurn(s.slots); s.hint = ''; } else s.hint = 'slotsFull';
       break;
     }
     case 'toggleInt': {
       const at = s.slots.findIndex(x => x.i === a.id);
       if (at >= 0) { s.slots[at].i = null; s.hint = ''; break; }
-      const free = s.slots.findIndex(x => x.o && !x.i);
+      // It goes with the observation put in last that has none yet: observation, interpretation,
+      // observation fills the first sentence; observation, observation, interpretation the second.
+      const free = latestOpen(s.slots);
       if (free >= 0) { s.slots[free].i = a.id; s.hint = ''; }
       else s.hint = s.slots.some(x => !x.o) ? 'needObs' : 'intsFull';
+      break;
+    }
+    case 'placeObs': {
+      const sl = s.slots[a.slot];
+      if (!sl || !weekObs(s, c).some(o => o.id === a.id)) break;
+      if (sl.o === a.id) break;
+      // Moved from another sentence: that one is emptied.
+      const from = s.slots.findIndex(x => x.o === a.id);
+      if (from >= 0) s.slots[from] = { o: null, i: null };
+      sl.o = a.id;
+      sl.t = nextTurn(s.slots);
+      s.hint = '';
+      break;
+    }
+    case 'placeInt': {
+      const sl = s.slots[a.slot];
+      if (!sl || !s.dealt.includes(a.id)) break;
+      if (!sl.o) { s.hint = 'needObs'; break; }
+      const from = s.slots.findIndex(x => x.i === a.id);
+      if (from >= 0) s.slots[from].i = null;
+      sl.i = a.id;
+      s.hint = '';
       break;
     }
     case 'strike': {

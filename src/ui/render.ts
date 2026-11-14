@@ -214,23 +214,23 @@ function week(s: GameState, c: Content, b: Balance, v: View): string {
   const obsLabel = (o: typeof pool[number]) => o.self ? c.notes.watch.label
     : o.event && ev?.kind === 'kind' ? `${L.confidential} · ${who(o)}` : who(o);
   const obsClass = (o: typeof pool[number]) => o.self ? ' self' : o.event ? (ev?.kind === 'kind' ? ' confidential' : ' event') : '';
-  const obsSlips = pool.map(o => `<button class="slip${obsClass(o)}" data-action="toggleObs" data-id="${o.id}" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${obsLabel(o)}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
+  const obsSlips = pool.map(o => `<button class="slip${obsClass(o)}" data-action="toggleObs" data-id="${o.id}" data-drag-kind="o" aria-pressed="${placedO.has(o.id)}">${o.text}.<small>${obsLabel(o)}</small>${v.dev ? `<span class="dev">izgalom ${o.izg}, ártalom ${o.art}</span>` : ''}</button>`).join('');
   const intSlips = s.dealt.map(id => {
     const it = int(id);
     const tag = it.tier === 'divert' ? `<small>${c.career.task.divert}</small>`
       : it.tier === 'alibi' && it.who ? `<small>${L.alibi} · ${c.residents[it.who].name}</small>` : '';
     const cls = it.tier === 'divert' || it.tier === 'alibi' ? ` ${it.tier}` : '';
-    return `<button class="slip${cls}" data-action="toggleInt" data-id="${id}" aria-pressed="${placedI.has(id)}">…, ${it.text}.${tag}${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;
+    return `<button class="slip${cls}" data-action="toggleInt" data-id="${id}" data-drag-kind="i" aria-pressed="${placedI.has(id)}">…, ${it.text}.${tag}${v.dev ? `<span class="dev">izgalom ${it.izg}, hihetőség ${it.hih}, ártalom ×${it.mult}</span>` : ''}</button>`;
   }).join('');
 
   const sentences = s.slots.map((sl, idx) => {
     const o = sl.o
-      ? `<button class="part" data-action="unplace" data-slot="${idx}" data-part="o" aria-label="Megfigyelés kivétele">${obs(sl.o).text}</button>`
+      ? `<button class="part" data-action="unplace" data-slot="${idx}" data-part="o" data-drag-kind="o" data-id="${sl.o}" aria-label="Megfigyelés kivétele">${obs(sl.o).text}</button>`
       : `<span class="blank">………………… (megfigyelés)</span>`;
     const i = sl.i
-      ? `, <button class="part" data-action="unplace" data-slot="${idx}" data-part="i" aria-label="Értelmezés kivétele">${int(sl.i).text}</button>.`
+      ? `, <button class="part" data-action="unplace" data-slot="${idx}" data-part="i" data-drag-kind="i" data-id="${sl.i}" aria-label="Értelmezés kivétele">${int(sl.i).text}</button>.`
       : sl.o ? `<span class="blank">, ………………… (értelmezés, ha akarod)</span>.` : `<span class="blank">, ………………… (értelmezés)</span>`;
-    return `<li class="with-face">${sentenceFace(s, c, sl.o ? obs(sl.o) : null)}<span>${o}${i}</span></li>`;
+    return `<li class="with-face" data-slot="${idx}" data-has-obs="${!!sl.o}">${sentenceFace(s, c, sl.o ? obs(sl.o) : null)}<span>${o}${i}</span></li>`;
   }).join('');
 
   return `<article class="sheet">${head(s)}

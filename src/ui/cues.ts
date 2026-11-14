@@ -27,7 +27,7 @@ export function cuesFor(a: Action, before: GameState, after: GameState): Timed[]
   // Every new sheet that carries a stamp (the reply, the quarterly review) gets the thud.
   const stamp = stamped(after) && after.screen !== before.screen ? [{ cue: 'stamp' as const, at: STAMP_LANDS }] : [];
   switch (a.type) {
-    case 'toggleObs': case 'toggleInt': {
+    case 'toggleObs': case 'toggleInt': case 'placeObs': case 'placeInt': {
       const placed = (s: GameState) => s.slots.some(sl => sl.o === a.id || sl.i === a.id);
       // A sentence with both its parts is typed to the end of the line: bell, new line.
       if (complete(after) > complete(before)) return [{ cue: 'line', at: 0 }];

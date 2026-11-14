@@ -460,6 +460,8 @@ export interface Balance {
 export interface Slot {
   o: string | null;
   i: string | null;
+  /** When its observation was put in (larger is later): a tapped interpretation goes to the latest one. */
+  t?: number;
 }
 
 /** A misspelt word in a reported sentence: where it starts in `text`, the right word and the typed one. */

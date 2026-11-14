@@ -15,6 +15,7 @@ import { renderScreen, type View } from './ui/render';
 import { loadGame, saveGame } from './ui/save';
 import { play, setSound, soundOn } from './ui/sound';
 import { eventsFor, setTracking, track } from './ui/track';
+import { mountDrag } from './ui/drag';
 
 const rng = Math.random;
 let state: GameState = loadGame(content, balance) ?? newGame(content, balance, rng);
@@ -75,7 +76,13 @@ app.addEventListener('click', e => {
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-action]');
   if (!el) return;
   const a = toAction(el);
-  if (!a) return;
+  if (a) act(a);
+});
+// Slips and report parts can also be dragged onto a chosen sentence.
+mountDrag(app, act);
+
+/** Applies an action: the new state, saved, counted, its sounds, and a scene if it leads to one. */
+function act(a: Action): void {
   const before = state;
   state = dispatch(state, a, content, balance, rng);
   saveGame(state);
@@ -90,7 +97,7 @@ app.addEventListener('click', e => {
   const scene = sceneFor(a, before, state, content, still);
   if (!scene) { render(); sound(false); return; }
   cancelLoading = runScene(scene, content.transitions.skip, () => { cancelLoading = null; render(); sound(true); });
-});
+}
 
 /** A new game opens with the captain taking the file off the shelf; a saved one goes straight on. */
 function openGame(): void {

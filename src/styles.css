@@ -515,3 +515,16 @@ body.title-showing{overflow:hidden}
 /* The handover scene: a title over the new captain's photo (a framed print, not a cut-out). */
 .sc-title{margin:0 0 1rem;text-align:center;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--night-stamp)}
 .sc-cpt2{width:min(10rem,36vw);filter:grayscale(.2) sepia(.15)}
+
+/*
+ * Drag and drop (src/ui/drag.ts): a slip or a report part follows the pointer as a little paper
+ * ghost; the sentence under it is outlined, in red if the part cannot go there.
+ */
+.slip,.part{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+@media (hover:hover){.slip{cursor:grab}}
+body.dragging,body.dragging *{cursor:grabbing!important}
+.drag-ghost{position:fixed;left:0;top:0;z-index:150;max-width:16rem;padding:.45rem .6rem;pointer-events:none;
+  background:var(--slip);color:var(--ink);border:1px solid var(--paper-edge);box-shadow:0 .4rem 1rem rgba(0,0,0,.35);
+  font-size:.85rem;line-height:1.35;opacity:.95}
+.report li.drop-target{outline:2px dashed var(--pen);outline-offset:.25rem}
+.report li.drop-bad{outline:2px dashed var(--stamp);outline-offset:.25rem}
